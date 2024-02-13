@@ -1,4 +1,4 @@
-import * as types from './types';
+import {types} from './types';
 
 const initialState = {
   countries: [],
@@ -18,7 +18,6 @@ const CountryReducer = (state = initialState, action) => {
         countriesError: null,
       };
     case types.GET_COUNTRIES_SUCCESS:
-      console.log("success payload countries",action.payload)
       return {
         ...state,
         countries: action.payload,
