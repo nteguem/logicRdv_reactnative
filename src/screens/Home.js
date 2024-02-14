@@ -17,7 +17,7 @@ function Home() {
         <CustomAppButton
           onPress={() => Alert.alert('Button pressed')}
           title="Hello from custom button"
-          buttonStyle={[{backgroundColor: 'blue'}]}
+          buttonStyle={[{backgroundColor: 'transparent'}]}
           textStyle={[styles.customStyle]}
         />
       </View>
