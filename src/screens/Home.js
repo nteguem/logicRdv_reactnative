@@ -3,6 +3,7 @@ import SmallText from '../components/Texts/SmallText';
 import Regulartext from '../components/Texts/RegularText';
 import BigText from '../components/Texts/BigText';
 import {StyleSheet, View} from 'react-native';
+import RDVDetails from '../components/RDVDetails';
 
 function Home() {
   return (
@@ -12,6 +13,7 @@ function Home() {
         Regulartext
       </Regulartext>
       <BigText style={[{color: 'blue'}]}>BigText</BigText>
+      <RDVDetails />
     </View>
   );
 }
