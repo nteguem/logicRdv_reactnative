@@ -1,22 +1,24 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import AuthenticatedNavigator from './AuthenticateNavigator';
-import UnauthenticatedNavigator from './UnAuthenticateNavigator';
+import Home from '../screens/Home';
 
 const Stack = createStackNavigator();
 
-const screenOptions = { gestureEnabled: false,headerShown: false};
+const screenOptions = {gestureEnabled: false, headerShown: false};
 
-
-const Routes = ({ isAuth }) => {
+const Routes = ({isAuth}) => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={screenOptions}>
         {isAuth ? (
-          <Stack.Screen name="Authenticated" component={AuthenticatedNavigator} />
+          <Stack.Screen
+            name="Authenticated"
+            component={AuthenticatedNavigator}
+          />
         ) : (
-          <Stack.Screen name="Unauthenticated" component={UnauthenticatedNavigator} />
+          <Stack.Screen name="home" component={Home} />
         )}
       </Stack.Navigator>
     </NavigationContainer>
