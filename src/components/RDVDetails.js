@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCalendar, faEnvelope, faPhone, faUser } from '@fortawesome/free-solid-svg-icons';
-import { faClock } from '@fortawesome/free-regular-svg-icons';
+import { faEnvelope, faPhone, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faClock } from '@fortawesome/free-regular-svg-icons';
 import Regulartext from './Texts/RegularText';
 import BigText from './Texts/BigText';
 import { colors } from './global/colors'
+import CustomAppButton from './global/CustomAppButton';
 
 const RDVDetails = () => {
   return (
@@ -63,15 +64,25 @@ const RDVDetails = () => {
       </View>
       <View style={styles.divider} />
       <View style={styles.compartment}>
-        <TouchableOpacity style={styles.button}>
-          <Text style={[styles.buttonText, { color: colors.black, }]}>REPRENDRE UN RDV</Text>
-        </TouchableOpacity>
+      <View style={styles.button}>
+          <CustomAppButton
+            onPress={() => Alert.alert('Button pressed')}
+            title="Téléconsultation"
+            buttonStyle={[{ backgroundColor: colors.blue, paddingHorizontal: 25 }]}
+            textStyle={[styles.customStyle, { color: colors.white }]}
+          />
+        </View>
       </View>
       <View style={styles.divider} />
       <View style={styles.compartment}>
-        <TouchableOpacity style={styles.button}>
-          <Text style={[styles.buttonText, { color: colors.black, }]}>REPRENDRE UN RDV</Text>
-        </TouchableOpacity>
+        <View style={styles.button}>
+          <CustomAppButton
+            onPress={() => Alert.alert('Button pressed')}
+            title="REPRENDRE UN RDV"
+            buttonStyle={[{ backgroundColor: 'transparent' }]}
+            textStyle={[styles.customStyle, { color: colors.blue }]}
+          />
+        </View>
       </View>
     </View>
   );
@@ -151,11 +162,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    borderRadius: 5,
-    padding: 10,
-  },
-  buttonText: {
-    textAlign: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

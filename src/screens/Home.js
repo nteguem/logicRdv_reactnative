@@ -2,8 +2,9 @@ import React from 'react';
 import SmallText from '../components/Texts/SmallText';
 import Regulartext from '../components/Texts/RegularText';
 import BigText from '../components/Texts/BigText';
-import {StyleSheet, View} from 'react-native';
 import RDVDetails from '../components/RDVDetails';
+import {Alert, StyleSheet, View} from 'react-native';
+import CustomAppButton from '../components/global/CustomAppButton';
 
 function Home() {
   return (
@@ -13,7 +14,16 @@ function Home() {
         Regulartext
       </Regulartext>
       <BigText style={[{color: 'blue'}]}>BigText</BigText>
+
       <RDVDetails />
+      <View>
+        <CustomAppButton
+          onPress={() => Alert.alert('Button pressed')}
+          title="Hello from custom button"
+          buttonStyle={[{backgroundColor: 'blue'}]}
+          textStyle={[styles.customStyle]}
+        />
+      </View>
     </View>
   );
 }
@@ -26,6 +36,9 @@ const styles = StyleSheet.create({
   },
   customTextStyle: {
     marginBottom: 8,
+  },
+  customStyle: {
+    color: 'yellow',
   },
 });
 
