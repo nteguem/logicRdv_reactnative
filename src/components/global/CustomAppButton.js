@@ -21,9 +21,6 @@ const CustomAppButton = ({title, buttonStyle, textStyle, onPress}) => {
 const styles = StyleSheet.create({
   // ...
   appButtonContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    elevation: 8,
     backgroundColor: '#009688',
     borderRadius: 5,
     paddingVertical: 5,
