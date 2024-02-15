@@ -11,14 +11,17 @@ const CustomAppButton = ({
   borderColor = 'blue',
   textColor = colors.black,
   textFontSize = 15,
+  paddingHorizontal,
+  paddingVertical,
+  borderRadius,
 }) => {
   const styles = StyleSheet.create({
     // ...
     appButtonContainer: {
       backgroundColor: bkgroundColor,
-      borderRadius: 5,
-      paddingVertical: 5,
-      paddingHorizontal: 5,
+      borderRadius: borderRadius,
+      paddingVertical: paddingVertical,
+      paddingHorizontal: paddingHorizontal,
       alignSelf: alignSelf,
       borderWidth: borderWidth,
       borderColor: borderColor,
