@@ -1,12 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faEnvelope, faPhone, faUser } from '@fortawesome/free-solid-svg-icons';
-import { faCalendar, faClock } from '@fortawesome/free-regular-svg-icons';
 import Regulartext from './Texts/RegularText';
 import BigText from './Texts/BigText';
 import { colors } from './global/colors'
 import CustomAppButton from './global/CustomAppButton';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const RDVDetails = ({ isTeleconsultation }) => {
   return (
@@ -14,12 +12,12 @@ const RDVDetails = ({ isTeleconsultation }) => {
       <View style={[styles.compartment, styles.firstCompartment]}>
         <View style={styles.timeDetailsContainer}>
           <View style={styles.detailsContainer}>
-            <FontAwesomeIcon icon={faCalendar} style={[styles.icon, { transform: [{ rotate: '-45deg' }], color: '#fff' }]} />
+            {/* <FontAwesomeIcon icon={faCalendar} style={[styles.icon, { transform: [{ rotate: '-45deg' }], color: '#fff' }]} /> */}
             <Regulartext style={styles.date}>Mardi 01/03/22</Regulartext>
             <Regulartext style={styles.date}>par Téléphone</Regulartext>
           </View>
           <View style={styles.detailsContainer}>
-            <FontAwesomeIcon icon={faClock} style={[styles.icon, { color: '#fff' }]} />
+            {/* <FontAwesomeIcon icon={faClock} style={[styles.icon, { color: '#fff' }]} /> */}
             <Regulartext style={styles.date}>14:00</Regulartext>
           </View>
         </View>
@@ -43,18 +41,17 @@ const RDVDetails = ({ isTeleconsultation }) => {
       <View style={styles.compartment}>
         <View style={styles.compartmentContainer}>
           <View style={[styles.detailsContainer, { marginBottom: 10 }]}>
-          {/* <Icon name="rocket" size={30} color="#900" />  */}
-              <View style={[styles.circleUser, { width: 40, height: 40, backgroundColor: colors.gray }]} >
-                <FontAwesomeIcon icon={faUser} size={40 * 0.7} color={colors.white} />
-              </View>
+            <View style={styles.circleUser}>
+              <Icon name="user-circle" size={50} color={colors.gray} />
+            </View>
             <BigText style={styles.patientName}>brayan brayan</BigText>
           </View>
           <View style={[styles.detailsContainer, { marginBottom: 10 }]}>
-            <FontAwesomeIcon icon={faPhone} style={[styles.icon, { color: colors.black }]} />
+            <Icon name="phone" size={22} color={colors.black} marginRight={5} />
             <Regulartext style={styles.patientPhone}>459329299292</Regulartext>
           </View>
           <View style={[styles.detailsContainer]}>
-            <FontAwesomeIcon icon={faEnvelope} style={[styles.icon, { fontSize: 50, color: colors.black }]} />
+            <Icon name="envelope" size={22} color={colors.black} marginRight={5} />
             <Regulartext style={styles.patientEmail}>nteguemroland@yahoo.com</Regulartext>
           </View>
         </View>
@@ -68,7 +65,7 @@ const RDVDetails = ({ isTeleconsultation }) => {
           <View style={styles.detailsContainer}>
             <Regulartext style={styles.address}>0102030903</Regulartext>
             <View style={[styles.circle, { backgroundColor: colors.blue, marginLeft: 10, }]}>
-              <FontAwesomeIcon icon={faPhone} style={[{ color: colors.white }]} />
+            <Icon name="phone" size={30} color={colors.white} />
             </View>
           </View>
         </View>
@@ -193,10 +190,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   circleUser: {
-    borderRadius: 999,
-    justifyContent: 'center',
+    flexDirection: 'row',
     alignItems: 'center',
-    overflow: 'hidden',
+    justifyContent: 'center',
+    backgroundColor: colors.white,
+    borderRadius: 999,
+    width: 55,
+    height: 55,
+    borderWidth: 1,
+    borderColor: colors.gray,
     marginRight: 5
   }
 });
