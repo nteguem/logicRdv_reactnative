@@ -12,12 +12,10 @@ const RDVDetails = ({ isTeleconsultation }) => {
       <View style={[styles.compartment, styles.firstCompartment]}>
         <View style={styles.timeDetailsContainer}>
           <View style={styles.detailsContainer}>
-            {/* <FontAwesomeIcon icon={faCalendar} style={[styles.icon, { transform: [{ rotate: '-45deg' }], color: '#fff' }]} /> */}
             <Regulartext style={styles.date}>Mardi 01/03/22</Regulartext>
             <Regulartext style={styles.date}>par Téléphone</Regulartext>
           </View>
           <View style={styles.detailsContainer}>
-            {/* <FontAwesomeIcon icon={faClock} style={[styles.icon, { color: '#fff' }]} /> */}
             <Regulartext style={styles.date}>14:00</Regulartext>
           </View>
         </View>
@@ -32,8 +30,11 @@ const RDVDetails = ({ isTeleconsultation }) => {
           <CustomAppButton
             onPress={() => Alert.alert('Button pressed')}
             title="Annuler"
-            buttonStyle={[{ backgroundColor: 'transparent', borderWidth: 1, borderColor: colors.red, borderRadius: 1, paddingHorizontal: 25 }]}
-            textStyle={[styles.customStyle, { color: colors.red }]}
+            bkgroundColor='transparent'
+            borderWidth={1}
+            alignSelf='baseline'
+            borderColor={colors.red}
+            textColor= {colors.red}
           />
         </View>
       </View>
@@ -65,7 +66,7 @@ const RDVDetails = ({ isTeleconsultation }) => {
           <View style={styles.detailsContainer}>
             <Regulartext style={styles.address}>0102030903</Regulartext>
             <View style={[styles.circle, { backgroundColor: colors.blue, marginLeft: 10, }]}>
-            <Icon name="phone" size={30} color={colors.white} />
+              <Icon name="phone" size={30} color={colors.white} />
             </View>
           </View>
         </View>
@@ -78,8 +79,9 @@ const RDVDetails = ({ isTeleconsultation }) => {
               <CustomAppButton
                 onPress={() => Alert.alert('Button pressed')}
                 title="Téléconsultation"
-                buttonStyle={[{ backgroundColor: colors.blue, paddingHorizontal: 25 }]}
-                textStyle={[styles.customStyle, { color: colors.white }]}
+                bkgroundColor={colors.blue}
+                alignSelf='center'
+                textColor={colors.white}
               />
             </View>
           </View>
@@ -89,8 +91,10 @@ const RDVDetails = ({ isTeleconsultation }) => {
               <CustomAppButton
                 onPress={() => Alert.alert('Button pressed')}
                 title="REPRENDRE UN RDV"
-                buttonStyle={[{ backgroundColor: 'transparent' }]}
-                textStyle={[styles.customStyle, { color: colors.blue }]}
+                bkgroundColor='transparent'
+                alignSelf='center'
+                textColor={colors.blue}
+                textFontSize={15}
               />
             </View>
           </View>
@@ -101,8 +105,10 @@ const RDVDetails = ({ isTeleconsultation }) => {
             <CustomAppButton
               onPress={() => Alert.alert('Button pressed')}
               title="REPRENDRE UN RDV"
-              buttonStyle={[{ backgroundColor: 'transparent' }]}
-              textStyle={[styles.customStyle, { color: colors.blue }]}
+              bkgroundColor='transparent'
+              alignSelf='center'
+              textColor={colors.blue}
+              textFontSize={15}
             />
           </View>
         </View>
