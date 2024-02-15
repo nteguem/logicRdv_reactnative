@@ -5,6 +5,7 @@ import BigText from '../components/Texts/BigText';
 import RDVDetails from '../components/RDVDetails';
 import {Alert, StyleSheet, View} from 'react-native';
 import CustomAppButton from '../components/global/CustomAppButton';
+import Motif from '../components/Motif';
 
 function Home() {
   return (
@@ -15,7 +16,8 @@ function Home() {
       </Regulartext>
       <BigText style={[{color: 'blue'}]}>BigText</BigText>
 
-      <RDVDetails />
+      <RDVDetails isTeleconsultation={true}/>
+      {/* <Motif /> */}
       <View>
         <CustomAppButton
           onPress={() => Alert.alert('Button pressed')}

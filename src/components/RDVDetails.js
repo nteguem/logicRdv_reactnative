@@ -8,7 +8,7 @@ import BigText from './Texts/BigText';
 import { colors } from './global/colors'
 import CustomAppButton from './global/CustomAppButton';
 
-const RDVDetails = () => {
+const RDVDetails = ({ isTeleconsultation }) => {
   return (
     <View style={styles.card}>
       <View style={[styles.compartment, styles.firstCompartment]}>
@@ -25,24 +25,35 @@ const RDVDetails = () => {
         </View>
       </View>
       <View style={styles.divider} />
-      <View style={styles.compartment}>
+      <View style={[styles.compartment, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginRight: 10 }]}>
         <View style={styles.compartmentContainer}>
           <BigText style={styles.doctor}>Dr Amsalem David</BigText>
           <Regulartext style={styles.appointmentType}>Consultation</Regulartext>
+        </View>
+        <View style={styles.button}>
+          <CustomAppButton
+            onPress={() => Alert.alert('Button pressed')}
+            title="Annuler"
+            buttonStyle={[{ backgroundColor: 'transparent', borderWidth: 1, borderColor: colors.red, borderRadius: 1, paddingHorizontal: 25 }]}
+            textStyle={[styles.customStyle, { color: colors.red }]}
+          />
         </View>
       </View>
       <View style={styles.divider} />
       <View style={styles.compartment}>
         <View style={styles.compartmentContainer}>
           <View style={[styles.detailsContainer, { marginBottom: 10 }]}>
-            < FontAwesomeIcon icon={faUser} size={30} style={[styles.icon, { color: colors.gray }]} />
+          {/* <Icon name="rocket" size={30} color="#900" />  */}
+              <View style={[styles.circleUser, { width: 40, height: 40, backgroundColor: colors.gray }]} >
+                <FontAwesomeIcon icon={faUser} size={40 * 0.7} color={colors.white} />
+              </View>
             <BigText style={styles.patientName}>brayan brayan</BigText>
           </View>
           <View style={[styles.detailsContainer, { marginBottom: 10 }]}>
             <FontAwesomeIcon icon={faPhone} style={[styles.icon, { color: colors.black }]} />
             <Regulartext style={styles.patientPhone}>459329299292</Regulartext>
           </View>
-          <View style={[styles.detailsContainer, { marginBottom: 10 }]}>
+          <View style={[styles.detailsContainer]}>
             <FontAwesomeIcon icon={faEnvelope} style={[styles.icon, { fontSize: 50, color: colors.black }]} />
             <Regulartext style={styles.patientEmail}>nteguemroland@yahoo.com</Regulartext>
           </View>
@@ -63,27 +74,42 @@ const RDVDetails = () => {
         </View>
       </View>
       <View style={styles.divider} />
-      <View style={styles.compartment}>
-      <View style={styles.button}>
-          <CustomAppButton
-            onPress={() => Alert.alert('Button pressed')}
-            title="Téléconsultation"
-            buttonStyle={[{ backgroundColor: colors.blue, paddingHorizontal: 25 }]}
-            textStyle={[styles.customStyle, { color: colors.white }]}
-          />
+      {isTeleconsultation ? (
+        <>
+          <View style={styles.compartment}>
+            <View style={styles.button}>
+              <CustomAppButton
+                onPress={() => Alert.alert('Button pressed')}
+                title="Téléconsultation"
+                buttonStyle={[{ backgroundColor: colors.blue, paddingHorizontal: 25 }]}
+                textStyle={[styles.customStyle, { color: colors.white }]}
+              />
+            </View>
+          </View>
+          <View style={styles.divider} />
+          <View style={styles.compartment}>
+            <View style={styles.button}>
+              <CustomAppButton
+                onPress={() => Alert.alert('Button pressed')}
+                title="REPRENDRE UN RDV"
+                buttonStyle={[{ backgroundColor: 'transparent' }]}
+                textStyle={[styles.customStyle, { color: colors.blue }]}
+              />
+            </View>
+          </View>
+        </>
+      ) : (
+        <View style={styles.compartment}>
+          <View style={styles.button}>
+            <CustomAppButton
+              onPress={() => Alert.alert('Button pressed')}
+              title="REPRENDRE UN RDV"
+              buttonStyle={[{ backgroundColor: 'transparent' }]}
+              textStyle={[styles.customStyle, { color: colors.blue }]}
+            />
+          </View>
         </View>
-      </View>
-      <View style={styles.divider} />
-      <View style={styles.compartment}>
-        <View style={styles.button}>
-          <CustomAppButton
-            onPress={() => Alert.alert('Button pressed')}
-            title="REPRENDRE UN RDV"
-            buttonStyle={[{ backgroundColor: 'transparent' }]}
-            textStyle={[styles.customStyle, { color: colors.blue }]}
-          />
-        </View>
-      </View>
+      )}
     </View>
   );
 };
@@ -166,6 +192,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  circleUser: {
+    borderRadius: 999,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+    marginRight: 5
+  }
 });
 
 export default RDVDetails;
