@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Regulartext from './Texts/RegularText';
-import BigText from './Texts/BigText';
-import { colors } from './global/colors'
+import Regulartext from '../Texts/RegularText';
+import BigText from '../Texts/BigText';
+import { colors } from '../global/colors'
 import Icon from 'react-native-vector-icons/FontAwesome6';
 
 const Motif = ({

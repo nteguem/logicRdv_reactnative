@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Regulartext from './Texts/RegularText';
-import BigText from './Texts/BigText';
-import { colors } from './global/colors'
-import CustomAppButton from './global/CustomAppButton';
+import Regulartext from '../Texts/RegularText';
+import BigText from '../Texts/BigText';
+import { colors } from '../global/colors'
+import CustomAppButton from '../global/CustomAppButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
