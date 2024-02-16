@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { colors } from '../global/colors'
+import { colors } from './colors'
 import Regulartext from '../Texts/RegularText';
 
 const Appointment_Disponibility_Hours = ({ time, doctor }) => {

@@ -3,7 +3,7 @@ import SmallText from '../components/Texts/SmallText';
 import Regulartext from '../components/Texts/RegularText';
 import BigText from '../components/Texts/BigText';
 import { Alert, StyleSheet, View } from 'react-native';
-import Appointment_Disponibility from '../components/Appointment_Disponibility';
+import Appointment_Disponibility from '../components/global/Appointment_Disponibility';
 import data from './data';
 
 function Home() {

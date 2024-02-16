@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import Appointment_Disponibility_Hours from '../Appointment_Disponibility_Hours'
-import { colors } from '../global/colors'
+import Appointment_Disponibility_Hours from './Appointment_Disponibility_Hours'
+import { colors } from './colors'
 import Regulartext from '../Texts/RegularText'
 
 const Appointment_Disponibility = ({ date, appointments }) => {
