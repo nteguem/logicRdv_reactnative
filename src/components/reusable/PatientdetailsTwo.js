@@ -3,33 +3,32 @@ import {StyleSheet, Text, View} from 'react-native';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import LinearGradient from 'react-native-linear-gradient';
 
-const PatientdetailsTwo = () => {
+const PatientdetailsTwo = ({
+  detailsTitle,
+  doctorName,
+  patientName,
+  dateTime,
+}) => {
   return (
     <View style={styles.parentStyle}>
-      <LinearGradient
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 0}}
-        colors={['#4c669f', '#3b5998', '#192f6a']}>
-        <View style={styles.row1}>
-          <Fontisto name="first-aid-alt" color="white" size={15} />
-          <Text style={styles.textStyle}>Consultation</Text>
+      <View style={styles.row1}>
+        <Fontisto name="first-aid-alt" color="white" size={15} />
+        <Text style={styles.textStyle}>{detailsTitle}</Text>
+      </View>
+      <View style={styles.row2}>
+        <View style={styles.row22}>
+          <FontAwesome5 name="user-md" color="white" size={20} />
+          <Text style={styles.textStyle}>Avec {doctorName}</Text>
         </View>
-        <View style={styles.row2}>
-          <View style={styles.row22}>
-            <FontAwesome5 name="user-md" color="white" size={20} />
-            <Text style={styles.textStyle}>Avec Dr Ringuet Nicholas</Text>
-          </View>
-          <View style={styles.row22}>
-            <FontAwesome name="user-circle" color="white" size={20} />
-            <Text style={styles.textStyle}>Pour l47 laurel</Text>
-          </View>
+        <View style={styles.row22}>
+          <FontAwesome name="user-circle" color="white" size={20} />
+          <Text style={styles.textStyle}>Pour {patientName}</Text>
         </View>
-        <View style={styles.row3}>
-          <Text style={{color: 'white'}}>Le Jeudi 08/02/24 14:40</Text>
-        </View>
-      </LinearGradient>
+      </View>
+      <View style={styles.row3}>
+        <Text style={{color: 'white'}}>Le {dateTime}</Text>
+      </View>
     </View>
   );
 };
@@ -46,7 +45,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: 'gray',
+    backgroundColor: '#8BB1B8',
     borderRadius: 20,
     alignSelf: 'center',
   },
@@ -69,7 +68,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 10,
     paddingVertical: 10,
-    backgroundColor: 'gray',
+    backgroundColor: '#69CFF7',
     borderRadius: 20,
   },
   textStyle: {
