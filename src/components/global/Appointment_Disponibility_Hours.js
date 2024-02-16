@@ -5,14 +5,12 @@ import Regulartext from '../Texts/RegularText';
 
 const Appointment_Disponibility_Hours = ({ time, doctor }) => {
     return (
-        <View>
-            <ScrollView horizontal={true}>
-                <View style={styles.container}>
-                    <Regulartext style={styles.time}>{time}</Regulartext>
-                    <Regulartext style={styles.doctor}>{doctor}t</Regulartext>
-                </View>
-            </ScrollView>
-        </View>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <View style={styles.container}>
+                <Regulartext style={styles.time}>{time}</Regulartext>
+                <Regulartext style={styles.doctor}>{doctor}t</Regulartext>
+            </View>
+        </ScrollView>
     )
 }
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, ScrollView } from 'react-native'
 import Appointment_Disponibility_Hours from './Appointment_Disponibility_Hours'
 import { colors } from './colors'
 import Regulartext from '../Texts/RegularText'
@@ -12,13 +12,15 @@ const Appointment_Disponibility = ({ date, appointments }) => {
                 <Regulartext style={{ color: colors.black, fontWeight: "500" }}>{day}</Regulartext>
                 <Regulartext style={{ color: colors.blue, fontWeight: "500" }}>{dateString}</Regulartext>
             </View>
-            {appointments.map((appointment, index) => (
-                <Appointment_Disponibility_Hours
-                    key={index}
-                    time={appointment.time}
-                    doctor={appointment.doctor}
-                />
-            ))}
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                {appointments.map((appointment, index) => (
+                    <Appointment_Disponibility_Hours
+                        key={index}
+                        time={appointment.time}
+                        doctor={appointment.doctor}
+                    />
+                ))}
+            </ScrollView>
         </View>
     )
 }
