@@ -15,6 +15,7 @@ const CustomAppButton = ({
   paddingVertical,
   borderRadius,
   iconComponent,
+  marginHorizontal,
 }) => {
   const styles = StyleSheet.create({
     // ...
@@ -27,12 +28,14 @@ const CustomAppButton = ({
       borderWidth: borderWidth,
       borderColor: borderColor,
       flexDirection: 'row',
-      justifyContent: 'space-between',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     appButtonText: {
       fontSize: textFontSize,
       color: textColor,
       alignSelf: 'center',
+      marginHorizontal: marginHorizontal,
     },
   });
   return (
