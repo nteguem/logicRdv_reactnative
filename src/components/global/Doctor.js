@@ -1,57 +1,107 @@
 import React from 'react';
-import {ImageComponent, StyleSheet, View} from 'react-native';
+import {Alert, StyleSheet, View} from 'react-native';
 import Regulartext from '../Texts/RegularText';
 import BigText from '../Texts/BigText';
 import SmallText from '../Texts/SmallText';
 import {colors} from './colors';
 import CustomAppButton from './CustomAppButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const Doctor = () => {
+function numberWithSpaces(value, pattern) {
+  var i = 0,
+    phone = value.toString();
+  return pattern.replace(/#/g, _ => phone[i++]);
+}
+
+const Doctor = ({
+  isDoctorSpecialisationText = false,
+  isRightIcons = false,
+  isArrowIcon = false,
+  isButton = false,
+  isProfileIcon = false,
+  doctorName,
+  doctorLocation,
+  doctorPhoneNumber,
+}) => {
   return (
-    <View style={styles.parentStyles}>
-      <View style={styles.myStyles}>
-        <View style={{flexDirection: 'row'}}>
-          <View style={styles.circleUser}>
-            <Icon name="user-circle" size={50} color={colors.gray} />
-          </View>
-          <View style={{paddingLeft: 10}}>
-            <BigText>Dr Formation</BigText>
-            <Regulartext>Doctor doctor</Regulartext>
-            <SmallText>41 rue de paris</SmallText>
-            <SmallText>75020</SmallText>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'baseline',
-                justifyContent: 'space-between',
-                width: 100,
-              }}>
-              <Regulartext style={[{color: 'blue'}]}>0176310099</Regulartext>
-              <View style={[styles.circle]}>
-                <Icon name="phone" color="white" size={20} />
+    <View>
+      <View style={styles.parentStyles}>
+        <View style={styles.myStyles}>
+          <View style={{flexDirection: 'row'}}>
+            {isProfileIcon && (
+              <View style={styles.circleUser}>
+                <Icon name="user-circle" size={50} color={colors.gray} />
+              </View>
+            )}
+            <View style={{paddingLeft: 10}}>
+              <BigText style={[{color: 'red', fontWeight: 'bold'}]}>
+                {doctorName}
+              </BigText>
+              <Regulartext style={[{color: '#4d8fd9', fontWeight: 'bold'}]}>
+                {isDoctorSpecialisationText && 'Doctor doctor'}
+              </Regulartext>
+              <SmallText style={[{color: '#4d8fd9'}]}>
+                {doctorLocation}
+              </SmallText>
+              <SmallText style={[{color: '#4d8fd9'}]}>75020</SmallText>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'baseline',
+                  justifyContent: 'space-between',
+                  width: 100,
+                }}>
+                <Regulartext
+                  style={[
+                    {
+                      color: '#4d8fd9',
+                      alignItems: 'center',
+                      fontWeight: 'bold',
+                    },
+                  ]}>
+                  {numberWithSpaces(doctorPhoneNumber, '## ## ## ## ##')}
+                </Regulartext>
+                <View style={[styles.circle]}>
+                  <Icon name="phone" color="white" size={20} />
+                </View>
               </View>
             </View>
           </View>
+          {isRightIcons && (
+            <View
+              style={{
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                overflow: 'visible',
+              }}>
+              <Icon name="whatsapp" color={'green'} size={25} />
+              <Icon name="whatsapp" color={'green'} size={25} />
+              <Icon name="map-marker" size={25} />
+            </View>
+          )}
+          {isArrowIcon && (
+            <AntDesign
+              name="right"
+              size={20}
+              onPress={() => Alert.alert('Arrow pressed')}
+            />
+          )}
         </View>
-        <View
-          style={{
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            overflow: 'visible',
-          }}>
-          <Icon name="whatsapp" size={25} />
-          <Icon name="whatsapp" size={25} />
-          <Icon name="map-marker" size={25} />
+        <View>
+          {isButton && (
+            <CustomAppButton
+              onPress={() => Alert.alert('Button pressed')}
+              title="Prendre RDV"
+              alignSelf="baseline"
+              paddingVertical={8}
+              paddingHorizontal={8}
+              textColor="white"
+              borderRadius={13}
+              bkgroundColor="#4d8fd9"
+            />
+          )}
         </View>
-      </View>
-      <View>
-        <CustomAppButton
-          title="Prendre rdv"
-          paddingHorizontal={5}
-          paddingVertical={5}
-          borderRadius={5}
-        />
       </View>
     </View>
   );
@@ -65,9 +115,8 @@ const styles = StyleSheet.create({
   parentStyles: {
     flexDirection: 'column',
     justifyContent: 'space-evenly',
+    backgroundColor: 'white',
     borderRadius: 10,
-    borderColor: colors.primary,
-    borderWidth: 1,
     padding: 10,
   },
   buttonSyles: {
