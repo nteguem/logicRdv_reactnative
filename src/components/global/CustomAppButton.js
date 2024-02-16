@@ -14,6 +14,8 @@ const CustomAppButton = ({
   paddingHorizontal,
   paddingVertical,
   borderRadius,
+  iconComponent,
+  marginHorizontal,
 }) => {
   const styles = StyleSheet.create({
     // ...
@@ -25,15 +27,20 @@ const CustomAppButton = ({
       alignSelf: alignSelf,
       borderWidth: borderWidth,
       borderColor: borderColor,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     appButtonText: {
       fontSize: textFontSize,
       color: textColor,
       alignSelf: 'center',
+      marginHorizontal: marginHorizontal,
     },
   });
   return (
     <TouchableOpacity onPress={onPress} style={styles.appButtonContainer}>
+      {iconComponent && iconComponent}
       <Text style={styles.appButtonText}>{title}</Text>
     </TouchableOpacity>
   );
