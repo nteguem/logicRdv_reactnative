@@ -2,18 +2,20 @@ import React from 'react';
 import SmallText from '../components/Texts/SmallText';
 import Regulartext from '../components/Texts/RegularText';
 import BigText from '../components/Texts/BigText';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, View } from 'react-native';
 
 function Home() {
   return (
-    <View>
-      <SmallText style={[{ color: 'magenta' }]}>SmallText</SmallText>
+    <ScrollView>
+      <View>
+        <SmallText style={[{ color: 'magenta' }]}>SmallText</SmallText>
       <Regulartext style={[styles.customTextStyle, { color: 'orange' }]}>
         Regulartext
       </Regulartext>
       <BigText style={[{ color: 'blue' }]}>BigText</BigText>
-      
-    </View>
+
+      </View>
+    </ScrollView>
   );
 }
 
