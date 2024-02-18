@@ -4,39 +4,19 @@ import Regulartext from '../components/Texts/RegularText';
 import BigText from '../components/Texts/BigText';
 import {Alert, StyleSheet, View} from 'react-native';
 import CustomAppButton from '../components/global/CustomAppButton';
+import ContainerScreen from '../components/wrappers/ContainerScreen'
 
 function Home() {
   return (
-    <View>
-      <SmallText style={[{color: 'magenta'}]}>SmallText</SmallText>
-      <Regulartext style={[styles.customTextStyle, {color: 'orange'}]}>
-        Regulartext
-      </Regulartext>
-      <BigText style={[{color: 'blue'}]}>BigText</BigText>
-      <View>
+    <ContainerScreen> 
         <CustomAppButton
           onPress={() => Alert.alert('Button pressed')}
-          title="Hello from custom button"
-          buttonStyle={[{backgroundColor: 'blue'}]}
-          textStyle={[styles.customStyle]}
+          title="PRENDRE UN RENDEZ-VOUS RAPIDE"
+          buttonStyle={[{backgroundColor: '#488ee3'}]}
         />
-      </View>
-    </View>
+   </ContainerScreen> 
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  customTextStyle: {
-    marginBottom: 8,
-  },
-  customStyle: {
-    color: 'yellow',
-  },
-});
 
 export default Home;
