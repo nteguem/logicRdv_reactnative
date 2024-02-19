@@ -2,7 +2,7 @@ import React from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import Appointment_Disponibility_Hours from './Appointment_Disponibility_Hours';
 import {colors} from '../global/colors';
-import CustomText from '../Texts/CustomText';
+import CustomText from '../global/CustomText';
 
 const Appointment_Disponibility = ({date, appointments}) => {
   const [day, dateString] = date.split(' ');

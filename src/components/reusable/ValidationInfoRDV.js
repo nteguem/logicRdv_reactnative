@@ -4,7 +4,7 @@ import {colors} from '../global/colors';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import CustomText from '../Texts/CustomText';
+import CustomText from '../global/CustomText';
 
 const ValidationInfoRDV = ({title, date, doctor, place, patient}) => {
   return (

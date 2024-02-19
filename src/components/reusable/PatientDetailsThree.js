@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import CustomText from '../Texts/CustomText';
+import CustomText from '../global/CustomText';
 
 const PatientDetailsThree = ({
   motif,

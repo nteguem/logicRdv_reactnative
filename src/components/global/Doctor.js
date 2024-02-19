@@ -4,7 +4,7 @@ import {colors} from './colors';
 import CustomAppButton from './CustomAppButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import CustomText from '../Texts/CustomText';
+import CustomText from './CustomText';
 
 function numberWithSpaces(value, pattern) {
   var i = 0,

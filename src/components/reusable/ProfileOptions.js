@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, Switch, Text, TouchableOpacity, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import CustomText from '../Texts/CustomText';
+import CustomText from '../global/CustomText';
 import {colors} from '../global/colors';
 
 const ProfileOptions = ({

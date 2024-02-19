@@ -1,7 +1,7 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet} from 'react-native';
 import {colors} from './colors';
-import CustomText from '../Texts/CustomText';
+import CustomText from './CustomText';
 
 const CustomAppButton = ({
   title,

@@ -3,7 +3,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import CustomText from '../Texts/CustomText';
+import CustomText from '../global/CustomText';
 import {colors} from '../global/colors';
 
 const PatientdetailsTwo = ({

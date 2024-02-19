@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import {colors} from '../global/colors';
-import CustomText from '../Texts/CustomText';
+import CustomText from '../global/CustomText';
 
 const Appointment_Disponibility_Hours = ({time, doctor}) => {
   return (
