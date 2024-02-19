@@ -1,14 +1,7 @@
 import React from 'react';
-import SmallText from '../components/Texts/SmallText';
-import Regulartext from '../components/Texts/RegularText';
-import BigText from '../components/Texts/BigText';
 import {Alert, StyleSheet, View} from 'react-native';
-import CustomAppButton from '../components/global/CustomAppButton';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import Doctor from '../components/global/Doctor';
+import Doctor from '../global/Doctor';
 
 function DoctorDemo() {
   const data = [

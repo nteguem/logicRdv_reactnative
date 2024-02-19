@@ -1,6 +1,7 @@
 import React from 'react';
-import {Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {TouchableOpacity, StyleSheet} from 'react-native';
 import {colors} from './colors';
+import CustomText from '../Texts/CustomText';
 
 const CustomAppButton = ({
   title,
@@ -32,8 +33,6 @@ const CustomAppButton = ({
       alignItems: 'center',
     },
     appButtonText: {
-      fontSize: textFontSize,
-      color: textColor,
       alignSelf: 'center',
       marginHorizontal: marginHorizontal,
     },
@@ -41,7 +40,12 @@ const CustomAppButton = ({
   return (
     <TouchableOpacity onPress={onPress} style={styles.appButtonContainer}>
       {iconComponent && iconComponent}
-      <Text style={styles.appButtonText}>{title}</Text>
+      <CustomText
+        fontSize={textFontSize}
+        color={textColor}
+        style={styles.appButtonText}>
+        {title}
+      </CustomText>
     </TouchableOpacity>
   );
 };

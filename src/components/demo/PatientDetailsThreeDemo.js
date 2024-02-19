@@ -1,13 +1,8 @@
 import React from 'react';
-import SmallText from '../components/Texts/SmallText';
-import Regulartext from '../components/Texts/RegularText';
-import BigText from '../components/Texts/BigText';
 import {Alert, StyleSheet, View} from 'react-native';
-import CustomAppButton from '../components/global/CustomAppButton';
-import PatientdetailsTwo from '../components/reusable/PatientdetailsTwo';
-import PatientDetailsThree from '../components/reusable/PatientDetailsThree';
+import PatientDetailsThree from '../reusable/PatientDetailsThree';
 
-function PatientDetailsThree() {
+function PatientDetailsThreeDemo() {
   const data = [
     {
       motif: 'Téléphone',
@@ -53,4 +48,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PatientDetailsThree;
+export default PatientDetailsThreeDemo;

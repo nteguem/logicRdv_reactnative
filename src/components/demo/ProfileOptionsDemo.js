@@ -1,6 +1,6 @@
 import React from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
-import ProfileOptions from '../components/reusable/ProfileOptions';
+import ProfileOptions from '../reusable/ProfileOptions';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 

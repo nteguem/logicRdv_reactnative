@@ -1,9 +1,6 @@
 import React from 'react';
-import SmallText from '../components/Texts/SmallText';
-import Regulartext from '../components/Texts/RegularText';
-import BigText from '../components/Texts/BigText';
 import {Alert, StyleSheet, View} from 'react-native';
-import CustomAppButton from '../components/global/CustomAppButton';
+import CustomAppButton from '../global/CustomAppButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 

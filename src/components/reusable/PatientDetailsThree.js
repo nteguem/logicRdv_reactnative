@@ -1,5 +1,6 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import CustomText from '../Texts/CustomText';
 
 const PatientDetailsThree = ({
   motif,
@@ -10,13 +11,23 @@ const PatientDetailsThree = ({
 }) => {
   return (
     <View style={styles.container}>
-      <Text style={{fontWeight: 'bold', fontSize: 15}}>
+      <CustomText fontSize={15} fontWeight={'bold'}>
         Prépaiement de votre Rendez-vous {motif}
-      </Text>
-      <Text style={{paddingTop: 10}}>{paragraph1}</Text>
-      <Text style={{paddingTop: 10}}>{paragraph2}</Text>
-      {textBody && <Text style={{paddingTop: 10}}>{textBody}</Text>}
-      <Text style={{paddingTop: 10, fontWeight: 'bold'}}>{textBottom}</Text>
+      </CustomText>
+      <CustomText fontSize={15} style={{paddingTop: 10}}>
+        {paragraph1}
+      </CustomText>
+      <CustomText fontSize={15} style={{paddingTop: 10}}>
+        {paragraph2}
+      </CustomText>
+      {textBody && (
+        <CustomText fontSize={15} style={{paddingTop: 10}}>
+          {textBody}
+        </CustomText>
+      )}
+      <CustomText fontSize={15} fontWeight={'bold'} style={{paddingTop: 10}}>
+        {textBottom}
+      </CustomText>
     </View>
   );
 };
@@ -24,7 +35,7 @@ const PatientDetailsThree = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    borderRadius: 20,
+    borderRadius: 10,
     backgroundColor: '#00B35C',
     padding: 15,
     color: 'black',

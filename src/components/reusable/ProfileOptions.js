@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {StyleSheet, Switch, Text, TouchableOpacity, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import CustomText from '../Texts/CustomText';
+import {colors} from '../global/colors';
 
 const ProfileOptions = ({
   icon,
@@ -19,20 +21,20 @@ const ProfileOptions = ({
         ) : (
           <View style={{paddingHorizontal: 20}}>{myIcon4}</View>
         )}
-        <Text
+        <CustomText
+          fontSize={17}
+          fontWeight={'bold'}
+          color={'#244370'}
           style={{
             marginLeft: 3,
-            color: '#244370',
-            fontWeight: 'bold',
-            fontSize: 17,
           }}>
           {optionName}
-        </Text>
+        </CustomText>
         {isRightNotificationToggle && (
           <Switch
             style={{flex: 1}}
-            trackColor={{false: '767577', true: '#81bOff'}}
-            thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+            trackColor={{false: colors.gray, true: colors.blue}}
+            thumbColor={isEnabled ? colors.blue : colors.gray100}
             ios_backgroundColor="#3e3e3e"
             onValueChange={toggleSwitch}
             value={isEnabled}
@@ -45,7 +47,7 @@ const ProfileOptions = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     borderRadius: 10,
     flexDirection: 'row',
     alignItems: 'center',

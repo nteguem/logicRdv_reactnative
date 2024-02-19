@@ -1,12 +1,10 @@
 import React from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
-import Regulartext from '../Texts/RegularText';
-import BigText from '../Texts/BigText';
-import SmallText from '../Texts/SmallText';
 import {colors} from './colors';
 import CustomAppButton from './CustomAppButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import CustomText from '../Texts/CustomText';
 
 function numberWithSpaces(value, pattern) {
   var i = 0,
@@ -35,16 +33,18 @@ const Doctor = ({
               </View>
             )}
             <View style={{paddingLeft: 10}}>
-              <BigText style={[{color: 'red', fontWeight: 'bold'}]}>
+              <CustomText fontSize={20} color={colors.red} fontWeight={'bold'}>
                 {doctorName}
-              </BigText>
-              <Regulartext style={[{color: '#4d8fd9', fontWeight: 'bold'}]}>
+              </CustomText>
+              <CustomText fontSize={15} color={'#4d8fd9'} fontWeight={'bold'}>
                 {isDoctorSpecialisationText && 'Doctor doctor'}
-              </Regulartext>
-              <SmallText style={[{color: '#4d8fd9'}]}>
+              </CustomText>
+              <CustomText fontSize={12} color={'#4d8fd9'}>
                 {doctorLocation}
-              </SmallText>
-              <SmallText style={[{color: '#4d8fd9'}]}>75020</SmallText>
+              </CustomText>
+              <CustomText fontSize={12} color={'#4d8fd9'}>
+                75020
+              </CustomText>
               <View
                 style={{
                   flexDirection: 'row',
@@ -52,16 +52,9 @@ const Doctor = ({
                   justifyContent: 'space-between',
                   width: 100,
                 }}>
-                <Regulartext
-                  style={[
-                    {
-                      color: '#4d8fd9',
-                      alignItems: 'center',
-                      fontWeight: 'bold',
-                    },
-                  ]}>
+                <CustomText fontSize={15} color={'#4d8fd9'} fontWeight={'bold'}>
                   {numberWithSpaces(doctorPhoneNumber, '## ## ## ## ##')}
-                </Regulartext>
+                </CustomText>
                 <View style={[styles.circle]}>
                   <Icon name="phone" color="white" size={20} />
                 </View>
@@ -145,7 +138,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'blue',
+    backgroundColor: colors.blue,
     marginLeft: 10,
   },
 });
