@@ -7,7 +7,7 @@ import CustomAppButton from '../components/global/CustomAppButton';
 import PatientdetailsTwo from '../components/reusable/PatientdetailsTwo';
 import PatientDetailsThree from '../components/reusable/PatientDetailsThree';
 
-function Home() {
+function PatientDetailsThree() {
   const data = [
     {
       motif: 'Téléphone',
@@ -53,4 +53,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default PatientDetailsThree;
