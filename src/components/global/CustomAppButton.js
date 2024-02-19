@@ -8,7 +8,7 @@ const CustomAppButton = ({
   onPress,
   bkgroundColor = '#009688',
   borderWidth,
-  alignSelf = 'baseline',
+  alignSelf ,
   borderColor = 'blue',
   textColor = colors.black,
   textFontSize = 15,

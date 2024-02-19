@@ -3,7 +3,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import AuthenticatedNavigator from './AuthenticateNavigator';
 import Home from '../screens/Home';
-
+import {HeaderIcons} from '../utils/helpers';
+import Notifications from '../screens/Notification';
 const Stack = createStackNavigator();
 
 const screenOptions = {gestureEnabled: false, headerShown: false};
@@ -18,7 +19,14 @@ const Routes = ({isAuth}) => {
             component={AuthenticatedNavigator}
           />
         ) : (
-          <Stack.Screen name="home" component={Home} />
+          <Stack.Screen
+            name="Notifications"
+            component={Notifications}
+            initialParams={{
+              left: HeaderIcons.GO_BACK,
+              right: HeaderIcons.ACCOUNT,
+            }}
+          />
         )}
       </Stack.Navigator>
     </NavigationContainer>
