@@ -178,7 +178,7 @@ const Inscription = () => {
                                 title={showAdditionalFields ? "M'inscrire" : "Trouvez votre cabinet"}
                                 alignSelf="baseline"
                                 paddingVertical={16}
-                                paddingHorizontal={90}
+                                paddingHorizontal={showAdditionalFields ? 135: 90}
                                 textColor={colors.white}
                                 textFontSize={16}
                                 borderRadius={10}
