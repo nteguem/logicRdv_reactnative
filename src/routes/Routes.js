@@ -5,6 +5,7 @@ import AuthenticatedNavigator from './AuthenticateNavigator';
 import Home from '../screens/Home';
 import {HeaderIcons} from '../utils/helpers';
 import Notifications from '../screens/Notification';
+import Inscription from '../screens/Inscription';
 const Stack = createStackNavigator();
 
 const screenOptions = {gestureEnabled: false, headerShown: false};
@@ -20,11 +21,11 @@ const Routes = ({isAuth}) => {
           />
         ) : (
           <Stack.Screen
-            name="Notifications"
-            component={Notifications}
+            name="Inscription rapide"
+            component={Inscription}
             initialParams={{
               left: HeaderIcons.GO_BACK,
-              right: HeaderIcons.ACCOUNT,
+              right: HeaderIcons.MENU,
             }}
           />
         )}
