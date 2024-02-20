@@ -175,7 +175,7 @@ const Inscription = () => {
                         <View style={{ marginTop: 10 }}>
                             <CustomAppButton
                                 onPress={onSubmit}
-                                title={showAdditionalFields ? "Je m'inscris" : "Trouvez votre cabinet"}
+                                title={showAdditionalFields ? "M'inscrire" : "Trouvez votre cabinet"}
                                 alignSelf="baseline"
                                 paddingVertical={16}
                                 paddingHorizontal={90}
