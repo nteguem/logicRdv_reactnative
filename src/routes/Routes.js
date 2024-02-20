@@ -4,8 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import AuthenticatedNavigator from './AuthenticateNavigator';
 import Home from '../screens/Home';
 import {HeaderIcons} from '../utils/helpers';
-import Notifications from '../screens/Notification';
-import Inscription from '../screens/Inscription';
+import PasswordRecoveryScreen from '../screens/PasswordRecoveryScreen';
 const Stack = createStackNavigator();
 
 const screenOptions = {gestureEnabled: false, headerShown: false};
@@ -21,11 +20,10 @@ const Routes = ({isAuth}) => {
           />
         ) : (
           <Stack.Screen
-            name="Inscription rapide"
-            component={Inscription}
+            name="Mot de passe oublié"
+            component={PasswordRecoveryScreen}
             initialParams={{
               left: HeaderIcons.GO_BACK,
-              right: HeaderIcons.MENU,
             }}
           />
         )}
