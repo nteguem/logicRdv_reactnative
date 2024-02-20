@@ -1,3 +1,29 @@
+/*
+  This React Native component, Doctor, represents a card displaying information about a doctor.
+  It includes details such as doctor's name, specialization, location, phone number, and optional icons.
+
+  Component Structure:
+  - View: Main container for the component.
+    - View: Container for doctor's profile information.
+      - View: Container for doctor's profile picture (optional).
+      - View: Container for doctor's name, specialization, location, and phone number.
+      - View: Container for optional right icons or arrow icon.
+    - View: Container for optional button.
+
+  Props:
+  - isDoctorSpecialisationText: Boolean flag indicating whether to display doctor's specialization text.
+  - isRightIcons: Boolean flag indicating whether to display right icons (WhatsApp, map marker).
+  - isArrowIcon: Boolean flag indicating whether to display an arrow icon.
+  - isButton: Boolean flag indicating whether to display a button.
+  - isProfileIcon: Boolean flag indicating whether to display a profile icon.
+  - doctorName: Name of the doctor.
+  - doctorLocation: Location of the doctor.
+  - doctorPhoneNumber: Phone number of the doctor.
+
+  Styles:
+  - Styles are defined for each individual component, including containers, text, buttons, and icons, providing consistent appearance and layout.
+*/
+
 import React from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
 import {colors} from './colors';

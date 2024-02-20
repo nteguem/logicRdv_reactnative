@@ -1,3 +1,19 @@
+/*
+  This React Native component is used to display patient details, specifically related to prepayment information for an appointment.
+  It takes several props including 'motif', 'textBody', 'paragraph1', 'paragraph2', and 'textBottom' for customization.
+
+  Component Structure:
+  - View: Main container for the component.
+    - CustomText: Displays the title with bold formatting, indicating the purpose of the message.
+    - CustomText: Displays the first paragraph of information.
+    - CustomText: Displays the second paragraph of information.
+    - Conditional Rendering: Displays additional text body if provided.
+    - CustomText: Displays a bottom line of text with bold formatting.
+
+  Styles:
+  - container: Layout styles for the main container, providing a rounded corner and green background with black text.
+*/
+
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import CustomText from '../global/CustomText';

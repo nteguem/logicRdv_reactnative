@@ -1,3 +1,28 @@
+/*
+  This React Native component is designed to display patient details in a stylized format.
+  It takes props such as 'detailsTitle', 'doctorName', 'patientName', and 'dateTime' to customize the displayed information.
+
+  Component Structure:
+  - View: Main container for the component.
+    - View: Row for the details title with an icon.
+      - Fontisto: Icon indicating medical details.
+      - CustomText: Displays the details title with specified styling.
+    - View: Rows for doctor and patient names with respective icons.
+      - FontAwesome5: Icon representing a medical professional.
+      - FontAwesome: Icon representing a patient.
+      - CustomText: Displays the doctor's name and patient's name with specified styling.
+    - View: Row for the date and time of the appointment.
+      - CustomText: Displays the date and time with specified styling.
+
+  Styles:
+  - parentStyle: Layout styles for the main container, providing padding, border radius, and background color.
+  - row1: Layout styles for the details title row, including background color and padding.
+  - row2: Layout styles for the rows containing doctor and patient names.
+  - row22: Layout styles for the sub-rows within the row2, providing space between elements.
+  - row3: Layout styles for the row containing the date and time, including background color and padding.
+  - textStyle: Additional styling for text elements, providing left margin.
+*/
+
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Fontisto from 'react-native-vector-icons/Fontisto';

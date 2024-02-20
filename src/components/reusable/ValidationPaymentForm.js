@@ -1,3 +1,34 @@
+/*
+  This React Native component, ValidationPaymentForm, is designed for validating payment information in a form.
+  It includes fields for entering card number, expiry date, and CVV.
+
+  FloatingLabelInput Component Structure:
+  - View: Main container for the component.
+    - Animated.Text: Label for the input field with floating animation.
+    - TextInput: Input field for entering text.
+
+  Functionality:
+  - FloatingLabelInput: Handles input for card number, expiry date, and CVV.
+    - Displays floating label animation when input is focused or has text.
+    - Automatically formats expiry date input to "MM/YY" format.
+  
+  Props:
+  - label: Label text for the input field.
+  - value: Current value of the input field.
+  - onChangeText: Function to handle text input changes.
+  - keyboardType: Type of keyboard to be displayed.
+  - maxLength: Maximum length of text allowed in the input field.
+  - width: Width of the input field.
+
+  ValidationPaymentForm Component Structure:
+  - SafeAreaView: Container for ensuring content renders within safe area boundaries.
+    - View: Main container for the form content.
+      - View: Container for the form elements, such as FloatingLabelInput components.
+
+  Styles:
+  - Styles are defined for each individual component, including input fields, labels, and containers, providing consistent appearance and layout.
+*/
+
 import React, {useRef, useState} from 'react';
 import {
   View,
