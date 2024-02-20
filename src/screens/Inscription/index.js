@@ -134,7 +134,7 @@ const Inscription = () => {
                                     onChangeText={onChangeEmail}
                                 />
                                 <View>
-                                    <MaterialIcons name="lock" size={24} color={colors.gray} style={styles.iconLeft} />
+                                    <MaterialIcons name="lock" size={24} color={colors.gray100} style={styles.iconLeft} />
                                     <TextInput
                                         style={[styles.input, { paddingLeft: 40 }]}
                                         placeholder="Mot de passe"
@@ -144,20 +144,21 @@ const Inscription = () => {
                                         secureTextEntry={!showPassword}
                                     />
                                     <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                                        <Icon name={showPassword ? "eye-off" : "eye"} size={24} color={colors.gray} style={styles.icon} />
+                                        <Icon name={showPassword ? "eye" : "eye-off"} size={24} color={colors.gray100} style={styles.icon} />
                                     </TouchableOpacity>
                                 </View>
                                 <View>
-                                    <MaterialIcons name="lock" size={24} color={colors.gray} style={styles.iconLeft} />
+                                    <MaterialIcons name="lock" size={24} color={colors.gray100} style={styles.iconLeft} />
                                     <TextInput
                                         style={[styles.input, { paddingLeft: 40 }]}
                                         placeholder="Confirmer mot de passe"
                                         placeholderTextColor={colors.gray}
                                         value={confirmPassword}
                                         onChangeText={onChangeConfirmPassword}
+                                        secureTextEntry={!showConfirmPassword}
                                     />
                                     <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
-                                        <Icon name={showConfirmPassword ? "eye-off" : "eye"} size={24} color={colors.gray} style={styles.icon} />
+                                        <Icon name={showConfirmPassword ? "eye" : "eye-off"} size={24} color={colors.gray100} style={styles.icon} />
                                     </TouchableOpacity>
                                 </View>
                                 <View style={styles.checkboxContainer}>
