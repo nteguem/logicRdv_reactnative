@@ -4,7 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import AuthenticatedNavigator from './AuthenticateNavigator';
 import Home from '../screens/Home';
 import {HeaderIcons} from '../utils/helpers';
-import PasswordRecoveryScreen from '../screens/PasswordRecoveryScreen';
+import Appointments from '../screens/Appointments';
 const Stack = createStackNavigator();
 
 const screenOptions = {gestureEnabled: false, headerShown: false};
@@ -20,10 +20,11 @@ const Routes = ({isAuth}) => {
           />
         ) : (
           <Stack.Screen
-            name="Mot de passe oublié"
-            component={PasswordRecoveryScreen}
+            name="Mes Rendez-vous"
+            component={Appointments}
             initialParams={{
               left: HeaderIcons.GO_BACK,
+              right: HeaderIcons.ACCOUNT 
             }}
           />
         )}
