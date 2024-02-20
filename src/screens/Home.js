@@ -1,42 +1,53 @@
 import React from 'react';
-import SmallText from '../components/Texts/SmallText';
-import Regulartext from '../components/Texts/RegularText';
-import BigText from '../components/Texts/BigText';
-import {Alert, StyleSheet, View} from 'react-native';
-import CustomAppButton from '../components/global/CustomAppButton';
+import { StyleSheet, Text, View} from 'react-native';
+import LoadingComponent from '../components/Loading';
+import CustumAlert from '../components/Alert';
+
+
 
 function Home() {
   return (
     <View>
-      <SmallText style={[{color: 'magenta'}]}>SmallText</SmallText>
-      <Regulartext style={[styles.customTextStyle, {color: 'orange'}]}>
-        Regulartext
-      </Regulartext>
-      <BigText style={[{color: 'blue'}]}>BigText</BigText>
-      <View>
-        <CustomAppButton
-          onPress={() => Alert.alert('Button pressed')}
-          title="Hello from custom button"
-          buttonStyle={[{backgroundColor: 'transparent'}]}
-          textStyle={[styles.customStyle]}
-        />
-      </View>
+      <Text>tooruiopjhb</Text>
+      <Text>tooruiopjhb</Text>
+      <Text>tooruiopjhb</Text>
+      <Text>tooruiopjhb</Text>
+      <Text>tooruiopjhb</Text>
+      <Text>tooruiopjhb</Text>
+      <CustumAlert
+        isSuccess={false}
+        message="est une tres bonne arlerte venant de moi
+        est une tres bonne arlerte venant de moiest une tres bonne arlerte venant de moi"
+        button1={{
+          title: 'okay',
+          onPress: () => console.log('OK Pressed'),
+          textColor: '#fff',
+          bkgroundColor: '#007bff',
+          paddingVertical: 10,
+          paddingHorizontal: 30,
+          borderRadius: 10,
+        }}
+        button2={{
+          title: 'Reset',
+          onPress: () => console.log('OK Pressed'),
+          textColor: '#fff',
+          bkgroundColor: '#007bff',
+          paddingVertical: 10,
+          paddingHorizontal: 30,
+          borderRadius: 10,
+        }}
+      />
+
+      {/* <LoadingComponent nom="Connexion..."/> */}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  customTextStyle: {
-    marginBottom: 8,
-  },
-  customStyle: {
-    color: 'yellow',
-  },
+  }
 });
 
 export default Home;
