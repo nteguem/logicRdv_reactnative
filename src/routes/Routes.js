@@ -23,7 +23,7 @@ const Routes = ({isAuth}) => {
             name="Mes Rendez-vous"
             component={Appointments}
             initialParams={{
-              left: HeaderIcons.GO_BACK,
+              left: HeaderIcons.SEARCH,
               right: HeaderIcons.ACCOUNT 
             }}
           />
