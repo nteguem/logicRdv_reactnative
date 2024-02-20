@@ -1,12 +1,14 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import {
   View,
   SafeAreaView,
   StyleSheet,
   TextInput,
   Animated,
+  TouchableOpacity,
 } from 'react-native';
-import {colors} from '../global/colors';
+import { colors } from '../global/colors';
+import Icon from 'react-native-vector-icons/Entypo';
 
 const FloatingLabelInput = ({
   label,
@@ -15,6 +17,7 @@ const FloatingLabelInput = ({
   multiline = false,
   keyboardType,
   maxLength,
+  showCrossIcon = false,
   ...rest
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -54,6 +57,10 @@ const FloatingLabelInput = ({
 
   const inputRef = useRef(null);
 
+  const clearText = () => {
+    onChangeText(''); // Effacer le texte
+  };
+
   return (
     <View style={styles.container}>
       <Animated.Text
@@ -61,24 +68,30 @@ const FloatingLabelInput = ({
         style={[labelStyle, styles.label]}>
         {label}
       </Animated.Text>
-      <TextInput
-        ref={inputRef}
-        style={[styles.input, multiline && styles.multilineInput]}
-        value={value}
-        onChangeText={onChangeText}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        multiline={multiline}
-        keyboardType={keyboardType}
-        maxLength={maxLength}
-        {...rest}
-      />
+      <View>
+        <TextInput
+          ref={inputRef}
+          style={[styles.input, multiline && styles.multilineInput]}
+          value={value}
+          onChangeText={onChangeText}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          multiline={multiline}
+          keyboardType={keyboardType}
+          maxLength={maxLength}
+          {...rest}
+        />
+        {showCrossIcon && value !== '' && (
+          <TouchableOpacity onPress={clearText}>
+            <Icon name="cross" size={24} color={colors.gray} style={styles.icon} />
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
 };
 
 const ValidationInfoCompletionForm = () => {
-  const [text, setText] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [securityNumber, setSecurityNumber] = useState('');
   const [reasonForAppointment, setReasonForAppointment] = useState('');
@@ -102,6 +115,11 @@ const ValidationInfoCompletionForm = () => {
     }
   };
 
+  const clearText = () => {
+    setDateOfBirth('');
+    setSecurityNumber('');
+  };
+
   return (
     <SafeAreaView>
       <View style={styles.card}>
@@ -113,12 +131,14 @@ const ValidationInfoCompletionForm = () => {
             placeholderTextColor="gray"
             maxLength={10}
             keyboardType="numeric"
+            showCrossIcon
           />
           <FloatingLabelInput
             label="Numéro de sécurité social"
             value={securityNumber}
             onChangeText={setSecurityNumber}
             placeholderTextColor="gray"
+            showCrossIcon
           />
           <FloatingLabelInput
             label="Motif du Rdv"
@@ -173,6 +193,13 @@ const styles = StyleSheet.create({
     zIndex: 1,
     backgroundColor: 'white',
     paddingHorizontal: 5,
+  },
+  icon: {
+    position: 'absolute',
+    marginRight: 10,
+    right: 10,
+    top: '10%',
+    transform: [{ translateY: -35 }]
   },
 });
 
