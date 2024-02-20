@@ -1,3 +1,39 @@
+/*
+  This React Native component, ValidationInfoCompletionForm, is used for validating and completing information in a form.
+  It includes three FloatingLabelInput components for entering date of birth, social security number, and reason for appointment.
+
+  FloatingLabelInput Component Structure:
+  - View: Main container for the component.
+    - Animated.Text: Label for the input field with floating animation.
+    - View: Container for TextInput and optional clear icon.
+      - TextInput: Input field for entering text.
+      - TouchableOpacity: Touchable area for clearing text (if enabled).
+        - Icon: Cross icon for clearing text.
+
+  Functionality:
+  - FloatingLabelInput: Handles input for date of birth, social security number, and reason for appointment.
+    - Displays floating label animation when input is focused or has text.
+    - Automatically formats date of birth input to "dd/mm/yyyy" format.
+    - Provides option to clear text with a cross icon.
+  
+  Props:
+  - label: Label text for the input field.
+  - value: Current value of the input field.
+  - onChangeText: Function to handle text input changes.
+  - multiline: Boolean indicating whether the input field supports multiple lines.
+  - keyboardType: Type of keyboard to be displayed.
+  - maxLength: Maximum length of text allowed in the input field.
+  - showCrossIcon: Boolean indicating whether to display a clear icon.
+
+  ValidationInfoCompletionForm Component Structure:
+  - SafeAreaView: Container for ensuring content renders within safe area boundaries.
+    - View: Main container for the form content.
+      - View: Container for the form elements, such as FloatingLabelInput components.
+
+  Styles:
+  - Styles are defined for each individual component, including input fields, labels, and icons, providing consistent appearance and layout.
+*/
+
 import React, { useRef, useState } from 'react';
 import {
   View,
