@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text} from 'react-native';
 
-const Regulartext = ({children, fontSize, fontWeight, color, style}) => {
+const CustomText = ({children, fontSize, fontWeight, color, style}) => {
   const passedStyles = Array.isArray(style)
     ? Object.assign({}, ...style)
     : style;
@@ -19,4 +19,4 @@ const Regulartext = ({children, fontSize, fontWeight, color, style}) => {
   );
 };
 
-export default Regulartext;
+export default CustomText;
