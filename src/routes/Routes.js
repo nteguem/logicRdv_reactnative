@@ -2,9 +2,8 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import AuthenticatedNavigator from './AuthenticateNavigator';
-import Home from '../screens/Home';
 import {HeaderIcons} from '../utils/helpers';
-import Appointments from '../screens/Appointments';
+import Notifications from '../screens/Notification';
 const Stack = createStackNavigator();
 
 const screenOptions = {gestureEnabled: false, headerShown: false};
@@ -20,8 +19,8 @@ const Routes = ({isAuth}) => {
           />
         ) : (
           <Stack.Screen
-            name="Mes Rendez-vous"
-            component={Appointments}
+            name="Notifications"
+            component={Notifications}
             initialParams={{
               left: HeaderIcons.SEARCH,
               right: HeaderIcons.ACCOUNT 

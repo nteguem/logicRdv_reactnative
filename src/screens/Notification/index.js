@@ -1,36 +1,64 @@
-import React from 'react';
-import NotificationDetails from '../../components/Notifications/NotificationDetails';
-import data from '../data/dataNotif';
-import {ScrollView, View} from 'react-native';
+
+import React from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
+import Item from '../../components/Notifications/Item';
+import { ScrollView, View } from 'react-native';
 
 const Notifications = () => {
+  const data =[
+    {
+        username: 'John Doe',
+        date: '12/12/2020',
+        message: 'ceci est ma premiere notification alors stp ne te face pas si je suis laid tu vois j aime les risque alors epouse moi pour cela'
+    },
+    {
+        username: 'John Doe',
+        date: '12/12/2020',
+        message: 'ceci est ma premiere notification alors stp ne te face pas si je suis laid tu vois j aime les risque alors epouse moi pour cela'
+    },
+    {
+        username: 'John Doe',
+        date: '12/12/2020',
+        message: 'ceci est ma premiere notification alors stp ne te face pas si je suis laid tu vois j aime les risque alors epouse moi pour cela'
+    },
+    {
+        username: 'John Doe',
+        date: '12/12/2020',
+        message: 'ceci est ma premiere notification alors stp ne te face pas si je suis laid tu vois j aime les risque alors epouse moi pour cela'
+    },
+    {
+        username: 'John Doe',
+        date: '12/12/2020',
+        message: 'ceci est ma premiere notification alors stp ne te face pas si je suis laid tu vois j aime les risque alors epouse moi pour cela'
+    },
+    {
+        username: 'John Doe',
+        date: '12/12/2020',
+        message: 'ceci est ma premiere notification alors stp ne te face pas si je suis laid tu vois j aime les risque alors epouse moi pour cela'
+    },
+    {
+        username: 'John Doe',
+        date: '12/12/2020',
+        message: 'ceci est ma premiere notification alors stp ne te face pas si je suis laid tu vois j aime les risque alors epouse moi pour cela'
+    }
+];
+
   return (
     <ContainerScreen>
       <ScrollView>
-        {data.map((result, index) => (
-          <View style={{paddingTop: 10}}>
-            <NotificationDetails
-              key={index}
-              isMessageIcon={result.isMessageIcon}
-              notifHeaderNameValue={result.notifHeaderName}
-              notifHeaderDateTime={result.date}
-              isNotifTitle={result.isNotifTitle}
-              notifTitleValue={result.title}
-              isNotifWarning={result.isWarning}
-              notifBodyValue={result.textBody}
-              isNotifAddresse={result.isAdresse}
-              notifAdressValue={result.addresse}
-              notifPhoneValue={result.phone}
-              isNotifFooter={result.isFooter}
-              motifValue={result.motif}
-              dateMotifFooterValue={result.date}
+        <View>
+          {data.map((item, index) => (
+            <Item 
+              key={index} 
+              date={item.date} 
+              username={item.username}
+              message={item.message}
             />
-          </View>
-        ))}
+          ))}
+        </View>
       </ScrollView>
     </ContainerScreen>
-  );
-};
+  )
+}
 
-export default Notifications;
+export default Notifications
