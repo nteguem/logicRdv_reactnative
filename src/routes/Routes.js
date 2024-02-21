@@ -2,9 +2,9 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import AuthenticatedNavigator from './AuthenticateNavigator';
-import Home from '../screens/Home';
 import {HeaderIcons} from '../utils/helpers';
-import Notifications from '../screens/Notification';
+import DoctorListScreen from '../screens/DoctorListScreen';
+import PatientManagement from '../screens/patient_management';
 const Stack = createStackNavigator();
 
 const screenOptions = {gestureEnabled: false, headerShown: false};
@@ -20,8 +20,8 @@ const Routes = ({isAuth}) => {
           />
         ) : (
           <Stack.Screen
-            name="Notifications"
-            component={Notifications}
+            name="Gestion des patients"
+            component={PatientManagement}
             initialParams={{
               left: HeaderIcons.GO_BACK,
               right: HeaderIcons.ACCOUNT,
