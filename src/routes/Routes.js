@@ -5,7 +5,8 @@ import AuthenticatedNavigator from './AuthenticateNavigator';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import DrawerContent from './DrawerContent';
 import Home from '../screens/Home';
-import {HeaderIcons} from "../utils/helpers"
+import {HeaderIcons} from '../utils/helpers';
+import Notifications from '../screens/Notification';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -24,7 +25,14 @@ const Routes = ({isAuth}) => {
             component={AuthenticatedNavigator}
           />
         ) : (
-          <Stack.Screen name="Mes rendez-vous"  component={Home} initialParams={{ left: HeaderIcons.SEARCH, right:HeaderIcons.ACCOUNT }} />
+          <Stack.Screen
+            name="Notifications"
+            component={Notifications}
+            initialParams={{
+              left: HeaderIcons.GO_BACK,
+              right: HeaderIcons.ACCOUNT,
+            }}
+          />
         )}
       </Stack.Navigator>
     </NavigationContainer>
