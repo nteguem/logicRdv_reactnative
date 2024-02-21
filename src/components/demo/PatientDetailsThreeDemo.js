@@ -1,6 +1,6 @@
 import React from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
-import PatientDetailsThree from '../reusable/PatientDetailsThree';
+import PatientDetailsThree from '../Prepaiement/PatientDetailsThree';
 
 function PatientDetailsThreeDemo() {
   const data = [

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
-import PatientdetailsTwo from '../reusable/PatientdetailsTwo';
+import PatientdetailsTwo from '../Prepaiement/PatientdetailsTwo';
 
 function PatientdetailsTwoDemo() {
   const data = [
