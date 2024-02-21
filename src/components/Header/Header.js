@@ -4,7 +4,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { HeaderIcons } from "../../utils/helpers";
-// import { DrawerActions } from '@react-navigation/native';
+import { DrawerActions } from '@react-navigation/native';
 
 const Header = ({ backgroundColor }) => {
   const navigation = useNavigation();
@@ -26,7 +26,7 @@ const Header = ({ backgroundColor }) => {
     // Action à effectuer lors du clic sur l'icône du menu
     // Par exemple, ouvrir le menu latéral
     // navigation.openDrawer();
-    // navigation.dispatch(DrawerActions.openDrawer());
+    navigation.dispatch(DrawerActions.openDrawer());
 
   };
 
