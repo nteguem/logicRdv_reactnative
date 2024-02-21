@@ -1,10 +1,11 @@
 import React from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import CustomAppButton from '../../components/global/CustomAppButton'
-import AppointmentDetails from '../../components/reusable/Appointment_Details'
+import AppointmentDetails from '../../components/MyAppointment/Appointment_Details'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import { colors } from '../../components/global/colors'
-import dataAppointment from '../../components/data/dataAppointment'
+import dataAppointment from '../data/dataAppointment'
+import CustomText from '../../components/global/CustomText'
 
 const Appointments = () => {
     return (
@@ -23,6 +24,7 @@ const Appointments = () => {
                         bkgroundColor={colors.blue}
                     />
                 </View>
+                <CustomText fontSize={25} color={colors.black} fontWeight='bold'>Mes Rendez-vous</CustomText>
                 {dataAppointment.map((item, index) => (
                     <AppointmentDetails
                         key={index}
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20
+        marginVertical: 20
     },
 });
 

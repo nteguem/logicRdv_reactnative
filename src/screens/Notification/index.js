@@ -1,6 +1,6 @@
 import React from 'react';
 import NotificationDetails from '../../components/Notifications/NotificationDetails';
-import data from '../../components/data/dataNotif';
+import data from '../data/dataNotif';
 import {ScrollView, View} from 'react-native';
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
 
