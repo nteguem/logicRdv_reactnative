@@ -16,9 +16,9 @@ const Appointments = () => {
                         title="PRENDRE UN RENDEZ-VOUS RAPIDE"
                         alignSelf="baseline"
                         paddingVertical={16}
-                        paddingHorizontal={49}
+                        paddingHorizontal={20}
                         textColor={colors.white}
-                        textFontSize={15}
+                        textFontSize={13}
                         borderRadius={10}
                         bkgroundColor={colors.blue}
                     />
