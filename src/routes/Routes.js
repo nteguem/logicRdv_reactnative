@@ -2,9 +2,9 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import AuthenticatedNavigator from './AuthenticateNavigator';
-import Home from '../screens/Home';
 import {HeaderIcons} from '../utils/helpers';
 import Appointments from '../screens/Appointments';
+import Home from '../screens/Home';
 const Stack = createStackNavigator();
 
 const screenOptions = {gestureEnabled: false, headerShown: false};
@@ -20,11 +20,10 @@ const Routes = ({isAuth}) => {
           />
         ) : (
           <Stack.Screen
-            name="Mes Rendez-vous"
-            component={Appointments}
+            name=" "
+            component={Home}
             initialParams={{
-              left: HeaderIcons.SEARCH,
-              right: HeaderIcons.ACCOUNT 
+              right: HeaderIcons.MENU 
             }}
           />
         )}

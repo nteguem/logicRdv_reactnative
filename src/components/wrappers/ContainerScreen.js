@@ -2,10 +2,10 @@ import React from 'react';
 import { View, StyleSheet, SafeAreaView } from 'react-native';
 import Header from '../Header/Header';
 
-const ContainerScreen = ({ children }) => {
+const ContainerScreen = ({ children, backgroundColor }) => {
     return (
         <SafeAreaView style={styles.safeArea}>
-            <Header/>
+            <Header backgroundColor={backgroundColor} />
             <View style={styles.container}>
                 {children}
             </View>

@@ -31,7 +31,7 @@ const FooterHome = () => {
                     bkgroundColor='transparent' />
             </View>
             <View style={styles.containerText}>
-                <CustomText fontSize={17} fontWeight='bold' color={colors.white} style={styles.text}>
+                <CustomText fontSize={18} fontWeight='bold' color={colors.white} style={styles.text}>
                     Logicrdv c'est aussi la téléconsultation avec votre médecin.
                 </CustomText>
                 <CustomText fontSize={14} color={colors.white} style={styles.text}>
@@ -45,23 +45,24 @@ const FooterHome = () => {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.blue,
-        paddingHorizontal:15,
-        paddingVertical:15,
+        paddingBottom:10,
         width: '100%', 
     },
     containerButton: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        marginVertical: 20
+        marginTop: 6,
+        marginBottom: 12
     },
     containerText: {
         flexDirection: 'column',
         gap: 4,
-        textAlign:"justify"
+        textAlign:"justify",
+        marginHorizontal: 20
     },
     text: {
-        textAlign:"justify"
+        // textAlign:"start"
     },
 });
 
