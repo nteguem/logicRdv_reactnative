@@ -15,50 +15,59 @@
   - container: Layout styles for the main container.
   - day: Layout styles for the container displaying the day and date.
 */
-
 import React from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import Appointment_Disponibility_Hours from './Appointment_Disponibility_Hours';
-import {colors} from '../global/colors';
+import { colors } from '../global/colors';
 import CustomText from '../global/CustomText';
 
-const Appointment_Disponibility = ({date, appointments}) => {
-  const [day, dateString] = date.split(' ');
+const Appointment_Disponibility = ({ label, label2, creneaux }) => {
   return (
     <View style={styles.container}>
       <View style={styles.day}>
-        <CustomText
-          fontSize={15}
-          fontWeight={500}
-          style={{color: colors.black}}>
-          {day}
-        </CustomText>
-        <CustomText fontSize={15} fontWeight={500} style={{color: colors.blue}}>
-          {dateString}
-        </CustomText>
+        <View style={styles.leftnow} >
+          <CustomText fontSize={15} fontWeight={500} style={{ color: colors.black }}>
+            {label}
+          </CustomText>
+          <CustomText fontSize={15} fontWeight={500} style={{ color: colors.blue }}>
+            {label2}
+          </CustomText>
+        </View  >
+        <View style={styles.rigthnow}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {creneaux.map((creneau, index) => (
+              <Appointment_Disponibility_Hours
+                key={index}
+                time={creneau.fromhour}
+                doctor={creneau.doctor}
+              />
+            ))}
+          </ScrollView>
+        </View>
       </View>
-      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-        {appointments.map((appointment, index) => (
-          <Appointment_Disponibility_Hours
-            key={index}
-            time={appointment.time}
-            doctor={appointment.doctor}
-          />
-        ))}
-      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 12,
+    alignItems: "flex-start",
   },
   day: {
+    flexDirection: 'row',
+    gap:2,
+    justifyContent:"space-between",
     marginRight: 20,
+    marginVertical:3,
   },
+  leftnow:{
+    width:90
+  },
+  rigthnow:{
+    justifyContent:"space-between",
+    alignContent:"flex-start"
+  }
+  
 });
 
 export default Appointment_Disponibility;
