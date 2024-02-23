@@ -15,7 +15,7 @@ const UserLogin = () => {
                     onPress: () => console.log('Pressed'),
                 }}
             />
-            <Signin/>
+            <Signin />
         </View>
     </ContainerScreen>
   )
