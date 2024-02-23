@@ -1,16 +1,15 @@
-import { View, Text, StyleSheet,Dimensions } from 'react-native';
+import { View, Text, StyleSheet,Dimensions, ScrollView } from 'react-native';
 import React from 'react';
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import Appointment_Disponibility from '../../components/AppointmentPlanification/Appointment_Disponibility';
 import datadisponibility from '../data/datadisponibility';
-import CustomAppButton from '../../components/global/CustomAppButton';
-import { colors } from '../../components/global/colors';
 
 const DateAppointment = () => {
   const data = datadisponibility;
   return (
     <ContainerScreen>
-      <View>
+    
+      <ScrollView>
         {
           data.map((item, index) => (
             <Appointment_Disponibility
@@ -21,29 +20,10 @@ const DateAppointment = () => {
             />
           ))
         }
-        <View style={styles.footer}>
-          <CustomAppButton
-            title="sem.suiv."
-            textColor={colors.white}
-            bkgroundColor='none'
-            
-          />
-        </View>
-      </View>
+      </ScrollView>
+      
     </ContainerScreen>
   )
 }
-
-const screenHeight = Dimensions.get('window').height;
-const mytop = screenHeight - 50
-const styles = StyleSheet.create({
-  footer:{
-    backgroundColor:colors.blue,
-    height: 50,
-    justifyContent: 'space-between',
-    alignItems:"flex-end",
-    alignContent:"flex-end",
-  }
-})
-
-export default DateAppointment
+ 
+export default DateAppointment;
