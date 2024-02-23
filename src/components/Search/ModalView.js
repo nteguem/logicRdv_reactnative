@@ -3,12 +3,16 @@ import { Alert, Modal, StyleSheet, Text, Pressable, View, TextInput, TouchableOp
 import CustomText from '../global/CustomText';
 import { colors } from '../global/colors';
 import CustomAppButton from '../global/CustomAppButton';
-import Icon from 'react-native-vector-icons/Entypo';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const ModalView = ({
     isLocation = false,
     onChange,
-    placeholder
+    placeholder,
+    borderWidth,
+    borderRadius,
+    borderColor
 }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [address, setAddress] = useState('');
@@ -77,14 +81,14 @@ const ModalView = ({
                                             />
                                             {showCrossIcon && (
                                                 <TouchableOpacity onPress={clearText}>
-                                                    <Icon name="cross" size={24} color={colors.red} style={styles.icon} />
+                                                    <Icon name="close" size={24} color={colors.red} style={styles.icon} />
                                                 </TouchableOpacity>
                                             )}
                                         </View>
                                         <TouchableOpacity onPress={clearText}>
                                             <Icon
                                                 onPress={() => setModalVisible(!modalVisible)}
-                                                name="cross"
+                                                name="close"
                                                 size={32}
                                                 color={colors.white}
                                                 style={{ marginLeft: 12, marginRight: -20 }}
@@ -173,7 +177,7 @@ const ModalView = ({
                                 <View style={{ height: '99%', marginHorizontal: -35 }}>
                                     <ScrollView>
                                         <View>
-                                            <CustomText fontSize={18} color={colors.black} style={{ marginLeft: 12 }}>
+                                            {/* <CustomText fontSize={18} color={colors.black} style={{ marginLeft: 12 }}>
                                                 Ville
                                             </CustomText>
                                             <CustomText fontSize={18} color={colors.gray} style={{ marginLeft: 12 }}>
@@ -182,7 +186,7 @@ const ModalView = ({
                                             <CustomText fontSize={18} color={colors.black} style={{ marginLeft: 12 }}>
                                                 Ville
                                             </CustomText>
-                                            <View style={styles.divider} />
+                                            <View style={styles.divider} /> */}
                                         </View>
                                     </ScrollView>
                                 </View>
@@ -195,7 +199,13 @@ const ModalView = ({
                 <View style={{ flex: 1 }}>
                     <Pressable onPress={() => setModalVisible(!modalVisible)}>
                         <TextInput
-                            style={styles.input}
+                            style={[styles.input, 
+                                {
+                                    borderWidth: borderWidth, 
+                                    borderRadius:borderRadius,
+                                    borderColor:borderColor
+                                }
+                            ]}
                             placeholder={placeholder}
                             placeholderTextColor={colors.gray100}
                             editable={false}
@@ -205,15 +215,15 @@ const ModalView = ({
                         />
                         {showCrossIcon && (
                             <TouchableOpacity onPress={clearText}>
-                                <Icon name="cross" size={24} color={colors.red} style={styles.icon} />
+                                <Icon name="close" size={24} color={colors.red} style={styles.icon} />
                             </TouchableOpacity>
                         )}
                     </Pressable>
                 </View>
                 {isLocation && (
                     <View style={styles.containerIcon}>
-                        <Icon name="home" size={25} style={styles.iconLocation} onPress={() => setModalVisible(!modalVisible)} />
-                        <Icon name="location-pin" size={25} style={styles.iconLocation} />
+                        <Entypo name="home" size={25} style={styles.iconLocation} onPress={() => setModalVisible(!modalVisible)} />
+                        <Entypo name="location-pin" size={25} style={styles.iconLocation} />
                     </View>
                 )}
             </View>
@@ -232,7 +242,7 @@ const styles = StyleSheet.create({
     modalView: {
         backgroundColor: 'white',
         padding: 35,
-        shadowColor: '#000',
+        shadowColor: colors.black,
         shadowOffset: {
             width: 0,
             height: 2,
@@ -241,11 +251,6 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
         height: '75%'
-    },
-    button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2,
     },
     compartment: {
         marginTop: -35,
@@ -272,10 +277,9 @@ const styles = StyleSheet.create({
         padding: 10,
         color: colors.black,
         fontSize: 18,
-        borderRadius: 12,
         textAlignVertical: 'center',
         backgroundColor: colors.white,
-        height: 40
+        height: 50
     },
     inputProfession: {
         marginVertical: 10,

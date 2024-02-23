@@ -7,7 +7,7 @@ import CustomAppButton from '../global/CustomAppButton'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ModalView from './ModalView'
 
-const SearchForm = () => {
+const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
     const [showCrossIconLocation, setShowCrossIconLocation] = useState(false);
     const [showCrossIconProfession, setShowCrossIconProfession] = useState(false);
     const [location, setLocation] = useState('');
@@ -35,15 +35,14 @@ const SearchForm = () => {
                         onChange={handleLocationChange}
                         placeholder='Code postal, Ville'
                         value={location}
+                        borderWidth={borderWidth}
+                        borderRadius={borderRadius}
+                        borderColor={borderColor}
                     />
-                    {/* <View style={styles.containerIcon}>
-                        <Icon name="home" size={25} style={styles.icon} />
-                        <Icon name="location-pin" size={25} style={styles.icon} />
-                    </View> */}
                 </View>
             </View>
             <View style={{ marginTop: 10 }}>
-                <CustomText fontSize={13} color={colors.gray300} fontWeight='bold'> 
+                <CustomText fontSize={13} color={colors.gray300} fontWeight='bold'>
                     Qui ? Spécialité ? Téléphone ?
                 </CustomText>
                 <View style={styles.containeInput}>
@@ -52,12 +51,14 @@ const SearchForm = () => {
                         onChange={handleProfessionChange}
                         placeholder='Nom, Spécialité, Ville'
                         value={profession}
+                        borderWidth={borderWidth}
+                        borderRadius={borderRadius}
+                        borderColor={borderColor}
                     />
                 </View>
             </View>
-
-            <View style={{ justifyContent: 'flex-end', marginBottom: 120, marginTop: 10 }}>
-                {(location !== '' && profession !== '') && (
+            {(location !== '' && profession !== '') && (
+                <View style={{ justifyContent: 'flex-end', marginBottom: 120, marginTop: 10 }}>
                     <CustomAppButton
                         iconComponent={<Ionicons name="search" size={20} color={colors.white} style={{ marginHorizontal: 15 }} />}
                         title='Rechercher'
@@ -72,8 +73,8 @@ const SearchForm = () => {
                         borderColor={colors.white}
                         bkgroundColor={colors.blue}
                     />
-                )}
-            </View>
+                </View>
+            )}
         </View>
     )
 }

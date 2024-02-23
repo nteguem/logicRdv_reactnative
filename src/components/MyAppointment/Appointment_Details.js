@@ -88,46 +88,6 @@ const AppointmentDetails = (
       buttonTextColor = colors.gray100;
       firstCompartmentBackgroundColor = colors.gray100;
       break;
-    case 'rdvExist':
-      return (
-        <View style={styles.card}>
-          <View style={[styles.compartment, styles.firstCompartment]}>
-            <View style={styles.timeDetailsContainer}>
-              <View style={styles.detailsContainer}>
-                <MaterialCommunityIcons name="calendar-blank" size={22} color={colors.white} marginRight={5} style={{ transform: [{ rotate: '-45deg' }] }} />
-                <CustomText fontSize= {15} color= {colors.white}>{date}</CustomText>
-                <CustomText fontSize= {15} color= {colors.white}>{consultationMethod}</CustomText>
-              </View>
-              <View style={styles.detailsContainer}>
-                <MaterialCommunityIcons name="clock-outline" size={22} color={colors.white} marginRight={5} />
-                <CustomText fontSize= {15} color= {colors.white}>{time}</CustomText>
-              </View>
-            </View>
-          </View>
-          <View style={styles.divider} />
-          <View style={[styles.compartment, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginRight: 10 }]}>
-            <View style={styles.compartmentContainer}>
-              <CustomText fontSize={17} fontWeight='bold' color={colors.black}>{doctor}</CustomText>
-              <CustomText fontSize= {15} color= {colors.black} style={styles.appointmentType}>{appointmentType}</CustomText>
-            </View>
-            <View style={styles.button}>
-              <CustomAppButton
-                onPress={() => Alert.alert('Button pressed')}
-                title="Annuler"
-                bkgroundColor='transparent'
-                borderWidth={1}
-                alignSelf='baseline'
-                borderColor={colors.red}
-                textColor={colors.red}
-                paddingHorizontal={20}
-                paddingVertical={5}
-                borderRadius={2}
-              />
-            </View>
-          </View>
-        </View>
-      );
-      break;
     default:
       buttonTitle = 'Prépaiement Rdv Téléphonique';
   }

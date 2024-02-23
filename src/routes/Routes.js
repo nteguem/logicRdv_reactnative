@@ -5,6 +5,12 @@ import AuthenticatedNavigator from './AuthenticateNavigator';
 import {HeaderIcons} from '../utils/helpers';
 import Appointments from '../screens/Appointments';
 import Home from '../screens/Home';
+import Search from '../screens/Search';
+import EditProfile from '../screens/EditProfile';
+import ConditionOfUse from '../screens/ConditionOfUse';
+import Paiement from '../screens/Paiement';
+import Message from '../screens/Message';
+import ListOfPatients from '../screens/ListOfPatients';
 const Stack = createStackNavigator();
 
 const screenOptions = {gestureEnabled: false, headerShown: false};
@@ -20,10 +26,11 @@ const Routes = ({isAuth}) => {
           />
         ) : (
           <Stack.Screen
-            name=" "
-            component={Home}
+            name="Liste des patients"
+            component={ListOfPatients}
             initialParams={{
-              right: HeaderIcons.MENU 
+              left: HeaderIcons.GO_BACK,
+              right: HeaderIcons.PLUS 
             }}
           />
         )}

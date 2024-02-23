@@ -10,8 +10,8 @@ const Home = () => {
     return (
         <ContainerScreen backgroundColor='white'>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                <Header />
-                <SearchForm />
+                <Header isHome />
+                <SearchForm borderRadius={12}/>
                 <View style={styles.footerContainer}>
                     <FooterHome />
                 </View>
