@@ -64,7 +64,8 @@ const AppointmentDetails = (
     addressLine1,
     addressLine2,
     addressPhone,
-    mode
+    mode,
+    firstCompartmentBackgroundColor
   }) => {
 
   let buttonTitle;
@@ -239,7 +240,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     borderColor: colors.gray100,
-    margin: 10,
+    marginTop: 20
   },
   compartment: {
     paddingVertical: 10,
