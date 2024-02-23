@@ -1,30 +1,18 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { DrawerContentScrollView } from '@react-navigation/drawer';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
 
-const DrawerContent = ({ navigation }) => {
-  const navigateToScreen = (screenName) => {
-    navigation.navigate(screenName);
-  };
-
+const DrawerContent = (props) => {
   return (
-    <DrawerContentScrollView>
-      <TouchableOpacity style={styles.menuItem} onPress={() => navigateToScreen('Screen1')}>
-        <Text>Écran 1</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.menuItem} onPress={() => navigateToScreen('Screen2')}>
-        <Text>Écran 2</Text>
-      </TouchableOpacity>
+    <DrawerContentScrollView {...props}>
+      {/* Votre contenu personnalisé du drawer ici */}
+      <DrawerItemList {...props} />
+      <DrawerItem
+        label="Close Drawer"
+        onPress={() => props.navigation.closeDrawer()}
+      />
     </DrawerContentScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  menuItem: {
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-});
 
 export default DrawerContent;
