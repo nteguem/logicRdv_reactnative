@@ -21,6 +21,7 @@ const Header= ({ backgroundColor }) => {
     // Par exemple, ouvrir le menu latéral
     // navigation.openDrawer();
     // navigation.dispatch(DrawerActions.openDrawer());
+    navigation.openDrawer();
     
   };
 
@@ -55,7 +56,7 @@ const Header= ({ backgroundColor }) => {
               <MaterialCommunityIcons name={HeaderIcons.ACCOUNT} size={22} color={backgroundColor ? '#488ee3' : 'white'} />
             </TouchableOpacity>
           ) : route.params.right === HeaderIcons.MENU ? (
-            <TouchableOpacity onPress={handleSearchIconPress}>
+            <TouchableOpacity onPress={handleDrawerConnectIconPress}>
               <MaterialIcons name={HeaderIcons.MENU} size={22} color={backgroundColor ? '#488ee3' : 'white'} />
             </TouchableOpacity>
           ) : (
