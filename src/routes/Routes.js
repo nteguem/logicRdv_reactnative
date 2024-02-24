@@ -1,40 +1,53 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import AuthenticatedNavigator from './AuthenticateNavigator';
-import {HeaderIcons} from '../utils/helpers';
-import Appointments from '../screens/Appointments';
+import UnauthenticatedNavigator from './UnAuthenticateNavigator';
 import Home from '../screens/Home';
-import Search from '../screens/Search';
-import EditProfile from '../screens/EditProfile';
-import ConditionOfUse from '../screens/ConditionOfUse';
-import Paiement from '../screens/Paiement';
-import Message from '../screens/Message';
-import ListOfPatients from '../screens/ListOfPatients';
+import DrawerContent from './DrawerContent';
+import {HeaderIcons} from '../utils/helpers';
+
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
-const screenOptions = {gestureEnabled: false, headerShown: false};
+const screenOptions = { gestureEnabled: false, headerShown: false };
 
-const Routes = ({isAuth}) => {
+const StackScreens = () => {
+  return (
+    <Stack.Navigator screenOptions={screenOptions}>
+    {isAuth ? (
+      <Stack.Screen
+        name="Authenticated"
+        component={AuthenticatedNavigator}
+      />
+    ) : (
+      <Stack.Screen
+      name="UnauthenticatedNavigator"
+      component={UnauthenticatedNavigator}
+    />
+    )}
+  </Stack.Navigator>
+  );
+};
+
+const DrawerScreens = () => {
+  return (
+    <Drawer.Navigator   drawerContent={(props) => <DrawerContent {...props} />} screenOptions = {{ drawerPosition:'right'}}>
+      <Drawer.Screen name="Home" options={screenOptions} component={Home} initialParams={{ left: HeaderIcons.SEARCH, right: HeaderIcons.ACCOUNT  }} />
+    </Drawer.Navigator>
+  );
+};
+
+const Routes = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={screenOptions}>
-        {isAuth ? (
-          <Stack.Screen
-            name="Authenticated"
-            component={AuthenticatedNavigator}
-          />
-        ) : (
-          <Stack.Screen
-            name="Liste des patients"
-            component={ListOfPatients}
-            initialParams={{
-              left: HeaderIcons.GO_BACK,
-              right: HeaderIcons.PLUS 
-            }}
-          />
-        )}
-      </Stack.Navigator>
+      <Drawer.Navigator
+        drawerContent={props => <DrawerContent {...props} />}
+        screenOptions = {{ drawerPosition:'right'}}>
+        <Drawer.Screen name="DrawerScreens" options={screenOptions} component={DrawerScreens} />
+        <Drawer.Screen name="StackScreens" options={screenOptions} component={StackScreens} />
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 };
