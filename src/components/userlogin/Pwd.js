@@ -3,9 +3,11 @@ import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { colors } from '../global/colors';
 import CustomText from '../global/CustomText';
 import CustomAppButton from '../global/CustomAppButton';
+import { useNavigation } from '@react-navigation/native';
 
 const PasswordForm = ({ email }) => {
   const [password, setPassword] = useState('');
+  const navigation = useNavigation();
 
   const handlePasswordChange = (text) => {
     setPassword(text);
@@ -18,6 +20,7 @@ const PasswordForm = ({ email }) => {
 
   const handleModifyPassword = () => {
     // Logique pour naviguer vers l'écran de modification du mot de passe
+    navigation.goBack();
     console.log('Navigation vers l\'écran de modification du mot de passe');
   };
 
