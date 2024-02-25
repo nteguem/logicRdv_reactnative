@@ -40,27 +40,27 @@ const PatientdetailsTwo = ({
   return (
     <View style={styles.parentStyle}>
       <View style={styles.row1}>
-        <Fontisto name="first-aid-alt" color="white" size={15} />
-        <CustomText fontSize={15} color={colors.white} style={styles.textStyle}>
+        <Fontisto name="first-aid-alt" color={colors.white} size={20} />
+        <CustomText fontSize={18} fontWeight={'bold'} color={colors.white} style={styles.textStyle}>
           {detailsTitle}
         </CustomText>
       </View>
       <View style={styles.row2}>
         <View style={styles.row22}>
-          <FontAwesome5 name="user-md" color="white" size={20} />
-          <CustomText fontSize={15} style={styles.textStyle}>
+          <FontAwesome5 name="user-md" color={colors.white} size={25} />
+          <CustomText fontSize={16} fontWeight={'bold'} style={styles.textStyle}>
             Avec {doctorName}
           </CustomText>
         </View>
         <View style={styles.row22}>
-          <FontAwesome name="user-circle" color="white" size={20} />
-          <CustomText fontSize={15} style={[styles.textStyle]}>
+          <FontAwesome name="user-circle" color={colors.white} size={25} />
+          <CustomText fontSize={16} fontWeight={'bold'} style={[styles.textStyle]}>
             Pour {patientName}
           </CustomText>
         </View>
       </View>
       <View style={styles.row3}>
-        <CustomText fontSize={15} color={colors.white}>
+        <CustomText fontSize={18} fontWeight={'bold'} color={colors.white}>
           Le {dateTime}
         </CustomText>
       </View>

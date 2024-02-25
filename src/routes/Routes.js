@@ -1,25 +1,34 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import AuthenticatedNavigator from './AuthenticateNavigator';
+<<<<<<< HEAD
 import Home from '../screens/Home';
 import {HeaderIcons} from '../utils/helpers';
 import Appointments from '../screens/Appointments';
 import MotifsScreean from '../screens/motifs';
 const Stack = createStackNavigator();
+=======
+import UnAuthenticatedNavigator from './UnAuthenticateNavigator';
+import DrawerContent from './DrawerContent';
+const Drawer = createDrawerNavigator();
+>>>>>>> 794e28b96c30347721ca635083adecf5ff1ec2dd
 
-const screenOptions = {gestureEnabled: false, headerShown: false};
+const screenOptions = { drawerPosition: 'right', headerShown: false };
 
 const Routes = ({isAuth}) => {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={screenOptions}>
+      <Drawer.Navigator
+        drawerContent={props => <DrawerContent {...props} isAuth={isAuth}/>}
+        screenOptions={screenOptions}>
         {isAuth ? (
-          <Stack.Screen
-            name="Authenticated"
+          <Drawer.Screen
+            name="AuthenticatedNavigator"
             component={AuthenticatedNavigator}
           />
         ) : (
+<<<<<<< HEAD
           <Stack.Screen
             name="Motif du rendez-vous"
             component={MotifsScreean}
@@ -27,9 +36,14 @@ const Routes = ({isAuth}) => {
               left: HeaderIcons.GO_BACK,
               right: HeaderIcons.ACCOUNT 
             }}
+=======
+          <Drawer.Screen
+            name="UnAuthenticatedNavigator"
+            component={UnAuthenticatedNavigator}
+>>>>>>> 794e28b96c30347721ca635083adecf5ff1ec2dd
           />
         )}
-      </Stack.Navigator>
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 };

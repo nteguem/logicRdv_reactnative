@@ -6,14 +6,21 @@ import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import { colors } from '../../components/global/colors'
 import dataAppointment from '../data/dataAppointment'
 import CustomText from '../../components/global/CustomText'
+import { useNavigation } from '@react-navigation/native';
 
 const Appointments = () => {
+    const navigation = useNavigation();
+
+    const handleAppointment = () => {
+        navigation.navigate('Motif du Rendez-vous');
+    };
+
     return (
         <ContainerScreen>
             <ScrollView>
                 <View style={styles.containerButton}>
                     <CustomAppButton
-                        onPress={() => console.log("recover password")}
+                        onPress={handleAppointment}
                         title="PRENDRE UN RENDEZ-VOUS RAPIDE"
                         alignSelf="baseline"
                         paddingVertical={16}

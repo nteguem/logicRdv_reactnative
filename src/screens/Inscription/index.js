@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CheckBox from '@react-native-community/checkbox';
 import { Picker } from '@react-native-picker/picker';
+import { useNavigation } from '@react-navigation/native';
 
 const Inscription = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -23,6 +24,8 @@ const Inscription = () => {
     const [isChecked, setIsChecked] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const navigation = useNavigation();
 
     const onChangePhoneNumber = (text) => {
         setPhoneNumber(text);
@@ -51,6 +54,10 @@ const Inscription = () => {
 
     const onChangePassword = (text) => {
         setPassword(text);
+    };
+
+    const handleSignIn = () => {
+        navigation.navigate('Se connecter');
     };
 
     const onSubmit = () => {
@@ -175,7 +182,7 @@ const Inscription = () => {
                         )}
                         <View style={{ marginTop: 10 }}>
                             <CustomAppButton
-                                onPress={onSubmit}
+                                onPress={showAdditionalFields ? handleSignIn : onSubmit}
                                 title={showAdditionalFields ? "M'inscrire" : "Trouvez votre cabinet"}
                                 alignSelf="baseline"
                                 paddingVertical={16}
