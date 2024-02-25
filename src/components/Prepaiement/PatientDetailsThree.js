@@ -15,8 +15,11 @@
 */
 
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import CustomText from '../global/CustomText';
+import { colors } from '../global/colors';
+import CustomAppButton from '../global/CustomAppButton';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const PatientDetailsThree = ({
   motif,
@@ -24,27 +27,46 @@ const PatientDetailsThree = ({
   paragraph1,
   paragraph2,
   textBottom,
+  isTeleconsultation = false
 }) => {
   return (
+    <View>
     <View style={styles.container}>
-      <CustomText fontSize={15} fontWeight={'bold'}>
+      <CustomText fontSize={18} fontWeight={'bold'} color={colors.black}>
         Prépaiement de votre Rendez-vous {motif}
       </CustomText>
-      <CustomText fontSize={15} style={{paddingTop: 10}}>
+      <CustomText fontSize={16} color={colors.black} style={{ paddingTop: 10 }}>
         {paragraph1}
       </CustomText>
-      <CustomText fontSize={15} style={{paddingTop: 10}}>
+      <CustomText fontSize={16} color={colors.black} style={{ paddingTop: 10 }}>
         {paragraph2}
       </CustomText>
       {textBody && (
-        <CustomText fontSize={15} style={{paddingTop: 10}}>
+        <CustomText fontSize={16} color={colors.black} style={{ paddingTop: 10 }}>
           {textBody}
         </CustomText>
       )}
-      <CustomText fontSize={15} fontWeight={'bold'} style={{paddingTop: 10}}>
+      <CustomText fontSize={16} color={colors.black} style={{ paddingTop: 25 }}>
         {textBottom}
       </CustomText>
     </View>
+    {isTeleconsultation && (
+        <View style={{marginTop: 15}}>
+          <CustomAppButton
+            iconComponent={<MaterialIcons name="featured-video" size={25} color={colors.white} style={{ marginHorizontal: 15 }} />}
+            title='Lancer la téléconsultation'
+            alignSelf="center"
+            paddingVertical={15}
+            paddingHorizontal={50}
+            textColor={colors.white}
+            textFontSize={18}
+            borderRadius={15}
+            bkgroundColor={colors.blue}
+          />
+        </View>
+      )}
+    </View>
+
   );
 };
 

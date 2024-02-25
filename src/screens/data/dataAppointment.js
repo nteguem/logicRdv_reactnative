@@ -12,7 +12,7 @@ const dataAppointment = [
         addressLine2: "136 rue de charonne",
         addressPhone: "0102030903",
         moyen: "En personne",
-        mode: "rdvExist"
+        mode: "prepaiementRdvTelephonique"
     },
     {
         date: "Mercredi 02/03/22",
@@ -102,7 +102,7 @@ const dataAppointment = [
         addressLine2: "",
         addressPhone: "123456789",
         moyen: "par Téléphone",
-        mode: "rdvExist"
+        mode: "teleconsultation"
     }
 ]
 
