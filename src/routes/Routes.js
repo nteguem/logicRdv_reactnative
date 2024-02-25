@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import AuthenticatedNavigator from './AuthenticateNavigator';
-import UnauthenticatedNavigator from './UnAuthenticateNavigator';
+import UnAuthenticatedNavigator from './UnAuthenticateNavigator';
 import DrawerContent from './DrawerContent';
 const Drawer = createDrawerNavigator();
 
@@ -16,13 +16,13 @@ const Routes = ({isAuth}) => {
         screenOptions={screenOptions}>
         {isAuth ? (
           <Drawer.Screen
-            name="Authenticated"
+            name="AuthenticatedNavigator"
             component={AuthenticatedNavigator}
           />
         ) : (
           <Drawer.Screen
-            name="UnauthenticatedNavigator"
-            component={UnauthenticatedNavigator}
+            name="UnAuthenticatedNavigator"
+            component={UnAuthenticatedNavigator}
           />
         )}
       </Drawer.Navigator>
