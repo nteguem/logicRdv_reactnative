@@ -120,7 +120,6 @@ const AppointmentDetails = (
             bkgroundColor='transparent'
             borderWidth={1}
             alignSelf='baseline'
-            borderColor={buttonBorderColor}
             textColor={buttonTextColor}
             paddingHorizontal={20}
             paddingVertical={5}
