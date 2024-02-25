@@ -48,7 +48,7 @@ const ModalView = ({
                         style={[styles.modalView,
                         {
                             borderBottomLeftRadius: isLocation ? 8 : 0,
-                            borderBottomRightRadius: isLocation ? 8 : 0
+                            borderBottomRightRadius: isLocation ? 8 : 0,
                         }]}
                     >
 
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        height: '75%'
+        height: '65%'
     },
     compartment: {
         marginTop: -35,
