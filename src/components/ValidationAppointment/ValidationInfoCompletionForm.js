@@ -45,6 +45,7 @@ import {
 } from 'react-native';
 import { colors } from '../global/colors';
 import Icon from 'react-native-vector-icons/Entypo';
+import CustomText from '../global/CustomText';
 
 const FloatingLabelInput = ({
   label,
@@ -159,6 +160,13 @@ const ValidationInfoCompletionForm = () => {
   return (
     <SafeAreaView>
       <View style={styles.card}>
+        <View  style={styles.myText}>
+          <CustomText children= "information a completer"
+            color={colors.black}
+            fontWeight="bold"
+           
+          />
+        </View>
         <View style={styles.compartment}>
           <FloatingLabelInput
             label="Date de naissance"
@@ -193,18 +201,19 @@ const ValidationInfoCompletionForm = () => {
 
 const styles = StyleSheet.create({
   card: {
+    paddingVertical:15,
     backgroundColor: colors.white,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: colors.gray100,
+    marginVertical:10,
     marginLeft: 10,
     marginRight: 10,
-    marginTop: 5,
+   
   },
   compartment: {
-    paddingVertical: 25,
     paddingHorizontal: 15,
-    gap: 20,
+    gap: 10,
   },
   container: {
     position: 'relative',
@@ -237,6 +246,12 @@ const styles = StyleSheet.create({
     top: '10%',
     transform: [{ translateY: -35 }]
   },
+  myText:{
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom:10,
+  }
 });
 
 export default ValidationInfoCompletionForm;

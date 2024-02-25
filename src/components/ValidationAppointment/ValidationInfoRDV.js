@@ -40,7 +40,7 @@ const ValidationInfoRDV = ({title, date, doctor, place, patient}) => {
       <View style={styles.compartment}>
         <View style={styles.titleRDV}>
           <CustomText
-            fontSize={20}
+            fontSize={14}
             fontWeight={700}
             color={colors.black}
             style={styles.title}>
@@ -50,7 +50,7 @@ const ValidationInfoRDV = ({title, date, doctor, place, patient}) => {
         <View style={styles.detailsContainer}>
           <MaterialCommunityIcons
             name="clock-outline"
-            size={22}
+            size={18}
             color={colors.blue}
             marginRight={5}
           />
@@ -61,18 +61,20 @@ const ValidationInfoRDV = ({title, date, doctor, place, patient}) => {
         <View style={styles.detailsContainer}>
           <Icon
             name="user-large"
-            size={18}
+            size={16}
             color={colors.blue}
             marginRight={5}
           />
           <CustomText fontSize={15} color={colors.black}>
+            {' '}
+            Avec
             {doctor}
           </CustomText>
         </View>
         <View style={styles.detailsContainer}>
           <MaterialIcons
             name="shopping-bag"
-            size={22}
+            size={16}
             color={colors.blue}
             marginRight={5}
           />
@@ -83,11 +85,13 @@ const ValidationInfoRDV = ({title, date, doctor, place, patient}) => {
         <View style={styles.detailsContainer}>
           <Icon
             name="user-group"
-            size={18}
+            size={16}
             color={colors.blue}
             marginRight={5}
           />
           <CustomText fontSize={15} color={colors.black}>
+            {' '}
+            pour le patient
             {patient}
           </CustomText>
         </View>

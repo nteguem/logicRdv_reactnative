@@ -5,6 +5,8 @@ import AuthenticatedNavigator from './AuthenticateNavigator';
 import Home from '../screens/Home';
 import {HeaderIcons} from '../utils/helpers';
 import Appointments from '../screens/Appointments';
+import PayementForm from '../screens/Payement';
+import ResultatRecherche from '../screens/Resultat';
 const Stack = createStackNavigator();
 
 const screenOptions = { drawerPosition: 'right', headerShown: false };
@@ -22,8 +24,8 @@ const Routes = ({isAuth}) => {
           />
         ) : (
           <Stack.Screen
-            name="Mes Rendez-vous"
-            component={Appointments}
+            name="Resultat de la recherche"
+            component={ResultatRecherche}
             initialParams={{
               left: HeaderIcons.SEARCH,
               right: HeaderIcons.ACCOUNT 

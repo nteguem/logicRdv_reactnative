@@ -39,6 +39,7 @@ import {
   useColorScheme,
 } from 'react-native';
 import {colors} from '../global/colors';
+import CustomText from '../global/CustomText';
 
 const FloatingLabelInput = ({
   label,
@@ -110,7 +111,7 @@ const FloatingLabelInput = ({
   );
 };
 
-const ValidationPaymentForm = () => {
+const ValidationPaymentForm = ({pricemessage}) => {
   const [cardNumber, setCardNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCVV] = useState('');
@@ -130,6 +131,22 @@ const ValidationPaymentForm = () => {
     }
   };
 
+  const validateYearFormat = (year) => {
+    const yearPattern = /^(0[1-9]|1[0-2])\/\d{2}$/; // Format: "MM/AA"
+    return yearPattern.test(year);
+  };
+
+  const validateDate = (date) => {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1; // Les mois commencent à 0, donc ajoutez 1
+    const currentYear = currentDate.getFullYear() % 100; // Obtenir les deux derniers chiffres de l'année actuelle
+
+    const [enteredMonth, enteredYear] = date.split('/').map(Number);
+
+    return enteredYear >= currentYear && enteredMonth >= currentMonth;
+  };
+
+  const errorMessage = 'Entrer des donnees correcte';
   return (
     <SafeAreaView>
       <View style={styles.compartment}>
@@ -160,6 +177,13 @@ const ValidationPaymentForm = () => {
           />
         </View>
       </View>
+      <View style={styles.myText} >
+        <CustomText 
+          children={pricemessage} 
+          color={colors.black}
+          fontWeight="bold"
+        />
+      </View>
     </SafeAreaView>
   );
 };
@@ -172,8 +196,8 @@ const styles = StyleSheet.create({
   compartment: {
     paddingVertical: 25,
     paddingHorizontal: 40,
-    gap: 20,
-    width: '100%',
+    marginHorizontal:10,
+    gap: 10,
   },
   container: {
     position: 'relative',
@@ -182,14 +206,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     color: colors.black,
-    fontSize: 18,
+    fontSize: 15,
     borderRadius: 6,
     textAlignVertical: 'center',
-    fontWeight: '500',
   },
   label: {
     zIndex: 1,
     paddingHorizontal: 5,
+  },
+  myText:{
+    backgroundColor:colors.white,
+    borderRadius:10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom:10,
+    marginHorizontal:10,
   },
 });
 
