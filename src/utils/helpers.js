@@ -3,5 +3,6 @@ export const HeaderIcons = {
     GO_BACK: 'arrow-back-ios',
     ACCOUNT: 'account-circle',
     MENU: 'menu',
+    PLUS: 'plus-circle'
   };
   

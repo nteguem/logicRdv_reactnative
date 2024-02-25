@@ -1,14 +1,27 @@
 import React from 'react'
+import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native'
 import CustomAppButton from '../global/CustomAppButton'
 import CustomText from '../global/CustomText'
 import { colors } from '../global/colors'
 
 const FooterHome = () => {
+
+    const navigation = useNavigation();
+
+    const handleSignIn = () => {
+        navigation.navigate('Mes rendez-vous');
+    };
+
+    const handleSignUp = () => {
+        navigation.navigate('Inscription rapide');
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.containerButton}>
                 <CustomAppButton
+                    onPress={handleSignUp}
                     title='Inscription Rapide'
                     alignSelf="baseline"
                     paddingVertical={16}
@@ -18,6 +31,7 @@ const FooterHome = () => {
                     fontWeight='bold'
                     bkgroundColor='transparent' />
                 <CustomAppButton
+                    onPress={handleSignIn}
                     title='Se Connecter'
                     alignSelf="baseline"
                     paddingVertical={10}
@@ -31,7 +45,7 @@ const FooterHome = () => {
                     bkgroundColor='transparent' />
             </View>
             <View style={styles.containerText}>
-                <CustomText fontSize={17} fontWeight='bold' color={colors.white} style={styles.text}>
+                <CustomText fontSize={18} fontWeight='bold' color={colors.white} style={styles.text}>
                     Logicrdv c'est aussi la téléconsultation avec votre médecin.
                 </CustomText>
                 <CustomText fontSize={14} color={colors.white} style={styles.text}>
@@ -45,23 +59,24 @@ const FooterHome = () => {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.blue,
-        paddingHorizontal:15,
-        paddingVertical:15,
-        width: '100%', 
+        paddingBottom: 10,
+        width: '100%',
     },
     containerButton: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        marginVertical: 20
+        marginTop: 6,
+        marginBottom: 12
     },
     containerText: {
         flexDirection: 'column',
         gap: 4,
-        textAlign:"justify"
+        textAlign: "justify",
+        marginHorizontal: 20
     },
     text: {
-        textAlign:"justify"
+        // textAlign:"start"
     },
 });
 
