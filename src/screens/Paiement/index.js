@@ -1,6 +1,6 @@
 import React from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, ImageBackground, StyleSheet, View } from 'react-native'
 import PatientDetailsThree from '../../components/Prepaiement/PatientDetailsThree'
 import PatientdetailsTwo from '../../components/Prepaiement/PatientdetailsTwo'
 import CustomText from '../../components/global/CustomText'
@@ -11,6 +11,7 @@ const Paiement = () => {
 
     return (
         <ContainerScreen >
+            <ImageBackground source={require('../../assets/images/background.png')} style={styles.backgroundImage}>
             <ScrollView >
                 <View style={styles.screenContainer}>
                     <View style={styles.container}>
@@ -45,11 +46,18 @@ const Paiement = () => {
                     />
                 </View>
             </ScrollView>
+            </ImageBackground>
         </ContainerScreen>
     )
 }
 
 const styles = StyleSheet.create({
+    backgroundImage: {
+        flex: 1,
+        resizeMode: 'repeat', 
+        width: '100%',
+        height: '100%',
+    },
     screenContainer: {
         flexDirection: 'column',
         justifyContent: 'center',
@@ -62,7 +70,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: '#9548e0',
         padding: 15,
-        paddingVertical: 35
+        paddingVertical: 35,
     },
     circle: {
         width: 30,
