@@ -37,10 +37,10 @@ const StackScreens = () => {
 const DrawerScreens = () => {
   return (
     <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />} screenOptions = {{ drawerPosition:'right'}}>
-      <Drawer.Screen name="Home" options={screenOptions} component={Home} initialParams={{ right: HeaderIcons.MENU  }} />
+      {/* <Drawer.Screen name="Home" options={screenOptions} component={Home} initialParams={{ right: HeaderIcons.MENU  }} />
       <Drawer.Screen name="Inscription rapide" options={screenOptions} component={Inscription} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.MENU  }} />
       <Drawer.Screen name="Se connecter" options={screenOptions} component={Home} initialParams={{ left: HeaderIcons.SEARCH, right: HeaderIcons.ACCOUNT  }} />
-      <Drawer.Screen name="Mot de passe oublié" options={screenOptions} component={PasswordRecoveryScreen} initialParams={{ left: HeaderIcons.GO_BACK  }} />
+      <Drawer.Screen name="Mot de passe oublié" options={screenOptions} component={PasswordRecoveryScreen} initialParams={{ left: HeaderIcons.GO_BACK  }} /> */}
       <Drawer.Screen name="Mes rendez-vous" options={screenOptions} component={Appointments} initialParams={{ left: HeaderIcons.SEARCH, right: HeaderIcons.ACCOUNT  }} />
     </Drawer.Navigator>
   );
