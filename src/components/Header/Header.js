@@ -13,7 +13,7 @@ const Header= ({ backgroundColor }) => {
   const handleSearchIconPress = () => {
     // Action à effectuer lors du clic sur l'icône de recherche
     // Par exemple, naviguer vers une autre page
-    // navigation.navigate('SearchPage');
+    navigation.navigate("Recherche d'un praticien");
   };
 
   const handleDrawerConnectIconPress = () => {

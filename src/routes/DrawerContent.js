@@ -74,43 +74,43 @@ const DrawerContent = ({ navigation,isAuth }) => {
     if (isAuth) {
       return (
         <>
-          <TouchableOpacity onPress={navigateToScreen('Home')} style={styles.menuItem}>
+          <TouchableOpacity onPress={navigateToScreen('Mes rendez-vous')} style={styles.menuItem}>
             <Entypo name="home" size={20} color={colors.blue} />
             <CustomText fontSize={16} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
               Mes rendez-vous
             </CustomText>
           </TouchableOpacity>
-          <TouchableOpacity onPress={navigateToScreen('Home')} style={styles.menuItem}>
+          <TouchableOpacity onPress={navigateToScreen('Fixer rendez-vous')} style={styles.menuItem}>
             <Icon name="magic" size={20} color={colors.blue} />
             <CustomText fontSize={16} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
               Fixez rendez-vous
             </CustomText>
           </TouchableOpacity>
-          <TouchableOpacity onPress={navigateToScreen('Home')} style={styles.menuItem}>
+          <TouchableOpacity onPress={navigateToScreen('Message')} style={styles.menuItem}>
             <MaterialIcons name="message" size={20} color={colors.blue} />
             <CustomText fontSize={16} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
               Documents et messages
             </CustomText>
           </TouchableOpacity>
-          <TouchableOpacity onPress={navigateToScreen('Home')} style={styles.menuItem}>
+          <TouchableOpacity onPress={navigateToScreen('Gestion des patients')} style={styles.menuItem}>
             <MaterialIcons name="folder-shared" size={20} color={colors.blue} />
             <CustomText fontSize={16} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
               Gestion de la famille
             </CustomText>
           </TouchableOpacity>
-          <TouchableOpacity onPress={navigateToScreen('Home')} style={styles.menuItem}>
+          <TouchableOpacity onPress={navigateToScreen('Profil')} style={styles.menuItem}>
             <FontAwesome name="user-large" size={20} color={colors.blue} />
             <CustomText fontSize={16} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
               Mon compte
             </CustomText>
           </TouchableOpacity>
-          <TouchableOpacity onPress={navigateToScreen('Home')} style={styles.menuItem}>
+          <TouchableOpacity onPress={navigateToScreen("Recherche d'un praticien")} style={styles.menuItem}>
             <MaterialIcons name="search" size={20} color={colors.blue} />
             <CustomText fontSize={16} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
               Recherche d'un praticien
             </CustomText>
           </TouchableOpacity>
-          <TouchableOpacity onPress={navigateToScreen('Home')} style={styles.menuItem}>
+          <TouchableOpacity onPress={navigateToScreen('Notifications')} style={styles.menuItem}>
             <MaterialIcons name="notifications" size={20} color={colors.blue} />
             <CustomText fontSize={16} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
               Mes notifications
@@ -133,7 +133,7 @@ const DrawerContent = ({ navigation,isAuth }) => {
               Accueil
             </CustomText>
           </TouchableOpacity>
-          <TouchableOpacity onPress={navigateToScreen('Home')} style={styles.menuItem}>
+          <TouchableOpacity onPress={navigateToScreen('Notifications')} style={styles.menuItem}>
             <MaterialIcons name="notifications" size={20} color={colors.blue} />
             <CustomText fontSize={16} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
               Notification

@@ -4,7 +4,6 @@ import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import FooterHome from '../../components/Search/FooterHome';
 import Header from '../../components/Search/Header';
 import SearchForm from '../../components/Search/SearchForm';
-import { colors } from '../../components/global/colors';
 
 const Home = () => {
     return (

@@ -1,14 +1,27 @@
 import React from 'react'
+import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native'
 import CustomAppButton from '../global/CustomAppButton'
 import CustomText from '../global/CustomText'
 import { colors } from '../global/colors'
 
 const FooterHome = () => {
+
+    const navigation = useNavigation();
+
+    const handleSignIn = () => {
+        navigation.navigate('Mes rendez-vous');
+    };
+
+    const handleSignUp = () => {
+        navigation.navigate('Inscription rapide');
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.containerButton}>
                 <CustomAppButton
+                    onPress={handleSignUp}
                     title='Inscription Rapide'
                     alignSelf="baseline"
                     paddingVertical={16}
@@ -18,6 +31,7 @@ const FooterHome = () => {
                     fontWeight='bold'
                     bkgroundColor='transparent' />
                 <CustomAppButton
+                    onPress={handleSignIn}
                     title='Se Connecter'
                     alignSelf="baseline"
                     paddingVertical={10}
@@ -45,8 +59,8 @@ const FooterHome = () => {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.blue,
-        paddingBottom:10,
-        width: '100%', 
+        paddingBottom: 10,
+        width: '100%',
     },
     containerButton: {
         flexDirection: 'row',
@@ -58,7 +72,7 @@ const styles = StyleSheet.create({
     containerText: {
         flexDirection: 'column',
         gap: 4,
-        textAlign:"justify",
+        textAlign: "justify",
         marginHorizontal: 20
     },
     text: {
