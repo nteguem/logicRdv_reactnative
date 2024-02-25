@@ -17,6 +17,7 @@ const CustomAppButton = ({
   borderRadius,
   iconComponent,
   marginHorizontal,
+  fontWeight
 }) => {
   const styles = StyleSheet.create({
     // ...
@@ -35,6 +36,7 @@ const CustomAppButton = ({
     appButtonText: {
       alignSelf: 'center',
       marginHorizontal: marginHorizontal,
+      fontWeight: fontWeight
     },
   });
   return (

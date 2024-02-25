@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import CountriesListScreen from '../screens/CountriesListScreen';
 import CountryDetailsScreen from "../screens/CountryDetailsScreen";
+import {HeaderIcons} from '../utils/helpers';
 const Stack = createStackNavigator();
 const pageOption = { headerShown: false, gestureDirection: 'horizontal' };
 
