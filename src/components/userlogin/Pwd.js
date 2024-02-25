@@ -33,7 +33,7 @@ const PasswordForm = ({ email }) => {
       <Text style={styles.title}>Veuillez entrez votre mot de passe </Text>
      <TextInput
         style={styles.input}
-        placeholder="Franckjordan@gmail.com"
+        placeholder={email}
         value={password}
         onChangeText={handlePasswordChange}
         secureTextEntry={true}

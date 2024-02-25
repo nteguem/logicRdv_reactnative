@@ -2,23 +2,30 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { colors } from '../global/colors';
 import CustomAppButton from '../global/CustomAppButton';
+import PasswordForm from './Pwd';
 
 const EmailForm = () => {
   const [email, setEmail] = useState('');
+  const [password, setPasswordd] = useState(false);
 
   const handleEmailChange = (text) => {
     setEmail(text);
   };
 
+
   const handleSubmit = () => {
-    // Logique pour traiter l'email
     console.log('Email soumis:', email);
-    // Réinitialiser l'email après la soumission
     setEmail('');
+    setPasswordd(true)
   };
 
   return (
-    <View style={styles.container}>
+    <>
+      {
+        password ? (
+          <PasswordForm />
+        ) : (
+          <View style={styles.container}>
       <Text style={styles.title}>Vous etes deja inscrit, veillez vous connecter a votre espace particulier</Text>
       <TextInput
         style={styles.input}
@@ -41,6 +48,10 @@ const EmailForm = () => {
       />
      
     </View>
+        )
+      }
+    </>
+    
   );
 };
 
