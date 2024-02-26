@@ -15,7 +15,7 @@ const Routes = ({isAuth}) => {
         screenOptions={screenOptions}>
         {isAuth ? (
           <Drawer.Screen
-            name="AuthenticatedNavigator"
+            name="AuthenticatedNavigator "
             component={AuthenticatedNavigator}
           />
         ) : (
