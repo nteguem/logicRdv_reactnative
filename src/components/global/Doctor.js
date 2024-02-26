@@ -22,6 +22,7 @@ const Doctor = ({
   doctorName,
   address,
   doctorPhoneNumber,
+  handleChange
 }) => {
   return (
     <View style={styles.Container}>
@@ -37,9 +38,9 @@ const Doctor = ({
         <View>
           {isButton && (
             <CustomAppButton
-              onPress={() => Alert.alert('Button pressed')}
+              onPress={handleChange}
               title="Prendre RDV"
-              paddingVertical={8}
+              paddingVertical={12}
               paddingHorizontal={8}
               textColor="white"
               borderRadius={13}
@@ -100,7 +101,7 @@ const Doctor = ({
               {doctorPhoneNumber}
             </CustomText>
             {
-              isRightIcons && <Icon style={styles.myicon2} name="phone" color={colors.white} size={15} />
+              isRightIcons && <Icon style={styles.myicon2} name="phone-alt" color={colors.white} size={15} />
             }
           </View>
           <View>
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: colors.white,
     borderRadius: 10,
-    margin: 10,
+    marginTop: 10,
   },
 
   usericon:{
@@ -166,6 +167,7 @@ const styles = StyleSheet.create({
     width:30,
     height:30,
     padding: 7,
+    marginLeft: 5
   },
   circleUser: {
     flexDirection: 'row',

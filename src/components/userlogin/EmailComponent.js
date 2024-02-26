@@ -30,6 +30,7 @@ const EmailForm = () => {
       <TextInput
         style={styles.input}
         placeholder="Adresse email ou numero de telephone"
+        placeholderTextColor={colors.gray}
         value={email}
         onChangeText={handleEmailChange}
         keyboardType="email-address"
@@ -40,7 +41,7 @@ const EmailForm = () => {
         onPress={handleSubmit}
         bkgroundColor={colors.blue} 
         textColor={colors.white}
-        paddingHorizontal={120}
+        paddingHorizontal={125}
         paddingVertical={10}
         borderRadius={10}
         textFontSize={15}
@@ -80,8 +81,8 @@ const styles = StyleSheet.create({
       fontSize: 16,
       textAlignVertical: 'center',
       borderColor:colors.gray,
-      marginVertical:10,
-
+      paddingHorizontal: 10,
+      color: colors.black
   }
 })
 

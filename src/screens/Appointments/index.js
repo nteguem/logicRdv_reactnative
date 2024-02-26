@@ -12,7 +12,7 @@ const Appointments = () => {
     const navigation = useNavigation();
 
     const handleAppointment = () => {
-        navigation.navigate('Motif du Rendez-vous');
+        navigation.navigate('Fixez rendez-vous');
     };
 
     return (

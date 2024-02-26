@@ -10,7 +10,7 @@ const FooterHome = () => {
     const navigation = useNavigation();
 
     const handleSignIn = () => {
-        navigation.navigate('Mes rendez-vous');
+        navigation.navigate('Se connecter');
     };
 
     const handleSignUp = () => {

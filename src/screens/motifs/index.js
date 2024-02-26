@@ -1,7 +1,6 @@
-import { View, Text } from 'react-native',
 import React from 'react'
-import ContainerScreen from '../../components/wrappers/ContainerScreen'
-import motifdata from '../data/Motifdata'
+import ContainerScreen from '../../components/wrappers/ContainerScreen';
+import motifdata from '../data/Motifdata';
 import Motif from '../../components/Motif/Motif';
 
 const MotifsScreean = () => {

@@ -29,10 +29,6 @@ const styles = StyleSheet.create({
     card: {
         backgroundColor: colors.white,
         borderRadius: 10,
-        borderWidth: 1,
-        borderColor: colors.gray100,
-        marginLeft: 10,
-        marginRight: 10,
         marginTop: 5,
     },
     compartment: {
