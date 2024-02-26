@@ -8,9 +8,15 @@ import ValidationNoticeRDV from '../../components/ValidationAppointment/Validati
 import CustomAppButton from '../../components/global/CustomAppButton'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { colors } from '../../components/global/colors'
+import { useNavigation } from '@react-navigation/native';
 
 const ValidationAppointment = (motif) => {
+const navigation = useNavigation();
 
+  const handleConfirmationAppointment = () => {
+    navigation.navigate('Confirmation rdv');
+  };
+  
   return (
     <ContainerScreen>
       <ScrollView>
@@ -33,6 +39,7 @@ const ValidationAppointment = (motif) => {
         />
         <View style={{ marginVertical: 10 }}>
           <CustomAppButton
+          onPress={handleConfirmationAppointment}
             iconComponent={<MaterialIcons name="save" size={25} color={colors.white} style={{ marginRight: 5 }} />}
             title="J'ai lu les consignes et j'enregistre le rendez-vous"
             alignSelf="center"

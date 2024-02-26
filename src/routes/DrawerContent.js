@@ -17,7 +17,7 @@ const DrawerContent = ({ navigation,isAuth }) => {
   };
 
   const renderHeader = () => {
-    if (!isAuth) {
+    if (isAuth) {
       return (
         <View style={styles.containerHeader}>
           <View style={styles.header}>
@@ -71,7 +71,7 @@ const DrawerContent = ({ navigation,isAuth }) => {
   };
 
   const renderMenuItems = () => {
-    if (!isAuth) {
+    if (isAuth) {
       return (
         <>
           <TouchableOpacity onPress={navigateToScreen('Mes rendez-vous')} style={styles.menuItem}>
@@ -145,7 +145,7 @@ const DrawerContent = ({ navigation,isAuth }) => {
   };
 
   const renderFooter = () => {
-    if (!isAuth) {
+    if (isAuth) {
       return (
         <View style={{ marginVertical: '35%' }}>
           <View style={[styles.containerToggle, { justifyContent: 'space-between' }]}>

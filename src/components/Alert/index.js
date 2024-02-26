@@ -24,7 +24,7 @@ import { View, Text, Dimensions, StyleSheet, TouchableOpacity } from 'react-nati
 import CustomAppButton from '../global/CustomAppButton';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 
-const CustumAlert = ({ isSuccess, message, button1, button2 }) => {
+const CustumAlert = ({ isSuccess, message, button1, button2, color }) => {
   const renderIconName = () => {
     return isSuccess ? 'checkcircleo' : 'closecircleo';
   };
@@ -84,7 +84,7 @@ const CustumAlert = ({ isSuccess, message, button1, button2 }) => {
           <Icon style={styles.myicon} name={renderIconName()} size={60} color={isSuccess ? 'green' : 'red'} />
         )}        
         <View >
-          <Text style={styles.message}>{message}</Text>
+          <Text style={[styles.message, { color: color }]}>{message}</Text>
           {renderButtons()}
         </View>
      </View>

@@ -39,10 +39,18 @@ const ProfileOptions = () => {
     navigation.navigate('Modification du profil');
   };
 
+  const handlePrivacyPolicy = () => {
+    navigation.navigate("Conditions Générales d'utilisation");
+  };
+
+  const handleNotification = () => {
+    navigation.navigate("Notifications");
+  };
+
   const options = [
     { icon: <Ionicons name="settings-sharp" size={25} style={styles.icon} />, text: "Paramètres du compte", onPress: handleAccountParams },
-    { icon: <MaterialIcons name="notifications" size={25} style={styles.icon} />, text: "Notifications", onPress: () => navigation.navigate('/notifications') },
-    { icon: <MaterialIcons name="policy" size={25} style={styles.icon} />, text: "Polices de confidentialité", onPress: () => navigation.navigate('/privacy-policy') },
+    { icon: <MaterialIcons name="notifications" size={25} style={styles.icon} />, text: "Notifications", onPress: handleNotification },
+    { icon: <MaterialIcons name="policy" size={25} style={styles.icon} />, text: "Polices de confidentialité", onPress: handlePrivacyPolicy },
   ];
 
   return (

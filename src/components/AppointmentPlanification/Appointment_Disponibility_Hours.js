@@ -24,6 +24,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const Appointment_Disponibility_Hours = ({time, doctor}) => {
   const navigation = useNavigation();
+  
     const handleValidationAppointment = () => {
         navigation.navigate('Valider le Rendez-vous');
     };
