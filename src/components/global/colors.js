@@ -13,6 +13,6 @@ export const colors = {
   gray300: '#767577',
   red: '#ff0000',
   orange: '#ff935c',
-  orange100: '#fbe0c4' 
+  orange100: '#fbe0c4'
 
 };
