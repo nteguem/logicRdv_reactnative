@@ -1,9 +1,10 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import AuthenticatedNavigator from './AuthenticateNavigator';
-import {HeaderIcons} from '../utils/helpers';
-import Notifications from '../screens/Notification';
-const Stack = createStackNavigator();
+import UnAuthenticatedNavigator from './UnAuthenticateNavigator';
+import DrawerContent from './DrawerContent';
+const Drawer = createDrawerNavigator();
 
 const screenOptions = { drawerPosition: 'right', headerShown: false };
 
@@ -15,17 +16,13 @@ const Routes = ({isAuth}) => {
         screenOptions={screenOptions}>
         {isAuth ? (
           <Drawer.Screen
-            name="AuthenticatedNavigator "
+            name="AuthenticatedNavigator"
             component={AuthenticatedNavigator}
           />
         ) : (
-          <Stack.Screen
-            name="Notifications"
-            component={Notifications}
-            initialParams={{
-              left: HeaderIcons.GO_BACK,
-              right: HeaderIcons.ACCOUNT,
-            }}
+          <Drawer.Screen
+            name="UnAuthenticatedNavigator"
+            component={UnAuthenticatedNavigator}
           />
         )}
       </Drawer.Navigator>
