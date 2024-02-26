@@ -2,10 +2,9 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import AuthenticatedNavigator from './AuthenticateNavigator';
-import Home from '../screens/Home';
-import {HeaderIcons} from '../utils/helpers';
-import Appointments from '../screens/Appointments';
-const Stack = createStackNavigator();
+import UnAuthenticatedNavigator from './UnAuthenticateNavigator';
+import DrawerContent from './DrawerContent';
+const Drawer = createDrawerNavigator();
 
 const screenOptions = { drawerPosition: 'right', headerShown: false };
 
@@ -21,14 +20,11 @@ const Routes = ({isAuth}) => {
             component={AuthenticatedNavigator}
           />
         ) : (
-          <Stack.Screen
-            name="Mes Rendez-vous"
-            component={Appointments}
-            initialParams={{
-              left: HeaderIcons.SEARCH,
-              right: HeaderIcons.ACCOUNT 
-            }}
+          <Drawer.Screen
+            name="UnAuthenticatedNavigator"
+            component={UnAuthenticatedNavigator}
           />
+        )}
       </Drawer.Navigator>
     </NavigationContainer>
   );
