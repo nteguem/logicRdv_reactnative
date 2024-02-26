@@ -5,9 +5,12 @@ import ValidationInfoCompletionForm from '../../components/ValidationAppointment
 import ValidationInfoRDV from '../../components/ValidationAppointment/ValidationInfoRDV'
 import ValidationPaymentForm from '../../components/ValidationAppointment/ValidationPaymentForm'
 import ValidationNoticeRDV from '../../components/ValidationAppointment/ValidationNoticeRDV'
+import CustomAppButton from '../../components/global/CustomAppButton'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { colors } from '../../components/global/colors'
 
-const PayementForm = (motif) => {
-    
+const ValidationAppointment = (motif) => {
+
   return (
     <ContainerScreen>
       <ScrollView>
@@ -18,9 +21,9 @@ const PayementForm = (motif) => {
           place="consultation"
           patient="Petit franck"
         />
-        <ValidationInfoCompletionForm/>
+        <ValidationInfoCompletionForm />
         {
-          motif === 'Teleconsultation'?  <ValidationPaymentForm 
+          motif === 'Teleconsultation' ? <ValidationPaymentForm
             pricemessage="70"
           /> : null
         }
@@ -28,10 +31,22 @@ const PayementForm = (motif) => {
           container="ceci est ce que vous voulez vous prendre un RDV la je me bat pour ce fait merciless"
           fontWeight="bold"
         />
-        
+        <View style={{ marginVertical: 10 }}>
+          <CustomAppButton
+            iconComponent={<MaterialIcons name="save" size={25} color={colors.white} style={{ marginRight: 5 }} />}
+            title="J'ai lu les consignes et j'enregistre le rendez-vous"
+            alignSelf="center"
+            paddingVertical={15}
+            paddingHorizontal={10}
+            textColor={colors.white}
+            textFontSize={13}
+            borderRadius={10}
+            bkgroundColor={colors.blue}
+          />
+        </View>
       </ScrollView>
     </ContainerScreen>
   )
 }
 
-export default PayementForm
+export default ValidationAppointment
