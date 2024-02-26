@@ -17,19 +17,27 @@
 */
 
 import React from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 import {colors} from '../global/colors';
 import CustomText from '../global/CustomText';
+import { useNavigation } from '@react-navigation/native';
 
 const Appointment_Disponibility_Hours = ({time, doctor}) => {
+  const navigation = useNavigation();
+    const handleValidationAppointment = () => {
+        navigation.navigate('Jour et Heure du Rdv');
+    };
+
   return (
     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+      <TouchableOpacity onPress={handleValidationAppointment}>
       <View style={styles.container}>
         <CustomText fontSize={15} style={styles.time}>
           {time}
         </CustomText>
         <CustomText style={styles.doctor}>{doctor}t</CustomText>
       </View>
+      </TouchableOpacity>
     </ScrollView>
   );
 };

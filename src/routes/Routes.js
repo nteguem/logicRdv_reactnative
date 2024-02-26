@@ -20,13 +20,9 @@ const Routes = ({isAuth}) => {
             component={AuthenticatedNavigator}
           />
         ) : (
-          <Stack.Screen
-            name="Mes Rendez-vous"
-            component={Appointments}
-            initialParams={{
-              left: HeaderIcons.SEARCH,
-              right: HeaderIcons.ACCOUNT 
-            }}
+          <Drawer.Screen
+            name="UnAuthenticatedNavigator"
+            component={UnAuthenticatedNavigator}
           />
         )}
       </Drawer.Navigator>
