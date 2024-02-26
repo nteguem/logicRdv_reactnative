@@ -1,42 +1,15 @@
-/*
-  This React Native component, Doctor, represents a card displaying information about a doctor.
-  It includes details such as doctor's name, specialization, location, phone number, and optional icons.
 
-  Component Structure:
-  - View: Main container for the component.
-    - View: Container for doctor's profile information.
-      - View: Container for doctor's profile picture (optional).
-      - View: Container for doctor's name, specialization, location, and phone number.
-      - View: Container for optional right icons or arrow icon.
-    - View: Container for optional button.
-
-  Props:
-  - isDoctorSpecialisationText: Boolean flag indicating whether to display doctor's specialization text.
-  - isRightIcons: Boolean flag indicating whether to display right icons (WhatsApp, map marker).
-  - isArrowIcon: Boolean flag indicating whether to display an arrow icon.
-  - isButton: Boolean flag indicating whether to display a button.
-  - isProfileIcon: Boolean flag indicating whether to display a profile icon.
-  - doctorName: Name of the doctor.
-  - doctorLocation: Location of the doctor.
-  - doctorPhoneNumber: Phone number of the doctor.
-
-  Styles:
-  - Styles are defined for each individual component, including containers, text, buttons, and icons, providing consistent appearance and layout.
-*/
 
 import React from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
 import {colors} from './colors';
 import CustomAppButton from './CustomAppButton';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon1 from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import CustomText from './CustomText';
-
-function numberWithSpaces(value, pattern) {
-  var i = 0,
-    phone = value.toString();
-  return pattern.replace(/#/g, _ => phone[i++]);
-}
+import GoogleMap from '../doctor/GoogleMap';
 
 const Doctor = ({
   isDoctorSpecialisationText = false,
@@ -44,67 +17,21 @@ const Doctor = ({
   isArrowIcon = false,
   isButton = false,
   isProfileIcon = false,
+  zip,
+  Specialisation,
   doctorName,
-  doctorLocation,
+  address,
   doctorPhoneNumber,
 }) => {
   return (
-    <View>
-      <View style={styles.parentStyles}>
-        <View style={styles.myStyles}>
-          <View style={{flexDirection: 'row'}}>
-            {isProfileIcon && (
-              <View style={styles.circleUser}>
-                <Icon name="user-circle" size={50} color={colors.gray} />
-              </View>
-            )}
-            <View style={{paddingLeft: 10}}>
-              <CustomText fontSize={20} color={colors.red} fontWeight={'bold'}>
-                {doctorName}
-              </CustomText>
-              <CustomText fontSize={15} color={'#4d8fd9'} fontWeight={'bold'}>
-                {isDoctorSpecialisationText && 'Doctor doctor'}
-              </CustomText>
-              <CustomText fontSize={12} color={'#4d8fd9'}>
-                {doctorLocation}
-              </CustomText>
-              <CustomText fontSize={12} color={'#4d8fd9'}>
-                75020
-              </CustomText>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'baseline',
-                  justifyContent: 'space-between',
-                  width: 100,
-                }}>
-                <CustomText fontSize={15} color={'#4d8fd9'} fontWeight={'bold'}>
-                  {numberWithSpaces(doctorPhoneNumber, '## ## ## ## ##')}
-                </CustomText>
-                <View style={[styles.circle]}>
-                  <Icon name="phone" color="white" size={20} />
-                </View>
-              </View>
+    <View style={styles.Container}>
+      {/* les donnee de gauche ie juste l'icon de photo */}
+      <View style={styles.leftColumn}>
+          <View style={styles.usericon}>
+          {isProfileIcon && (
+            <View style={styles.circleUser}>
+              <Icon1 name="user-circle" size={50} color={colors.gray} />
             </View>
-          </View>
-          {isRightIcons && (
-            <View
-              style={{
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                overflow: 'visible',
-              }}>
-              <Icon name="whatsapp" color={'green'} size={25} />
-              <Icon name="whatsapp" color={'green'} size={25} />
-              <Icon name="map-marker" size={25} />
-            </View>
-          )}
-          {isArrowIcon && (
-            <AntDesign
-              name="right"
-              size={20}
-              onPress={() => Alert.alert('Arrow pressed')}
-            />
           )}
         </View>
         <View>
@@ -112,38 +39,133 @@ const Doctor = ({
             <CustomAppButton
               onPress={() => Alert.alert('Button pressed')}
               title="Prendre RDV"
-              alignSelf="baseline"
               paddingVertical={8}
               paddingHorizontal={8}
               textColor="white"
               borderRadius={13}
-              bkgroundColor="#4d8fd9"
+              bkgroundColor={colors.blue}
             />
           )}
         </View>
+      </View>
+
+      <View style={styles.rightColumn}>
+        <View style={styles.item}>
+          <View>
+            <CustomText fontSize={20} color={colors.yellow} fontWeight={'bold'}>
+              {doctorName}
+            </CustomText>
+            {isDoctorSpecialisationText && (
+              <CustomText fontSize={15} color={colors.blue} fontWeight={'bold'}>
+                {isDoctorSpecialisationText && Specialisation}
+              </CustomText>
+            )}
+          </View>
+            {
+              isArrowIcon && (
+                <AntDesign
+                style={styles.unique}
+                  name="right"
+                  color={colors.gray}
+                  size={25}
+                  onPress={() => Alert.alert('Arrow pressed')}
+
+                />
+              )
+           }
+          {isRightIcons && (
+            <Icon name="whatsapp-square" color={'green'} size={25} />
+          )}
+        </View>
+        <View style={styles.item} >
+          <View>
+            <CustomText fontSize={12} color={colors.blue}>
+              {address}
+            </CustomText>
+            <CustomText fontSize={12} color={colors.blue}>
+              {zip}
+            </CustomText>
+          </View>
+          {isRightIcons &&(
+            <View style={styles.myicon}>
+              <View >
+                <Icon2 name="waze" color={colors.white} size={25} />
+              </View>
+          </View>
+        )}
+        </View >
+        <View style={styles.item}>
+          <View style={styles.items}>
+            <CustomText fontSize={15} color={colors.blue} fontWeight={'bold'}>
+              {doctorPhoneNumber}
+            </CustomText>
+            {
+              isRightIcons && <Icon style={styles.myicon2} name="phone" color={colors.white} size={15} />
+            }
+          </View>
+          <View>
+            {isRightIcons && (
+              <Icon  name="map-marker" color={colors.blue} size={25} />
+            )}
+         </View>
+        </View>
+        
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  myStyles: {
+  Container:{
+    paddingVertical:10,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  parentStyles: {
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     borderRadius: 10,
-    padding: 10,
+    margin: 10,
   },
-  buttonSyles: {
-    backgroundColor: 'transparent',
-    borderWidth: 1,
+
+  usericon:{
+    paddingVertical:20,
+    paddingHorizontal:5,
+
   },
-  textStyles: {
-    color: 'blue',
+  leftColumn:{
+    paddingHorizontal:10,
+  },
+  rightColumn:{
+    position: "absolute",
+    left:100,
+    // paddingHorizontal:10,
+  },
+  item:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap:70,
+  },
+  items:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap:1,
+   
+  },
+  unique:{
+    paddingVertical: 20,
+  },
+  
+  myicon: {
+    backgroundColor: colors.blue,
+    position: 'absolute',
+    left: 180,
+    borderRadius: 5, 
+    paddingHorizontal: 4,
+    paddingVertical: 4,
+  },
+  myicon2: {
+    backgroundColor: colors.blue,
+    borderRadius: 100, 
+    width:30,
+    height:30,
+    padding: 7,
   },
   circleUser: {
     flexDirection: 'row',
@@ -151,22 +173,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.white,
     borderRadius: 999,
-    width: 55,
-    height: 55,
+    width: 65,
+    height: 65,
     borderWidth: 1,
     borderColor: colors.gray,
-    marginRight: 5,
   },
-  circle: {
-    flexDirection: 'row',
-    width: 28,
-    height: 28,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: colors.blue,
-    marginLeft: 10,
-  },
+ 
 });
 
 export default Doctor;
