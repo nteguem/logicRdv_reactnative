@@ -28,6 +28,7 @@ const PayementForm = (motif) => {
           container="ceci est ce que vous voulez vous prendre un RDV la je me bat pour ce fait merciless"
           fontWeight="bold"
         />
+        
       </ScrollView>
     </ContainerScreen>
   )
