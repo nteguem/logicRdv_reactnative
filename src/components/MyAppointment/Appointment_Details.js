@@ -48,6 +48,7 @@ import CustomText from '../global/CustomText';
 import { colors } from '../global/colors'
 import CustomAppButton from '../global/CustomAppButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Alert } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const AppointmentDetails = (
@@ -283,3 +284,4 @@ const styles = StyleSheet.create({
 });
 
 export default AppointmentDetails;
+//export default React.memo(AppointmentDetails);
