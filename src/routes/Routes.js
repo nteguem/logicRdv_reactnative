@@ -28,19 +28,9 @@ const Routes = ({isAuth}) => {
             component={AuthenticatedNavigator}
           />
         ) : (
-<<<<<<< HEAD
-          <Stack.Screen
-            name="Motif du rendez-vous"
-            component={MotifsScreean}
-            initialParams={{
-              left: HeaderIcons.GO_BACK,
-              right: HeaderIcons.ACCOUNT 
-            }}
-=======
           <Drawer.Screen
             name="UnAuthenticatedNavigator"
             component={UnAuthenticatedNavigator}
->>>>>>> 794e28b96c30347721ca635083adecf5ff1ec2dd
           />
         )}
       </Drawer.Navigator>
