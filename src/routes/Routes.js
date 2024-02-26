@@ -1,26 +1,35 @@
-import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import AuthenticatedNavigator from './AuthenticateNavigator';
-import Home from '../screens/Home';
+import ResultatRecherche from '../screens/Resultat';
 
 const Stack = createStackNavigator();
 
-const screenOptions = {gestureEnabled: false, headerShown: false};
+const screenOptions = { drawerPosition: 'right', headerShown: false };
 
 const Routes = ({isAuth}) => {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={screenOptions}>
+      <Drawer.Navigator
+        drawerContent={props => <DrawerContent {...props} isAuth={isAuth}/>}
+        screenOptions={screenOptions}>
         {isAuth ? (
-          <Stack.Screen
-            name="Authenticated"
+          <Drawer.Screen
+            name="AuthenticatedNavigator"
             component={AuthenticatedNavigator}
           />
         ) : (
-          <Stack.Screen name="home" component={Home} />
+          <Stack.Screen
+            name="Resultat de la recherche"
+            component={ResultatRecherche}
+            initialParams={{
+              left: HeaderIcons.SEARCH,
+              right: HeaderIcons.ACCOUNT 
+            }}
+          />
         )}
-      </Stack.Navigator>
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 };
