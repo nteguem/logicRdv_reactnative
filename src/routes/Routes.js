@@ -29,7 +29,6 @@ const Routes = ({isAuth}) => {
               right: HeaderIcons.ACCOUNT 
             }}
           />
-        )}
       </Drawer.Navigator>
     </NavigationContainer>
   );
