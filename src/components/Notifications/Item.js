@@ -2,6 +2,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { colors } from '../global/colors';
+import CustomText from '../global/CustomText';
 
 const Item = (props) => { // Utilisation de props pour recevoir les propriétés du composant
   const { date, username, message } = props; // Extraction des propriétés de l'objet props
@@ -11,15 +12,15 @@ const Item = (props) => { // Utilisation de props pour recevoir les propriétés
       <View style={styles.entete} >
         <View style={styles.element}>
           <Icon color={colors.blue} name="notifications" size={15} />
-          <Text>{username}</Text>
+          <CustomText fontSize={16} color={colors.black}>{username}</CustomText>
         </View>
         <View style={styles.element}>
           <Icon color={colors.blue} name="calendar-today" size={15} />
-          <Text>{date}</Text>
+          <CustomText fontSize={16} color={colors.black}>{date}</CustomText>
         </View>
       </View>
       <View>
-        <Text>{message}</Text>
+        <CustomText fontSize={16} color={colors.black}>{message}</CustomText>
       </View>
     </View>
   )

@@ -17,7 +17,7 @@ const DrawerContent = ({ navigation,isAuth }) => {
   };
 
   const renderHeader = () => {
-    if (isAuth) {
+    if (!isAuth) {
       return (
         <View style={styles.containerHeader}>
           <View style={styles.header}>
@@ -71,7 +71,7 @@ const DrawerContent = ({ navigation,isAuth }) => {
   };
 
   const renderMenuItems = () => {
-    if (isAuth) {
+    if (!isAuth) {
       return (
         <>
           <TouchableOpacity onPress={navigateToScreen('Mes rendez-vous')} style={styles.menuItem}>
@@ -80,7 +80,7 @@ const DrawerContent = ({ navigation,isAuth }) => {
               Mes rendez-vous
             </CustomText>
           </TouchableOpacity>
-          <TouchableOpacity onPress={navigateToScreen('Fixer rendez-vous')} style={styles.menuItem}>
+          <TouchableOpacity onPress={navigateToScreen('Fixez rendez-vous')} style={styles.menuItem}>
             <Icon name="magic" size={20} color={colors.blue} />
             <CustomText fontSize={16} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
               Fixez rendez-vous
@@ -145,7 +145,7 @@ const DrawerContent = ({ navigation,isAuth }) => {
   };
 
   const renderFooter = () => {
-    if (isAuth) {
+    if (!isAuth) {
       return (
         <View style={{ marginVertical: '35%' }}>
           <View style={[styles.containerToggle, { justifyContent: 'space-between' }]}>

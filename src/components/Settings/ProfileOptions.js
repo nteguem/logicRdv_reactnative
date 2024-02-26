@@ -28,23 +28,27 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomText from '../global/CustomText';
 import { colors } from '../global/colors';
+import { useNavigation } from '@react-navigation/native';
 
-const ProfileOptions = ({
-  onPressAction,
-}) => {
+const ProfileOptions = () => {
+  const navigation = useNavigation();
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
+  const handleAccountParams = () => {
+    navigation.navigate('Modification du profil');
+  };
+
   const options = [
-    { icon: <Ionicons name="settings-sharp" size={25} style={styles.icon} />, text: "Parametres du compte", route: "/account-settings" },
-    { icon: <MaterialIcons name="notifications" size={25} style={styles.icon} />, text: "Notifications", route: "/notifications" },
-    { icon: <MaterialIcons name="policy" size={25} style={styles.icon} />, text: "Polices de confidentialité", route: "/privacy-policy" },
+    { icon: <Ionicons name="settings-sharp" size={25} style={styles.icon} />, text: "Paramètres du compte", onPress: handleAccountParams },
+    { icon: <MaterialIcons name="notifications" size={25} style={styles.icon} />, text: "Notifications", onPress: () => navigation.navigate('/notifications') },
+    { icon: <MaterialIcons name="policy" size={25} style={styles.icon} />, text: "Polices de confidentialité", onPress: () => navigation.navigate('/privacy-policy') },
   ];
 
   return (
     <View style={styles.optionContainer}>
       {options.map((option, index) => (
-        <TouchableOpacity key={index} onPress={() => onPressAction(option.route)}>
+        <TouchableOpacity key={index} onPress={option.onPress}>
           <View style={styles.container}>
             {option.icon}
             <CustomText
@@ -57,8 +61,8 @@ const ProfileOptions = ({
           </View>
         </TouchableOpacity>
       ))}
-      <View style={[styles.container, {justifyContent:'space-between'}]}>
-        <View style={{flexDirection:'row', alignItems:'center'}}> 
+      <View style={[styles.container, { justifyContent: 'space-between' }]}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {isEnabled ? <MaterialIcons name="notifications-on" size={25} style={styles.icon} /> : <MaterialIcons name="notifications-off" size={25} style={styles.icon} />}
           <CustomText
             fontSize={17}
