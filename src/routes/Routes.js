@@ -1,8 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import AuthenticatedNavigator from './AuthenticateNavigator';
-import Home from '../screens/Home';
 import {HeaderIcons} from '../utils/helpers';
 import Notifications from '../screens/Notification';
 const Stack = createStackNavigator();
