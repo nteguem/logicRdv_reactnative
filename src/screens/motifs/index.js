@@ -3,7 +3,7 @@ import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import motifdata from '../data/Motifdata';
 import Motif from '../../components/Motif/Motif';
 
-const MotifsScreean = () => {
+const Motifs = () => {
     const data =motifdata
   return (
     <ContainerScreen>
@@ -21,4 +21,4 @@ const MotifsScreean = () => {
   )
 }
 
-export default MotifsScreean;
+export default Motifs;
