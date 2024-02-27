@@ -100,21 +100,21 @@ const AppointmentDetails = (
       <View style={[styles.compartment, styles.firstCompartment, { backgroundColor: firstCompartmentBackgroundColor }]}>
         <View style={styles.timeDetailsContainer}>
           <View style={styles.detailsContainer}>
-            <MaterialCommunityIcons name="calendar-blank" size={22} color={colors.white} marginRight={5} style={{ transform: [{ rotate: '-45deg' }] }} />
-            <CustomText fontSize={15} color={colors.white}>{date}</CustomText>
-            <CustomText fontSize={15} color={colors.white}>{consultationMethod}</CustomText>
+            <MaterialCommunityIcons name="calendar-blank" size={18} color={colors.white} marginRight={5} style={{ transform: [{ rotate: '-45deg' }] }} />
+            <CustomText fontSize={12} color={colors.white}>{date}</CustomText>
+            <CustomText fontSize={12} color={colors.white}>{consultationMethod}</CustomText>
           </View>
           <View style={styles.detailsContainer}>
-            <MaterialCommunityIcons name="clock-outline" size={22} color={colors.white} marginRight={5} />
-            <CustomText fontSize={15} color={colors.white}>{time}</CustomText>
+            <MaterialCommunityIcons name="clock-outline" size={18} color={colors.white} marginRight={5} />
+            <CustomText fontSize={12} color={colors.white}>{time}</CustomText>
           </View>
         </View>
       </View>
       <View style={styles.divider} />
       <View style={[styles.compartment, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginRight: 10 }]}>
         <View style={styles.compartmentContainer}>
-          <CustomText fontSize={17} fontWeight='bold' color={colors.black}>{doctor}</CustomText>
-          <CustomText fontSize={15} color={colors.black} style={styles.appointmentType}>{appointmentType}</CustomText>
+          <CustomText fontSize={15} fontWeight='bold' color={colors.black}>{doctor}</CustomText>
+          <CustomText fontSize={12} color={colors.black} style={styles.appointmentType}>{appointmentType}</CustomText>
         </View>
         <View style={styles.button}>
           <CustomAppButton
@@ -128,6 +128,7 @@ const AppointmentDetails = (
             paddingHorizontal={20}
             paddingVertical={5}
             borderRadius={2}
+            textFontSize={12}
           />
         </View>
       </View>
@@ -138,26 +139,26 @@ const AppointmentDetails = (
             <View style={styles.circleUser}>
               <Icon name="user-circle" size={50} color={colors.gray100} />
             </View>
-            <CustomText fontSize={17} color={colors.black}>{patientName}</CustomText>
+            <CustomText fontSize={15} color={colors.black}>{patientName}</CustomText>
           </View>
           <View style={[styles.detailsContainer, { marginBottom: 10 }]}>
-            <Icon name="phone" size={22} color={colors.black} marginRight={5} />
-            <CustomText fontSize={15} color={colors.black}>{patientPhone}</CustomText>
+            <Icon name="phone" size={18} color={colors.black} marginRight={5} />
+            <CustomText fontSize={12} color={colors.black}>{patientPhone}</CustomText>
           </View>
           <View style={[styles.detailsContainer]}>
-            <Icon name="envelope" size={22} color={colors.black} marginRight={5} />
-            <CustomText fontSize={15} color={colors.black}>{patientEmail}</CustomText>
+            <Icon name="envelope" size={18} color={colors.black} marginRight={5} />
+            <CustomText fontSize={12} color={colors.black}>{patientEmail}</CustomText>
           </View>
         </View>
       </View>
       <View style={styles.divider} />
       <View style={styles.compartment}>
         <View style={styles.compartmentContainer}>
-          <CustomText fontSize={17} color={colors.black} fontWeight='bold' >{addressName}</CustomText>
-          <CustomText fontSize={15} color={colors.black} style={{ fontStyle: 'italic' }} >{addressLine1}</CustomText>
-          <CustomText fontSize={15} color={colors.black} style={{ fontStyle: 'italic' }} >{addressLine2}</CustomText>
+          <CustomText fontSize={15} color={colors.black} fontWeight='bold' >{addressName}</CustomText>
+          <CustomText fontSize={12} color={colors.black} style={{ fontStyle: 'italic' }} >{addressLine1}</CustomText>
+          <CustomText fontSize={12} color={colors.black} style={{ fontStyle: 'italic' }} >{addressLine2}</CustomText>
           <View style={styles.detailsContainer}>
-            <CustomText fontSize={15} color={colors.black}>{addressPhone}</CustomText>
+            <CustomText fontSize={12} color={colors.black}>{addressPhone}</CustomText>
             <View style={[styles.circle, { backgroundColor: colors.blue, marginLeft: 10, }]}>
               <Icon name="phone" size={20} color={colors.white} />
             </View>
@@ -177,6 +178,7 @@ const AppointmentDetails = (
               paddingHorizontal={25}
               paddingVertical={8}
               borderRadius={6}
+              textFontSize={12}
             />
           </View>
         </View>
@@ -190,6 +192,7 @@ const AppointmentDetails = (
             bkgroundColor='transparent'
             alignSelf='center'
             textColor={colors.blue}
+            textFontSize={12}
           />
         </View>
       </View>

@@ -24,7 +24,7 @@ const ValidationNoticeRDV = ({container, fontWeight}) => {
   return (
     <View style={styles.card}>
       <View style={styles.compartment}>
-        <CustomText fontSize={15} color={colors.black} fontWeight={fontWeight}>
+        <CustomText fontSize={12} color={colors.black} fontWeight={fontWeight}>
           {container}
         </CustomText>
       </View>
@@ -36,8 +36,6 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.white,
     borderRadius: 10,
-    borderWidth: 1,
-    borderColor: colors.gray100,
     marginLeft: 10,
     marginRight: 10,
     marginBottom: 5,

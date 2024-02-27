@@ -61,13 +61,13 @@ const ModalView = ({
                             }]} >
                             {isLocation ? (
                                 <View style={{ paddingHorizontal: 20 }}>
-                                    <CustomText fontSize={20} color={colors.white} fontWeight='bold' style={{ textAlign: 'center' }}>
+                                    <CustomText fontSize={15} color={colors.white} fontWeight='bold' style={{ textAlign: 'center' }}>
                                         ADRESSE DE RECHERCHE
                                     </CustomText>
                                 </View>
                             ) : (
                                 <View>
-                                    <CustomText fontSize={16} color={colors.white} fontWeight='bold' style={{ marginLeft: 8 }}>
+                                    <CustomText fontSize={15} color={colors.white} fontWeight='bold' style={{ marginLeft: 8 }}>
                                         Nom, Spécialité, Téléphone
                                     </CustomText>
                                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: -18 }}>
@@ -106,7 +106,7 @@ const ModalView = ({
                                     <ScrollView>
                                         <View style={{ height: '80%', justifyContent: 'center', marginHorizontal: 25 }}>
                                             <View style={styles.containInput}>
-                                                <CustomText fontSize={17} fontWeight='bold' color={colors.gray300}>
+                                                <CustomText fontSize={12} fontWeight='bold' color={colors.gray300}>
                                                     Addresse
                                                 </CustomText>
                                                 <TextInput
@@ -118,7 +118,7 @@ const ModalView = ({
                                                 />
                                             </View>
                                             <View style={styles.containInput}>
-                                                <CustomText fontSize={17} fontWeight='bold' color={colors.gray300}>
+                                                <CustomText fontSize={12} fontWeight='bold' color={colors.gray300}>
                                                     Code postal
                                                 </CustomText>
                                                 <TextInput
@@ -131,7 +131,7 @@ const ModalView = ({
                                             </View>
 
                                             <View style={styles.containInput}>
-                                                <CustomText fontSize={17} fontWeight='bold' color={colors.gray300}>
+                                                <CustomText fontSize={12} fontWeight='bold' color={colors.gray300}>
                                                     Ville
                                                 </CustomText>
                                                 <TextInput
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        height: '65%'
+        height: '60%'
     },
     compartment: {
         marginTop: -35,
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         padding: 10,
         color: colors.black,
-        fontSize: 18,
+        fontSize: 12,
         textAlignVertical: 'center',
         backgroundColor: colors.white,
         height: 50
@@ -289,7 +289,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         textAlignVertical: 'center',
         backgroundColor: colors.white,
-        height: 40
+        height: 40,
+        fontSize: 12
     },
     inputModal: {
         borderWidth: 0.5,
@@ -299,7 +300,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginVertical: 3,
         textAlignVertical: 'center',
-        // width: "90%"
+        fontSize: 12
     },
     divider: {
         marginVertical: 12,

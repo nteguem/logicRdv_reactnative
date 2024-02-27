@@ -24,10 +24,10 @@ const PasswordRecoveryScreen = () => {
         <ContainerScreen>
             <ScrollView>
                 <View style={styles.textContain}>
-                    <CustomText fontSize={20} fontWeight='bold' color={colors.blue}>
+                    <CustomText fontSize={15} fontWeight='bold' color={colors.blue}>
                         Mot de passe oublié.
                     </CustomText>
-                    <CustomText fontSize={15} color={colors.blue} style={{ marginTop: 12 }} >
+                    <CustomText fontSize={12} color={colors.blue} style={{ marginTop: 12 }} >
                         {infoText}
                     </CustomText>
                 </View>
@@ -49,9 +49,9 @@ const PasswordRecoveryScreen = () => {
                             title="Retour"
                             alignSelf="baseline"
                             paddingVertical={16}
-                            paddingHorizontal={165}
+                            paddingHorizontal={150}
                             textColor={colors.white}
-                            textFontSize={16}
+                            textFontSize={12}
                             borderRadius={10}
                             bkgroundColor={colors.blue}
                         />
@@ -62,9 +62,9 @@ const PasswordRecoveryScreen = () => {
                             title="Suivant"
                             alignSelf="baseline"
                             paddingVertical={16}
-                            paddingHorizontal={165}
+                            paddingHorizontal={150}
                             textColor={colors.white}
-                            textFontSize={16}
+                            textFontSize={12}
                             borderRadius={10}
                             bkgroundColor={colors.blue}
                         />
@@ -76,9 +76,9 @@ const PasswordRecoveryScreen = () => {
                                 title="Code SMS sur 06......53"
                                 alignSelf="baseline"
                                 paddingVertical={16}
-                                paddingHorizontal={109}
+                                paddingHorizontal={95}
                                 textColor={colors.white}
-                                textFontSize={16}
+                                textFontSize={12}
                                 borderRadius={10}
                                 bkgroundColor={colors.blue}
                             />
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
         borderColor: colors.blue,
         padding: 10,
         color: colors.black,
-        fontSize: 18,
+        fontSize: 12,
         borderRadius: 10,
         textAlignVertical: 'center',
         marginTop: 16,

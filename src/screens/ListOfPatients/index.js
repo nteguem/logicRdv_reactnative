@@ -6,41 +6,25 @@ import { colors } from '../../components/global/colors'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ModalPatient from '../../components/ListOfPatients/Modal'
+import Doctor from '../../components/global/Doctor'
 
 const ListOfPatients = () => {
     return (
         <ContainerScreen>
             <ScrollView>
-                <View style={styles.container}>
-                    <View style={styles.circleUser}>
-                        <Icon name="user-circle" size={55} color={colors.gray100} />
-                    </View>
-
-                    <View style={styles.infoContainer}>
-                        <CustomText fontSize={18} fontWeight='bold' color={colors.black} style={styles.name}>Ndeh Wilfried</CustomText>
-
-                        <View style={[styles.detailsContainer, { marginBottom: 10 }]}>
-                            <Icon name="phone" size={22} color={colors.blue} marginRight={5} />
-                            <CustomText fontSize={16} color={colors.black} style={styles.info}>+33 6 58 66 94 53</CustomText>
-                        </View>
-
-                        <View style={[styles.detailsContainer, { marginBottom: 10 }]}>
-                            <MaterialCommunityIcons name="calendar-blank" size={22} color={colors.blue} marginRight={5} />
-                            <CustomText fontSize={16} color={colors.black}>01/01/2000</CustomText>
-                        </View>
-
-                        <View style={[styles.detailsContainer]}>
-                            <Icon name="envelope" size={22} color={colors.blue} marginRight={5} />
-                            <CustomText fontSize={16} color={colors.black} style={styles.info}>rootndehl@gmail.com</CustomText>
-                        </View>
-                    </View>
-
-                    <View style={styles.divider} />
-
-                    <View style={styles.edit}>
-                        <ModalPatient isEdit/>
-                    </View>
-                </View>
+            <Doctor
+                  texte1='Ndeh Wilfried'
+                  texte2='+33 6 58 66 94 53'
+                  texte3='01/01/2000'
+                  texte4='rootndehl@gmail.com'
+                  colorTitle={colors.black}
+                  colorContain={colors.black}
+                  marginBottom={10}
+                  isIcon
+                  isUpdate
+                  isDelete
+                  isProfileIcon
+                />
             </ScrollView>
 
         </ContainerScreen>

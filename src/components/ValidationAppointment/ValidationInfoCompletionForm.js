@@ -78,7 +78,7 @@ const FloatingLabelInput = ({
     }),
     fontSize: animatedIsFocused.interpolate({
       inputRange: [0, 1],
-      outputRange: [18, 14],
+      outputRange: [18, 10],
     }),
     color: animatedIsFocused.interpolate({
       inputRange: [0, 1],
@@ -120,7 +120,7 @@ const FloatingLabelInput = ({
         />
         {showCrossIcon && value !== '' && (
           <TouchableOpacity onPress={clearText}>
-            <Icon name="cross" size={24} color={colors.gray} style={styles.icon} />
+            <Icon name="cross" size={24} color={colors.red} style={styles.icon} />
           </TouchableOpacity>
         )}
       </View>
@@ -128,7 +128,7 @@ const FloatingLabelInput = ({
   );
 };
 
-const ValidationInfoCompletionForm = () => {
+const ValidationInfoCompletionForm = ({title}) => {
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [securityNumber, setSecurityNumber] = useState('');
   const [reasonForAppointment, setReasonForAppointment] = useState('');
@@ -160,13 +160,16 @@ const ValidationInfoCompletionForm = () => {
   return (
     <SafeAreaView>
       <View style={styles.card}>
-        <View  style={styles.myText}>
-          <CustomText children= "information a completer"
+      <View style={styles.titleRDV}>
+          <CustomText
+            fontSize={15}
+            fontWeight={700}
             color={colors.black}
-            fontWeight="bold"
-           
-          />
+            style={styles.title}>
+            {title}
+          </CustomText>
         </View>
+
         <View style={styles.compartment}>
           <FloatingLabelInput
             label="Date de naissance"
@@ -204,8 +207,6 @@ const styles = StyleSheet.create({
     paddingVertical:15,
     backgroundColor: colors.white,
     borderRadius: 10,
-    borderWidth: 1,
-    borderColor: colors.gray100,
     marginVertical:10,
     marginLeft: 10,
     marginRight: 10,
@@ -224,7 +225,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     color: colors.black,
-    fontSize: 18,
+    fontSize: 12,
     borderRadius: 6,
     textAlignVertical: 'center',
     fontWeight: '500',
@@ -237,7 +238,7 @@ const styles = StyleSheet.create({
   label: {
     zIndex: 1,
     backgroundColor: 'white',
-    paddingHorizontal: 5,
+    fontSize: 12,
   },
   icon: {
     position: 'absolute',
@@ -246,12 +247,14 @@ const styles = StyleSheet.create({
     top: '10%',
     transform: [{ translateY: -35 }]
   },
-  myText:{
-    alignContent: 'center',
-    alignItems: 'center',
+  titleRDV: {
+    flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom:10,
-  }
+    alignItems: 'center',
+  },
+  title: {
+    marginBottom: 12,
+  },
 });
 
 export default ValidationInfoCompletionForm;

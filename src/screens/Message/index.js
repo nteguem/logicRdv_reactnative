@@ -8,7 +8,7 @@ const Message = () => {
   return (
     <ContainerScreen>
         <View style={{height: '100%', flexDirection: "column", justifyContent: 'center', alignItems: 'center'}}>
-          <CustomText fontSize={18} color={colors.black} style={{ textAlign: 'center' }}>
+          <CustomText fontSize={12} color={colors.black} style={{ textAlign: 'center' }}>
             Aucune donnée disponible pour cette recherche.
           </CustomText>
           </View>

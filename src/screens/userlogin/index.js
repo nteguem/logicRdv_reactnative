@@ -54,11 +54,11 @@ const UserLogin = () => {
       <ScrollView>
         <View>
           <View style={styles.card}>
-            <CustomText fontSize={17} fontWeight='bold' color={colors.black} style={{ textAlign: 'center' }}>
+            <CustomText fontSize={12} fontWeight='bold' color={colors.black} style={{ textAlign: 'center' }}>
               {showAdditionalFields ?
                 'Veuillez entrer votre mot de passe'
                 :
-                'Vous etes deja inscrit, veuillez vous connecter a votre espace particulier'
+                'Vous etes deja inscrit, veuillez vous connecter à votre espace particulier'
               }
             </CustomText>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
@@ -98,9 +98,9 @@ const UserLogin = () => {
                     onPress={handleReturnToEmail}
                     alignSelf="baseline"
                     paddingVertical={16}
-                    paddingHorizontal={150}
+                    paddingHorizontal={138}
                     textColor={colors.white}
-                    textFontSize={16}
+                    textFontSize={12}
                     borderRadius={10}
                     bkgroundColor={colors.blue}
                   />
@@ -109,9 +109,9 @@ const UserLogin = () => {
                     onPress={handlePasswordRecovery}
                     alignSelf="baseline"
                     paddingVertical={16}
-                    paddingHorizontal={99}
+                    paddingHorizontal={86}
                     textColor={colors.white}
-                    textFontSize={16}
+                    textFontSize={12}
                     borderRadius={10}
                     bkgroundColor={colors.blue}
                   />
@@ -121,9 +121,9 @@ const UserLogin = () => {
                     title="Suivant"
                     alignSelf="baseline"
                     paddingVertical={16}
-                    paddingHorizontal={149}
+                    paddingHorizontal={136}
                     textColor={colors.white}
-                    textFontSize={16}
+                    textFontSize={12}
                     borderRadius={10}
                     bkgroundColor={colors.blue}
                   />
@@ -135,9 +135,9 @@ const UserLogin = () => {
                     title="Suivant"
                     alignSelf="baseline"
                     paddingVertical={16}
-                    paddingHorizontal={149}
+                    paddingHorizontal={128}
                     textColor={colors.white}
-                    textFontSize={16}
+                    textFontSize={12}
                     borderRadius={10}
                     bkgroundColor={colors.blue}
                   />
@@ -151,14 +151,14 @@ const UserLogin = () => {
             <CustomText
               children="Nouveau sur LogicRdv?"
               color={colors.black}
-              fontSize={17}
+              fontSize={12}
               fontWeight='bold'
 
             />
             <CustomAppButton
               title="INSCRIPTION RAPIDE"
               onPress={handleSignUp}
-              textFontSize={16}
+              textFontSize={12}
               textColor={colors.blue}
               bkgroundColor='transparent'
               fontWeight='bold'
@@ -178,7 +178,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.white,
     borderRadius: 10,
-    borderWidth: 1,
     borderColor: colors.gray100,
     marginTop: 20,
     padding: 15,
@@ -189,7 +188,7 @@ const styles = StyleSheet.create({
     borderColor: colors.gray100,
     padding: 10,
     color: colors.black,
-    fontSize: 18,
+    fontSize: 12,
     borderRadius: 10,
     textAlignVertical: 'center',
     marginTop: 16,

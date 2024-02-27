@@ -1,7 +1,9 @@
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
 import Doctor from '../../components/global/Doctor';
 import { useNavigation } from '@react-navigation/native';
+import ContainerScreen from '../../components/wrappers/ContainerScreen';
+import { colors } from '../../components/global/colors';
 
 function PatientManagement() {
   const navigation = useNavigation();
@@ -22,27 +24,35 @@ function PatientManagement() {
       isProfileIcon: 'true',
       isArrowIcon: "true",
     },
-
-
   ];
-  const result = data.map((result, index) => (
-    <View  >
-      <TouchableOpacity onPress={handleListPatient}>
-        <Doctor
-          key={index}
-          isArrowIcon={result.isArrowIcon}
-          isProfileIcon={result.isProfileIcon}
-          isDoctorSpecialisationText={result.isDoctorSpecialisationText}
-          Specialisation={result.Specialisation}
-          address={result.address}
-          zip={result.zip}
-          doctorName={result.name}
-          doctorPhoneNumber={result.phone}
-        />
-      </TouchableOpacity>
-    </View>
-  ));
-  return result;
+  
+  return (
+    <ContainerScreen>
+      <ScrollView>
+        {
+          data.map((result, index) => (
+            <View  >
+              <TouchableOpacity onPress={handleListPatient}>
+                <Doctor
+                  texte2={result.Specialisation}
+                  texte3={result.address}
+                  texte4={result.zip}
+                  texte1={result.name}
+                  texte5={result.phone}
+                  colorTitle={colors.yellow}
+                  colorContain={colors.blue}
+                  fontWeight={'bold'}
+                  isArrowIcon
+                  isProfileIcon
+                />
+              </TouchableOpacity>
+              
+            </View>
+          ))
+        }
+      </ScrollView>
+    </ContainerScreen>
+  );
 }
 
 export default PatientManagement;

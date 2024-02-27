@@ -14,8 +14,8 @@ const Profil = ({
                 <Icon name="user-circle" size={90} color={colors.gray100} />
             </View>
             <View style={styles.containerID} >
-                <CustomText fontSize={18} fontWeight='bold' color={colors.blue100}>{username}</CustomText>
-                <CustomText fontSize={13} color={colors.blue100}>{email}</CustomText>
+                <CustomText fontSize={15} fontWeight='bold' color={colors.blue100}>{username}</CustomText>
+                <CustomText fontSize={12} color={colors.blue100}>{email}</CustomText>
             </View>
         </View>
     )

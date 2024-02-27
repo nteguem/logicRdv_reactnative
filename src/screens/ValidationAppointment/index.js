@@ -27,12 +27,9 @@ const navigation = useNavigation();
           place="consultation"
           patient="Petit franck"
         />
-        <ValidationInfoCompletionForm />
-        {
-          motif === 'Teleconsultation' ? <ValidationPaymentForm
-            pricemessage="70"
-          /> : null
-        }
+        <ValidationInfoCompletionForm title='Informations à compléter'/>
+
+        <ValidationPaymentForm />
         <ValidationNoticeRDV
           container="ceci est ce que vous voulez vous prendre un RDV la je me bat pour ce fait merciless"
           fontWeight="bold"
@@ -40,13 +37,13 @@ const navigation = useNavigation();
         <View style={{ marginVertical: 10 }}>
           <CustomAppButton
           onPress={handleConfirmationAppointment}
-            iconComponent={<MaterialIcons name="save" size={25} color={colors.white} style={{ marginRight: 5 }} />}
+            iconComponent={<MaterialIcons name="save" size={18} color={colors.white} style={{ marginRight: 5 }} />}
             title="J'ai lu les consignes et j'enregistre le rendez-vous"
             alignSelf="center"
             paddingVertical={15}
-            paddingHorizontal={10}
+            paddingHorizontal={6}
             textColor={colors.white}
-            textFontSize={13}
+            textFontSize={10}
             borderRadius={10}
             bkgroundColor={colors.blue}
           />

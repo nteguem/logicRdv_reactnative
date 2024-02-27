@@ -50,8 +50,7 @@ const FloatingLabelInput = ({
   maxLength,
   ...rest
 }) => {
-  const colorScheme = useColorScheme(); // Utilisez le schéma de couleur actuel de l'appareil (clair ou sombre)
-  const backgroundColor = colorScheme === 'dark' ? '#f5f6f8' : '#FFFFFF';
+  const backgroundColor = colors.blue300;
   const [isFocused, setIsFocused] = useState(false);
   const animatedIsFocused = new Animated.Value(value === '' ? 0 : 1);
 
@@ -131,21 +130,6 @@ const ValidationPaymentForm = ({pricemessage}) => {
     }
   };
 
-  const validateYearFormat = (year) => {
-    const yearPattern = /^(0[1-9]|1[0-2])\/\d{2}$/; // Format: "MM/AA"
-    return yearPattern.test(year);
-  };
-
-  const validateDate = (date) => {
-    const currentDate = new Date();
-    const currentMonth = currentDate.getMonth() + 1; // Les mois commencent à 0, donc ajoutez 1
-    const currentYear = currentDate.getFullYear() % 100; // Obtenir les deux derniers chiffres de l'année actuelle
-
-    const [enteredMonth, enteredYear] = date.split('/').map(Number);
-
-    return enteredYear >= currentYear && enteredMonth >= currentMonth;
-  };
-
   const errorMessage = 'Entrer des donnees correcte';
   return (
     <SafeAreaView>
@@ -164,7 +148,7 @@ const ValidationPaymentForm = ({pricemessage}) => {
             placeholderTextColor="gray"
             maxLength={5}
             keyboardType="numeric"
-            width={45 + '%'}
+            width={50 + '%'}
           />
           <FloatingLabelInput
             label="cvv"
@@ -177,13 +161,7 @@ const ValidationPaymentForm = ({pricemessage}) => {
           />
         </View>
       </View>
-      <View style={styles.myText} >
-        <CustomText 
-          children={pricemessage} 
-          color={colors.black}
-          fontWeight="bold"
-        />
-      </View>
+      
     </SafeAreaView>
   );
 };
@@ -195,7 +173,6 @@ const styles = StyleSheet.create({
   },
   compartment: {
     paddingVertical: 25,
-    paddingHorizontal: 40,
     marginHorizontal:10,
     gap: 10,
   },
@@ -206,13 +183,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     color: colors.black,
-    fontSize: 15,
+    fontSize: 12,
     borderRadius: 6,
     textAlignVertical: 'center',
   },
   label: {
     zIndex: 1,
     paddingHorizontal: 5,
+    fontSize: 12,
   },
   myText:{
     backgroundColor:colors.white,

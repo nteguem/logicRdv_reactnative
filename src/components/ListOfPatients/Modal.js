@@ -152,9 +152,10 @@ const ModalPatient = ({
                     <MaterialCommunityIcons
                         onPress={() => setModalVisible(!modalVisible)}
                         name="pencil-circle"
-                        size={40}
+                        size={25}
                         color={colors.blue}
                         marginRight={5}
+                        style= {{marginTop: -15}}
                     />
                 ) : (
                     <MaterialCommunityIcons

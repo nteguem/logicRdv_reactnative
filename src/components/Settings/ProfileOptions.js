@@ -48,9 +48,9 @@ const ProfileOptions = () => {
   };
 
   const options = [
-    { icon: <Ionicons name="settings-sharp" size={25} style={styles.icon} />, text: "Paramètres du compte", onPress: handleAccountParams },
-    { icon: <MaterialIcons name="notifications" size={25} style={styles.icon} />, text: "Notifications", onPress: handleNotification },
-    { icon: <MaterialIcons name="policy" size={25} style={styles.icon} />, text: "Polices de confidentialité", onPress: handlePrivacyPolicy },
+    { icon: <Ionicons name="settings-sharp" size={18} style={styles.icon} />, text: "Paramètres du compte", onPress: handleAccountParams },
+    { icon: <MaterialIcons name="notifications" size={18} style={styles.icon} />, text: "Notifications", onPress: handleNotification },
+    { icon: <MaterialIcons name="policy" size={18} style={styles.icon} />, text: "Polices de confidentialité", onPress: handlePrivacyPolicy },
   ];
 
   return (
@@ -60,7 +60,7 @@ const ProfileOptions = () => {
           <View style={styles.container}>
             {option.icon}
             <CustomText
-              fontSize={17}
+              fontSize={12}
               fontWeight={'bold'}
               color={colors.blue100}
               style={{ marginLeft: 3 }}>
@@ -71,9 +71,9 @@ const ProfileOptions = () => {
       ))}
       <View style={[styles.container, { justifyContent: 'space-between' }]}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          {isEnabled ? <MaterialIcons name="notifications-on" size={25} style={styles.icon} /> : <MaterialIcons name="notifications-off" size={25} style={styles.icon} />}
+          {isEnabled ? <MaterialIcons name="notifications-on" size={18} style={styles.icon} /> : <MaterialIcons name="notifications-off" size={18} style={styles.icon} />}
           <CustomText
-            fontSize={17}
+            fontSize={12}
             fontWeight={'bold'}
             color={colors.blue100}
             style={{ marginLeft: 3 }}>
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 25,
+    paddingVertical: 18,
     paddingHorizontal: 24,
   },
   icon: {

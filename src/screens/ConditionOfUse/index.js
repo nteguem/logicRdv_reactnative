@@ -9,11 +9,11 @@ const ConditionOfUse = () => {
         <ContainerScreen>
             <ScrollView>
                 <View style={{ paddingVertical: 16 }}>
-                    <CustomText style={{ fontSize: 18, color: colors.blue, fontWeight: 'bold', textAlign: 'center' }}>
+                    <CustomText style={{ fontSize: 15, color: colors.blue, fontWeight: 'bold', textAlign: 'center' }}>
                         APPLICATION DES NOUVELLES POLITIQUE SUR LA PROTECTION DES DONNÉES PERSONNELLES
                     </CustomText>
                     <View style={{ paddingTop: 20 }}>
-                        <CustomText style={{ fontSize: 16, textAlign: 'justify', color: colors.black, }}>
+                        <CustomText style={{ fontSize: 12, textAlign: 'justify', color: colors.black, }}>
                             La protection des patients et des praticiens est une priorité pour LOGICRDV, l’entreprise souhaite établir une véritable relation de confiance afin d’assurer un service irréprochable.'
                             {'\n'}LOGICRDV collecte les données personnelles des utilisateurs pour un service relationnel, afin de répondre au mieux aux attentes de chaque utilisateur.
                             {'\n'}Depuis le 25 mai 2018, la Règlementation portant sur les données personnelles évolue avec l'entrée en application du Règlement Général sur la Protection des Données (RGPD).
@@ -25,7 +25,7 @@ const ConditionOfUse = () => {
                         </CustomText>
                         <View style={{ paddingTop: 10 }}>
                             <View style={{ alignItems: 'center' }}>
-                                <CustomText style={{ fontSize: 16, textAlign: 'justify', color: colors.black, }}>
+                                <CustomText style={{ fontSize: 12, textAlign: 'justify', color: colors.black, }}>
                                     TYPE DE DONNÉES COLLECTÉES {'\n'}
                                     - Adresse email, mot de passe{'\n'}
                                     - Nom, Prénom, date de naissance{'\n'}
@@ -54,11 +54,11 @@ const ConditionOfUse = () => {
 }
 
 const SectionTitle = ({ title }) => (
-    <CustomText style={{ fontWeight: 'bold', fontSize: 18, color: colors.black, paddingTop: 16, textAlign:'center' }}>{`\n${title}`}</CustomText>
+    <CustomText style={{ fontWeight: 'bold', fontSize: 12, color: colors.black, paddingTop: 16, textAlign:'center' }}>{`\n${title}`}</CustomText>
 );
 
 const SectionContent = ({ content }) => (
-    <CustomText style={{ textAlign: 'justify', fontSize: 16, color: colors.black, paddingTop: 10 }}>{`\n${content}`}</CustomText>
+    <CustomText style={{ textAlign: 'justify', fontSize: 12, color: colors.black, paddingTop: 10 }}>{`\n${content}`}</CustomText>
 );
 
 export default ConditionOfUse

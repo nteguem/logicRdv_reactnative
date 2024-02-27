@@ -26,12 +26,12 @@ const Appointments = () => {
                         paddingVertical={16}
                         paddingHorizontal={20}
                         textColor={colors.white}
-                        textFontSize={13}
+                        textFontSize={10}
                         borderRadius={10}
                         bkgroundColor={colors.blue}
                     />
                 </View>
-                <CustomText fontSize={25} color={colors.black} fontWeight='bold'>Mes Rendez-vous</CustomText>
+                <CustomText fontSize={20} color={colors.black} fontWeight='bold'>Mes Rendez-vous</CustomText>
                 {dataAppointment.map((item, index) => (
                     <AppointmentDetails
                         key={index}

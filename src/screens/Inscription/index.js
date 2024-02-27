@@ -71,16 +71,16 @@ const Inscription = () => {
             <ScrollView>
                 <View>
                     <View style={styles.card}>
-                        <CustomText fontSize={17} fontWeight='bold' color={colors.black}>J'ai déja un compte LogicRdv</CustomText>
+                        <CustomText fontSize={12} fontWeight='bold' color={colors.black}>J'ai déja un compte LogicRdv</CustomText>
                         <TouchableOpacity onPress={handleSignIn}>
-                            <CustomText fontSize={16} fontWeight='bold' color={colors.blue}>SE CONNECTER</CustomText>
+                            <CustomText fontSize={12} fontWeight='bold' color={colors.blue}>SE CONNECTER</CustomText>
                         </TouchableOpacity>
                     </View>
                 </View>
                 <View>
                     <View style={styles.card}>
-                        <CustomText fontSize={17} fontWeight='bold' color={colors.black}>Inscription</CustomText>
-                        <CustomText fontSize={16} color={colors.black}>Saisissez les informations demandées</CustomText>
+                        <CustomText fontSize={15} fontWeight='bold' color={colors.black}>Inscription</CustomText>
+                        <CustomText fontSize={12} color={colors.black}>Saisissez les informations demandées</CustomText>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                             <View style={{ width: phoneNumber ? '80%' : '100%' }} >
                                 <TextInput
@@ -179,8 +179,8 @@ const Inscription = () => {
                                         style={styles.checkbox}
                                         tintColors={{ true: colors.blue, false: colors.black }}
                                     />
-                                    <CustomText fontSize={16} color={colors.black} fontWeight={'bold'}>J'ai lu et accepté </CustomText>
-                                    <CustomText fontSize={16} color={colors.orange} fontWeight={'bold'}>les conditions d'utilisation </CustomText>
+                                    <CustomText fontSize={12} color={colors.black} fontWeight={'bold'}>J'ai lu et accepté </CustomText>
+                                    <CustomText fontSize={12} color={colors.orange} fontWeight={'bold'}>les conditions d'utilisation </CustomText>
                                 </View>
                             </View>
                         )}
@@ -190,9 +190,9 @@ const Inscription = () => {
                                 title={showAdditionalFields ? "M'inscrire" : "Trouvez votre cabinet"}
                                 alignSelf="baseline"
                                 paddingVertical={16}
-                                paddingHorizontal={showAdditionalFields ? 135 : 90}
+                                paddingHorizontal={showAdditionalFields ? 128 : 80}
                                 textColor={colors.white}
-                                textFontSize={16}
+                                textFontSize={12}
                                 borderRadius={10}
                                 bkgroundColor={colors.blue}
                             />
@@ -211,7 +211,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: colors.white,
         borderRadius: 10,
-        borderWidth: 1,
         borderColor: colors.gray100,
         marginTop: 20,
         padding: 15,
@@ -222,7 +221,7 @@ const styles = StyleSheet.create({
         borderColor: colors.gray100,
         padding: 10,
         color: colors.black,
-        fontSize: 18,
+        fontSize: 12,
         borderRadius: 10,
         textAlignVertical: 'center',
         marginTop: 16,
@@ -233,10 +232,12 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 6,
         marginTop: 16,
-        height: 50
+        height: 50,
+        fontSize: 12,
     },
     dropdown: {
         color: colors.black,
+        fontSize: 12,
     },
     searchIcon: {
         left: 10,

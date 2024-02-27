@@ -24,7 +24,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const Appointment_Disponibility_Hours = ({time, doctor}) => {
   const navigation = useNavigation();
-  
+
     const handleValidationAppointment = () => {
         navigation.navigate('Valider le Rendez-vous');
     };
@@ -33,10 +33,10 @@ const Appointment_Disponibility_Hours = ({time, doctor}) => {
     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
       <TouchableOpacity onPress={handleValidationAppointment}>
       <View style={styles.container}>
-        <CustomText fontSize={15} style={styles.time}>
+        <CustomText fontSize={11} style={styles.time}>
           {time}
         </CustomText>
-        <CustomText style={styles.doctor}>{doctor}t</CustomText>
+        <CustomText fontSize={11} style={styles.doctor}>{doctor}</CustomText>
       </View>
       </TouchableOpacity>
     </ScrollView>
@@ -52,7 +52,9 @@ const styles = StyleSheet.create({
     paddingVertical:2,
     paddingHorizontal:10,
     justifyContent: "center",
-    alignItems:"center"
+    alignItems:"center",
+    flexDirection: 'column',
+    gap: 8
   },
   time: {
     color: colors.black,

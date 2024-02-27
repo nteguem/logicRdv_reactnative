@@ -26,7 +26,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
     return (
         <View>
             <View>
-                <CustomText fontSize={13} color={colors.gray300} fontWeight='bold'>
+                <CustomText fontSize={12} color={colors.gray300} fontWeight='bold'>
                     Où ? Autour de ?
                 </CustomText>
                 <View style={styles.containeInput}>
@@ -42,7 +42,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
                 </View>
             </View>
             <View style={{ marginTop: 10 }}>
-                <CustomText fontSize={13} color={colors.gray300} fontWeight='bold'>
+                <CustomText fontSize={12} color={colors.gray300} fontWeight='bold'>
                     Qui ? Spécialité ? Téléphone ?
                 </CustomText>
                 <View style={styles.containeInput}>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         padding: 10,
         color: colors.black,
-        fontSize: 18,
+        fontSize: 12,
         borderRadius: 12,
         textAlignVertical: 'center',
         backgroundColor: colors.white,
