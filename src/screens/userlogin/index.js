@@ -135,7 +135,7 @@ const UserLogin = () => {
                     title="Suivant"
                     alignSelf="baseline"
                     paddingVertical={16}
-                    paddingHorizontal={128}
+                    paddingHorizontal={135}
                     textColor={colors.white}
                     textFontSize={12}
                     borderRadius={10}
