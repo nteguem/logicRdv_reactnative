@@ -16,15 +16,17 @@ const Signin = () => {
       <CustomText
         children="Nouveau sur LogicRdv?"
         color= {colors.black}
-        fontSize={18}
+        fontSize={17}
+        fontWeight='bold'
       
        /> 
       <CustomAppButton
         title="INSCRIPTION RAPIDE"
         onPress={handleSignUp }
-        textFontSize={14}
+        textFontSize={16}
         textColor={colors.blue}
         bkgroundColor='transparent'
+        fontWeight='bold'
       
       />
     </View>
@@ -33,6 +35,7 @@ const Signin = () => {
 };
 const styles = StyleSheet.create({
   container:{
+    flexDirection: 'column',
     marginVertical:10,
     marginHorizontal:10,
     backgroundColor: colors.white,
@@ -40,6 +43,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    gap: 10
 },
 })
 

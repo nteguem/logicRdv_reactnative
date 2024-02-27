@@ -72,7 +72,9 @@ const Inscription = () => {
                 <View>
                     <View style={styles.card}>
                         <CustomText fontSize={17} fontWeight='bold' color={colors.black}>J'ai déja un compte LogicRdv</CustomText>
-                        <CustomText fontSize={16} fontWeight='bold' color={colors.blue}>SE CONNECTER</CustomText>
+                        <TouchableOpacity onPress={handleSignIn}>
+                            <CustomText fontSize={16} fontWeight='bold' color={colors.blue}>SE CONNECTER</CustomText>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View>
@@ -139,6 +141,8 @@ const Inscription = () => {
                                     placeholderTextColor={colors.gray}
                                     value={email}
                                     onChangeText={onChangeEmail}
+                                    keyboardType="email-address"
+                                    autoCapitalize="none"
                                 />
                                 <View>
                                     <MaterialIcons name="lock" size={24} color={colors.gray100} style={styles.iconLeft} />
@@ -186,7 +190,7 @@ const Inscription = () => {
                                 title={showAdditionalFields ? "M'inscrire" : "Trouvez votre cabinet"}
                                 alignSelf="baseline"
                                 paddingVertical={16}
-                                paddingHorizontal={showAdditionalFields ? 135: 90}
+                                paddingHorizontal={showAdditionalFields ? 135 : 90}
                                 textColor={colors.white}
                                 textFontSize={16}
                                 borderRadius={10}

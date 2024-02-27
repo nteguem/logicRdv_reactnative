@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { colors } from '../global/colors';
-import CustomText from '../global/CustomText';
 import CustomAppButton from '../global/CustomAppButton';
 import { useNavigation } from '@react-navigation/native';
 
@@ -38,6 +37,7 @@ const PasswordForm = ({ email }) => {
         value={password}
         onChangeText={handlePasswordChange}
         secureTextEntry={true}
+        placeholderTextColor={colors.black}
       />
 
       <TextInput

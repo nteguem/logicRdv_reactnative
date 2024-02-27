@@ -23,10 +23,10 @@ const EmailForm = () => {
     <>
       {
         password ? (
-          <PasswordForm />
+          <PasswordForm email={email}/>
         ) : (
           <View style={styles.container}>
-      <Text style={styles.title}>Vous etes deja inscrit, veillez vous connecter a votre espace particulier</Text>
+      <Text style={styles.title}>Vous etes deja inscrit, veuillez vous connecter a votre espace particulier</Text>
       <TextInput
         style={styles.input}
         placeholder="Adresse email ou numero de telephone"
