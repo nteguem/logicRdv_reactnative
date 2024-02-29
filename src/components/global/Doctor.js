@@ -10,7 +10,7 @@ import Icon1 from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import CustomText from './CustomText';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import GoogleMap from '../doctor/GoogleMap';
+import GoogleMap from '../ListOfDoctor/GoogleMap';
 import ModalPatient from '../ListOfPatients/Modal';
 
 const Doctor = ({
