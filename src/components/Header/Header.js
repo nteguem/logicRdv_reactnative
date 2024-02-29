@@ -4,7 +4,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { HeaderIcons } from "../../utils/helpers";
-import { DrawerActions } from '@react-navigation/native';
 
 const Header= ({ backgroundColor }) => {
   const navigation = useNavigation();
