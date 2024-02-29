@@ -60,6 +60,10 @@ const Inscription = () => {
         navigation.navigate('Se connecter');
     };
 
+    const handleConditionOfUse = () => {
+        navigation.navigate("Conditions Générales d'utilisation");
+    };
+
     const onSubmit = () => {
         if (phoneNumber !== '') {
             setShowAdditionalFields(true);
@@ -180,7 +184,9 @@ const Inscription = () => {
                                         tintColors={{ true: colors.blue, false: colors.black }}
                                     />
                                     <CustomText fontSize={12} color={colors.black} fontWeight={'bold'}>J'ai lu et accepté </CustomText>
-                                    <CustomText fontSize={12} color={colors.orange} fontWeight={'bold'}>les conditions d'utilisation </CustomText>
+                                    <TouchableOpacity onPress={handleConditionOfUse}>
+                                        <CustomText fontSize={12} color={colors.orange} fontWeight={'bold'}>les conditions d'utilisation </CustomText>
+                                    </TouchableOpacity>
                                 </View>
                             </View>
                         )}

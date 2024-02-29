@@ -13,12 +13,12 @@ import Inscription from '../screens/Inscription';
 import PasswordRecoveryScreen from '../screens/PasswordRecoveryScreen';
 import Message from '../screens/Message';
 import ListOfPatients from '../screens/ListOfPatients';
-import DoctorListScreen from '../screens/DoctorListScreen';
-import UserLogin from '../screens/userlogin';
-import DateAppointment from '../screens/dateappointment';
+import ListOfDoctor from '../screens/ListOfDoctor';
+import UserLogin from '../screens/Login';
+import AppointmentPlanification from '../screens/AppointmentPlanification';
 import ValidationAppointment from '../screens/ValidationAppointment';
-import ConfirmationAppointmentScreen from '../screens/confirmAppointment';
-import PatientManagement from '../screens/patient_management';
+import AppointmentConfirmation from '../screens/AppointmentConfirmation';
+import PatientManagement from '../screens/PatientManagment';
 import ResultatRecherche from '../screens/Resultat';
 import Motifs from '../screens/Motifs';
 
@@ -43,10 +43,10 @@ const UnauthenticatedNavigator = () => {
       
       <Stack.Screen name="Mes rendez-vous" options={pageOption} component={Appointments} initialParams={{ left: HeaderIcons.SEARCH, right: HeaderIcons.ACCOUNT }} />
       <Stack.Screen name="Recherche d'un praticien" options={pageOption} component={Search} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />
-      <Stack.Screen name="Fixez rendez-vous" options={pageOption} component={DoctorListScreen} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />
+      <Stack.Screen name="Fixez rendez-vous" options={pageOption} component={ListOfDoctor} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />
       <Stack.Screen name="Motif du Rendez-vous" options={pageOption} component={Motifs} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />
-      <Stack.Screen name="Jour et Heure du Rdv" options={pageOption} component={DateAppointment} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />
-      <Stack.Screen name="Confirmation rdv" options={pageOption} component={ConfirmationAppointmentScreen} />
+      <Stack.Screen name="Jour et Heure du Rdv" options={pageOption} component={AppointmentPlanification} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />
+      <Stack.Screen name="Confirmation rdv" options={pageOption} component={AppointmentConfirmation} />
       <Stack.Screen name="Valider le Rendez-vous" options={pageOption} component={ValidationAppointment} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />
       <Stack.Screen name="Paiement" options={pageOption} component={Paiement} initialParams={{ left: HeaderIcons.GO_BACK }} />
       <Stack.Screen name="Message" options={pageOption} component={Message} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />

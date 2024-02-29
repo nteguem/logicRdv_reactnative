@@ -2,7 +2,7 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import CustomText from '../../components/global/CustomText'
-import AllDoctor from '../../components/doctor/AllDoctors'
+import AllDoctor from '../../components/ListOfDoctor/AllDoctors'
 
 const ResultatRecherche = () => {
   const [resultat, setResultat] = useState(false)
