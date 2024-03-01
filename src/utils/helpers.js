@@ -19,11 +19,11 @@ const setToken = async (token) => {
 
 export const generateToken = async () => {
   try {
-    dataToken = await JSON.stringify({
+    dataToken = {
       client_project: 'cf6c306bab',
       client_secret: '043a348ddcb9031c4a192f2ae4917cf096c799a4'
-    });
-    const response = await sendRequest('POST', 'https://www.logicrdv.fr/api/token/get/', dataToken );
+    };
+    const response = await sendRequest('POST', 'token/get/', dataToken );
 
     const authorizationHeader = response.data.authorization;
     const token = authorizationHeader.split(' ')[1];
@@ -37,7 +37,7 @@ export const generateToken = async () => {
 
 export const checkTokenValidity = async () => {
   try {
-    const response = await sendRequest('POST', 'https://www.logicrdv.fr/api/token/check/', null);
+    const response = await sendRequest('POST', 'token/check/', null);
 
     if (response.httpstatut === 200) {
       return true;

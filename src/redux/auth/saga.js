@@ -1,27 +1,30 @@
-// src/auth/authSaga.js
-import { takeLatest, put } from 'redux-saga/effects';
-import * as types from './types';
-import { loginSuccess, logoutSuccess } from './authActions';
+import { takeLatest, call, put,select } from 'redux-saga/effects';
+import { sendRequest } from '../../utils/api';
+import {
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  STEP_REQUEST,
+} from './types';
 
-function* loginSaga(action) {
+function* login(action) {
   try {
-    // Code pour la saga de connexion
-    yield put(loginSuccess(action.payload));
+    const response = yield call(sendRequest, 'POST', 'login/process/', action.payload);
+    console.log("response",response);
+    if (response.data && response.data.message === 'Login OK') {
+      yield put({ type: LOGIN_SUCCESS, payload: { token: response.data.user.tokenuser } });
+    } else {
+      yield put({ type: LOGIN_FAILURE });
+    }
+
+    yield put({ type: STEP_REQUEST, payload: response.data });
   } catch (error) {
-    // Gérer les erreurs de connexion
+    yield put({ type: LOGIN_FAILURE });
   }
 }
 
-function* logoutSaga() {
-  try {
-    // Code pour la saga de déconnexion
-    yield put(logoutSuccess());
-  } catch (error) {
-    // Gérer les erreurs de déconnexion
-  }
+function* authSaga() {
+  yield takeLatest(LOGIN_REQUEST, login);
 }
 
-export default function* authSaga() {
-  yield takeLatest(types.LOGIN, loginSaga);
-  yield takeLatest(types.LOGOUT, logoutSaga);
-}
+export default authSaga;

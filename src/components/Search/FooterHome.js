@@ -1,15 +1,19 @@
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, View } from 'react-native'
-import CustomAppButton from '../global/CustomAppButton'
-import CustomText from '../global/CustomText'
-import { colors } from '../global/colors'
+import { StyleSheet, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import CustomAppButton from '../global/CustomAppButton';
+import CustomText from '../global/CustomText';
+import { colors } from '../global/colors';
+import { loginRequest } from '../../redux/auth/actions';
 
 const FooterHome = () => {
 
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
     const handleSignIn = () => {
+        dispatch(loginRequest('','',''));
         navigation.navigate('Se connecter');
     };
 
