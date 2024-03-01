@@ -1,13 +1,19 @@
 import React from 'react';
-import { View, StyleSheet, SafeAreaView } from 'react-native';
+import { View, StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
 import Header from '../Header/Header';
-
-const ContainerScreen = ({ children, backgroundColor }) => {
+import { colors } from '../global/colors';
+const ContainerScreen = ({ children, backgroundColor,isLoading }) => {
     return (
         <SafeAreaView style={styles.safeArea}>
             <Header backgroundColor={backgroundColor} />
             <View style={styles.container}>
-                {children}
+                {isLoading ? (
+                    <View style={styles.overlay}>
+                        <ActivityIndicator size="large" color={colors.blue} />
+                    </View>
+                ) : (
+                     children 
+                )}
             </View>
         </SafeAreaView>
     );
@@ -20,9 +26,13 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        //justifyContent: 'center',
         paddingHorizontal: 10,
     },
+    overlay: {
+        ...StyleSheet.absoluteFillObject,
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
 });
 
 export default ContainerScreen;
