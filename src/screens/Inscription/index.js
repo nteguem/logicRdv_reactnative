@@ -190,17 +190,17 @@ const Inscription = () => {
                                 </View>
                             </View>
                         )}
-                        <View style={{ marginTop: 10 }}>
+                        <View style={{ marginTop: 10, width:'100%' }}>
                             <CustomAppButton
                                 onPress={showAdditionalFields ? handleSignIn : onSubmit}
                                 title={showAdditionalFields ? "M'inscrire" : "Trouvez votre cabinet"}
                                 alignSelf="baseline"
                                 paddingVertical={16}
-                                paddingHorizontal={showAdditionalFields ? 128 : 80}
                                 textColor={colors.white}
                                 textFontSize={12}
                                 borderRadius={10}
                                 bkgroundColor={colors.blue}
+                                width='100%'
                             />
                         </View>
                     </View>

@@ -1,6 +1,6 @@
 import React from 'react';
-import {TouchableOpacity, StyleSheet} from 'react-native';
-import {colors} from './colors';
+import { TouchableOpacity, StyleSheet, View } from 'react-native';
+import { colors } from './colors';
 import CustomText from './CustomText';
 
 const CustomAppButton = ({
@@ -8,7 +8,7 @@ const CustomAppButton = ({
   onPress,
   bkgroundColor = '#009688',
   borderWidth,
-  alignSelf ,
+  alignSelf,
   borderColor = 'blue',
   textColor = colors.black,
   textFontSize = 15,
@@ -17,7 +17,8 @@ const CustomAppButton = ({
   borderRadius,
   iconComponent,
   marginHorizontal,
-  fontWeight
+  fontWeight,
+  width
 }) => {
   const styles = StyleSheet.create({
     // ...
@@ -32,6 +33,7 @@ const CustomAppButton = ({
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
+      width: width
     },
     appButtonText: {
       alignSelf: 'center',
@@ -40,15 +42,15 @@ const CustomAppButton = ({
     },
   });
   return (
-    <TouchableOpacity onPress={onPress} style={styles.appButtonContainer}>
-      {iconComponent && iconComponent}
-      <CustomText
-        fontSize={textFontSize}
-        color={textColor}
-        style={styles.appButtonText}>
-        {title}
-      </CustomText>
-    </TouchableOpacity>
+      <TouchableOpacity onPress={onPress} style={styles.appButtonContainer}>
+        {iconComponent && iconComponent}
+        <CustomText
+          fontSize={textFontSize}
+          color={textColor}
+          style={styles.appButtonText}>
+          {title}
+        </CustomText>
+      </TouchableOpacity>
   );
 };
 

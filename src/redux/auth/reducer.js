@@ -11,12 +11,13 @@ const initialState = {
   data:'',
   action:'',
   headerMessage: '',
+  headerError:'',
   inputFields: [],
   buttons: [],
   token: '',
 };
 
-const authReducer = (state = initialState, action) => {
+const AuthReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_SUCCESS:
       return {
@@ -32,15 +33,15 @@ const authReducer = (state = initialState, action) => {
     case STEP_REQUEST:
       return {
         ...state,
-        step: action.payload.session.step,
         session: action.payload.session,
-        headerMessage: action.payload.headerMessage,
-        inputFields: action.payload.inputFields,
-        buttons: action.payload.buttons,
+        headerMessage: action.payload.headermessage,
+        headerError: action.payload.headererror,
+        inputFields: action.payload.input,
+        buttons: action.payload.buttonvalidation,
       };
     default:
       return state;
   }
 };
 
-export default authReducer;
+export default AuthReducer;

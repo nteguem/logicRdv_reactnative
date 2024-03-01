@@ -6,148 +6,107 @@ import { colors } from '../../components/global/colors';
 import CustomAppButton from '../../components/global/CustomAppButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
-
-const UserLogin = () => {
-  const [showAdditionalFields, setShowAdditionalFields] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+import { useDispatch, connect } from 'react-redux';
+import { loginStyles } from './styles';
+import { loginRequest } from '../../redux/auth/actions'
+const Login = ({ session, headerError, headerMessage, inputFields, buttons }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [code, setCode] = useState('');
+  const dispatch = useDispatch();
 
   const navigation = useNavigation();
 
-  const handleEmailChange = (text) => {
-    setEmail(text);
-  };
-
-  const onChangePassword = (text) => {
-    setPassword(text);
+  const handleInputChange = (text, type) => {
+    switch (type) {
+      case 'email':
+        setEmail(text);
+        break;
+      case 'password':
+        setPassword(text);
+        break;
+      case 'code':
+        setCode(text);
+        break;
+        setEmail("");
+        setPassword("");
+        setCode("");
+      default:
+        break;
+    }
+  }
+  const handleButtonPress = (action) => {
+    const inputData = password != "" ? password : email;
+    dispatch(loginRequest(inputData, action, session));
   };
 
   const handleSignUp = () => {
     navigation.navigate('Inscription rapide');
   };
 
-  const onSubmit = () => {
-    if (email !== '') {
-      setShowAdditionalFields(true);
-    }
-  };
-
-  const handleReturnToEmail = () => {
-    // Logique pour retourner au composant EmailForm
-    console.log('Retour au composant EmailForm');
-  };
-
-  const handlePasswordRecovery = () => {
-    navigation.navigate('Mot de passe oublié');
-  };
-
-  const handleValidatePassword = () => {
-    // Logique pour valider le mot de passe
-    navigation.navigate('Mes rendez-vous');
-    // Réinitialiser le mot de passe après la validation
-    setPassword('');
-  };
-
   return (
     <ContainerScreen>
       <ScrollView>
         <View>
-          <View style={styles.card}>
+          <View style={loginStyles.card}>
             <CustomText fontSize={12} fontWeight='bold' color={colors.black} style={{ textAlign: 'center' }}>
-              {showAdditionalFields ?
-                'Veuillez entrer votre mot de passe'
+              {headerError != "" ?
+                headerError
                 :
-                'Vous etes deja inscrit, veuillez vous connecter à votre espace particulier'
+                headerMessage
               }
             </CustomText>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
               <View style={{ width: '100%' }} >
-                <TextInput
-                  style={styles.input}
-                  placeholder="Adresse email ou numero de telephone"
-                  placeholderTextColor={colors.gray}
-                  value={email}
-                  onChangeText={handleEmailChange}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                />
-
+                {inputFields.map((input, index) => (
+                  <View key={index} style={{ width: '100%' }}>
+                    <TextInput
+                      style={loginStyles.input}
+                      placeholder={input.label}
+                      placeholderTextColor={colors.gray}
+                      value={
+                        input.name === 'password' && input.value === '' ? password :
+                          input.name === 'email' && input.value === '' ? email :
+                            input.name === 'code' && input.value === '' ? code :
+                              input.value
+                      } onChangeText={(text) => handleInputChange(text, input.name)}
+                      keyboardType={input.name === 'email' ? 'email-address' : input.name === 'code' ? 'numeric' : 'default'}
+                      autoCapitalize={input.name === 'email' ? 'none' : 'sentences'}
+                      secureTextEntry={input.name === 'password' ? !showPassword : showPassword}
+                    />
+                    {input.name === 'password' && (
+                      <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                        <Icon name={showPassword ? "eye" : "eye-off"} size={24} color={colors.gray100} style={loginStyles.icon} />
+                      </TouchableOpacity>
+                    )}
+                  </View>
+                ))}
               </View>
             </View>
-            {showAdditionalFields && (
-              <View style={{ width: '100%' }}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Mot de passe"
-                  placeholderTextColor={colors.gray}
-                  value={password}
-                  onChangeText={onChangePassword}
-                  secureTextEntry={!showPassword}
-                />
-                <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                  <Icon name={showPassword ? "eye" : "eye-off"} size={24} color={colors.gray100} style={styles.icon} />
-                </TouchableOpacity>
+
+            <View style={{ marginTop: 10, width: '100%' }}>
+              <View style={loginStyles.buton}>
+                {buttons.map((button, index) => (
+                  <CustomAppButton
+                    key={index}
+                    onPress={() => handleButtonPress(button.onclick_action)}
+                    title={button.label}
+                    alignSelf="baseline"
+                    paddingVertical={16}
+                    textColor={colors.white}
+                    textFontSize={12}
+                    borderRadius={10}
+                    bkgroundColor={colors.blue}
+                    width='100%'
+                  />
+                ))}
               </View>
-            )}
-            <View style={{ marginTop: 10 }}>
-              {showAdditionalFields ? (
-                <View style={styles.buton}>
-                  <CustomAppButton
-                    title="Retour"
-                    onPress={handleReturnToEmail}
-                    alignSelf="baseline"
-                    paddingVertical={16}
-                    paddingHorizontal={138}
-                    textColor={colors.white}
-                    textFontSize={12}
-                    borderRadius={10}
-                    bkgroundColor={colors.blue}
-                  />
-                  <CustomAppButton
-                    title="Mot de passe oublié"
-                    onPress={handlePasswordRecovery}
-                    alignSelf="baseline"
-                    paddingVertical={16}
-                    paddingHorizontal={86}
-                    textColor={colors.white}
-                    textFontSize={12}
-                    borderRadius={10}
-                    bkgroundColor={colors.blue}
-                  />
-
-                  <CustomAppButton
-                    onPress={handleValidatePassword}
-                    title="Suivant"
-                    alignSelf="baseline"
-                    paddingVertical={16}
-                    paddingHorizontal={136}
-                    textColor={colors.white}
-                    textFontSize={12}
-                    borderRadius={10}
-                    bkgroundColor={colors.blue}
-                  />
-                </View>
-              ) :
-                (
-                  <CustomAppButton
-                    onPress={onSubmit}
-                    title="Suivant"
-                    alignSelf="baseline"
-                    paddingVertical={16}
-                    paddingHorizontal={135}
-                    textColor={colors.white}
-                    textFontSize={12}
-                    borderRadius={10}
-                    bkgroundColor={colors.blue}
-                  />
-                )}
-
             </View>
           </View>
         </View>
         <View>
-          <View style={styles.card}>
+          <View style={loginStyles.card}>
             <CustomText
               children="Nouveau sur LogicRdv?"
               color={colors.black}
@@ -171,40 +130,12 @@ const UserLogin = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  card: {
-    flexDirection: "column",
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.white,
-    borderRadius: 10,
-    borderColor: colors.gray100,
-    marginTop: 20,
-    padding: 15,
-    gap: 10
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: colors.gray100,
-    padding: 10,
-    color: colors.black,
-    fontSize: 12,
-    borderRadius: 10,
-    textAlignVertical: 'center',
-    marginTop: 16,
-    height: 50
-  },
-  buton: {
-    paddingVertical: 10,
-    gap: 10,
-  },
-  icon: {
-    position: 'absolute',
-    marginRight: 10,
-    right: 10,
-    top: '10%',
-    transform: [{ translateY: -35 }]
-  },
+const mapStateToProps = ({ AuthReducer }) => ({
+  session: AuthReducer.session,
+  headerMessage: AuthReducer.headerMessage,
+  headerError: AuthReducer.headerError,
+  inputFields: AuthReducer.inputFields,
+  buttons: AuthReducer.buttons,
 });
 
-export default UserLogin
+export default connect(mapStateToProps)(Login);
