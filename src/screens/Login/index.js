@@ -37,7 +37,7 @@ const Login = ({ session, headerError, headerMessage, inputFields, buttons }) =>
     }
   }
   const handleButtonPress = (action) => {
-    const inputData = password != "" ? password : email;
+    const inputData = password !== '' ? password : code !== '' ? code : email;
     dispatch(loginRequest(inputData, action, session));
   };
 
