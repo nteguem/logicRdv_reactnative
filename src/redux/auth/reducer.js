@@ -2,10 +2,12 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   STEP_REQUEST,
+  LOGIN_REQUEST
 } from './types';
 
 const initialState = {
   isLoggedIn: false,
+  isLoading:false,
   step: 0,
   session: '',
   data:'',
@@ -19,6 +21,12 @@ const initialState = {
 
 const AuthReducer = (state = initialState, action) => {
   switch (action.type) {
+
+    case LOGIN_REQUEST:
+      return {
+          ...state,
+          isLoading: true,
+      };
     case LOGIN_SUCCESS:
       return {
         ...state,
@@ -38,6 +46,7 @@ const AuthReducer = (state = initialState, action) => {
         headerError: action.payload.headererror,
         inputFields: action.payload.input,
         buttons: action.payload.buttonvalidation,
+        isLoading: false,
       };
     default:
       return state;
