@@ -24,12 +24,11 @@ const Inscription = () => {
     const [isChecked, setIsChecked] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+    
     const navigation = useNavigation();
 
     const onChangePhoneNumber = (text) => {
         setPhoneNumber(text);
-        setShowSearchIcon(text.length > 0); // Afficher l'icône si du texte est saisi
     };
 
     const onChangeFirstName = (text) => {
@@ -67,6 +66,7 @@ const Inscription = () => {
     const onSubmit = () => {
         if (phoneNumber !== '') {
             setShowAdditionalFields(true);
+            setShowSearchIcon(true);
         }
     };
 
@@ -86,7 +86,7 @@ const Inscription = () => {
                         <CustomText fontSize={15} fontWeight='bold' color={colors.black}>Inscription</CustomText>
                         <CustomText fontSize={12} color={colors.black}>Saisissez les informations demandées</CustomText>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                            <View style={{ width: phoneNumber ? '80%' : '100%' }} >
+                            <View style={{ width: showAdditionalFields ? '85%' : '100%' }} >
                                 <TextInput
                                     style={styles.input}
                                     placeholder="Téléphone du cabinet médical"
@@ -272,5 +272,6 @@ const styles = StyleSheet.create({
         transform: [{ translateY: -10 }]
     }
 });
+  
+  export default Inscription;
 
-export default Inscription

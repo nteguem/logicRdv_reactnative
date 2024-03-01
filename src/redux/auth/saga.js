@@ -1,4 +1,4 @@
-import { takeLatest, call, put,select } from 'redux-saga/effects';
+import { takeLatest, call, put, select } from 'redux-saga/effects';
 import { sendRequest } from '../../utils/api';
 import {
   LOGIN_REQUEST,
@@ -10,7 +10,7 @@ import {
 function* login(action) {
   try {
     const response = yield call(sendRequest, 'POST', 'login/process/', action.payload);
-    console.log("response",response);
+    console.log("response", response);
     if (response.data && response.data.message === 'Login OK') {
       yield put({ type: LOGIN_SUCCESS, payload: { token: response.data.user.tokenuser } });
     } else {
