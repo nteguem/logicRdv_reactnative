@@ -9,15 +9,15 @@ import {
 
 function* login(action) {
   try {
+    console.log("actionn saga",action)
     const response = yield call(sendRequest, 'POST', 'login/process/', action.payload);
-    console.log("response",response);
-    if (response.data && response.data.message === 'Login OK') {
-      yield put({ type: LOGIN_SUCCESS, payload: { token: response.data.user.tokenuser } });
-    } else {
-      yield put({ type: LOGIN_FAILURE });
-    }
-
-    yield put({ type: STEP_REQUEST, payload: response.data });
+    console.log("response login",response.data)
+    // if (response.data && response.data.data.user) {
+    //   yield put({ type: LOGIN_SUCCESS, payload: { token: response.data.user.tokenuser } });
+    // } else {
+    //   yield put({ type: LOGIN_FAILURE });
+    // }
+    yield put({ type: STEP_REQUEST, payload: response.data});
   } catch (error) {
     yield put({ type: LOGIN_FAILURE });
   }
