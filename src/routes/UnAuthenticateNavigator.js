@@ -21,6 +21,7 @@ import AppointmentConfirmation from '../screens/AppointmentConfirmation';
 import PatientManagement from '../screens/PatientManagment';
 import ResultatRecherche from '../screens/Resultat';
 import Motifs from '../screens/Motifs';
+import DoctorDetails from '../screens/DoctorDetails';
 
 const Stack = createStackNavigator();
 
@@ -40,7 +41,9 @@ const UnauthenticatedNavigator = () => {
       <Stack.Screen name="Résultat" options={pageOption} component={ResultatRecherche} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.MENU }} />
       {/*Non authentifié*/}
       <Stack.Screen name="Mot de passe oublié" options={pageOption} component={PasswordRecoveryScreen} initialParams={{ left: HeaderIcons.GO_BACK }} />
-      
+      {/*Non authentifié*/}
+      <Stack.Screen name="Détail du médécin" options={pageOption} component={DoctorDetails} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.MENU }} />
+
       <Stack.Screen name="Mes rendez-vous" options={pageOption} component={Appointments} initialParams={{ left: HeaderIcons.SEARCH, right: HeaderIcons.ACCOUNT }} />
       <Stack.Screen name="Recherche d'un praticien" options={pageOption} component={Search} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />
       <Stack.Screen name="Fixez rendez-vous" options={pageOption} component={ListOfDoctor} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />

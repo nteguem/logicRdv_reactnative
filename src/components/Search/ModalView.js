@@ -17,31 +17,61 @@ const ModalView = ({
     borderRadius,
     borderColor,
     results,
+    navigation,
     isLoading
 }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
     const [zipCode, setZipCode] = useState('');
-    const [profession, setProfession] = useState('');
+    const [input, setInput] = useState('');
+    const [inputProfession, setInputProfession] = useState('');
     const [value, setValue] = useState('');
     const [showCrossIcon, setShowCrossIcon] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+
     const dispatch = useDispatch();
-    const handleProfessionChange = (text) => {
-        setProfession(text);
+
+    const handleInputChange = (text) => {
         setShowCrossIcon(text !== '');
+        if (isCity) {
+            setInput(text);
+            dispatch(searchRequest({ "kind": "city", "proxy_istelecons": "0", "term": text }));
+        } else {
+            setInputProfession(text);
+            dispatch(searchRequest({ "kind": "name", "cp": "0", "proxy_istelecons": "0", "term": text }));
+        }
+    };
+
+    const handleSelectItem = (item) => {
+        if (!item.civility) {
+            setValue(item.nom);
+        } else {
+            navigation.navigate('Détail du médecin', {
+                name:item.nom,
+                profession: item.category,
+                adresse: item.adress,
+                zip: item.zip,
+                city: item.city,
+                tel: item.tel,
+            })
+        }
+        setSelectedItem(item);
+        setModalVisible(false)
+        console.log('element selectioné::', item)
     };
 
     useEffect(() => {
         // dispatch(searchRequest({"kind":"city","proxy_istelecons":"0","term":"7500"}));
-        // dispatch(searchRequest({"kind":"name","cp":"0","proxy_istelecons":"0","term":"med"}));
+        // dispatch(searchRequest({ "kind": "name", "cp": "0", "proxy_istelecons": "0", "term": "med" }));
         // dispatch(resultRequest({"proxy_ville":"75001 PARIS 1er","proxy_nom":"Médecin Généraliste","proxy_ville_id":"30924","proxy_nom_id":"c1","proxy_search":"","proxy_page":"1"}));
     }, []);
 
     const clearText = () => {
         setValue('');
-        setProfession(''),
-            setShowCrossIcon(false);
+        setInput('');
+        setInputProfession('');
+        setShowCrossIcon(false);
     };
     return (
         <View style={styles.centeredView}>
@@ -71,7 +101,7 @@ const ModalView = ({
                                 paddingTop: isLocation ? 15 : 8,
                             }]} >
                             {isLocation ? (
-                                <View style={{ width: '100%' }}> 
+                                <View style={{ width: '100%' }}>
                                     <CustomText fontSize={15} color={colors.white} fontWeight='bold' style={{ textAlign: 'center' }}>
                                         ADRESSE DE RECHERCHE
                                     </CustomText>
@@ -84,9 +114,9 @@ const ModalView = ({
                                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: -18 }}>
                                         <View style={{ width: '78%' }}>
                                             <TextInput
-                                                value={profession}
-                                                onChangeText={handleProfessionChange}
-                                                style={styles.inputProfession}
+                                                value={input}
+                                                onChangeText={handleInputChange}
+                                                style={styles.input}
                                                 placeholder="Code postal, Ville"
                                                 placeholderTextColor={colors.gray100}
                                             />
@@ -115,8 +145,8 @@ const ModalView = ({
                                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: -18 }}>
                                         <View style={{ width: '78%' }}>
                                             <TextInput
-                                                value={profession}
-                                                onChangeText={handleProfessionChange}
+                                                value={inputProfession}
+                                                onChangeText={handleInputChange}
                                                 style={styles.inputProfession}
                                                 placeholder="Nom, Spécialité, Téléphone"
                                                 placeholderTextColor={colors.gray100}
@@ -233,22 +263,37 @@ const ModalView = ({
                                     </ScrollView>
                                 </View>
                             ) : (
-                                <View style={{ height: '99%', marginHorizontal: -35 }}>
+                                <View style={{ height: '98%', marginHorizontal: -35 }}>
                                     <ScrollView>
-                                        <View>
-                                            {/* <CustomText fontSize={18} color={colors.black} style={{ marginLeft: 12 }}>
-                                                Ville
-                                            </CustomText>
-                                            <CustomText fontSize={18} color={colors.gray} style={{ marginLeft: 12 }}>
-                                                Ville
-                                            </CustomText>
-                                            <CustomText fontSize={18} color={colors.black} style={{ marginLeft: 12 }}>
-                                                Ville
-                                            </CustomText>
-                                            <View style={styles.divider} /> */}
-                                        </View>
+                                        {results.map((result, index) => (
+                                            <TouchableOpacity key={index} onPress={() => handleSelectItem(result)}>
+                                                <View >
+                                                    <CustomText fontSize={12} fontWeight={'bold'} color={colors.black} style={{ marginLeft: 12 }}>
+                                                        {result.civility ? (
+                                                            <>{result.civility} {result.nom}</>
+
+                                                        ) : (
+                                                            <>{result.nom}</>
+                                                        )}
+
+                                                    </CustomText>
+                                                    {result.address && (
+                                                        <CustomText fontSize={12} fontWeight={'bold'} color={colors.gray} style={{ marginLeft: 12 }}>
+                                                            {result.address}
+                                                        </CustomText>
+                                                    )}
+                                                    {result.zip && (
+                                                        <CustomText fontSize={12} fontWeight={'bold'} color={colors.black} style={{ marginLeft: 12 }}>
+                                                            {result.zip}
+                                                        </CustomText>
+                                                    )}
+                                                    <View style={styles.divider} />
+                                                </View>
+                                            </TouchableOpacity>
+                                        ))}
                                     </ScrollView>
                                 </View>
+
                             )}
                         </View>
                     </View>
@@ -256,29 +301,29 @@ const ModalView = ({
             </Modal>
             <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
                 <View style={{ flex: 1 }}>
-                {!isLocation && (
-                    <Pressable onPress={() => setModalVisible(!modalVisible)}>
-                        <TextInput
-                            style={[styles.input,
-                            {
-                                borderWidth: borderWidth,
-                                borderRadius: borderRadius,
-                                borderColor: borderColor
-                            }
-                            ]}
-                            placeholder={placeholder}
-                            placeholderTextColor={colors.gray100}
-                            editable={false}
-                            onFocus={() => setModalVisible(true)}
-                            value={value}
-                            onChangeText={onChange}
-                        />
-                        {showCrossIcon && (
-                            <TouchableOpacity onPress={clearText}>
-                                <Icon name="close" size={24} color={colors.red} style={styles.icon} />
-                            </TouchableOpacity>
-                        )}
-                    </Pressable>
+                    {!isLocation && (
+                        <Pressable onPress={() => setModalVisible(!modalVisible)}>
+                            <TextInput
+                                style={[styles.input,
+                                {
+                                    borderWidth: borderWidth,
+                                    borderRadius: borderRadius,
+                                    borderColor: borderColor
+                                }
+                                ]}
+                                placeholder={placeholder}
+                                placeholderTextColor={colors.gray100}
+                                editable={false}
+                                onFocus={() => setModalVisible(true)}
+                                value={value}
+                                onChangeText={onChange}
+                            />
+                            {showCrossIcon && (
+                                <TouchableOpacity onPress={clearText}>
+                                    <Icon name="close" size={24} color={colors.red} style={styles.icon} />
+                                </TouchableOpacity>
+                            )}
+                        </Pressable>
                     )}
                 </View>
                 {isLocation && (
@@ -387,7 +432,7 @@ const styles = StyleSheet.create({
     containerIcon: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        gap:12
+        gap: 12
     },
     iconLocation: {
         color: colors.blue
