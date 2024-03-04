@@ -1,7 +1,6 @@
 import { all } from 'redux-saga/effects';
 import AuthSaga from '../auth/saga';
 import SearchSaga from '../search/saga'
-import CountrySaga from '../country/saga';
 /**
 
  * @description combine sagas.
@@ -9,5 +8,5 @@ import CountrySaga from '../country/saga';
  */
 
 export default function* Sagas() {
-  yield all([AuthSaga(),SearchSaga(),CountrySaga()]);
+  yield all([AuthSaga(),SearchSaga()]);
 }

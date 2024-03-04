@@ -32,6 +32,7 @@ const SearchReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+        results:[],
         error:action.payload
       };
       case RESULT_REQUEST:
@@ -49,6 +50,7 @@ const SearchReducer = (state = initialState, action) => {
         return {
           ...state,
           isLoading: false,
+          results:[],
           error:action.payload
         };
     default:

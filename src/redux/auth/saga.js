@@ -1,6 +1,9 @@
 import { takeLatest, call, put, select } from 'redux-saga/effects';
 import { showMessage } from 'react-native-flash-message';
 import { sendRequest } from '../../utils/api';
+import {loginRequest} from './actions'
+import * as RootNavigation from '../../routes/RootNavigation';
+import {setUserData} from "../../utils/helpers"
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -12,17 +15,25 @@ import {
   SIGNUP_REQUEST
 } from './types';
 
+
+
 function* login({payload}) {
   try {
     const response = yield call(sendRequest, 'POST', 'login/process/', payload);
-    // if (response.data && response.data.data.user) {
-    //   yield put({ type: LOGIN_SUCCESS, payload: { token: response.data.user.tokenuser } });
-    // } else {
-    //   yield put({ type: LOGIN_FAILURE });
-    // }
+    if (response.data && response.data.user && response.data.user.tokenuser) {
+      yield put({ type: LOGIN_SUCCESS, payload: { token: response.data.user.tokenuser } });
+      yield setUserData(response.data.user);
+      showMessage({
+        message: 'Bienvenue !',
+        description: `Vous êtes maintenant connecté.`,
+        type: 'success',
+        duration: 5000,
+      });
+      
+    }     
     yield put({ type: STEP_REQUEST, payload: response.data });
   } catch (error) {
-    yield put({ type: SIGNUP_FAILURE });
+    yield put({ type: LOGIN_FAILURE , payload: error});
   }
 }
 
@@ -36,18 +47,33 @@ function* signup({ payload }) {
     
     if (type === 'check') {
       yield put({ type: SIGNUP_CHECK, payload: response.data });
+      return;
     } else {
-       if ( response.message === "Etablissement ajouté à la liste de vos praticiens")
-      yield put({ type: SIGNUP_SUCCESS, payload: response.data });
+       if ( response.message == "Etablissement ajouté à la liste de vos praticiens."){
+        yield put({ type: SIGNUP_SUCCESS, payload: response.message });
+        showMessage({
+          message: 'Inscription reussie',
+          description: `${response.message}`,
+          type: 'success',
+          duration: 5000,
+        });
+        yield put(loginRequest(response.params.email,"next","{\"step\":\"1\"}"));
+        RootNavigation.navigate('Se connecter');
+       }
+       else 
+       {
+        yield put({ type: SIGNUP_SUCCESS, payload: response.data });
+        showMessage({
+          message: 'Echec inscription',
+          description: `${response.message}`,
+          type: 'danger',
+          duration: 5000,
+        });
+       }
+
     }
   } catch (error) {
     yield put({ type: SIGNUP_FAILURE, payload: error });
-    showMessage({
-      message: 'Erreur',
-      description: `Erreur : ${error}`,
-      type: 'danger',
-      duration: 5000,
-    });
   }
 }
 

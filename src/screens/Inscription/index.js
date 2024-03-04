@@ -82,7 +82,7 @@ const Inscription = ({ etablissements, cgu, isLoading }) => {
     };
 
     const onSubmit = () => {
-        signUpRequest({
+        const data = {
             "id":selectedFormation,
             "nom":firstName,
             "prenom":lastName,
@@ -92,7 +92,8 @@ const Inscription = ({ etablissements, cgu, isLoading }) => {
             "pass2":confirmPassword,
             "cgu":isChecked,
             "phone":phoneNumber
-           })
+           }
+        dispatch(signUpRequest("add",data))
     };
 
     return (

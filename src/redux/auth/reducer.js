@@ -7,6 +7,7 @@ import {
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
   SIGNUP_CHECK,
+  SET_LOGGED_IN
 } from './types';
 
 const initialState = {
@@ -20,14 +21,18 @@ const initialState = {
   inputFields: [],
   buttons: [],
   token: '',
-  cgu: '',
+  cgu: null,
   etablissements: [],
   message:''
 };
 
 const AuthReducer = (state = initialState, action) => {
   switch (action.type) {
-
+    case SET_LOGGED_IN:
+      return {
+        ...state,
+        isLoggedIn: action.payload,
+      };
     case LOGIN_REQUEST:
       return {
         ...state,
@@ -89,6 +94,8 @@ const AuthReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         message: action.payload.message,
+        etablissements: [],
+        cgu:null
       }
     case SIGNUP_FAILURE:
       return {

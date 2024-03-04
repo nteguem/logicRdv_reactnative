@@ -17,6 +17,31 @@ const setToken = async (token) => {
   AsyncStorage.setItem('tokenLogicRdv', token);
 };
 
+export const getUserData = async () => {
+  try {
+    const userDataString = await AsyncStorage.getItem('userData');
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      return userData.tokenuser;
+    } else {
+      console.log('Aucune donnée utilisateur trouvée.');
+      return null;
+    }
+  } catch (error) {
+    console.error('Erreur lors de la récupération des données utilisateur:', error);
+    return null;
+  }
+};
+
+
+export const setUserData = async (userData) => {
+  try {
+    await AsyncStorage.setItem('userData', JSON.stringify(userData));
+  } catch (error) {
+    console.error('Erreur lors de la sauvegarde des informations utilisateur:', error);
+  }
+};
+
 export const generateToken = async () => {
   try {
     dataToken = {
@@ -37,8 +62,8 @@ export const generateToken = async () => {
 
 export const checkTokenValidity = async () => {
   try {
-    const response = await sendRequest('POST', 'token/check/', null);
-
+    const endpoint = 'token/check/'
+    const response = await sendRequest('POST', endpoint, null);
     if (response.httpstatut === 200) {
       return true;
     } else if (response.httpstatut === 401) {
@@ -52,7 +77,22 @@ export const checkTokenValidity = async () => {
   }
 };
 
+export const isAuth = async () => {
+  try {
+    const userDataString = await AsyncStorage.getItem('userData');
+    if (userDataString) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    return false;
+  }
+};
+
+
 export const initializeApp = async () => {
+
   try {
     const token = await getToken();
     if (!token) {

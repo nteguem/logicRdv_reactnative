@@ -6,7 +6,7 @@ const remoteUrl = "https://www.logicrdv.fr/api/";
 
 export const request = async (method, url, data, headers = {}) => {
   try {
-    const token = await getToken(); 
+    const token = await getToken();
     if (token) {
       headers['X-LOGICRDV-AUTH'] = token;
     }
@@ -22,36 +22,31 @@ export const request = async (method, url, data, headers = {}) => {
     });
 
     if (!response.ok) {
-      if (response.status === 404) {
-        const errorBody = await response.json();
-        showMessage({
-          message: 'Erreur',
-          description: errorBody.message,
-          type: 'danger',
-          duration: 5000,
-        });
-        throw new Error(errorBody.message);
-      } else {
-        showMessage({
-          message: 'Erreur',
-          description: `Erreur ${response.status} lors de la requête HTTP`,
-          type: 'danger',
-          duration: 5000,
-        });
-        throw new Error('Erreur lors de la requête: ' + response.status);
-      }
+      const errorBody = await response.json();
+      let description = errorBody?.message || 'Erreur lors de la requête';
+      showMessage({
+        message: 'Erreur',
+        description: `Erreur  : ${description}`,
+        type: 'danger',
+        duration: 5000,
+      });
+      throw new Error('Erreur lors de la requête: ' + response.status);
     }
 
     return await response.json();
   } catch (error) {
-    showMessage({
-      message: 'Erreur',
-      description: error.message,
-      type: 'danger',
-      duration: 5000,
-    });
-    throw error;
+    if (error.message.includes("Network request failed")) {
+      showMessage({
+        message: 'Erreur de connexion',
+        description: `Veuillez vérifier votre connexion Internet`,
+        type: 'danger',
+        duration: 5000,
+      });
+    } else {
+      throw error;
+    }
   }
+  
 };
 
 
