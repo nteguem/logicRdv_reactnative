@@ -79,7 +79,7 @@ const ModalView = ({
 
 
     useEffect(() => {
-        // dispatch(searchRequest({"kind":"city","proxy_istelecons":"0","term":"7500"}));
+        // dispatch(searchRequest({"kind":"city","proxy_istelecons":"0","term":""}));
         // dispatch(searchRequest({ "kind": "name", "cp": "0", "proxy_istelecons": "0", "term": "med" }));
         // dispatch(resultRequest({"proxy_ville":"75001 PARIS 1er","proxy_nom":"Médecin Généraliste","proxy_ville_id":"30924","proxy_nom_id":"c1","proxy_search":"","proxy_page":"1"}));
     }, []);

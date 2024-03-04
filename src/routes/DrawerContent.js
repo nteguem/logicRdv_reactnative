@@ -3,18 +3,27 @@ import { View, Image, TouchableOpacity, StyleSheet, Switch } from 'react-native'
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { colors } from '../components/global/colors';
+import { useDispatch } from 'react-redux';
+import { setLoggedIn } from '../redux/auth/actions';
+import { removeUserData } from '../utils/helpers';
 import CustomText from '../components/global/CustomText';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FontAwesome from 'react-native-vector-icons/FontAwesome6';
 
-const DrawerContent = ({ navigation,isAuth }) => {
+const DrawerContent = ({ navigation, isAuth }) => {
   const [isEnabled, setIsEnabled] = useState(false);
+  const dispatch = useDispatch();
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   const navigateToScreen = (screenName) => () => {
     navigation.navigate(screenName);
   };
+
+  // const disconnect = async () => {
+  //   await removeUserData();
+  //   dispatch(setLoggedIn(false));
+  // };
 
   const renderHeader = () => {
     if (isAuth) {
@@ -116,7 +125,7 @@ const DrawerContent = ({ navigation,isAuth }) => {
               Mes notifications
             </CustomText>
           </TouchableOpacity>
-          <TouchableOpacity onPress={navigateToScreen('Home')} style={styles.menuItem}>
+          <TouchableOpacity  style={styles.menuItem}>
             <MaterialIcons name="logout" size={20} color={colors.blue} />
             <CustomText fontSize={12} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
               Déconnexion
@@ -177,8 +186,8 @@ const DrawerContent = ({ navigation,isAuth }) => {
             <CustomText fontSize={12} fontWeight={'500'} color={colors.blue} style={styles.drawerItem}>
               Version 1.0.4
             </CustomText>
-          </View>       
-           </View>
+          </View>
+        </View>
       );
     }
   };

@@ -42,6 +42,16 @@ export const setUserData = async (userData) => {
   }
 };
 
+export const removeUserData = async () => {
+  try {
+    await AsyncStorage.removeItem('userData');
+  } catch (error) {
+    console.error('Erreur lors de la suppression des informations utilisateur:', error);
+    throw error;
+  }
+};
+
+
 export const generateToken = async () => {
   try {
     dataToken = {
