@@ -36,10 +36,9 @@ const Login = ({ session, headerError, headerMessage, inputFields, buttons, isLo
         break;
     }
   }
-
-  const handleButtonPress = async (action) => {
-    const inputData = password !== '' ? password : email;
-    await dispatch(loginRequest(inputData, action, session));
+  const handleButtonPress = (action) => {
+    const inputData = password !== '' ? password : code !== '' ? code : email;
+    dispatch(loginRequest(inputData, action, session));
   };
 
   const handleSignUp = () => {
