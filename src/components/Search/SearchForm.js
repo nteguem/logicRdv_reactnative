@@ -30,15 +30,20 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
                     Où ? Autour de ?
                 </CustomText>
                 <View style={styles.containeInput}>
-                    <ModalView
-                        isLocation
-                        onChange={handleLocationChange}
-                        placeholder='Code postal, Ville'
-                        value={location}
-                        borderWidth={borderWidth}
-                        borderRadius={borderRadius}
-                        borderColor={borderColor}
-                    />
+                    <View style={{ width: '80%' }}>
+                        <ModalView
+                            isCity
+                            onChange={handleLocationChange}
+                            placeholder='Code postal, Ville'
+                            value={location}
+                            borderWidth={borderWidth}
+                            borderRadius={borderRadius}
+                            borderColor={borderColor}
+                        />
+                    </View>
+                    <View style={{ width: '20%' }}>
+                        <ModalView isLocation />
+                    </View>
                 </View>
             </View>
             <View style={{ marginTop: 10 }}>
@@ -47,9 +52,8 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
                 </CustomText>
                 <View style={styles.containeInput}>
                     <ModalView
-                        isLocation={false}
                         onChange={handleProfessionChange}
-                        placeholder='Nom, Spécialité, Ville'
+                        placeholder='Nom, Spécialité, Téléphone'
                         value={profession}
                         borderWidth={borderWidth}
                         borderRadius={borderRadius}
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: -20
+        marginTop: -20,
     },
     containerIcon: {
         flexDirection: 'row',

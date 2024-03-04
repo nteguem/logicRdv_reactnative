@@ -1,15 +1,16 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Alert, Modal, StyleSheet, Text, Pressable, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import CustomText from '../global/CustomText';
 import { colors } from '../global/colors';
 import CustomAppButton from '../global/CustomAppButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { useDispatch ,connect} from 'react-redux';
-import { searchRequest,resultRequest } from '../../redux/search/actions';
+import { useDispatch, connect } from 'react-redux';
+import { searchRequest, resultRequest } from '../../redux/search/actions';
 
 const ModalView = ({
     isLocation = false,
+    isCity = false,
     onChange,
     placeholder,
     borderWidth,
@@ -35,7 +36,7 @@ const ModalView = ({
         // dispatch(searchRequest({"kind":"city","proxy_istelecons":"0","term":"7500"}));
         // dispatch(searchRequest({"kind":"name","cp":"0","proxy_istelecons":"0","term":"med"}));
         // dispatch(resultRequest({"proxy_ville":"75001 PARIS 1er","proxy_nom":"Médecin Généraliste","proxy_ville_id":"30924","proxy_nom_id":"c1","proxy_search":"","proxy_page":"1"}));
-              }, []);
+    }, []);
 
     const clearText = () => {
         setValue('');
@@ -70,10 +71,41 @@ const ModalView = ({
                                 paddingTop: isLocation ? 15 : 8,
                             }]} >
                             {isLocation ? (
-                                <View style={{ paddingHorizontal: 20 }}>
+                                <View style={{ width: '100%' }}> 
                                     <CustomText fontSize={15} color={colors.white} fontWeight='bold' style={{ textAlign: 'center' }}>
                                         ADRESSE DE RECHERCHE
                                     </CustomText>
+                                </View>
+                            ) : isCity ? (
+                                <View>
+                                    <CustomText fontSize={15} color={colors.white} fontWeight='bold' style={{ marginLeft: 8 }}>
+                                        Code postal, Ville
+                                    </CustomText>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: -18 }}>
+                                        <View style={{ width: '78%' }}>
+                                            <TextInput
+                                                value={profession}
+                                                onChangeText={handleProfessionChange}
+                                                style={styles.inputProfession}
+                                                placeholder="Code postal, Ville"
+                                                placeholderTextColor={colors.gray100}
+                                            />
+                                            {showCrossIcon && (
+                                                <TouchableOpacity onPress={clearText}>
+                                                    <Icon name="close" size={24} color={colors.red} style={styles.icon} />
+                                                </TouchableOpacity>
+                                            )}
+                                        </View>
+                                        <TouchableOpacity onPress={clearText}>
+                                            <Icon
+                                                onPress={() => setModalVisible(!modalVisible)}
+                                                name="close"
+                                                size={32}
+                                                color={colors.white}
+                                                style={{ marginLeft: 12, marginRight: -20 }}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
                             ) : (
                                 <View>
@@ -153,7 +185,7 @@ const ModalView = ({
                                                 />
                                             </View>
                                         </View>
-                                        <View style={[styles.containButton, { marginHorizontal: 15 }]}>
+                                        <View style={styles.containButton}>
                                             <CustomAppButton
                                                 onPress={() => setModalVisible(!modalVisible)}
                                                 title='Annuler'
@@ -183,6 +215,23 @@ const ModalView = ({
                                         </View>
                                     </ScrollView>
                                 </View>
+                            ) : isCity ? (
+                                <View style={{ height: '99%', marginHorizontal: -35 }}>
+                                    <ScrollView>
+                                        <View>
+                                            {/* <CustomText fontSize={18} color={colors.black} style={{ marginLeft: 12 }}>
+                                                Ville
+                                            </CustomText>
+                                            <CustomText fontSize={18} color={colors.gray} style={{ marginLeft: 12 }}>
+                                                Ville
+                                            </CustomText>
+                                            <CustomText fontSize={18} color={colors.black} style={{ marginLeft: 12 }}>
+                                                Ville
+                                            </CustomText>
+                                            <View style={styles.divider} /> */}
+                                        </View>
+                                    </ScrollView>
+                                </View>
                             ) : (
                                 <View style={{ height: '99%', marginHorizontal: -35 }}>
                                     <ScrollView>
@@ -207,14 +256,15 @@ const ModalView = ({
             </Modal>
             <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
                 <View style={{ flex: 1 }}>
+                {!isLocation && (
                     <Pressable onPress={() => setModalVisible(!modalVisible)}>
                         <TextInput
-                            style={[styles.input, 
-                                {
-                                    borderWidth: borderWidth, 
-                                    borderRadius:borderRadius,
-                                    borderColor:borderColor
-                                }
+                            style={[styles.input,
+                            {
+                                borderWidth: borderWidth,
+                                borderRadius: borderRadius,
+                                borderColor: borderColor
+                            }
                             ]}
                             placeholder={placeholder}
                             placeholderTextColor={colors.gray100}
@@ -229,6 +279,7 @@ const ModalView = ({
                             </TouchableOpacity>
                         )}
                     </Pressable>
+                    )}
                 </View>
                 {isLocation && (
                     <View style={styles.containerIcon}>
@@ -260,7 +311,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        height: '60%'
+        maxHeight: '60%',
+        width: '85%'
     },
     compartment: {
         marginTop: -35,
@@ -280,7 +332,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         gap: 8,
-        marginTop: 14
+        marginTop: 14,
     },
     input: {
         marginVertical: 10,
@@ -335,8 +387,7 @@ const styles = StyleSheet.create({
     containerIcon: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        width: '20%',
-        marginLeft: 4
+        gap:12
     },
     iconLocation: {
         color: colors.blue
