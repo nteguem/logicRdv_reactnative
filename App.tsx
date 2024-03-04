@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Routes from './src/routes/Routes';
 import { initializeApp } from './src/utils/helpers';
+import FlashMessage from 'react-native-flash-message'; 
 
 const App = () => {
   const [isAuth, setIsAuth] = useState(false);
@@ -17,7 +18,12 @@ const App = () => {
     initialize();
   }, []);
 
-  return <Routes isAuth={isAuth} />;
+  return (
+    <>
+      <Routes isAuth={isAuth} />
+      <FlashMessage position="top" /> 
+    </>
+  );
 };
 
 export default App;

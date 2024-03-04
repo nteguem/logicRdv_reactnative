@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useState,useEffect } from 'react'
+import { ScrollView, TextInput, TouchableOpacity, View } from 'react-native'
 import CustomText from '../../components/global/CustomText'
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import { colors } from '../../components/global/colors';
@@ -9,11 +9,22 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CheckBox from '@react-native-community/checkbox';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch ,connect} from 'react-redux';
+import { loginRequest, signUpRequest } from '../../redux/auth/actions';
+import { registerStyles } from './styles';
 
-const Inscription = () => {
+const Inscription = ({ etablissements, cgu, isLoading }) => {
+
+
+  useEffect(() => {
+    if (etablissements.length === 1) {
+      setSelectedFormation(etablissements[0].id);
+    } else {
+      setSelectedFormation(null); 
+    }
+  }, [etablissements]);
+        
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [showSearchIcon, setShowSearchIcon] = useState(false);
-    const [showAdditionalFields, setShowAdditionalFields] = useState(false);
     const [selectedFormation, setSelectedFormation] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -24,8 +35,9 @@ const Inscription = () => {
     const [isChecked, setIsChecked] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    
+
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
     const onChangePhoneNumber = (text) => {
         setPhoneNumber(text);
@@ -56,7 +68,13 @@ const Inscription = () => {
     };
 
     const handleSignIn = () => {
+        dispatch(loginRequest('', '', ''));
         navigation.navigate('Se connecter');
+    };
+
+    const checkCabinet = () => {
+        const data = { "phone": phoneNumber };
+        dispatch(signUpRequest("check", data));
     };
 
     const handleConditionOfUse = () => {
@@ -64,17 +82,24 @@ const Inscription = () => {
     };
 
     const onSubmit = () => {
-        if (phoneNumber !== '') {
-            setShowAdditionalFields(true);
-            setShowSearchIcon(true);
-        }
+        signUpRequest({
+            "id":selectedFormation,
+            "nom":firstName,
+            "prenom":lastName,
+            "mobile":number,
+            "email":email,
+            "pass1":password,
+            "pass2":confirmPassword,
+            "cgu":isChecked,
+            "phone":phoneNumber
+           })
     };
 
     return (
-        <ContainerScreen>
+        <ContainerScreen isLoading={isLoading}>
             <ScrollView>
                 <View>
-                    <View style={styles.card}>
+                    <View style={registerStyles.card}>
                         <CustomText fontSize={12} fontWeight='bold' color={colors.black}>J'ai déja un compte LogicRdv</CustomText>
                         <TouchableOpacity onPress={handleSignIn}>
                             <CustomText fontSize={12} fontWeight='bold' color={colors.blue}>SE CONNECTER</CustomText>
@@ -82,57 +107,53 @@ const Inscription = () => {
                     </View>
                 </View>
                 <View>
-                    <View style={styles.card}>
+                    <View style={registerStyles.card}>
                         <CustomText fontSize={15} fontWeight='bold' color={colors.black}>Inscription</CustomText>
                         <CustomText fontSize={12} color={colors.black}>Saisissez les informations demandées</CustomText>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                            <View style={{ width: showAdditionalFields ? '85%' : '100%' }} >
+                            <View style={{ width: etablissements.length > 0 ? '85%' : '100%' }} >
                                 <TextInput
-                                    style={styles.input}
+                                    style={registerStyles.input}
                                     placeholder="Téléphone du cabinet médical"
                                     placeholderTextColor={colors.gray}
                                     value={phoneNumber}
+                                    editable={etablissements.length > 0 ? false : true}
                                     onChangeText={onChangePhoneNumber}
                                     keyboardType='numeric'
                                 />
 
                             </View>
-                            <View>
-                                {showSearchIcon && (
-                                    <Icon name="search-circle" size={60} color={colors.blue} style={styles.searchIcon} />
-                                )}
-                            </View>
                         </View>
-                        {showAdditionalFields && (
+                        {etablissements.length > 0 && (
                             <View>
-                                <View style={styles.dropdownContainer}>
+                                <View style={registerStyles.dropdownContainer}>
                                     <Picker
                                         selectedValue={selectedFormation}
-                                        style={styles.dropdown}
+                                        style={registerStyles.dropdown}
                                         dropdownIconColor={colors.black}
-                                        onValueChange={(itemFormation, itemIndex) => setSelectedFormation(itemFormation)}
+                                        onValueChange={(itemFormation) => setSelectedFormation(itemFormation)}
                                     >
-                                        <Picker.Item label="Option 1" value="option1" />
-                                        <Picker.Item label="Option 2" value="option2" />
-                                        <Picker.Item label="Option 3" value="option3" />
+                                        {etablissements.map((etablissement) => (
+                                            <Picker.Item key={etablissement.id} label={etablissement.name} value={etablissement.id} />
+                                        ))}
                                     </Picker>
                                 </View>
                                 <TextInput
-                                    style={styles.input}
+                                    style={registerStyles.input}
                                     placeholder="Nom"
                                     placeholderTextColor={colors.gray}
                                     value={lastName}
                                     onChangeText={onChangeLastName}
                                 />
                                 <TextInput
-                                    style={styles.input}
+                                    style={registerStyles.input}
                                     placeholder="Prénom"
                                     placeholderTextColor={colors.gray}
                                     value={firstName}
                                     onChangeText={onChangeFirstName}
                                 />
                                 <TextInput
-                                    style={styles.input}
+                                    style={registerStyles.input}
                                     placeholder="Numéro de téléphone"
                                     placeholderTextColor={colors.gray}
                                     value={number}
@@ -140,7 +161,7 @@ const Inscription = () => {
                                     keyboardType='numeric'
                                 />
                                 <TextInput
-                                    style={styles.input}
+                                    style={registerStyles.input}
                                     placeholder="Email"
                                     placeholderTextColor={colors.gray}
                                     value={email}
@@ -149,9 +170,9 @@ const Inscription = () => {
                                     autoCapitalize="none"
                                 />
                                 <View>
-                                    <MaterialIcons name="lock" size={24} color={colors.gray100} style={styles.iconLeft} />
+                                    <MaterialIcons name="lock" size={24} color={colors.gray100} style={registerStyles.iconLeft} />
                                     <TextInput
-                                        style={[styles.input, { paddingLeft: 40 }]}
+                                        style={[registerStyles.input, { paddingLeft: 40 }]}
                                         placeholder="Mot de passe"
                                         placeholderTextColor={colors.gray}
                                         value={password}
@@ -159,13 +180,13 @@ const Inscription = () => {
                                         secureTextEntry={!showPassword}
                                     />
                                     <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                                        <Icon name={showPassword ? "eye" : "eye-off"} size={24} color={colors.gray100} style={styles.icon} />
+                                        <Icon name={showPassword ? "eye" : "eye-off"} size={24} color={colors.gray100} style={registerStyles.icon} />
                                     </TouchableOpacity>
                                 </View>
                                 <View>
-                                    <MaterialIcons name="lock" size={24} color={colors.gray100} style={styles.iconLeft} />
+                                    <MaterialIcons name="lock" size={24} color={colors.gray100} style={registerStyles.iconLeft} />
                                     <TextInput
-                                        style={[styles.input, { paddingLeft: 40 }]}
+                                        style={[registerStyles.input, { paddingLeft: 40 }]}
                                         placeholder="Confirmer mot de passe"
                                         placeholderTextColor={colors.gray}
                                         value={confirmPassword}
@@ -173,14 +194,14 @@ const Inscription = () => {
                                         secureTextEntry={!showConfirmPassword}
                                     />
                                     <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
-                                        <Icon name={showConfirmPassword ? "eye" : "eye-off"} size={24} color={colors.gray100} style={styles.icon} />
+                                        <Icon name={showConfirmPassword ? "eye" : "eye-off"} size={24} color={colors.gray100} style={registerStyles.icon} />
                                     </TouchableOpacity>
                                 </View>
-                                <View style={styles.checkboxContainer}>
+                                <View style={registerStyles.checkboxContainer}>
                                     <CheckBox
                                         value={isChecked}
                                         onValueChange={setIsChecked}
-                                        style={styles.checkbox}
+                                        style={registerStyles.checkbox}
                                         tintColors={{ true: colors.blue, false: colors.black }}
                                     />
                                     <CustomText fontSize={12} color={colors.black} fontWeight={'bold'}>J'ai lu et accepté </CustomText>
@@ -190,10 +211,10 @@ const Inscription = () => {
                                 </View>
                             </View>
                         )}
-                        <View style={{ marginTop: 10, width:'100%' }}>
+                        <View style={{ marginTop: 10, width: '100%' }}>
                             <CustomAppButton
-                                onPress={showAdditionalFields ? handleSignIn : onSubmit}
-                                title={showAdditionalFields ? "M'inscrire" : "Trouvez votre cabinet"}
+                                onPress={etablissements.length > 0 ? onSubmit : checkCabinet}
+                                title={etablissements.length > 0 ? "M'inscrire" : "Trouvez votre cabinet"}
                                 alignSelf="baseline"
                                 paddingVertical={16}
                                 textColor={colors.white}
@@ -210,68 +231,12 @@ const Inscription = () => {
     )
 }
 
-const styles = StyleSheet.create({
-    card: {
-        flexDirection: "column",
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: colors.white,
-        borderRadius: 10,
-        borderColor: colors.gray100,
-        marginTop: 20,
-        padding: 15,
-        gap: 10
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: colors.gray100,
-        padding: 10,
-        color: colors.black,
-        fontSize: 12,
-        borderRadius: 10,
-        textAlignVertical: 'center',
-        marginTop: 16,
-        height: 50
-    },
-    dropdownContainer: {
-        borderColor: colors.gray100,
-        borderWidth: 1,
-        borderRadius: 6,
-        marginTop: 16,
-        height: 50,
-        fontSize: 12,
-    },
-    dropdown: {
-        color: colors.black,
-        fontSize: 12,
-    },
-    searchIcon: {
-        left: 10,
-        top: '10%',
-    },
-    checkboxContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginTop: 20,
-    },
-    checkbox: {
-        alignSelf: 'center',
-    },
-    icon: {
-        position: 'absolute',
-        marginRight: 10,
-        right: 10,
-        top: '10%',
-        transform: [{ translateY: -35 }]
-    },
-    iconLeft: {
-        position: 'absolute',
-        marginRight: 10,
-        left: 5,
-        top: '60%',
-        transform: [{ translateY: -10 }]
-    }
+
+const mapStateToProps = ({ AuthReducer }) => ({
+    cgu: AuthReducer.cgu,
+    etablissements: AuthReducer.etablissements,
+    isLoading: AuthReducer.isLoading,
 });
-  
-  export default Inscription;
+
+export default connect(mapStateToProps)(Inscription);
 

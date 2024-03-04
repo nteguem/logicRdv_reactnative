@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Alert, Modal, StyleSheet, Text, Pressable, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import CustomText from '../global/CustomText';
 import { colors } from '../global/colors';
 import CustomAppButton from '../global/CustomAppButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { useDispatch ,connect} from 'react-redux';
+import { searchRequest,resultRequest } from '../../redux/search/actions';
 
 const ModalView = ({
     isLocation = false,
@@ -12,7 +14,9 @@ const ModalView = ({
     placeholder,
     borderWidth,
     borderRadius,
-    borderColor
+    borderColor,
+    results,
+    isLoading
 }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [address, setAddress] = useState('');
@@ -21,11 +25,17 @@ const ModalView = ({
     const [profession, setProfession] = useState('');
     const [value, setValue] = useState('');
     const [showCrossIcon, setShowCrossIcon] = useState(false);
-
+    const dispatch = useDispatch();
     const handleProfessionChange = (text) => {
         setProfession(text);
         setShowCrossIcon(text !== '');
     };
+
+    useEffect(() => {
+        // dispatch(searchRequest({"kind":"city","proxy_istelecons":"0","term":"7500"}));
+        // dispatch(searchRequest({"kind":"name","cp":"0","proxy_istelecons":"0","term":"med"}));
+        // dispatch(resultRequest({"proxy_ville":"75001 PARIS 1er","proxy_nom":"Médecin Généraliste","proxy_ville_id":"30924","proxy_nom_id":"c1","proxy_search":"","proxy_page":"1"}));
+              }, []);
 
     const clearText = () => {
         setValue('');
@@ -74,7 +84,7 @@ const ModalView = ({
                                         <View style={{ width: '78%' }}>
                                             <TextInput
                                                 value={profession}
-                                                onChange={handleProfessionChange}
+                                                onChangeText={handleProfessionChange}
                                                 style={styles.inputProfession}
                                                 placeholder="Nom, Spécialité, Téléphone"
                                                 placeholderTextColor={colors.gray100}
@@ -334,4 +344,12 @@ const styles = StyleSheet.create({
 
 });
 
-export default ModalView;
+
+const mapStateToProps = ({ SearchReducer }) => ({
+    results: SearchReducer?.results,
+    isLoading: SearchReducer?.isLoading,
+});
+
+export default connect(mapStateToProps)(ModalView);
+
+

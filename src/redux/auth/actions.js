@@ -5,17 +5,7 @@ export const loginRequest = (data, action, session) => ({
   payload: { data, action, session },
 });
 
-export const loginSuccess = (response) => ({
-  type: types.LOGIN_SUCCESS,
-  payload: response,
-});
-
-export const stepRequest = (data, action, session) => ({
-  type: types.STEP_REQUEST,
-  payload: { data, action, session },
-});
-
-export const loginFailure = (error) => ({
-  type: types.LOGIN_FAILURE,
-  payload: error,
+export const signUpRequest = (type,data) => ({
+  type: types.SIGNUP_REQUEST,
+  payload: { type, data },
 });
