@@ -23,6 +23,7 @@ const Doctor = ({
   isSearch = false,
   isDelete = false,
   isIcon = false,
+  isDetail= false,
   texte1,
   texte2,
   texte3,
@@ -37,7 +38,7 @@ const Doctor = ({
   return (
     <View style={styles.Container}>
       {/* les donnee de gauche ie juste l'icon de photo */}
-      <View style={[styles.leftColumn, { marginLeft: isUpdate ? 0 : -24, alignItems: isSearch ? 'center' : 'flex-start' }]}>
+      <View style={[styles.leftColumn, { marginLeft: isUpdate || isDetail ? 0 : -24, alignItems: isSearch ? 'center' : 'flex-start' }]}>
         <View style={styles.usericon}>
           {isProfileIcon && (
             <View style={styles.circleUser}>
@@ -78,7 +79,7 @@ const Doctor = ({
       </View>
 
       <View style={{ marginLeft: isAppointment ? -110 : -10 }}>
-        <View style={{ marginLeft: isUpdate || isAppointment ? 0 : -55 }}>
+        <View style={{ marginLeft: isUpdate || isAppointment || isDetail ? 0 : -55 }}>
           <CustomText fontSize={15} color={colorTitle} fontWeight={'bold'} style={{ marginBottom: marginBottom }}>
             {texte1}
           </CustomText>

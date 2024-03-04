@@ -2,25 +2,20 @@ import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import CustomText from '../global/CustomText'
 import { colors } from '../global/colors'
-import Icon from 'react-native-vector-icons/Entypo';
 import CustomAppButton from '../global/CustomAppButton'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ModalView from './ModalView'
 
 const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
-    const [showCrossIconLocation, setShowCrossIconLocation] = useState(false);
-    const [showCrossIconProfession, setShowCrossIconProfession] = useState(false);
     const [location, setLocation] = useState('');
     const [profession, setProfession] = useState('');
 
     const handleLocationChange = (text) => {
         setLocation(text);
-        setShowCrossIconLocation(text !== '');
     };
 
     const handleProfessionChange = (text) => {
         setProfession(text);
-        setShowCrossIconProfession(text !== '');
     };
 
     return (
@@ -62,20 +57,20 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
                 </View>
             </View>
             {(location !== '' && profession !== '') && (
-                <View style={{ justifyContent: 'flex-end', marginBottom: 120, marginTop: 10 }}>
+                <View style={{ justifyContent: 'flex-end', marginVertical: 12, }}>
                     <CustomAppButton
-                        iconComponent={<Ionicons name="search" size={20} color={colors.white} style={{ marginHorizontal: 15 }} />}
+                        iconComponent={<Ionicons name="search" size={18} color={colors.white} style={{ marginHorizontal: 15 }} />}
                         title='Rechercher'
                         alignSelf="baseline"
-                        paddingVertical={15}
-                        paddingHorizontal={122}
+                        paddingVertical={12}
                         textColor={colors.white}
-                        textFontSize={18}
+                        textFontSize={15}
                         fontWeight='bold'
                         borderWidth={1}
                         borderRadius={10}
                         borderColor={colors.white}
                         bkgroundColor={colors.blue}
+                        width='100%'
                     />
                 </View>
             )}
