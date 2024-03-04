@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Modal, StyleSheet, Text, Pressable, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { Alert, Modal, StyleSheet, Text, Pressable, View, TextInput, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import CustomText from '../global/CustomText';
 import { colors } from '../global/colors';
 import CustomAppButton from '../global/CustomAppButton';
@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { useDispatch, connect } from 'react-redux';
 import { searchRequest, resultRequest } from '../../redux/search/actions';
+import { useNavigation } from '@react-navigation/native';
 
 const ModalView = ({
     isLocation = false,
@@ -17,7 +18,6 @@ const ModalView = ({
     borderRadius,
     borderColor,
     results,
-    navigation,
     isLoading
 }) => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -31,6 +31,16 @@ const ModalView = ({
     const [selectedItem, setSelectedItem] = useState(null);
 
     const dispatch = useDispatch();
+    const navigation = useNavigation();
+
+    useEffect(() => {
+        if (modalVisible) {
+            setInput('');
+            setInputProfession('');
+            setValue('');
+            setSelectedItem(null);
+        }
+    }, [modalVisible]);
 
     const handleInputChange = (text) => {
         setShowCrossIcon(text !== '');
@@ -44,22 +54,29 @@ const ModalView = ({
     };
 
     const handleSelectItem = (item) => {
-        if (!item.civility) {
-            setValue(item.nom);
+        if (isCity) {
+            setValue(item.clientinfos);
+            onChange(item.clientinfos);
         } else {
-            navigation.navigate('Détail du médecin', {
-                name:item.nom,
-                profession: item.category,
-                adresse: item.adress,
-                zip: item.zip,
-                city: item.city,
-                tel: item.tel,
-            })
+            if (!item.civility) {
+                setValue(item.nom);
+                onChange(item.nom);
+            } else {
+                navigation.navigate('Détail du médécin', {
+                    civility: item.civility,
+                    name: item.nom,
+                    profession: item.category,
+                    adresse: item.address,
+                    zip: item.zip,
+                    city: item.city,
+                    tel: item.tel,
+                })
+            }
         }
         setSelectedItem(item);
-        setModalVisible(false)
-        console.log('element selectioné::', item)
+        setModalVisible(false);
     };
+
 
     useEffect(() => {
         // dispatch(searchRequest({"kind":"city","proxy_istelecons":"0","term":"7500"}));
@@ -80,7 +97,6 @@ const ModalView = ({
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
-                    Alert.alert('Modal has been closed.');
                     setModalVisible(!modalVisible);
                 }}>
                 <View style={styles.modalBackground}></View>
@@ -116,7 +132,7 @@ const ModalView = ({
                                             <TextInput
                                                 value={input}
                                                 onChangeText={handleInputChange}
-                                                style={styles.input}
+                                                style={styles.inputProfession}
                                                 placeholder="Code postal, Ville"
                                                 placeholderTextColor={colors.gray100}
                                             />
@@ -246,54 +262,67 @@ const ModalView = ({
                                     </ScrollView>
                                 </View>
                             ) : isCity ? (
-                                <View style={{ height: '99%', marginHorizontal: -35 }}>
-                                    <ScrollView>
-                                        <View>
-                                            {/* <CustomText fontSize={18} color={colors.black} style={{ marginLeft: 12 }}>
-                                                Ville
-                                            </CustomText>
-                                            <CustomText fontSize={18} color={colors.gray} style={{ marginLeft: 12 }}>
-                                                Ville
-                                            </CustomText>
-                                            <CustomText fontSize={18} color={colors.black} style={{ marginLeft: 12 }}>
-                                                Ville
-                                            </CustomText>
-                                            <View style={styles.divider} /> */}
+                                <>
+                                    {isLoading ? (
+                                        <View style={styles.overlay}>
+                                            <ActivityIndicator size="large" color={colors.blue} />
                                         </View>
-                                    </ScrollView>
-                                </View>
+                                    ) : (
+                                        <View style={{ height: '98%', marginHorizontal: -35 }}>
+                                            <ScrollView>
+                                                {results.map((result, index) => (
+                                                    <TouchableOpacity key={index} onPress={() => handleSelectItem(result)}>
+                                                        <View >
+                                                            <CustomText fontSize={12} fontWeight={'bold'} color={colors.black} style={{ marginLeft: 12 }}>
+                                                                {result.clientinfos}
+                                                            </CustomText>
+                                                            <View style={styles.divider} />
+                                                        </View>
+                                                    </TouchableOpacity>
+                                                ))}
+                                            </ScrollView>
+                                        </View>
+                                    )}
+                                </>
                             ) : (
-                                <View style={{ height: '98%', marginHorizontal: -35 }}>
-                                    <ScrollView>
-                                        {results.map((result, index) => (
-                                            <TouchableOpacity key={index} onPress={() => handleSelectItem(result)}>
-                                                <View >
-                                                    <CustomText fontSize={12} fontWeight={'bold'} color={colors.black} style={{ marginLeft: 12 }}>
-                                                        {result.civility ? (
-                                                            <>{result.civility} {result.nom}</>
+                                <>
+                                    {isLoading ? (
+                                        <View style={styles.overlay}>
+                                            <ActivityIndicator size="large" color={colors.blue} />
+                                        </View>
+                                    ) : (
+                                        <View style={{ height: '98%', marginHorizontal: -35 }}>
+                                            <ScrollView>
+                                                {results.map((result, index) => (
+                                                    <TouchableOpacity key={index} onPress={() => handleSelectItem(result)}>
+                                                        <View >
+                                                            <CustomText fontSize={12} fontWeight={'bold'} color={colors.black} style={{ marginLeft: 12 }}>
+                                                                {result.civility ? (
+                                                                    <>{result.civility} {result.nom}</>
 
-                                                        ) : (
-                                                            <>{result.nom}</>
-                                                        )}
+                                                                ) : (
+                                                                    <>{result.nom}</>
+                                                                )}
 
-                                                    </CustomText>
-                                                    {result.address && (
-                                                        <CustomText fontSize={12} fontWeight={'bold'} color={colors.gray} style={{ marginLeft: 12 }}>
-                                                            {result.address}
-                                                        </CustomText>
-                                                    )}
-                                                    {result.zip && (
-                                                        <CustomText fontSize={12} fontWeight={'bold'} color={colors.black} style={{ marginLeft: 12 }}>
-                                                            {result.zip}
-                                                        </CustomText>
-                                                    )}
-                                                    <View style={styles.divider} />
-                                                </View>
-                                            </TouchableOpacity>
-                                        ))}
-                                    </ScrollView>
-                                </View>
-
+                                                            </CustomText>
+                                                            {result.address && (
+                                                                <CustomText fontSize={12} fontWeight={'bold'} color={colors.gray} style={{ marginLeft: 12 }}>
+                                                                    {result.address}
+                                                                </CustomText>
+                                                            )}
+                                                            {result.zip && (
+                                                                <CustomText fontSize={12} fontWeight={'bold'} color={colors.black} style={{ marginLeft: 12 }}>
+                                                                    {result.zip}
+                                                                </CustomText>
+                                                            )}
+                                                            <View style={styles.divider} />
+                                                        </View>
+                                                    </TouchableOpacity>
+                                                ))}
+                                            </ScrollView>
+                                        </View>
+                                    )}
+                                </>
                             )}
                         </View>
                     </View>
@@ -419,7 +448,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
         right: 1,
         top: '10%',
-        transform: [{ translateY: -40 }]
+        transform: [{ translateY: -45 }]
     },
     modalBackground: {
         position: 'absolute',

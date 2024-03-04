@@ -3,34 +3,32 @@ import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import Doctor from '../../components/global/Doctor'
 import CustomText from '../../components/global/CustomText'
 import { colors } from '../../components/global/colors'
-import { StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
+import CustomAppButton from '../../components/global/CustomAppButton'
 
-const DoctorDetails = ({ 
-    isLoading,
-    name,
-    profession,
-    adresse,
-    zip,
-    city,
-    tel }) => {
+const DoctorDetails = ({ route }) => {
+    const { civility, name, profession, adresse, zip, city, tel } = route.params;
+    const fullName = `${civility} ${name}` ;
+    const fullZip = `${zip} ${city}` ;
     return (
-        <ContainerScreen isLoading={isLoading}>
-            <Doctor
-                texte1={name}
-                texte2={profession}
-                texte3={adresse}
-                texte4={zip}
-                texte5={tel}
-                colorTitle={colors.yellow}
-                colorContain={colors.blue}
-                fontWeight={'bold'}
-                isPhoneIcons
-                isProfileIcon
-                isRightIcons
-            />
+        <ContainerScreen>
+            <ScrollView>
+                <Doctor
+                    texte1={fullName}
+                    texte2={profession}
+                    texte3={adresse}
+                    texte4={fullZip}
+                    texte5={tel}
+                    colorTitle={colors.yellow}
+                    colorContain={colors.blue}
+                    fontWeight={'bold'}
+                    isPhoneIcons
+                    isProfileIcon
+                    isRightIcons
+                    isDetail
+                />
 
-            <View style={{ marginTop: 10, width: '100%' }}>
-                <View style={loginStyles.buton}>
+                <View style={{ margin: 10, width: '100%' }}> 
                     <CustomAppButton
                         //   onPress={() => handleButtonPress(button.onclick_action)}
                         title='CHERCHER AUTOUR'
@@ -43,27 +41,26 @@ const DoctorDetails = ({
                         width='100%'
                     />
                 </View>
-            </View>
 
-            <View style={styles.card}>
-                <CustomText fontSize={15} fontWeight='bold' color={colors.black}>Caractéristiques & Horaires</CustomText>
-                <CustomText fontSize={15} fontWeight='bold' color={colors.black} style={{ backgroundColor: colors.blue100, borderRadius: 10, padding: 15 }}>
-                    HORAIRES
-                </CustomText>
-                <CustomText fontSize={12} fontWeight='bold' color={colors.black}>Libre Conventionné Secteur 2</CustomText>
-                <CustomText fontSize={12} fontWeight='bold' color={colors.black} style={{ backgroundColor: colors.blue100, borderRadius: 10, padding: 15 }}>
-                    INFORMATIONS
-                </CustomText>
-                <CustomText fontSize={12} fontWeight='bold' color={colors.black}>Carte Vitale accepté</CustomText>
-            </View>
+                <View style={styles.card}>
+                    <CustomText fontSize={15} fontWeight='bold' color={colors.black}>Caractéristiques & Horaires</CustomText>
+                    <CustomText fontSize={15} fontWeight='bold' color={colors.black} style={{ backgroundColor: colors.blue400, borderRadius: 10, padding: 15 }}>
+                        HORAIRES
+                    </CustomText>
+                    <CustomText fontSize={12} color={colors.black}>Libre Conventionné Secteur 2</CustomText>
+                    <CustomText fontSize={15} fontWeight='bold' color={colors.black} style={{ backgroundColor: colors.blue400, borderRadius: 10, padding: 15 }}>
+                        INFORMATIONS
+                    </CustomText>
+                    <CustomText fontSize={12} color={colors.black}>Carte Vitale accepté</CustomText>
+                </View>
 
-            <View style={styles.card}>
-                <CustomText fontSize={15} fontWeight='bold' color={colors.black}>Specialité</CustomText>
-                <CustomText fontSize={15} fontWeight='bold' color={colors.blue200} style={{ backgroundColor: colors.blue100, borderRadius: 10, padding: 15 }}>
-                    {profession}
-                </CustomText>
-            </View>
-
+                <View style={[styles.card, {marginTop: 10}]}>
+                    <CustomText fontSize={15} fontWeight='bold' color={colors.black}>Specialité</CustomText>
+                    <CustomText fontSize={15} fontWeight='bold' color={colors.blue100} style={{ backgroundColor: colors.blue400, borderRadius: 10, padding: 15 }}>
+                        {profession}
+                    </CustomText>
+                </View>
+            </ScrollView>
         </ContainerScreen>
     )
 }
@@ -72,10 +69,9 @@ const styles = StyleSheet.create({
     card: {
         backgroundColor: colors.white,
         borderRadius: 10,
-        borderWidth: 1,
         borderColor: colors.gray100,
-        marginTop: 10,
-        padding: 24
+        padding: 14,
+        gap: 10
 
     }
 });
