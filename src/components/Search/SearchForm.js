@@ -32,10 +32,10 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
     const handleSearch = () => {
     
         dispatch(resultRequest({
-            "proxy_ville":"75001 PARIS 1er",
-            "proxy_nom":"Médecin Généraliste",
-            "proxy_ville_id": "30924",
-            "proxy_nom_id": "c1",
+            "proxy_ville":location,
+            "proxy_nom": "",
+            "proxy_ville_id": "",
+            "proxy_nom_id": "",
             "proxy_search": "",
             "proxy_page": "2"
         }));

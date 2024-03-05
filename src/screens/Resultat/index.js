@@ -12,12 +12,12 @@ const SearchResult = ( ) => {
   const result = searchall;
   const isEmptysearch = (searchall) => {
     for(let key in searchall) {
-        if(searchall.hasOwnProperty(id)){return false;}
+        if(searchall.hasOwnProperty(key)){return false;}
     }
     return true;
   };
   console.log('====================================');
-  console.log(isEmptysearch());
+  console.log(searchall);
   console.log('====================================');
   return (
     <ContainerScreen>
@@ -28,35 +28,41 @@ const SearchResult = ( ) => {
          fontWeight="bold"> {location} {profession} </CustomText>
       </View>
       {
-        isEmptysearch() ? (
-          <ScrollView>
-            {result.map((item, index) => (
-             <Doctor
-             isProfileIcon ={true}
-             isSearch = {true}
-             isRightIcons = {true}
-             isPhoneIcons = {true}
-             isDelete ={true}
-             texte1={item.civility + " " + item.nom}
-             texte2={item.category}
-             texte3={item.adress}
-             texte4={item.zip +" " + item.city}
-             texte5={item.tel}
-             colorContain={colors.blue}
-             colorTitle={colors.yellow}
-              />
-            
-            ))}
-          </ScrollView>
-          
-        ): (
-          <View >
-            <CustomText
-            color={colors.black}
-            >Aucun data trouver </CustomText>
-          </View>
-        )
-      }
+  isEmptysearch() ? (
+    result.some(item => item.civility === "Dr") ? (
+      <ScrollView>
+        {result.map((item, index) =>
+          item.civility === "Dr" && (
+            <Doctor
+              key={index} 
+              isProfileIcon={true}
+              isSearch={true}
+              isRightIcons={true}
+              isPhoneIcons={true}
+              isDelete={true}
+              texte1={item.civility + " " + item.nom}
+              texte2={item.category}
+              texte3={item.adress}
+              texte4={item.zip + " " + item.city}
+              texte5={item.tel}
+              colorContain={colors.blue}
+              colorTitle={colors.yellow}
+            />
+          )
+        )}
+      </ScrollView>
+    ) : (
+      <View style={styles.centered}>
+        <CustomText color={colors.black}>Aucune donnée disponible pour cette recherche</CustomText>
+      </View>
+    )
+  ) : (
+    <View style={styles.centered}>
+      <CustomText color={colors.black}>Aucune donnée disponible pour cette recherche</CustomText>
+    </View>
+  )
+}
+
       
     </ContainerScreen>
   )
@@ -69,7 +75,12 @@ const styles = StyleSheet.create(
     paddingHorizontal:10,
     paddingVertical:10
 
-  }
+  },
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
  }
 )
 export default SearchResult
