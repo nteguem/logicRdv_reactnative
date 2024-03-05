@@ -1,14 +1,23 @@
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView, StyleSheet } from 'react-native'
 import React from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import CustomText from '../../components/global/CustomText'
-import AllDoctor from '../../components/ListOfDoctor/AllDoctors'
+import { UseDispatch } from 'react-redux'
+import Doctor from '../../components/global/Doctor'
+import { colors } from '../../components/global/colors'
 
-const ResultatRecherche = () => {
-  const [resultat, setResultat] = useState(false)
+const SearchResult = ( ) => {
+  
 
   return (
     <ContainerScreen>
+      <View style={styles.hearder}>
+        <CustomText>Résultat de la recherche pour:</CustomText>
+        <CustomText
+         color={colors.black}
+         fontWeight="bold"> bonjour tu est ou la?? </CustomText>
+      </View>
+      {/* <View>
 
         {
           resultat ? (
@@ -17,13 +26,25 @@ const ResultatRecherche = () => {
             </View>
           ) :
           (
-            <View >
-              <AllDoctor/>
-            </View>
+            <ScrollView>
+              <Text>bonjour le monde c'est franck</Text>
+            </ScrollView>
           )
         }
+
+      </View> */}
     </ContainerScreen>
   )
 }
 
-export default ResultatRecherche
+const styles = StyleSheet.create(
+ {
+  hearder:{
+    marginHorizontal: -10,
+    paddingHorizontal:10,
+    paddingVertical:10
+
+  }
+ }
+)
+export default SearchResult

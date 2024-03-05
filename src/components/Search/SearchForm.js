@@ -5,8 +5,11 @@ import { colors } from '../global/colors'
 import CustomAppButton from '../global/CustomAppButton'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ModalView from './ModalView'
+import { useNavigation } from '@react-navigation/native';
+
 
 const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
+    const navigation = useNavigation();
     const [location, setLocation] = useState('');
     const [profession, setProfession] = useState('');
 
@@ -17,6 +20,13 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
     const handleProfessionChange = (text) => {
         setProfession(text);
     };
+
+    const handleSearch = (result) => {
+        //dispatch(resultRequest({"proxy_ville":"75001 PARIS 1er","proxy_nom":"Médecin Généraliste","proxy_ville_id":"30924","proxy_nom_id":"c1","proxy_search":"","proxy_page":"1"}));
+        console.log("bonjour le monde ", result )
+        navigation.navigate("Résultats");
+    };
+
 
     return (
         <View>
@@ -71,6 +81,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
                         borderColor={colors.white}
                         bkgroundColor={colors.blue}
                         width='100%'
+                        onPress={() => handleSearch(location, profession)}
                     />
                 </View>
             )}
@@ -107,4 +118,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SearchForm
+export default SearchForm;
