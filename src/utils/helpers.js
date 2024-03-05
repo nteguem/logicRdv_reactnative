@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { sendRequest } from './api';
-
+import { showMessage } from 'react-native-flash-message';
 export const HeaderIcons = {
   SEARCH: 'magnify',
   GO_BACK: 'arrow-back-ios',
@@ -45,6 +45,12 @@ export const setUserData = async (userData) => {
 export const removeUserData = async () => {
   try {
     await AsyncStorage.removeItem('userData');
+    showMessage({
+      message: 'Déconnexion réussie',
+      description: 'Vous êtes maintenant déconnecté.',
+      type: 'success',
+      duration: 5000,
+    });
   } catch (error) {
     console.error('Erreur lors de la suppression des informations utilisateur:', error);
     throw error;

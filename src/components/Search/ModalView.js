@@ -37,7 +37,6 @@ const ModalView = ({
         if (modalVisible) {
             setInput('');
             setValue('');
-            setSelectedItem(null);
         }
     }, [modalVisible]);
 
@@ -72,8 +71,8 @@ const ModalView = ({
                 })
             }
         }
-        setSelectedItem(item);
         setModalVisible(false);
+        setSelectedItem(item);
     };
 
     useEffect(() => {
@@ -83,13 +82,17 @@ const ModalView = ({
     }, []);
 
     const clearText = () => {
+        setSelectedItem(null)
         setValue('')
         setInput('');
+        clearInputText(true);
+        dispatch(searchRequest({ "kind": "", "proxy_istelecons": "", "term": "" }));
+        dispatch(searchRequest({ "kind": "", "cp": "", "proxy_istelecons": "", "term": "" }));
     };
 
     const handleTextInputClick = () => {
-        dispatch(searchRequest({ "kind": "city", "proxy_istelecons": "0", "term": "" }));
-        dispatch(searchRequest({ "kind": "name", "cp": "0", "proxy_istelecons": "0", "term": "" }));
+        dispatch(searchRequest({ "kind": "", "proxy_istelecons": "", "term": "" }));
+        dispatch(searchRequest({ "kind": "", "cp": "", "proxy_istelecons": "", "term": "" }));
         setModalVisible(true); // Afficher la modal
     };
 
@@ -140,12 +143,10 @@ const ModalView = ({
                                                 placeholderTextColor={colors.gray100}
                                             />
                                             {input !== '' && (
-                                                <TouchableOpacity onPress={clearText}>
-                                                    <Icon name="close" size={24} color={colors.red} style={styles.icon} />
-                                                </TouchableOpacity>
+                                                <Icon name="close" size={24} color={colors.red} style={styles.icon} onPress={clearText} />
                                             )}
                                         </View>
-                                        <TouchableOpacity onPress={clearText}>
+                                        <TouchableOpacity>
                                             <Icon
                                                 onPress={() => setModalVisible(!modalVisible)}
                                                 name="close"
@@ -286,15 +287,17 @@ const ModalView = ({
                                 placeholder={placeholder}
                                 placeholderTextColor={colors.gray100}
                                 editable={false}
-                                onFocus={() => setModalVisible(true)}
-                                value={value}
+                                onFocus={() => {
+                                    if (!selectedItem) {
+                                        setModalVisible(true);
+                                    }
+                                }}
+                                value={selectedItem && (isCity ? selectedItem.clientinfos : selectedItem.nom)}
                                 onChangeText={onChange}
                             />
-                            {input !== '' && (
-                                <TouchableOpacity onPress={clearText}>
-                                    <Icon name="close" size={24} color={colors.red} style={styles.icon} />
-                                </TouchableOpacity>
-                            )}
+                            {selectedItem || input ? (
+                                <Icon name="close" size={24} color={colors.red} style={styles.icon} onPress={clearText} />
+                            ) : null}
                         </Pressable>
                     )}
                 </View>
@@ -368,7 +371,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         textAlignVertical: 'center',
         backgroundColor: colors.white,
-        height: 40,
+        height: 50,
         fontSize: 12
     },
     inputModal: {
@@ -391,7 +394,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
         right: 1,
         top: '10%',
-        transform: [{ translateY: -45 }]
+        transform: [{ translateY: 15 }]
     },
     modalBackground: {
         position: 'absolute',
