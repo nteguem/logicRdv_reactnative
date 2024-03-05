@@ -55,10 +55,12 @@ const ModalView = ({
         if (isCity) {
             setValue(item.clientinfos);
             onChange(item.clientinfos);
+            setSelectedItem(item);
         } else {
             if (!item.civility) {
                 setValue(item.nom);
                 onChange(item.nom);
+                setSelectedItem(item);
             } else {
                 navigation.navigate('Détail du médécin', {
                     civility: item.civility,
@@ -71,7 +73,6 @@ const ModalView = ({
                 })
             }
         }
-        setSelectedItem(item);
         setModalVisible(false);
     };
 
@@ -82,13 +83,17 @@ const ModalView = ({
     }, []);
 
     const clearText = () => {
+        setSelectedItem(null)
         setValue('')
         setInput('');
+        clearInputText(true);
+        dispatch(searchRequest({ "kind": "", "proxy_istelecons": "", "term": "" }));
+        dispatch(searchRequest({ "kind": "", "cp": "", "proxy_istelecons": "", "term": "" }));
     };
 
     const handleTextInputClick = () => {
-        dispatch(searchRequest({ "kind": "city", "proxy_istelecons": "0", "term": "" }));
-        dispatch(searchRequest({ "kind": "name", "cp": "0", "proxy_istelecons": "0", "term": "" }));
+        dispatch(searchRequest({ "kind": "", "proxy_istelecons": "", "term": "" }));
+        dispatch(searchRequest({ "kind": "", "cp": "", "proxy_istelecons": "", "term": "" }));
         setModalVisible(true); // Afficher la modal
     };
 
