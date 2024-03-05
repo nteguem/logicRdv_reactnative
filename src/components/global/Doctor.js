@@ -14,8 +14,8 @@ import GoogleMap from '../ListOfDoctor/GoogleMap';
 import ModalPatient from '../ListOfPatients/Modal';
 
 const Doctor = ({
-  isRightIcons = false,
-  isArrowIcon = false,
+  isRightIcons = false, 
+  isArrowIcon = false, 
   isProfileIcon = false,
   isPhoneIcons = false,
   isUpdate = false,
