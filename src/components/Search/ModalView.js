@@ -54,7 +54,6 @@ const ModalView = ({
         if (isCity) {
             setValue(item.clientinfos);
             onChange(item.clientinfos);
-            return idcity = item.
         } else {
             if (!item.civility) {
                 setValue(item.nom);

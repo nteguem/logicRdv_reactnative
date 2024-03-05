@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import Doctor from '../../components/global/Doctor'
 import CustomText from '../../components/global/CustomText'
@@ -9,10 +9,11 @@ import { resultRequest } from '../../redux/search/actions'
 import { useDispatch, connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
-const DoctorDetails = ({ route, results }) => {
+const DoctorDetails = ({ route, results, isLoading }) => {
     const { civility, name, profession, adresse, zip, city, tel, proxy_ville_id, proxy_nom_id } = route.params;
     const fullName = `${civility} ${name}` ;
     const proxy_ville = `${zip} ${city}` ;
+    const [betweenSearch, setBetweenSearch] = useState(true);
 
     const dispatch = useDispatch();
     const navigation = useNavigation();
@@ -21,24 +22,12 @@ const DoctorDetails = ({ route, results }) => {
         dispatch(resultRequest({"proxy_ville":proxy_ville,"proxy_nom":profession,"proxy_ville_id":proxy_ville_id,"proxy_nom_id":proxy_nom_id,"proxy_search":"","proxy_page":"1"}));
     }, []);
 
-    const itemsToNavigate = results.map((item, index) => ({
-        civility: item.civility,
-        name: item.nom,
-        profession: item.category,
-        adresse: item.address,
-        zip: item.zip,
-        city: item.city,
-        tel: item.tel,
-        key: index // Assurez-vous d'avoir une clé unique pour chaque élément
-    }));
-
-    const handleSearchChange = (text) => {
-        // console.log('rechercher autour::', itemsToNavigate)
-        navigation.navigate('Résultats', itemsToNavigate)
+    const handleSearchChange = () => {
+        navigation.navigate('Résultats', {civility, name, results, betweenSearch})
     };
 
     return (
-        <ContainerScreen>
+        <ContainerScreen isLoading = {isLoading}>
             <ScrollView>
                 <Doctor
                     texte1={fullName}
@@ -65,7 +54,8 @@ const DoctorDetails = ({ route, results }) => {
                         textFontSize={12}
                         borderRadius={10}
                         bkgroundColor={colors.blue}
-                        width='100%'
+                        width ='100%'
+                        isLoading = {isLoading}
                     />
                 </View>
 
