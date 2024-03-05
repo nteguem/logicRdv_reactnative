@@ -7,6 +7,7 @@ import Inscription from '../screens/Inscription';
 import UserLogin from '../screens/Login';
 import ResultatRecherche from '../screens/Resultat';
 import DoctorDetails from '../screens/DoctorDetails';
+import ConditionOfUse from '../screens/ConditionOfUse';
 
 const Stack = createStackNavigator();
 
@@ -22,7 +23,8 @@ const UnauthenticatedNavigator = () => {
       <Stack.Screen name="Résultat" options={pageOption} component={ResultatRecherche} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.MENU }} />
       <Stack.Screen name="Détail du médécin" options={pageOption} component={DoctorDetails} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.MENU }} />
       <Stack.Screen name="Notifications" options={pageOption} component={Notifications} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />
-    </Stack.Navigator>
+      <Stack.Screen name="Conditions Générales d'utilisation" options={pageOption} component={ConditionOfUse} initialParams={{ left: HeaderIcons.GO_BACK }} />
+  </Stack.Navigator>
   );
 };
 
