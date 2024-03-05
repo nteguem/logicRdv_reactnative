@@ -6,7 +6,7 @@ import CustomAppButton from '../global/CustomAppButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { useDispatch, connect } from 'react-redux';
-import { searchRequest, resultRequest } from '../../redux/search/actions';
+import { searchRequest, resultRequest,infosDoctorRequest } from '../../redux/search/actions';
 import { useNavigation } from '@react-navigation/native';
 
 const ModalView = ({
@@ -78,6 +78,7 @@ const ModalView = ({
         // dispatch(searchRequest({"kind":"city","proxy_istelecons":"0","term":""}));
         // dispatch(searchRequest({ "kind": "name", "cp": "0", "proxy_istelecons": "0", "term": "med" }));
         // dispatch(resultRequest({"proxy_ville":"75001 PARIS 1er","proxy_nom":"Médecin Généraliste","proxy_ville_id":"30924","proxy_nom_id":"c1","proxy_search":"","proxy_page":"1"}));
+        // dispatch(infosDoctorRequest({"id":"17496"}))        
     }, []);
 
     const clearText = () => {

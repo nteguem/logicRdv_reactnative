@@ -4,13 +4,17 @@ import {
   SEARCH_FAILURE,
   RESULT_REQUEST,
   RESULT_SUCCESS,
-  RESULT_FAILURE
+  RESULT_FAILURE,
+  INFO_DOCTOR_REQUEST,
+  INFO_DOCTOR_SUCCESS,
+  INFO_DOCTOR_FAILURE
 } from './types';
 
 const initialState = {
   isLoading: false,
   results:[],
   error:null,
+  doctorInfos:null
   
 };
 
@@ -53,6 +57,24 @@ const SearchReducer = (state = initialState, action) => {
           results:[],
           error:action.payload
         };
+        case INFO_DOCTOR_REQUEST:
+          return {
+            ...state,
+            isLoading: true,
+          };
+        case INFO_DOCTOR_SUCCESS:
+          return {
+            ...state,
+            isLoading: false,
+            doctorInfos:action.payload,
+          };
+        case INFO_DOCTOR_FAILURE:
+          return {
+            ...state,
+            isLoading: false,
+            doctorInfos:null,
+            error:action.payload
+          };
     default:
       return state;
   }
