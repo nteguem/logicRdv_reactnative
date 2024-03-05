@@ -17,6 +17,7 @@ const ModalView = ({
     borderWidth,
     borderRadius,
     borderColor,
+    clearInputText,
     results,
     isLoading
 }) => {
@@ -25,7 +26,6 @@ const ModalView = ({
     const [city, setCity] = useState('');
     const [zipCode, setZipCode] = useState('');
     const [input, setInput] = useState('');
-    const [inputProfession, setInputProfession] = useState('');
     const [value, setValue] = useState('');
     const [showCrossIcon, setShowCrossIcon] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -36,19 +36,17 @@ const ModalView = ({
     useEffect(() => {
         if (modalVisible) {
             setInput('');
-            setInputProfession('');
             setValue('');
             setSelectedItem(null);
         }
     }, [modalVisible]);
 
     const handleInputChange = (text) => {
-        setShowCrossIcon(text !== '');
         if (isCity) {
             setInput(text);
             dispatch(searchRequest({ "kind": "city", "proxy_istelecons": "0", "term": text }));
         } else {
-            setInputProfession(text);
+            setInput(text);
             dispatch(searchRequest({ "kind": "name", "cp": "0", "proxy_istelecons": "0", "term": text }));
         }
     };
@@ -77,7 +75,6 @@ const ModalView = ({
         setModalVisible(false);
     };
 
-
     useEffect(() => {
         // dispatch(searchRequest({"kind":"city","proxy_istelecons":"0","term":""}));
         // dispatch(searchRequest({ "kind": "name", "cp": "0", "proxy_istelecons": "0", "term": "med" }));
@@ -85,11 +82,16 @@ const ModalView = ({
     }, []);
 
     const clearText = () => {
-        setValue('');
+        setValue('')
         setInput('');
-        setInputProfession('');
-        setShowCrossIcon(false);
     };
+
+    const handleTextInputClick = () => {
+        dispatch(searchRequest({ "kind": "city", "proxy_istelecons": "0", "term": "" }));
+        dispatch(searchRequest({ "kind": "name", "cp": "0", "proxy_istelecons": "0", "term": "" }));
+        setModalVisible(true); // Afficher la modal
+    };
+
     return (
         <View style={styles.centeredView}>
             <Modal
@@ -122,10 +124,10 @@ const ModalView = ({
                                         ADRESSE DE RECHERCHE
                                     </CustomText>
                                 </View>
-                            ) : isCity ? (
+                            ) : (
                                 <View>
                                     <CustomText fontSize={15} color={colors.white} fontWeight='bold' style={{ marginLeft: 8 }}>
-                                        Code postal, Ville
+                                        {isCity ? 'Code postal, Ville' : 'Nom, Spécialité, Téléphone'}
                                     </CustomText>
                                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: -18 }}>
                                         <View style={{ width: '78%' }}>
@@ -133,10 +135,10 @@ const ModalView = ({
                                                 value={input}
                                                 onChangeText={handleInputChange}
                                                 style={styles.inputProfession}
-                                                placeholder="Code postal, Ville"
+                                                placeholder={isCity ? 'Code postal, Ville' : 'Nom, Spécialité, Téléphone'}
                                                 placeholderTextColor={colors.gray100}
                                             />
-                                            {showCrossIcon && (
+                                            {input !== '' && (
                                                 <TouchableOpacity onPress={clearText}>
                                                     <Icon name="close" size={24} color={colors.red} style={styles.icon} />
                                                 </TouchableOpacity>
@@ -153,38 +155,6 @@ const ModalView = ({
                                         </TouchableOpacity>
                                     </View>
                                 </View>
-                            ) : (
-                                <View>
-                                    <CustomText fontSize={15} color={colors.white} fontWeight='bold' style={{ marginLeft: 8 }}>
-                                        Nom, Spécialité, Téléphone
-                                    </CustomText>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: -18 }}>
-                                        <View style={{ width: '78%' }}>
-                                            <TextInput
-                                                value={inputProfession}
-                                                onChangeText={handleInputChange}
-                                                style={styles.inputProfession}
-                                                placeholder="Nom, Spécialité, Téléphone"
-                                                placeholderTextColor={colors.gray100}
-                                            />
-                                            {showCrossIcon && (
-                                                <TouchableOpacity onPress={clearText}>
-                                                    <Icon name="close" size={24} color={colors.red} style={styles.icon} />
-                                                </TouchableOpacity>
-                                            )}
-                                        </View>
-                                        <TouchableOpacity onPress={clearText}>
-                                            <Icon
-                                                onPress={() => setModalVisible(!modalVisible)}
-                                                name="close"
-                                                size={32}
-                                                color={colors.white}
-                                                style={{ marginLeft: 12, marginRight: -20 }}
-                                            />
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-
                             )}
                         </View>
 
@@ -261,31 +231,8 @@ const ModalView = ({
                                         </View>
                                     </ScrollView>
                                 </View>
-                            ) : isCity ? (
-                                <>
-                                    {isLoading ? (
-                                        <View style={styles.overlay}>
-                                            <ActivityIndicator size="large" color={colors.blue} />
-                                        </View>
-                                    ) : (
-                                        <View style={{ height: '98%', marginHorizontal: -35 }}>
-                                            <ScrollView>
-                                                {results.map((result, index) => (
-                                                    <TouchableOpacity key={index} onPress={() => handleSelectItem(result)}>
-                                                        <View >
-                                                            <CustomText fontSize={12} fontWeight={'bold'} color={colors.black} style={{ marginLeft: 12 }}>
-                                                                {result.clientinfos}
-                                                            </CustomText>
-                                                            <View style={styles.divider} />
-                                                        </View>
-                                                    </TouchableOpacity>
-                                                ))}
-                                            </ScrollView>
-                                        </View>
-                                    )}
-                                </>
                             ) : (
-                                <>
+                                <View style={styles.body}>
                                     {isLoading ? (
                                         <View style={styles.overlay}>
                                             <ActivityIndicator size="large" color={colors.blue} />
@@ -297,13 +244,7 @@ const ModalView = ({
                                                     <TouchableOpacity key={index} onPress={() => handleSelectItem(result)}>
                                                         <View >
                                                             <CustomText fontSize={12} fontWeight={'bold'} color={colors.black} style={{ marginLeft: 12 }}>
-                                                                {result.civility ? (
-                                                                    <>{result.civility} {result.nom}</>
-
-                                                                ) : (
-                                                                    <>{result.nom}</>
-                                                                )}
-
+                                                                {isCity ? result.clientinfos : result.civility ? `${result.civility} ${result.nom}` : result.nom}
                                                             </CustomText>
                                                             {result.address && (
                                                                 <CustomText fontSize={12} fontWeight={'bold'} color={colors.gray} style={{ marginLeft: 12 }}>
@@ -322,7 +263,8 @@ const ModalView = ({
                                             </ScrollView>
                                         </View>
                                     )}
-                                </>
+                                </View>
+
                             )}
                         </View>
                     </View>
@@ -331,7 +273,7 @@ const ModalView = ({
             <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%' }}>
                 <View style={{ flex: 1 }}>
                     {!isLocation && (
-                        <Pressable onPress={() => setModalVisible(!modalVisible)}>
+                        <Pressable onPress={handleTextInputClick}>
                             <TextInput
                                 style={[styles.input,
                                 {
@@ -347,7 +289,7 @@ const ModalView = ({
                                 value={value}
                                 onChangeText={onChange}
                             />
-                            {showCrossIcon && (
+                            {input !== '' && (
                                 <TouchableOpacity onPress={clearText}>
                                     <Icon name="close" size={24} color={colors.red} style={styles.icon} />
                                 </TouchableOpacity>

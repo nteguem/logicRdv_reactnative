@@ -28,7 +28,7 @@ const DoctorDetails = ({ route }) => {
                     isDetail
                 />
 
-                <View style={{ margin: 10, width: '100%' }}> 
+                <View style={{flexDirection: 'row', justifyContent: 'center', marginVertical: 10, width: '100%' }}> 
                     <CustomAppButton
                         //   onPress={() => handleButtonPress(button.onclick_action)}
                         title='CHERCHER AUTOUR'
