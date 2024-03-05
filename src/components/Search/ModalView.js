@@ -37,7 +37,6 @@ const ModalView = ({
         if (modalVisible) {
             setInput('');
             setValue('');
-            setSelectedItem(null);
         }
     }, [modalVisible]);
 
@@ -55,12 +54,10 @@ const ModalView = ({
         if (isCity) {
             setValue(item.clientinfos);
             onChange(item.clientinfos);
-            setSelectedItem(item);
         } else {
             if (!item.civility) {
                 setValue(item.nom);
                 onChange(item.nom);
-                setSelectedItem(item);
             } else {
                 navigation.navigate('Détail du médécin', {
                     civility: item.civility,
@@ -74,6 +71,7 @@ const ModalView = ({
             }
         }
         setModalVisible(false);
+        setSelectedItem(item);
     };
 
     useEffect(() => {
@@ -83,7 +81,6 @@ const ModalView = ({
     }, []);
 
     const clearText = () => {
-        console.log("Clearing text...");
         setSelectedItem(null)
         setValue('')
         setInput('');
@@ -148,7 +145,7 @@ const ModalView = ({
                                                 <Icon name="close" size={24} color={colors.red} style={styles.icon} onPress={clearText} />
                                             )}
                                         </View>
-                                        <TouchableOpacity onPress={clearText}>
+                                        <TouchableOpacity>
                                             <Icon
                                                 onPress={() => setModalVisible(!modalVisible)}
                                                 name="close"
@@ -289,13 +286,17 @@ const ModalView = ({
                                 placeholder={placeholder}
                                 placeholderTextColor={colors.gray100}
                                 editable={false}
-                                onFocus={() => setModalVisible(true)}
-                                value={value}
+                                onFocus={() => {
+                                    if (!selectedItem) {
+                                        setModalVisible(true);
+                                    }
+                                }}
+                                value={selectedItem && (isCity ? selectedItem.clientinfos : selectedItem.nom)}
                                 onChangeText={onChange}
                             />
-                            {input !== '' && (
+                            {selectedItem || input ? (
                                 <Icon name="close" size={24} color={colors.red} style={styles.icon} onPress={clearText} />
-                            )}
+                            ) : null}
                         </Pressable>
                     )}
                 </View>
