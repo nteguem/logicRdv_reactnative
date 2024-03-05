@@ -27,7 +27,6 @@ const ModalView = ({
     const [zipCode, setZipCode] = useState('');
     const [input, setInput] = useState('');
     const [value, setValue] = useState('');
-    const [showCrossIcon, setShowCrossIcon] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
 
     const dispatch = useDispatch();
@@ -51,6 +50,7 @@ const ModalView = ({
     };
 
     const handleSelectItem = (item) => {
+        console.log('Praticien choisi::', item)
         if (isCity) {
             setValue(item.clientinfos);
             onChange(item.clientinfos);
@@ -67,6 +67,8 @@ const ModalView = ({
                     zip: item.zip,
                     city: item.city,
                     tel: item.tel,
+                    proxy_ville_id: item.id_city,
+                    proxy_nom_id: item.id
                 })
             }
         }

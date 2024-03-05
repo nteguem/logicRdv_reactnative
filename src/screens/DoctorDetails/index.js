@@ -1,15 +1,42 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import Doctor from '../../components/global/Doctor'
 import CustomText from '../../components/global/CustomText'
 import { colors } from '../../components/global/colors'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import CustomAppButton from '../../components/global/CustomAppButton'
+import { resultRequest } from '../../redux/search/actions'
+import { useDispatch, connect } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
-const DoctorDetails = ({ route }) => {
-    const { civility, name, profession, adresse, zip, city, tel } = route.params;
+const DoctorDetails = ({ route, results }) => {
+    const { civility, name, profession, adresse, zip, city, tel, proxy_ville_id, proxy_nom_id } = route.params;
     const fullName = `${civility} ${name}` ;
-    const fullZip = `${zip} ${city}` ;
+    const proxy_ville = `${zip} ${city}` ;
+
+    const dispatch = useDispatch();
+    const navigation = useNavigation();
+
+    useEffect(() => {
+        dispatch(resultRequest({"proxy_ville":proxy_ville,"proxy_nom":profession,"proxy_ville_id":proxy_ville_id,"proxy_nom_id":proxy_nom_id,"proxy_search":"","proxy_page":"1"}));
+    }, []);
+
+    const itemsToNavigate = results.map((item, index) => ({
+        civility: item.civility,
+        name: item.nom,
+        profession: item.category,
+        adresse: item.address,
+        zip: item.zip,
+        city: item.city,
+        tel: item.tel,
+        key: index // Assurez-vous d'avoir une clé unique pour chaque élément
+    }));
+
+    const handleSearchChange = (text) => {
+        // console.log('rechercher autour::', itemsToNavigate)
+        navigation.navigate('Résultats', itemsToNavigate)
+    };
+
     return (
         <ContainerScreen>
             <ScrollView>
@@ -17,7 +44,7 @@ const DoctorDetails = ({ route }) => {
                     texte1={fullName}
                     texte2={profession}
                     texte3={adresse}
-                    texte4={fullZip}
+                    texte4={proxy_ville}
                     texte5={tel}
                     colorTitle={colors.yellow}
                     colorContain={colors.blue}
@@ -30,7 +57,7 @@ const DoctorDetails = ({ route }) => {
 
                 <View style={{flexDirection: 'row', justifyContent: 'center', marginVertical: 10, width: '100%' }}> 
                     <CustomAppButton
-                        //   onPress={() => handleButtonPress(button.onclick_action)}
+                        onPress={handleSearchChange}
                         title='CHERCHER AUTOUR'
                         alignSelf="baseline"
                         paddingVertical={16}
@@ -76,4 +103,10 @@ const styles = StyleSheet.create({
     }
 });
 
-export default DoctorDetails
+const mapStateToProps = ({ SearchReducer }) => ({
+    results: SearchReducer?.results,
+    isLoading: SearchReducer?.isLoading,
+});
+
+export default connect(mapStateToProps)(DoctorDetails);
+
