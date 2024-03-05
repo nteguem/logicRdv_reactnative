@@ -83,6 +83,7 @@ const ModalView = ({
     }, []);
 
     const clearText = () => {
+        console.log("Clearing text...");
         setSelectedItem(null)
         setValue('')
         setInput('');
@@ -144,9 +145,7 @@ const ModalView = ({
                                                 placeholderTextColor={colors.gray100}
                                             />
                                             {input !== '' && (
-                                                <TouchableOpacity onPress={clearText}>
-                                                    <Icon name="close" size={24} color={colors.red} style={styles.icon} />
-                                                </TouchableOpacity>
+                                                <Icon name="close" size={24} color={colors.red} style={styles.icon} onPress={clearText} />
                                             )}
                                         </View>
                                         <TouchableOpacity onPress={clearText}>
@@ -295,9 +294,7 @@ const ModalView = ({
                                 onChangeText={onChange}
                             />
                             {input !== '' && (
-                                <TouchableOpacity onPress={clearText}>
-                                    <Icon name="close" size={24} color={colors.red} style={styles.icon} />
-                                </TouchableOpacity>
+                                <Icon name="close" size={24} color={colors.red} style={styles.icon} onPress={clearText} />
                             )}
                         </Pressable>
                     )}
@@ -372,7 +369,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         textAlignVertical: 'center',
         backgroundColor: colors.white,
-        height: 40,
+        height: 50,
         fontSize: 12
     },
     inputModal: {
@@ -395,7 +392,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
         right: 1,
         top: '10%',
-        transform: [{ translateY: -45 }]
+        transform: [{ translateY: 15 }]
     },
     modalBackground: {
         position: 'absolute',
