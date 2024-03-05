@@ -18,6 +18,11 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
         setProfession(text);
     };
 
+    const clearInputText = () => {
+        setLocation(''); 
+        setProfession(''); 
+    };
+
     return (
         <View>
             <View>
@@ -34,6 +39,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
                             borderWidth={borderWidth}
                             borderRadius={borderRadius}
                             borderColor={borderColor}
+                            clearInputText={clearInputText}
                         />
                     </View>
                     <View style={{ width: '20%' }}>
@@ -53,6 +59,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
                         borderWidth={borderWidth}
                         borderRadius={borderRadius}
                         borderColor={borderColor}
+                        clearInputText={clearInputText}
                     />
                 </View>
             </View>
