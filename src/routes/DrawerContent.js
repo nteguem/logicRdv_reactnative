@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Image, TouchableOpacity, StyleSheet, Switch } from 'react-native';
+import { View, Image, TouchableOpacity, StyleSheet, Switch, ActivityIndicator } from 'react-native';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { colors } from '../components/global/colors';
@@ -10,9 +10,12 @@ import CustomText from '../components/global/CustomText';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FontAwesome from 'react-native-vector-icons/FontAwesome6';
+import { showMessage } from 'react-native-flash-message';
 
 const DrawerContent = ({ navigation, isAuth }) => {
   const [isEnabled, setIsEnabled] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
@@ -20,10 +23,25 @@ const DrawerContent = ({ navigation, isAuth }) => {
     navigation.navigate(screenName);
   };
 
-  // const disconnect = async () => {
-  //   await removeUserData();
-  //   dispatch(setLoggedIn(false));
-  // };
+  const disconnect = async () => {
+    try {
+      setLoading(true);
+      await removeUserData();
+      navigation.closeDrawer();
+      dispatch(setLoggedIn(false));
+    } catch (error) {
+      console.error('Erreur lors de la déconnexion :', error);
+      showMessage({
+        message: 'Erreur',
+        description: 'Une erreur est survenue lors de la déconnexion.',
+        type: 'danger',
+        duration: 5000,
+      });
+    }
+    finally {
+      setLoading(false);
+    }
+  };
 
   const renderHeader = () => {
     if (isAuth) {
@@ -125,7 +143,7 @@ const DrawerContent = ({ navigation, isAuth }) => {
               Mes notifications
             </CustomText>
           </TouchableOpacity>
-          <TouchableOpacity  style={styles.menuItem}>
+          <TouchableOpacity onPress={disconnect} style={styles.menuItem}>
             <MaterialIcons name="logout" size={20} color={colors.blue} />
             <CustomText fontSize={12} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
               Déconnexion
@@ -193,11 +211,19 @@ const DrawerContent = ({ navigation, isAuth }) => {
   };
 
   return (
-    <DrawerContentScrollView style={{ marginBottom: '-35%' }}>
-      {renderHeader()}
-      {renderMenuItems()}
-      {renderFooter()}
-    </DrawerContentScrollView>
+    <>
+      {loading ? (
+        <View style={styles.container}>
+          <ActivityIndicator size="large" color={colors.blue} />
+        </View>
+      ) : (
+        <DrawerContentScrollView style={{ marginBottom: '-35%' }}>
+          {renderHeader()}
+          {renderMenuItems()}
+          {renderFooter()}
+        </DrawerContentScrollView>
+      )}
+    </>
   );
 };
 
@@ -256,6 +282,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginHorizontal: 12,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
   },
 });
 
