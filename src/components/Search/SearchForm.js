@@ -16,39 +16,46 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
     const searchall = useSelector(
         (state) => state.SearchReducer.results
     );
-    
+
     const [location, setLocation] = useState('');
     const [profession, setProfession] = useState('');
-
+    const [selectedItem, setSelectedItem] = useState(null);
+    // console.log('location::', location)
+    // console.log('profession::', profession)
     const handleLocationChange = (text) => {
         setLocation(text);
     };
 
     const handleProfessionChange = (text) => {
-        setProfession(text);
+        if (!selectedItem || !selectedItem.civility) {
+            setProfession(text);
+        } else {
+            setProfession('');
+        }
     };
 
 
     const handleSearch = () => {
-    
+
         dispatch(resultRequest({
-            "proxy_ville":"75001 PARIS 1er",
-            "proxy_nom":"Médecin Généraliste",
+            "proxy_ville": "75001 PARIS 1er",
+            "proxy_nom": "Médecin Généraliste",
             "proxy_ville_id": "30924",
             "proxy_nom_id": "c1",
             "proxy_search": "",
             "proxy_page": "2"
         }));
         console.log(searchall);
-    
+
         navigation.navigate("Résultats", { location, profession, searchall });
     };
-    
+
 
 
     const clearInputText = () => {
-        setLocation(''); 
-        setProfession(''); 
+        setLocation('');
+        setProfession('');
+        setSelectedItem(null);
     };
 
     return (

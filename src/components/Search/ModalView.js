@@ -50,7 +50,6 @@ const ModalView = ({
     };
 
     const handleSelectItem = (item) => {
-        console.log('Praticien choisi::', item)
         if (isCity) {
             setValue(item.clientinfos);
             onChange(item.clientinfos);
@@ -294,10 +293,10 @@ const ModalView = ({
                                         setModalVisible(true);
                                     }
                                 }}
-                                value={selectedItem && (isCity ? selectedItem.clientinfos : selectedItem.nom)}
+                                value={selectedItem && !selectedItem.civility ? (isCity ? selectedItem.clientinfos : selectedItem.nom) : ''}
                                 onChangeText={onChange}
                             />
-                            {selectedItem || input ? (
+                            {selectedItem && (!selectedItem.civility && input) ? (
                                 <Icon name="close" size={24} color={colors.red} style={styles.icon} onPress={clearText} />
                             ) : null}
                         </Pressable>
