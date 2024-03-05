@@ -5,8 +5,18 @@ import { colors } from '../global/colors'
 import CustomAppButton from '../global/CustomAppButton'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ModalView from './ModalView'
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux'
+import { resultRequest, searchRequest } from '../../redux/search/actions'
+import { UseSelector } from 'react-redux'
 
 const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
+    const navigation = useNavigation();
+    const dispatch = useDispatch();
+    const searchall = useSelector(
+        (state) => state.SearchReducer.results
+    );
+    
     const [location, setLocation] = useState('');
     const [profession, setProfession] = useState('');
 
@@ -17,6 +27,24 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
     const handleProfessionChange = (text) => {
         setProfession(text);
     };
+
+
+    const handleSearch = () => {
+    
+        dispatch(resultRequest({
+            "proxy_ville":"75001 PARIS 1er",
+            "proxy_nom":"Médecin Généraliste",
+            "proxy_ville_id": "30924",
+            "proxy_nom_id": "c1",
+            "proxy_search": "",
+            "proxy_page": "2"
+        }));
+        console.log(searchall);
+    
+        navigation.navigate("Résultats", { location, profession, searchall });
+    };
+    
+
 
     const clearInputText = () => {
         setLocation(''); 
@@ -78,6 +106,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
                         borderColor={colors.white}
                         bkgroundColor={colors.blue}
                         width='100%'
+                        onPress={handleSearch}
                     />
                 </View>
             )}
@@ -114,4 +143,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SearchForm
+export default SearchForm;
