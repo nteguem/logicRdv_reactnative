@@ -9,8 +9,7 @@ import { connect } from 'react-redux';
 import CustomText from '../../components/global/CustomText'
 import { useNavigation } from '@react-navigation/native';
 
-const Appointments = ({list}) => {
-    console.log('mes rdv::', list)
+const Appointments = ({ list, isLoading }) => {
     const navigation = useNavigation();
 
     const handleAppointment = () => {
@@ -18,7 +17,7 @@ const Appointments = ({list}) => {
     };
 
     return (
-        <ContainerScreen>
+        <ContainerScreen isLoading={isLoading}>
             <ScrollView>
                 <View style={styles.containerButton}>
                     <CustomAppButton
@@ -34,22 +33,36 @@ const Appointments = ({list}) => {
                     />
                 </View>
                 <CustomText fontSize={20} color={colors.black} fontWeight='bold'>Mes Rendez-vous</CustomText>
-                {dataAppointment.map((item, index) => (
+                {list.map((item, index) => (
                     <AppointmentDetails
                         key={index}
-                        date={item.date}
-                        consultationMethod={item.consultationMethod}
-                        time={item.time}
-                        doctor={item.doctor}
-                        appointmentType={item.appointmentType}
-                        patientName={item.patientName}
-                        patientPhone={item.patientPhone}
-                        patientEmail={item.patientEmail}
-                        addressName={item.addressName}
-                        addressLine1={item.addressLine1}
-                        addressLine2={item.addressLine2}
-                        addressPhone={item.addressPhone}
-                        mode={item.mode}
+                        date={item.appointment.date}
+                        time={item.appointment.time}
+                        doctor={item.appointment.with}
+                        appointmentType={item.appointment.label}
+                        patientName={item.patient.nom}
+                        patientPhone={item.patient.phone}
+                        patientEmail={item.patient.email}
+                        addressName={item.cabinet.nom}
+                        addressLine1={item.cabinet.city}
+                        addressLine2={item.cabinet.address}
+                        addressPhone={item.cabinet.phone}
+                        buttonlabeltelecons={item.appointment.past === '0' ? item.appointment.buttonlabeltelecons : ''}
+                        buttonTitle={item.appointment.buttonlabeltelecons !== '' ? item.appointment.buttonlabeltelecons : ''}
+                        buttonBorderColor={
+                            item.appointment.past === '0' && item.appointment.status !== 'cancel' ? colors.red :
+                                item.appointment.past === '0' && item.appointment.status === 'cancel' ? colors.gray : ''
+                        }
+                        buttonTextColor={
+                            item.appointment.past === '0' && item.appointment.status !== 'cancel' ? colors.red :
+                                item.appointment.past === '0' && item.appointment.status === 'cancel' ? colors.gray : ''
+                        }
+                        display={item.appointment.past === '1' ? 'none' : 'flex'}
+                        firstCompartmentBackgroundColor={
+                            item.appointment.past === '0' && item.appointment.status !== 'cancel' ? colors.blue :
+                                item.appointment.past === '0' && item.appointment.status === 'cancel' ? colors.gray :
+                                    item.appointment.past === '1' ? colors.gray : ''
+                        }
                     />
                 ))}
 
@@ -68,6 +81,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = ({ AppointmentReducer }) => ({
     list: AppointmentReducer.list,
-  });
-  
-  export default connect(mapStateToProps)(Appointments);
+    isLoading: AppointmentReducer.isLoading,
+});
+
+export default connect(mapStateToProps)(Appointments);
