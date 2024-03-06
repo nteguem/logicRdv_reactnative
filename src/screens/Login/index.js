@@ -14,6 +14,7 @@ const Login = ({ session, headerError, headerMessage, inputFields, buttons, isLo
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
+  
   const dispatch = useDispatch();
 
   const navigation = useNavigation();
@@ -29,17 +30,28 @@ const Login = ({ session, headerError, headerMessage, inputFields, buttons, isLo
       case 'code':
         setCode(text);
         break;
-        setEmail("");
-        setPassword("");
-        setCode("");
       default:
         break;
     }
-  }
+  };  
+  
   const handleButtonPress = (action) => {
-    const inputData = password !== '' ? password : code !== '' ? code : email;
+    let inputData = '';
+  
+    if (password !== '') {
+      inputData = password;
+      setPassword('');
+    } else if (email !== '') {
+      inputData = email;
+      setEmail('');
+    } else if (code !== '') {
+      inputData = code;
+      setCode('');
+    }
+  
+    console.log(inputData);
     dispatch(loginRequest(inputData, action, session));
-  };
+  };  
 
   const handleSignUp = () => {
     navigation.navigate('Inscription rapide');

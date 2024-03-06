@@ -54,7 +54,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 const AppointmentDetails = (
   {
     date,
-    consultationMethod,
     time,
     doctor,
     appointmentType,
@@ -65,58 +64,34 @@ const AppointmentDetails = (
     addressLine1,
     addressLine2,
     addressPhone,
-    mode,
+    buttonlabeltelecons,
+    buttonTitle,
     buttonBorderColor,
     buttonTextColor,
+    display,
     firstCompartmentBackgroundColor
   }) => {
-
-  let buttonTitle;
-  switch (mode) {
-    case 'teleconsultation':
-      buttonTitle = 'Téléconsultation';
-      buttonBorderColor = colors.red;
-      buttonTextColor = colors.red;
-      firstCompartmentBackgroundColor = colors.blue;
-      break;
-    case 'prepaiementRdvTelephonique':
-      buttonTitle = 'Prépaiement Rdv Téléphonique';
-      buttonBorderColor = colors.red;
-      buttonTextColor = colors.red;
-      firstCompartmentBackgroundColor = colors.blue;
-      break;
-    case 'cancel':
-      buttonTitle = 'Annuler';
-      buttonBorderColor = 'transparent';
-      buttonTextColor = colors.gray100;
-      firstCompartmentBackgroundColor = colors.gray100;
-      break;
-    default:
-      buttonTitle = 'Prépaiement Rdv Téléphonique';
-  }
 
   return (
     <View style={styles.card}>
       <View style={[styles.compartment, styles.firstCompartment, { backgroundColor: firstCompartmentBackgroundColor }]}>
         <View style={styles.timeDetailsContainer}>
           <View style={styles.detailsContainer}>
-            <MaterialCommunityIcons name="calendar-blank" size={18} color={colors.white} marginRight={5} style={{ transform: [{ rotate: '-45deg' }] }} />
-            <CustomText fontSize={12} color={colors.white}>{date}</CustomText>
-            <CustomText fontSize={12} color={colors.white}>{consultationMethod}</CustomText>
+            <MaterialCommunityIcons name="calendar-blank" size={16} color={colors.white} marginRight={5} style={{ transform: [{ rotate: '-45deg' }] }} />
+            <CustomText fontSize={10} color={colors.white}>{date}</CustomText>
           </View>
           <View style={styles.detailsContainer}>
-            <MaterialCommunityIcons name="clock-outline" size={18} color={colors.white} marginRight={5} />
-            <CustomText fontSize={12} color={colors.white}>{time}</CustomText>
+            <MaterialCommunityIcons name="clock-outline" size={16} color={colors.white} marginRight={5} />
+            <CustomText fontSize={10} color={colors.white}>{time}</CustomText>
           </View>
         </View>
       </View>
-      <View style={styles.divider} />
       <View style={[styles.compartment, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginRight: 10 }]}>
         <View style={styles.compartmentContainer}>
           <CustomText fontSize={15} fontWeight='bold' color={colors.black}>{doctor}</CustomText>
           <CustomText fontSize={12} color={colors.black} style={styles.appointmentType}>{appointmentType}</CustomText>
         </View>
-        <View style={styles.button}>
+        <View style={[styles.button, { display: display }]}>
           <CustomAppButton
             onPress={() => Alert.alert('Button pressed')}
             title="Annuler"
@@ -139,7 +114,7 @@ const AppointmentDetails = (
             <View style={styles.circleUser}>
               <Icon name="user-circle" size={50} color={colors.gray100} />
             </View>
-            <CustomText fontSize={15} color={colors.black}>{patientName}</CustomText>
+            <CustomText fontSize={13} color={colors.black}>{patientName}</CustomText>
           </View>
           <View style={[styles.detailsContainer, { marginBottom: 10 }]}>
             <Icon name="phone" size={18} color={colors.black} marginRight={5} />
@@ -166,24 +141,27 @@ const AppointmentDetails = (
         </View>
       </View>
       <View style={styles.divider} />
-      {mode !== 'cancel' && (
-        <View style={styles.compartment}>
-          <View style={styles.button}>
-            <CustomAppButton
-              onPress={() => Alert.alert('Button pressed')}
-              title={buttonTitle}
-              bkgroundColor={colors.blue}
-              alignSelf='center'
-              textColor={colors.white}
-              paddingHorizontal={25}
-              paddingVertical={8}
-              borderRadius={6}
-              textFontSize={12}
-            />
+      {buttonlabeltelecons !== '' && (
+        <>
+          <View style={styles.compartment}>
+            <View style={styles.button}>
+              <CustomAppButton
+                onPress={() => Alert.alert('Button pressed')}
+                title={buttonTitle}
+                bkgroundColor={colors.blue}
+                alignSelf='center'
+                textColor={colors.white}
+                paddingHorizontal={25}
+                paddingVertical={8}
+                borderRadius={6}
+                textFontSize={12}
+              />
+            </View>
           </View>
-        </View>
+          <View style={styles.divider} />
+        </>
       )}
-      <View style={styles.divider} />
+
       <View style={styles.compartment}>
         <View style={styles.button}>
           <CustomAppButton
@@ -204,7 +182,6 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.white,
     borderRadius: 20,
-    borderWidth: 1,
     borderColor: colors.gray100,
     marginTop: 20
   },
@@ -245,7 +222,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   compartmentContainer: {
-    paddingLeft: 40,
+    paddingLeft: 20,
     paddingBottom: 10
   },
   patientName: {

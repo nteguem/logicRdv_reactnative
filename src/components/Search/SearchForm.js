@@ -42,7 +42,6 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
         navigation.navigate("Résultats", { location, profession, results });
     };
 
-
     return (
         <View>
             <View>
