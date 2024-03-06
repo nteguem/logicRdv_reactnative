@@ -20,8 +20,6 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
     const [location, setLocation] = useState('');
     const [profession, setProfession] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
-    // console.log('location::', location)
-    // console.log('profession::', profession)
     const handleLocationChange = (text) => {
         setLocation(text);
     };
@@ -51,13 +49,6 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
     };
 
 
-
-    const clearInputText = () => {
-        setLocation('');
-        setProfession('');
-        setSelectedItem(null);
-    };
-
     return (
         <View>
             <View>
@@ -74,7 +65,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
                             borderWidth={borderWidth}
                             borderRadius={borderRadius}
                             borderColor={borderColor}
-                            clearInputText={clearInputText}
+                            clearInputText={()=>setLocation('')}
                         />
                     </View>
                     <View style={{ width: '20%' }}>
@@ -94,7 +85,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
                         borderWidth={borderWidth}
                         borderRadius={borderRadius}
                         borderColor={borderColor}
-                        clearInputText={clearInputText}
+                        clearInputText={()=>setProfession('')}
                     />
                 </View>
             </View>
