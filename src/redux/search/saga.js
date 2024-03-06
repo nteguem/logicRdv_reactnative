@@ -30,6 +30,7 @@ function* result({ payload }) {
     const endpoint = 'search/list/';
     const response = yield call(sendRequest, 'POST', endpoint, data);
     yield put({ type: RESULT_SUCCESS, payload: response.data });
+    
   } catch (error) {
     console.error('error', error);
     yield put({ type: RESULT_FAILURE, payload: error });
