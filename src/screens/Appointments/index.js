@@ -5,10 +5,12 @@ import AppointmentDetails from '../../components/MyAppointment/Appointment_Detai
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import { colors } from '../../components/global/colors'
 import dataAppointment from '../data/dataAppointment'
+import { connect } from 'react-redux';
 import CustomText from '../../components/global/CustomText'
 import { useNavigation } from '@react-navigation/native';
 
-const Appointments = () => {
+const Appointments = ({list}) => {
+    console.log('mes rdv::', list)
     const navigation = useNavigation();
 
     const handleAppointment = () => {
@@ -64,5 +66,8 @@ const styles = StyleSheet.create({
         marginVertical: 20
     },
 });
-
-export default Appointments
+const mapStateToProps = ({ AppointmentReducer }) => ({
+    list: AppointmentReducer.list,
+  });
+  
+  export default connect(mapStateToProps)(Appointments);
