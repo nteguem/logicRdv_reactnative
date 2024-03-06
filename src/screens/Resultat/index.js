@@ -12,11 +12,6 @@ const SearchResult = ({ isSearch = true }) => {
   const result = searchall || results;
   const isEmptySearch = !result || result.length === 0;
 
-  useEffect(() => {
-    console.log('====================================');
-    console.log(searchall);
-    console.log('====================================');
-  }, [searchall]);
 
   const renderContent = () => {
     if (isSearch) {

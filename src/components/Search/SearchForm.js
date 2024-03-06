@@ -21,9 +21,10 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
     const [profession, setProfession] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
     const handleLocationChange = (text) => {
+        console.log(text);
         setLocation(text);
     };
-
+    console.log(location);
     const handleProfessionChange = (text) => {
         if (!selectedItem || !selectedItem.civility) {
             setProfession(text);
@@ -34,7 +35,6 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
 
 
     const handleSearch = () => {
-
         dispatch(resultRequest({
             "proxy_ville":location,
             "proxy_nom": profession,
@@ -43,7 +43,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
             "proxy_search": "",
             "proxy_page": "2"
         }));
-        console.log(searchall);
+        
 
         navigation.navigate("Résultats", { location, profession, searchall });
     };
