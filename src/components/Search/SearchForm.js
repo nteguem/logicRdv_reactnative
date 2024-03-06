@@ -33,7 +33,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
     
         dispatch(resultRequest({
             "proxy_ville":location,
-            "proxy_nom": "",
+            "proxy_nom": profession,
             "proxy_ville_id": "",
             "proxy_nom_id": "",
             "proxy_search": "",

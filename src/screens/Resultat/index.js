@@ -1,86 +1,103 @@
-import { View, Text, ScrollView, StyleSheet } from 'react-native'
-import React from 'react'
-import ContainerScreen from '../../components/wrappers/ContainerScreen'
-import CustomText from '../../components/global/CustomText'
-import { UseDispatch } from 'react-redux'
-import Doctor from '../../components/global/Doctor'
-import { colors } from '../../components/global/colors'
+import React, { useEffect } from 'react';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import ContainerScreen from '../../components/wrappers/ContainerScreen';
+import CustomText from '../../components/global/CustomText';
+import Doctor from '../../components/global/Doctor';
+import { colors } from '../../components/global/colors';
 import { useRoute } from '@react-navigation/native';
 
-const SearchResult = ( ) => {
-  const { location, profession, searchall } = useRoute().params;
-  const result = searchall;
-  const isEmptysearch = (searchall) => {
-    for(let key in searchall) {
-        if(searchall.hasOwnProperty(key)){return false;}
+const SearchResult = ({ isSearch = true }) => {
+  const { params } = useRoute();
+  const { location, profession, searchall, civility, name, results, betweenSearch, city } = params;
+  const result = searchall || results;
+  const isEmptySearch = !result || result.length === 0;
+
+  useEffect(() => {
+    console.log('====================================');
+    console.log(searchall);
+    console.log('====================================');
+  }, [searchall]);
+
+  const renderContent = () => {
+    if (isSearch) {
+      return (
+        <ScrollView>
+          {result.map((item, index) => (
+            item.civility === "Dr" && (
+              <Doctor
+                key={index}
+                isProfileIcon={true}
+                isSearch={true}
+                isRightIcons={true}
+                isPhoneIcons={true}
+                isDelete={true}
+                texte1={`${item.civility} ${item.nom}`}
+                texte2={item.category}
+                texte3={item.address}
+                texte4={`${item.zip} ${item.city}`}
+                texte5={item.tel}
+                colorContain={colors.blue}
+                colorTitle={colors.yellow}
+              />
+            )
+          ))}
+        </ScrollView>
+      );
+    } else {
+      return (
+        betweenSearch && (
+          <ScrollView>
+            {results.map((result, index) => (
+              <Doctor
+                key={index}
+                texte1={`${result.civility} ${result.nom}`}
+                texte2={result.category}
+                texte3={result.address}
+                texte4={`${result.zip} ${result.city}`}
+                texte5={result.tel}
+                texte6={result.km_diff && (`à ${result.km_diff} km`)}
+                colorTitle={colors.yellow}
+                colorContain={colors.blue}
+                fontWeight={'bold'}
+                isPhoneIcons
+                isProfileIcon
+                isRightIcons
+                isDelete
+                isSearch
+              />
+            ))}
+          </ScrollView>
+        )
+      );
     }
-    return true;
   };
-  console.log('====================================');
-  console.log(searchall);
-  console.log('====================================');
+
   return (
     <ContainerScreen>
-      <View style={styles.hearder}>
+      <View style={styles.header}>
         <CustomText color={colors.gray200}>Résultat de la recherche pour:</CustomText>
-        <CustomText
-         color={colors.black}
-         fontWeight="bold"> {location} {profession} </CustomText>
+        <CustomText color={colors.black} fontWeight="bold">  {location || city} {profession || name} </CustomText>
       </View>
-      {
-  isEmptysearch() ? (
-    result.some(item => item.civility === "Dr") ? (
-      <ScrollView>
-        {result.map((item, index) =>
-          item.civility === "Dr" && (
-            <Doctor
-              key={index} 
-              isProfileIcon={true}
-              isSearch={true}
-              isRightIcons={true}
-              isPhoneIcons={true}
-              isDelete={true}
-              texte1={item.civility + " " + item.nom}
-              texte2={item.category}
-              texte3={item.adress}
-              texte4={item.zip + " " + item.city}
-              texte5={item.tel}
-              colorContain={colors.blue}
-              colorTitle={colors.yellow}
-            />
-          )
-        )}
-      </ScrollView>
-    ) : (
-      <View style={styles.centered}>
-        <CustomText color={colors.black}>Aucune donnée disponible pour cette recherche</CustomText>
-      </View>
-    )
-  ) : (
-    <View style={styles.centered}>
-      <CustomText color={colors.black}>Aucune donnée disponible pour cette recherche</CustomText>
-    </View>
-  )
-}
-
-      
+      {isEmptySearch ? (
+        <View style={styles.centered}>
+          <CustomText color={colors.black}>Aucune donnée disponible pour cette recherche</CustomText>
+        </View>
+      ) : renderContent()}
     </ContainerScreen>
-  )
-}
+  );
+};
 
-const styles = StyleSheet.create(
- {
-  hearder:{
+const styles = StyleSheet.create({
+  header: {
     marginHorizontal: -10,
-    paddingHorizontal:10,
-    paddingVertical:10
-
+    paddingHorizontal: 10,
+    paddingVertical: 10
   },
   centered: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
- }
-)
-export default SearchResult
+});
+
+export default SearchResult;

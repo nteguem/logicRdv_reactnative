@@ -233,6 +233,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   detailsContainer: {
+    
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
