@@ -16,21 +16,25 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
     const searchall = useSelector(
         (state) => state.SearchReducer.results
     );
-    
+
     const [location, setLocation] = useState('');
     const [profession, setProfession] = useState('');
-
+    const [selectedItem, setSelectedItem] = useState(null);
     const handleLocationChange = (text) => {
         setLocation(text);
     };
 
     const handleProfessionChange = (text) => {
-        setProfession(text);
+        if (!selectedItem || !selectedItem.civility) {
+            setProfession(text);
+        } else {
+            setProfession('');
+        }
     };
 
 
     const handleSearch = () => {
-    
+
         dispatch(resultRequest({
             "proxy_ville":location,
             "proxy_nom": profession,
@@ -40,16 +44,10 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
             "proxy_page": "2"
         }));
         console.log(searchall);
-    
+
         navigation.navigate("Résultats", { location, profession, searchall });
     };
-    
 
-
-    const clearInputText = () => {
-        setLocation(''); 
-        setProfession(''); 
-    };
 
     return (
         <View>
@@ -67,7 +65,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
                             borderWidth={borderWidth}
                             borderRadius={borderRadius}
                             borderColor={borderColor}
-                            clearInputText={clearInputText}
+                            clearInputText={()=>setLocation('')}
                         />
                     </View>
                     <View style={{ width: '20%' }}>
@@ -87,7 +85,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
                         borderWidth={borderWidth}
                         borderRadius={borderRadius}
                         borderColor={borderColor}
-                        clearInputText={clearInputText}
+                        clearInputText={()=>setProfession('')}
                     />
                 </View>
             </View>

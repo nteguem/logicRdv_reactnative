@@ -10,7 +10,6 @@ import Icon1 from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import CustomText from './CustomText';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import GoogleMap from '../ListOfDoctor/GoogleMap';
 import ModalPatient from '../ListOfPatients/Modal';
 
 const Doctor = ({
@@ -29,6 +28,7 @@ const Doctor = ({
   texte3,
   texte4,
   texte5,
+  texte6,
   handleChange,
   colorTitle,
   colorContain,
@@ -78,8 +78,8 @@ const Doctor = ({
         </View>
       </View>
 
-      <View style={{ marginLeft: isAppointment ? -110 : -10 }}>
-        <View style={{ marginLeft: isUpdate || isAppointment || isDetail ? 0 : -55 }}>
+      <View style={{ marginLeft: isAppointment ? -110 : isSearch ? -30 : -10, width: isSearch ?  '60%' : 'none', marginRight: isSearch ?  -70 : 'none'}}>
+        <View style={{ marginLeft: isUpdate || isAppointment || isDetail || isSearch ? 0 : -55 }}>
           <CustomText fontSize={15} color={colorTitle} fontWeight={'bold'} style={{ marginBottom: marginBottom }}>
             {texte1}
           </CustomText>
@@ -110,6 +110,18 @@ const Doctor = ({
               {texte4}
             </CustomText>
           </View>
+
+          <View style={[styles.detailsContainer, { marginBottom: 5 }]}>
+            {isIcon && (
+              <Icon1 name="envelope" size={16} color={colors.blue} marginRight={5} />
+            )}
+            {texte6 && (
+            <CustomText fontSize={11} color={colorContain}>
+              {texte6}
+            </CustomText>
+            )}
+          </View>
+
           <View style={styles.item}>
             <CustomText fontSize={11} color={colorContain} fontWeight={'bold'}>
               {texte5}

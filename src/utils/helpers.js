@@ -22,7 +22,7 @@ export const getUserData = async () => {
     const userDataString = await AsyncStorage.getItem('userData');
     if (userDataString) {
       const userData = JSON.parse(userDataString);
-      return userData.tokenuser;
+      return userData;
     } else {
       console.log('Aucune donnée utilisateur trouvée.');
       return null;
