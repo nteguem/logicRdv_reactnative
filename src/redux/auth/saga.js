@@ -1,5 +1,6 @@
 import { takeLatest, call, put, select } from 'redux-saga/effects';
 import { showMessage } from 'react-native-flash-message';
+import { listAppointmentsRequest } from '../appointment/actions';
 import { sendRequest } from '../../utils/api';
 import {loginRequest} from './actions'
 import * as RootNavigation from '../../routes/RootNavigation';
@@ -29,7 +30,7 @@ function* login({payload}) {
         type: 'success',
         duration: 5000,
       });
-      
+      yield listAppointmentsRequest({"id":1});
     }     
     yield put({ type: STEP_REQUEST, payload: response.data });
   } catch (error) {
