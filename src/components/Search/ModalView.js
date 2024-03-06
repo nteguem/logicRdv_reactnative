@@ -55,13 +55,13 @@ const ModalView = ({
             setValue(item.clientinfos);
             onChange(item.clientinfos);
             setCity(item.id)
-            
         }
-        if (!item.civility) {
+       else if (!item.civility) {
             setValue(item.nom);
             onChange(item.nom);
             setidname(item.id)
         } else {
+            
             navigation.navigate('Détail du médécin', {
                 civility: item.civility,
                 name: item.nom,
@@ -70,6 +70,8 @@ const ModalView = ({
                 zip: item.zip,
                 city: item.city,
                 tel: item.tel,
+                proxy_ville_id: item.id_city,
+                proxy_nom_id: item.id
             })
 
         }

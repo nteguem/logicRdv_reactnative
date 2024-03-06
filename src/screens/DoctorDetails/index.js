@@ -24,7 +24,7 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
     }, []);
 
     const handleSearchChange = () => {
-        navigation.navigate('Résultats', { civility, name, results, betweenSearch })
+        navigation.navigate('Résultats', { civility, name, results, betweenSearch, city })
     };
 
     const CustomButtonComponent = (
@@ -46,7 +46,8 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
     return (
         <ContainerScreen isLoading={isLoading}>
             <ScrollView>
-                {doctorInfos?.appointment.token !== "" && CustomButtonComponent}
+                {doctorInfos && doctorInfos.appointment && doctorInfos.appointment.token !== "" && CustomButtonComponent}
+
                 <Doctor
                     texte1={fullName}
                     texte2={profession}
@@ -79,7 +80,7 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
 
                 <View style={styles.card}>
                     <CustomText fontSize={15} fontWeight='bold' color={colors.black}>Caractéristiques & Horaires</CustomText>
-                    {doctorInfos?.chapters.map((doctor, index) => {
+                    {doctorInfos?.chapters && doctorInfos.chapters.map((doctor, index)=> {
                         return (
                             <View key={index}>
                                 <CustomText fontSize={15} fontWeight='bold' color={colors.black} style={{ backgroundColor: colors.blue400, borderRadius: 10, padding: 15 }}>
@@ -97,7 +98,8 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
                         {profession}
                     </CustomText>
                 </View>
-                {doctorInfos?.appointment.token !== "" && CustomButtonComponent}
+                {doctorInfos && doctorInfos.appointment && doctorInfos.appointment.token !== "" && CustomButtonComponent}
+
             </ScrollView>
         </ContainerScreen>
     )

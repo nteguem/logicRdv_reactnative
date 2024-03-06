@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import CustomText from '../global/CustomText'
 import { colors } from '../global/colors'
@@ -6,25 +6,19 @@ import CustomAppButton from '../global/CustomAppButton'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ModalView from './ModalView'
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { resultRequest, searchRequest } from '../../redux/search/actions'
-import { UseSelector } from 'react-redux'
 
-const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
+const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
-    const searchall = useSelector(
-        (state) => state.SearchReducer.results
-    );
-
     const [location, setLocation] = useState('');
     const [profession, setProfession] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
     const handleLocationChange = (text) => {
-        console.log(text);
         setLocation(text);
     };
-    console.log(location);
+    
     const handleProfessionChange = (text) => {
         if (!selectedItem || !selectedItem.civility) {
             setProfession(text);
@@ -45,7 +39,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
         }));
         
 
-        navigation.navigate("Résultats", { location, profession, searchall });
+        navigation.navigate("Résultats", { location, profession, results });
     };
 
 
@@ -141,4 +135,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SearchForm;
+const mapStateToProps = ({ SearchReducer }) => ({
+    results: SearchReducer?.results,
+});
+export default connect(mapStateToProps)( SearchForm);

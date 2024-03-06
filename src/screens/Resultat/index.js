@@ -5,8 +5,9 @@ import CustomText from '../../components/global/CustomText';
 import Doctor from '../../components/global/Doctor';
 import { colors } from '../../components/global/colors';
 import { useRoute } from '@react-navigation/native';
+import { connect } from 'react-redux';
 
-const SearchResult = ({ isSearch = true }) => {
+const SearchResult = ({ isLoading, isSearch = true }) => {
   const { params } = useRoute();
   const { location, profession, searchall, civility, name, results, betweenSearch, city } = params;
   const result = searchall || results;
@@ -68,10 +69,10 @@ const SearchResult = ({ isSearch = true }) => {
   };
 
   return (
-    <ContainerScreen>
+    <ContainerScreen isLoading={isLoading}>
       <View style={styles.header}>
         <CustomText color={colors.gray200}>Résultat de la recherche pour:</CustomText>
-        <CustomText color={colors.black} fontWeight="bold">  {location || city} {profession || name} </CustomText>
+        <CustomText color={colors.black} fontWeight="bold">  {location || city}, {profession || name} </CustomText>
       </View>
       {isEmptySearch ? (
         <View style={styles.centered}>
@@ -95,4 +96,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchResult;
+const mapStateToProps = ({ SearchReducer }) => ({
+  isLoading: SearchReducer?.isLoading,
+});
+export default connect(mapStateToProps)(SearchResult);
