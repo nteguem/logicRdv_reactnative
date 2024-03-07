@@ -72,6 +72,18 @@ const EditProfile = () => {
                 <View style={styles.container} >
                     <View>
                         <CustomText fontSize={12} color={colors.blue100}>
+                           Nom
+                        </CustomText>
+                        <TextInput
+                            style={styles.input}
+                            placeholder={userData?.nom}
+                            placeholderTextColor={colors.gray}
+                            value={userData?.nom}
+                            onChangeText={onChangeFirstName}
+                        />
+                    </View>
+                    <View>
+                        <CustomText fontSize={12} color={colors.blue100}>
                             Prénom
                         </CustomText>
                         <TextInput
