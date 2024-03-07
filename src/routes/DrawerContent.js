@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Image, TouchableOpacity, StyleSheet, Switch, ActivityIndicator } from 'react-native';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -11,10 +11,20 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FontAwesome from 'react-native-vector-icons/FontAwesome6';
 import { showMessage } from 'react-native-flash-message';
+import { getUserData } from '../utils/helpers';
 
 const DrawerContent = ({ navigation, isAuth }) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState("");
+
+  useEffect(()=>{
+    const fetchData = async () => {
+      const data = await getUserData();
+      setUserData(data);
+    };
+    fetchData();
+  }, [])
 
   const dispatch = useDispatch();
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
@@ -34,7 +44,7 @@ const DrawerContent = ({ navigation, isAuth }) => {
       showMessage({
         message: 'Erreur',
         description: 'Une erreur est survenue lors de la déconnexion.',
-        type: 'danger',
+        type: 'danger',  
         duration: 5000,
       });
     }
@@ -59,10 +69,10 @@ const DrawerContent = ({ navigation, isAuth }) => {
           </View>
           <View>
             <CustomText fontSize={12} fontWeight={'500'} color={colors.white} style={styles.drawerItem}>
-              nteguem wache
+            {`${userData?.nom} ${userData?.prenom}`}
             </CustomText>
             <CustomText fontSize={10} fontWeight={'500'} color={colors.white} style={{ paddingHorizontal: 10, }}>
-              nteguemroland@gmail.com
+              {userData?.email}
             </CustomText>
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 5, marginBottom: -25 }}>

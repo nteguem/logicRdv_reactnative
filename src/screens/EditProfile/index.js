@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import CustomText from '../../components/global/CustomText'
@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome6';
 import Profil from '../../components/Settings/Profil';
+import { getUserData } from '../../utils/helpers';
 
 const EditProfile = () => {
     const [firstName, setFirstName] = useState('');
@@ -20,6 +21,15 @@ const EditProfile = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [userData, setUserData] = useState("");
+    useEffect(()=>{
+        const fetchData = async () => {
+          const data = await getUserData();
+          setUserData(data);
+        };
+        fetchData();
+      }, [])
+    
 
     const onChangeFirstName = (text) => {
         setFirstName(text);
@@ -58,7 +68,7 @@ const EditProfile = () => {
     return (
         <ContainerScreen>
             <ScrollView>
-                <Profil username='NTEGUEM Roland' email='nteguemroland@gmail.com' />
+                <Profil username={`${userData?.nom} ${userData?.prenom}`} email={userData?.email} />
                 <View style={styles.container} >
                     <View>
                         <CustomText fontSize={12} color={colors.blue100}>
@@ -66,9 +76,9 @@ const EditProfile = () => {
                         </CustomText>
                         <TextInput
                             style={styles.input}
-                            placeholder="Prénom"
+                            placeholder={userData?.prenom}
                             placeholderTextColor={colors.gray}
-                            value={firstName}
+                            value={userData?.prenom}
                             onChangeText={onChangeFirstName}
                         />
                     </View>
@@ -79,9 +89,9 @@ const EditProfile = () => {
                         </CustomText>
                         <TextInput
                             style={styles.input}
-                            placeholder="Numéro de téléphone"
+                            placeholder={userData?.mobile}
                             placeholderTextColor={colors.gray}
-                            value={phoneNumber}
+                            value={userData?.mobile}
                             onChangeText={onChangePhoneNumber}
                             keyboardType='numeric'
                         />
@@ -93,9 +103,9 @@ const EditProfile = () => {
                         </CustomText>
                         <TextInput
                             style={styles.input}
-                            placeholder="Email"
+                            placeholder={userData?.email}
                             placeholderTextColor={colors.gray}
-                            value={email}
+                            value={userData?.email}
                             onChangeText={onChangeEmail}
                         />
                     </View>
