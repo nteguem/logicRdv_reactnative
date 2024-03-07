@@ -66,6 +66,7 @@ const AppointmentDetails = (
     addressPhone,
     buttonlabeltelecons,
     buttonTitle,
+    cancelButton,
     buttonBorderColor,
     buttonTextColor,
     display,
@@ -86,6 +87,7 @@ const AppointmentDetails = (
           </View>
         </View>
       </View>
+      
       <View style={[styles.compartment, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginRight: 10 }]}>
         <View style={styles.compartmentContainer}>
           <CustomText fontSize={15} fontWeight='bold' color={colors.black}>{doctor}</CustomText>
@@ -94,7 +96,7 @@ const AppointmentDetails = (
         <View style={[styles.button, { display: display }]}>
           <CustomAppButton
             onPress={() => Alert.alert('Button pressed')}
-            title="Annuler"
+            title={cancelButton}
             bkgroundColor='transparent'
             borderWidth={1}
             alignSelf='baseline'
@@ -114,7 +116,7 @@ const AppointmentDetails = (
             <View style={styles.circleUser}>
               <Icon name="user-circle" size={50} color={colors.gray100} />
             </View>
-            <CustomText fontSize={13} color={colors.black}>{patientName}</CustomText>
+            <CustomText fontSize={15} color={colors.black} fontWeight='bold'>{patientName}</CustomText>
           </View>
           <View style={[styles.detailsContainer, { marginBottom: 10 }]}>
             <Icon name="phone" size={18} color={colors.black} marginRight={5} />
@@ -151,10 +153,11 @@ const AppointmentDetails = (
                 bkgroundColor={colors.blue}
                 alignSelf='center'
                 textColor={colors.white}
-                paddingHorizontal={25}
+                paddingHorizontal={35}
                 paddingVertical={8}
                 borderRadius={6}
                 textFontSize={12}
+                fontWeight='bold'
               />
             </View>
           </View>
@@ -171,6 +174,7 @@ const AppointmentDetails = (
             alignSelf='center'
             textColor={colors.blue}
             textFontSize={12}
+            fontWeight='bold'
           />
         </View>
       </View>
@@ -182,6 +186,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.white,
     borderRadius: 20,
+    borderWidth: 1,
     borderColor: colors.gray100,
     marginTop: 20
   },
