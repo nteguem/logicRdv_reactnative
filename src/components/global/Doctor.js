@@ -13,8 +13,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import ModalPatient from '../ListOfPatients/Modal';
 
 const Doctor = ({
-  isRightIcons = false, 
-  isArrowIcon = false, 
+  isRightIcons = false,
+  isArrowIcon = false,
   isProfileIcon = false,
   isPhoneIcons = false,
   isUpdate = false,
@@ -22,7 +22,7 @@ const Doctor = ({
   isSearch = false,
   isDelete = false,
   isIcon = false,
-  isDetail= false,
+  isDetail = false,
   texte1,
   texte2,
   texte3,
@@ -78,7 +78,7 @@ const Doctor = ({
         </View>
       </View>
 
-      <View style={{ marginLeft: isAppointment ? -110 : isSearch ? -30 : -10, width: isSearch ?  '60%' : 'none', marginRight: isSearch ?  -70 : 'none'}}>
+      <View style={{ marginLeft: isAppointment ? -110 : isSearch ? -30 : -10, width: isSearch ? '60%' : 'none', marginRight: isSearch ? -70 : 'none' }}>
         <View style={{ marginLeft: isUpdate || isAppointment || isDetail || isSearch ? 0 : -55 }}>
           <CustomText fontSize={15} color={colorTitle} fontWeight={'bold'} style={{ marginBottom: marginBottom }}>
             {texte1}
@@ -116,19 +116,23 @@ const Doctor = ({
               <Icon1 name="envelope" size={16} color={colors.blue} marginRight={5} />
             )}
             {texte6 && (
-            <CustomText fontSize={11} color={colorContain}>
-              {texte6}
-            </CustomText>
+              <CustomText fontSize={11} color={colorContain}>
+                {texte6}
+              </CustomText>
             )}
           </View>
 
           <View style={styles.item}>
-            <CustomText fontSize={11} color={colorContain} fontWeight={'bold'}>
-              {texte5}
-            </CustomText>
-            {
-              isPhoneIcons && <Icon style={styles.myicon2} name="phone-alt" color={colors.white} size={15} />
-            }
+            {texte5 && (
+              <>
+                <CustomText fontSize={11} color={colorContain} fontWeight={'bold'}>
+                  {texte5}
+                </CustomText>
+                {
+                  isPhoneIcons && <Icon style={styles.myicon2} name="phone-alt" color={colors.white} size={15} />
+                }
+              </>
+            )}
           </View>
         </View>
       </View>
@@ -245,7 +249,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   detailsContainer: {
-    
+
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,

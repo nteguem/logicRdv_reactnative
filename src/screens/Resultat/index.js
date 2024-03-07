@@ -5,13 +5,25 @@ import CustomText from '../../components/global/CustomText';
 import Doctor from '../../components/global/Doctor';
 import { colors } from '../../components/global/colors';
 import { useRoute } from '@react-navigation/native';
-import { connect } from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { infosDoctorRequest } from '../../redux/search/actions';
 
-const SearchResult = ({ isLoading, isSearch = true }) => {
+const SearchResult = ({ isLoading, isSearch = true, doctorInfos }) => {
   const { params } = useRoute();
-  const { location, profession, searchall, civility, name, results, betweenSearch, city } = params;
+  const { location, profession, searchall, civility, name, results, betweenSearch, city, proxy_nom_id } = params;
   const result = searchall || results;
   const isEmptySearch = !result || result.length === 0;
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    dispatch(infosDoctorRequest({ "id": proxy_nom_id }));
+  }, []);
+
+  const handleDoctorPress = (doctorDetails) => {
+    navigation.navigate('Détail du médécin', doctorDetails);
+  };
 
 
   const renderContent = () => {
@@ -34,6 +46,17 @@ const SearchResult = ({ isLoading, isSearch = true }) => {
                 texte5={item.tel}
                 colorContain={colors.blue}
                 colorTitle={colors.yellow}
+                handleChange={() => handleDoctorPress({
+                  civility: item.civility,
+                  name: item.nom,
+                  profession: item.category,
+                  adresse: item.address,
+                  zip: item.zip,
+                  city: item.city,
+                  tel: item.tel,
+                  proxy_ville_id: item.id_city,
+                  proxy_nom_id: item.id
+                })}
               />
             )
           ))}
@@ -41,29 +64,38 @@ const SearchResult = ({ isLoading, isSearch = true }) => {
       );
     } else {
       return (
-        betweenSearch && (
-          <ScrollView>
-            {results.map((result, index) => (
-              <Doctor
-                key={index}
-                texte1={`${result.civility} ${result.nom}`}
-                texte2={result.category}
-                texte3={result.address}
-                texte4={`${result.zip} ${result.city}`}
-                texte5={result.tel}
-                texte6={result.km_diff && (`à ${result.km_diff} km`)}
-                colorTitle={colors.yellow}
-                colorContain={colors.blue}
-                fontWeight={'bold'}
-                isPhoneIcons
-                isProfileIcon
-                isRightIcons
-                isDelete
-                isSearch
-              />
-            ))}
-          </ScrollView>
-        )
+        <ScrollView>
+          {results.map((result, index) => (
+            <Doctor
+              key={index}
+              texte1={`${result.civility} ${result.nom}`}
+              texte2={result.category}
+              texte3={result.address}
+              texte4={`${result.zip} ${result.city}`}
+              texte5={result.tel}
+              texte6={result.km_diff && (`à ${result.km_diff} km`)}
+              colorTitle={colors.yellow}
+              colorContain={colors.blue}
+              handleChange={() => handleDoctorPress({
+                civility: item.civility,
+                name: item.nom,
+                profession: item.category,
+                adresse: item.address,
+                zip: item.zip,
+                city: item.city,
+                tel: item.tel,
+                proxy_ville_id: item.id_city,
+                proxy_nom_id: item.id
+              })}
+              fontWeight={'bold'}
+              isPhoneIcons
+              isProfileIcon
+              isRightIcons
+              isDelete
+              isSearch
+            />
+          ))}
+        </ScrollView>
       );
     }
   };
@@ -98,5 +130,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ SearchReducer }) => ({
   isLoading: SearchReducer?.isLoading,
+  doctorInfos: SearchReducer?.doctorInfos
 });
 export default connect(mapStateToProps)(SearchResult);
