@@ -19,11 +19,11 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
     const navigation = useNavigation();
 
     useEffect(() => {
-        dispatch(infosDoctorRequest({ "id": proxy_nom_id }));
-        dispatch(resultRequest({ "proxy_ville": proxy_ville, "proxy_nom": profession, "proxy_ville_id": proxy_ville_id, "proxy_nom_id": proxy_nom_id, "proxy_search": "", "proxy_page": "1" }));
+        dispatch(infosDoctorRequest({ "id": proxy_nom_id })); 
     }, []);
 
     const handleSearchChange = () => {
+        dispatch(resultRequest({ "proxy_ville": proxy_ville, "proxy_nom": profession, "proxy_ville_id": proxy_ville_id, "proxy_nom_id": proxy_nom_id, "proxy_search": "", "proxy_page": "1" }));
         navigation.navigate('Résultats', { civility, name, results, betweenSearch, city })
     };
 
