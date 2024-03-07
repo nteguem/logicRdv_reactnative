@@ -11,7 +11,7 @@ const Home = () => {
             <ContainerScreen backgroundColor='white'>
                 <ImageBackground source={require('../../assets/images/background.png')} style={styles.backgroundImage}>
                     <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                        <Header isHome />
+                        {/* <Header isHome /> */}
                         <SearchForm borderRadius={12} />
                     </ScrollView>
                 </ImageBackground>

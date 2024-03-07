@@ -28,7 +28,8 @@ const ModalView = ({
     const [input, setInput] = useState('');
     const [value, setValue] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
-
+    const [idname, setidname]= useState("");
+    const [idcity, setidcity] = useState("");
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
@@ -53,23 +54,26 @@ const ModalView = ({
         if (isCity) {
             setValue(item.clientinfos);
             onChange(item.clientinfos);
+            setCity(item.id)
+        }
+       else if (!item.civility) {
+            setValue(item.nom);
+            onChange(item.nom);
+            setidname(item.id)
         } else {
-            if (!item.civility) {
-                setValue(item.nom);
-                onChange(item.nom);
-            } else {
-                navigation.navigate('Détail du médécin', {
-                    civility: item.civility,
-                    name: item.nom,
-                    profession: item.category,
-                    adresse: item.address,
-                    zip: item.zip,
-                    city: item.city,
-                    tel: item.tel,
-                    proxy_ville_id: item.id_city,
-                    proxy_nom_id: item.id
-                })
-            }
+            
+            navigation.navigate('Détail du médécin', {
+                civility: item.civility,
+                name: item.nom,
+                profession: item.category,
+                adresse: item.address,
+                zip: item.zip,
+                city: item.city,
+                tel: item.tel,
+                proxy_ville_id: item.id_city,
+                proxy_nom_id: item.id
+            })
+
         }
         setModalVisible(false);
         setSelectedItem(item);

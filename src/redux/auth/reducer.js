@@ -97,7 +97,7 @@ const AuthReducer = (state = initialState, action) => {
         etablissements: [],
         cgu:null
       }
-    case SIGNUP_FAILURE:
+    case SIGNUP_FAILURE: 
       return {
         ...state,
         isLoading: false,
