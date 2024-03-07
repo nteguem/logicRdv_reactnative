@@ -62,21 +62,21 @@ const DrawerContent = ({ navigation, isAuth }) => {
               <Icon name="user-circle" size={55} color={colors.gray100} />
             </View>
             <TouchableOpacity onPress={navigateToScreen('Home')} >
-              <CustomText fontSize={12} fontWeight={'500'} color={colors.white} style={styles.drawerItem}>
+              <CustomText fontSize={14} fontWeight={'700'} color={colors.white} style={styles.drawerItem}>
                 Quitter
               </CustomText>
             </TouchableOpacity>
           </View>
           <View>
-            <CustomText fontSize={12} fontWeight={'500'} color={colors.white} style={styles.drawerItem}>
+            <CustomText fontSize={14} fontWeight={'700'} color={colors.white} style={styles.drawerItem}>
             {`${userData?.nom} ${userData?.prenom}`}
             </CustomText>
-            <CustomText fontSize={10} fontWeight={'500'} color={colors.white} style={{ paddingHorizontal: 10, }}>
+            <CustomText fontSize={12} fontWeight={'700'} color={colors.white} style={{ paddingHorizontal: 10, }}>
               {userData?.email}
             </CustomText>
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 5, marginBottom: -25 }}>
-            <CustomText fontSize={12} fontWeight={'500'} color={colors.white} style={styles.drawerItem}>
+            <CustomText fontSize={8} fontWeight={'700'} color={colors.white} style={styles.drawerItem}>
               V 1.0.4
             </CustomText>
           </View>
@@ -92,13 +92,13 @@ const DrawerContent = ({ navigation, isAuth }) => {
               </View>
             </View>
             <TouchableOpacity onPress={navigateToScreen('Home')} >
-              <CustomText fontSize={12} fontWeight={'500'} color={colors.white} style={styles.drawerItem}>
+              <CustomText fontSize={14} fontWeight={'700'} color={colors.white} style={styles.drawerItem}>
                 Quitter
               </CustomText>
             </TouchableOpacity>
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 35, marginBottom: -25 }}>
-            <CustomText fontSize={12} fontWeight={'500'} color={colors.white} style={styles.drawerItem}>
+            <CustomText fontSize={8} fontWeight={'700'} color={colors.white} style={styles.drawerItem}>
               V 1.0.4
             </CustomText>
           </View>
@@ -113,49 +113,49 @@ const DrawerContent = ({ navigation, isAuth }) => {
         <>
           <TouchableOpacity onPress={navigateToScreen('Mes rendez-vous')} style={styles.menuItem}>
             <Entypo name="home" size={20} color={colors.blue} />
-            <CustomText fontSize={12} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
+            <CustomText fontSize={14} fontWeight={'700'} color={colors.black} style={styles.drawerItem}>
               Mes rendez-vous
             </CustomText>
           </TouchableOpacity>
           <TouchableOpacity onPress={navigateToScreen('Fixez rendez-vous')} style={styles.menuItem}>
             <Icon name="magic" size={20} color={colors.blue} />
-            <CustomText fontSize={12} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
+            <CustomText fontSize={14} fontWeight={'700'} color={colors.black} style={styles.drawerItem}>
               Fixez rendez-vous
             </CustomText>
           </TouchableOpacity>
           <TouchableOpacity onPress={navigateToScreen('Message')} style={styles.menuItem}>
             <MaterialIcons name="message" size={20} color={colors.blue} />
-            <CustomText fontSize={12} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
+            <CustomText fontSize={14} fontWeight={'700'} color={colors.black} style={styles.drawerItem}>
               Documents et messages
             </CustomText>
           </TouchableOpacity>
           <TouchableOpacity onPress={navigateToScreen('Gestion des patients')} style={styles.menuItem}>
             <MaterialIcons name="folder-shared" size={20} color={colors.blue} />
-            <CustomText fontSize={12} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
+            <CustomText fontSize={14} fontWeight={'700'} color={colors.black} style={styles.drawerItem}>
               Gestion de la famille
             </CustomText>
           </TouchableOpacity>
           <TouchableOpacity onPress={navigateToScreen('Profil')} style={styles.menuItem}>
             <FontAwesome name="user-large" size={20} color={colors.blue} />
-            <CustomText fontSize={12} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
+            <CustomText fontSize={14} fontWeight={'700'} color={colors.black} style={styles.drawerItem}>
               Mon compte
             </CustomText>
           </TouchableOpacity>
           <TouchableOpacity onPress={navigateToScreen("Recherche d'un praticien")} style={styles.menuItem}>
             <MaterialIcons name="search" size={20} color={colors.blue} />
-            <CustomText fontSize={12} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
+            <CustomText fontSize={14} fontWeight={'700'} color={colors.black} style={styles.drawerItem}>
               Recherche d'un praticien
             </CustomText>
           </TouchableOpacity>
           <TouchableOpacity onPress={navigateToScreen('Notifications')} style={styles.menuItem}>
             <MaterialIcons name="notifications" size={20} color={colors.blue} />
-            <CustomText fontSize={12} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
+            <CustomText fontSize={14} fontWeight={'700'} color={colors.black} style={styles.drawerItem}>
               Mes notifications
             </CustomText>
           </TouchableOpacity>
           <TouchableOpacity onPress={disconnect} style={styles.menuItem}>
             <MaterialIcons name="logout" size={20} color={colors.blue} />
-            <CustomText fontSize={12} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
+            <CustomText fontSize={14} fontWeight={'700'} color={colors.black} style={styles.drawerItem}>
               Déconnexion
             </CustomText>
           </TouchableOpacity>
@@ -166,13 +166,13 @@ const DrawerContent = ({ navigation, isAuth }) => {
         <>
           <TouchableOpacity onPress={navigateToScreen('Home')} style={styles.menuItem}>
             <Entypo name="home" size={20} color={colors.blue} />
-            <CustomText fontSize={12} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
+            <CustomText fontSize={14} fontWeight={'700'} color={colors.black} style={styles.drawerItem}>
               Accueil
             </CustomText>
           </TouchableOpacity>
           <TouchableOpacity onPress={navigateToScreen('Notifications')} style={styles.menuItem}>
             <MaterialIcons name="notifications" size={20} color={colors.blue} />
-            <CustomText fontSize={12} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
+            <CustomText fontSize={14} fontWeight={'700'} color={colors.black} style={styles.drawerItem}>
               Notification
             </CustomText>
           </TouchableOpacity>
@@ -188,7 +188,7 @@ const DrawerContent = ({ navigation, isAuth }) => {
           <View style={[styles.containerToggle, { justifyContent: 'space-between' }]}>
             <TouchableOpacity onPress={navigateToScreen('Home')} style={styles.menuItem}>
               {isEnabled ? <MaterialIcons name="notifications-on" size={20} color={colors.blue} /> : <MaterialIcons name="notifications-off" size={20} color={colors.blue} />}
-              <CustomText fontSize={12} fontWeight={'500'} color={colors.black} style={styles.drawerItem}>
+              <CustomText fontSize={14} fontWeight={'700'} color={colors.black} style={styles.drawerItem}>
                 Notification
               </CustomText>
             </TouchableOpacity>
@@ -201,7 +201,7 @@ const DrawerContent = ({ navigation, isAuth }) => {
             />
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <CustomText fontSize={12} fontWeight={'500'} color={colors.blue} style={styles.drawerItem}>
+            <CustomText fontSize={14} fontWeight={'700'} color={colors.blue} style={styles.drawerItem}>
               Version 1.0.4
             </CustomText>
           </View>
@@ -211,7 +211,7 @@ const DrawerContent = ({ navigation, isAuth }) => {
       return (
         <View style={{ display: isAuth ? 'flex' : 'none' }}>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <CustomText fontSize={12} fontWeight={'500'} color={colors.blue} style={styles.drawerItem}>
+            <CustomText fontSize={14} fontWeight={'700'} color={colors.blue} style={styles.drawerItem}>
               Version 1.0.4
             </CustomText>
           </View>
@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
   menuItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginHorizontal: 12,
+    marginHorizontal: 14,
   },
   container: {
     flex: 1,
