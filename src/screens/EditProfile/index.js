@@ -12,6 +12,7 @@ import { getUserData } from '../../utils/helpers';
 
 const EditProfile = () => {
     const [firstName, setFirstName] = useState('');
+    const [LastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
     const [adress, setAdress] = useState('');
@@ -22,14 +23,17 @@ const EditProfile = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [userData, setUserData] = useState("");
-    useEffect(()=>{
+    useEffect(() => {
         const fetchData = async () => {
-          const data = await getUserData();
-          setUserData(data);
+            const data = await getUserData();
+            setUserData(data);
+            setFirstName(data.nom || "");
+            setPhoneNumber(data.mobile || "");
+            setEmail(data.email || "");
+            setLastName(data.prenom || "");
         };
         fetchData();
-      }, [])
-    
+    }, []);
 
     const onChangeFirstName = (text) => {
         setFirstName(text);
@@ -78,7 +82,7 @@ const EditProfile = () => {
                             style={styles.input}
                             placeholder={userData?.nom}
                             placeholderTextColor={colors.gray}
-                            value={userData?.nom}
+                            value={firstName}
                             onChangeText={onChangeFirstName}
                         />
                     </View>
@@ -90,7 +94,7 @@ const EditProfile = () => {
                             style={styles.input}
                             placeholder={userData?.prenom}
                             placeholderTextColor={colors.gray}
-                            value={userData?.prenom}
+                            value={LastName}
                             onChangeText={onChangeFirstName}
                         />
                     </View>
@@ -103,7 +107,7 @@ const EditProfile = () => {
                             style={styles.input}
                             placeholder={userData?.mobile}
                             placeholderTextColor={colors.gray}
-                            value={userData?.mobile}
+                            value={phoneNumber}
                             onChangeText={onChangePhoneNumber}
                             keyboardType='numeric'
                         />
@@ -117,7 +121,7 @@ const EditProfile = () => {
                             style={styles.input}
                             placeholder={userData?.email}
                             placeholderTextColor={colors.gray}
-                            value={userData?.email}
+                            value={email}
                             onChangeText={onChangeEmail}
                         />
                     </View>

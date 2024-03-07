@@ -83,7 +83,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
                 </View>
             </View>
             {(location !== '' && profession !== '') && (
-                <View style={{ justifyContent: 'flex-end', marginVertical: 12, }}>
+                <View style={{marginBottom:15}}>
                     <CustomAppButton
                         iconComponent={<Ionicons name="search" size={18} color={colors.white} style={{ marginHorizontal: 15 }} />}
                         title='Rechercher'
@@ -98,6 +98,8 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
                         bkgroundColor={colors.blue}
                         width='100%'
                         onPress={handleSearch}
+                        
+                        
                     />
                 </View>
             )}
