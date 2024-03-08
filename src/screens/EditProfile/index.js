@@ -23,10 +23,13 @@ const EditProfile = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [userData, setUserData] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
         const fetchData = async () => {
             const data = await getUserData();
             setUserData(data);
+            setIsLoading(false);
             setFirstName(data.nom || "");
             setPhoneNumber(data.mobile || "");
             setEmail(data.email || "");
@@ -70,7 +73,7 @@ const EditProfile = () => {
     };
 
     return (
-        <ContainerScreen>
+        <ContainerScreen isLoading={isLoading}>
             <ScrollView>
                 <Profil username={`${userData?.nom} ${userData?.prenom}`} email={userData?.email} />
                 <View style={styles.container} >

@@ -78,7 +78,7 @@ const Doctor = ({
         </View>
       </View>
 
-      <View style={{ marginLeft: isAppointment ? -110 : isSearch ? -30 : -10, width: isSearch ? '60%' : 'none', marginRight: isSearch ? -70 : 'none' }}>
+      <View style={{ marginLeft: isAppointment ? -110 : isSearch ? -40 : -10, width: isSearch || isDetail ? '60%' : 'none', marginRight: isSearch ? -60 : 'none' }}>
         <View style={{ marginLeft: isUpdate || isAppointment || isDetail || isSearch ? 0 : -55 }}>
           <CustomText fontSize={15} color={colorTitle} fontWeight={'bold'} style={{ marginBottom: marginBottom }}>
             {texte1}

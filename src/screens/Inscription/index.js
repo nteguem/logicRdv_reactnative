@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ScrollView, TextInput, TouchableOpacity, View } from 'react-native'
 import CustomText from '../../components/global/CustomText'
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
@@ -9,21 +9,21 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CheckBox from '@react-native-community/checkbox';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch ,connect} from 'react-redux';
+import { useDispatch, connect } from 'react-redux';
 import { loginRequest, signUpRequest } from '../../redux/auth/actions';
 import { registerStyles } from './styles';
 
 const Inscription = ({ etablissements, cgu, isLoading }) => {
 
 
-  useEffect(() => {
-    if (etablissements.length === 1) {
-      setSelectedFormation(etablissements[0].id);
-    } else {
-      setSelectedFormation(null); 
-    }
-  }, [etablissements]);
-        
+    useEffect(() => {
+        if (etablissements.length === 1) {
+            setSelectedFormation(etablissements[0].id);
+        } else {
+            setSelectedFormation(null);
+        }
+    }, [etablissements]);
+
     const [phoneNumber, setPhoneNumber] = useState('');
     const [selectedFormation, setSelectedFormation] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -32,9 +32,21 @@ const Inscription = ({ etablissements, cgu, isLoading }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordError, setPasswordError] = useState('');
     const [isChecked, setIsChecked] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const isFindCabinetButtonEnabled = phoneNumber.trim() !== '';
+
+    const isSignUpButtonEnabled =
+        firstName.trim() !== '' &&
+        lastName.trim() !== '' &&
+        number.trim() !== '' &&
+        email.trim() !== '' &&
+        password.trim() !== '' &&
+        confirmPassword.trim() !== '' &&
+        isChecked;
 
     const navigation = useNavigation();
     const dispatch = useDispatch();
@@ -59,12 +71,22 @@ const Inscription = ({ etablissements, cgu, isLoading }) => {
         setEmail(text);
     };
 
-    const onChangeConfirmPassword = (text) => {
-        setConfirmPassword(text);
-    };
-
     const onChangePassword = (text) => {
         setPassword(text);
+        if (confirmPassword !== '' && text !== confirmPassword) {
+            setPasswordError('Les mots de passe ne correspondent pas');
+        } else {
+            setPasswordError('');
+        }
+    };
+
+    const onChangeConfirmPassword = (text) => {
+        setConfirmPassword(text);
+        if (text !== password) {
+            setPasswordError('Les mots de passe ne correspondent pas');
+        } else {
+            setPasswordError('');
+        }
     };
 
     const handleSignIn = () => {
@@ -83,17 +105,17 @@ const Inscription = ({ etablissements, cgu, isLoading }) => {
 
     const onSubmit = () => {
         const data = {
-            "id":selectedFormation,
-            "nom":firstName,
-            "prenom":lastName,
-            "mobile":number,
-            "email":email,
-            "pass1":password,
-            "pass2":confirmPassword,
-            "cgu":isChecked,
-            "phone":phoneNumber
-           }
-        dispatch(signUpRequest("add",data))
+            "id": selectedFormation,
+            "nom": firstName,
+            "prenom": lastName,
+            "mobile": number,
+            "email": email,
+            "pass1": password,
+            "pass2": confirmPassword,
+            "cgu": isChecked,
+            "phone": phoneNumber
+        }
+        dispatch(signUpRequest("add", data))
     };
 
     return (
@@ -111,19 +133,16 @@ const Inscription = ({ etablissements, cgu, isLoading }) => {
                     <View style={registerStyles.card}>
                         <CustomText fontSize={15} fontWeight='bold' color={colors.black}>Inscription</CustomText>
                         <CustomText fontSize={12} color={colors.black}>Saisissez les informations demandées</CustomText>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                            <View style={{ width: etablissements.length > 0 ? '85%' : '100%' }} >
-                                <TextInput
-                                    style={registerStyles.input}
-                                    placeholder="Téléphone du cabinet médical"
-                                    placeholderTextColor={colors.gray}
-                                    value={phoneNumber}
-                                    editable={etablissements.length > 0 ? false : true}
-                                    onChangeText={onChangePhoneNumber}
-                                    keyboardType='numeric'
-                                />
-
-                            </View>
+                        <View style={{ width: '100%' }} >
+                            <TextInput
+                                style={[registerStyles.input, { marginLeft: -6, marginRight: -6 }]}
+                                placeholder="Téléphone du cabinet médical"
+                                placeholderTextColor={colors.gray}
+                                value={phoneNumber}
+                                editable={etablissements.length > 0 ? false : true}
+                                onChangeText={onChangePhoneNumber}
+                                keyboardType='numeric'
+                            />
                         </View>
                         {etablissements.length > 0 && (
                             <View>
@@ -180,8 +199,13 @@ const Inscription = ({ etablissements, cgu, isLoading }) => {
                                         onChangeText={onChangePassword}
                                         secureTextEntry={!showPassword}
                                     />
-                                    <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                                        <Icon name={showPassword ? "eye" : "eye-off"} size={24} color={colors.gray100} style={registerStyles.icon} />
+                                    <TouchableOpacity >
+                                        <Icon
+                                            name={showPassword ? "eye-off" : "eye"}
+                                            size={24} color={colors.gray100}
+                                            onPress={() => setShowPassword(!showPassword)}
+                                            style={registerStyles.icon}
+                                        />
                                     </TouchableOpacity>
                                 </View>
                                 <View>
@@ -194,10 +218,20 @@ const Inscription = ({ etablissements, cgu, isLoading }) => {
                                         onChangeText={onChangeConfirmPassword}
                                         secureTextEntry={!showConfirmPassword}
                                     />
-                                    <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
-                                        <Icon name={showConfirmPassword ? "eye" : "eye-off"} size={24} color={colors.gray100} style={registerStyles.icon} />
+                                    <TouchableOpacity >
+                                        <Icon
+                                            name={showConfirmPassword ? "eye-off" : "eye"}
+                                            size={24} color={colors.gray100}
+                                            onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                                            style={registerStyles.icon}
+                                        />
                                     </TouchableOpacity>
                                 </View>
+                                {passwordError !== '' &&
+                                    <CustomText fontSize={8} fontWeight='bold' color={colors.red} style={{ marginLeft: 12, paddingTop: 4 }}>
+                                        {passwordError}
+                                    </CustomText>
+                                }
                                 <View style={registerStyles.checkboxContainer}>
                                     <CheckBox
                                         value={isChecked}
@@ -223,6 +257,7 @@ const Inscription = ({ etablissements, cgu, isLoading }) => {
                                 borderRadius={10}
                                 bkgroundColor={colors.blue}
                                 width='100%'
+                                disabled={etablissements.length > 0 ? !isSignUpButtonEnabled : !isFindCabinetButtonEnabled}
                             />
                         </View>
                     </View>
