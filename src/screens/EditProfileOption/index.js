@@ -7,17 +7,19 @@ import { getUserData } from '../../utils/helpers'
 
 const EditProfileOption = () => {
   const [userData, setUserData] = useState("");
+const [isLoading, setIsLoading] = useState(true);
   useEffect(()=>{
     const fetchData = async () => {
       const data = await getUserData();
       setUserData(data);
+      setIsLoading(false);
     };
     fetchData();
   }, [])
   
  
   return (
-    <ContainerScreen >
+    <ContainerScreen isLoading={isLoading}>
       <ScrollView>
         <Profil username={`${userData?.nom} ${userData?.prenom}`} email={userData?.email} />
         <ProfileOptions />

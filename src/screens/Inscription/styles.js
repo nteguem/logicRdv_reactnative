@@ -22,12 +22,12 @@ export const registerStyles = StyleSheet.create({
         borderRadius: 10,
         textAlignVertical: 'center',
         marginTop: 16,
-        height: 50
+        height: 50,
     },
     dropdownContainer: {
         borderColor: colors.gray100,
         borderWidth: 1,
-        borderRadius: 6,
+        borderRadius: 10,
         marginTop: 16,
         height: 50,
         fontSize: 12,

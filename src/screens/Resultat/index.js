@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import CustomText from '../../components/global/CustomText';
 import Doctor from '../../components/global/Doctor';
@@ -103,12 +103,13 @@ const SearchResult = ({ isLoading, isSearch = true, doctorInfos }) => {
   return (
     <ContainerScreen isLoading={isLoading}>
       <View style={styles.header}>
-        <CustomText color={colors.gray200}>Résultat de la recherche pour:</CustomText>
-        <CustomText color={colors.black} fontWeight="bold">  {location || city}, {profession || name} </CustomText>
+        <CustomText fontSize={12} color={colors.gray200}>Résultat de la recherche pour:</CustomText>
+        <CustomText fontSize={14} color={colors.black} fontWeight="bold">{location || city}, {profession || name} </CustomText>
       </View>
       {isEmptySearch ? (
         <View style={styles.centered}>
-          <CustomText color={colors.black}>Aucune donnée disponible pour cette recherche</CustomText>
+          <Image source={require('../../assets/images/Logo.png')} style={styles.image} />
+          <CustomText fontSize={12} color={colors.blue100} fontWeight='bold'>Aucunes données pour le moment.</CustomText>
         </View>
       ) : renderContent()}
     </ContainerScreen>
@@ -126,6 +127,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center', 
   },
+  image: {
+    objectFit: 'contain',
+    width: 130,
+    height: 60
+  }
 });
 
 const mapStateToProps = ({ SearchReducer }) => ({
