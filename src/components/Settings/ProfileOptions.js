@@ -75,7 +75,7 @@ const ProfileOptions = () => {
           <CustomText
             fontSize={12}
             fontWeight={'bold'}
-            color={colors.blue100}
+            color={colors.blue100}   
             style={{ marginLeft: 3 }}>
             Notifications
           </CustomText>

@@ -11,16 +11,16 @@ const Item = (props) => { // Utilisation de props pour recevoir les propriétés
     <View style={styles.container}>
       <View style={styles.entete} >
         <View style={styles.element}>
-          <Icon color={colors.blue} name="notifications" size={15} />
-          <CustomText fontSize={16} color={colors.black}>{username}</CustomText>
+          <Icon color={colors.blue} name="notifications" size={18} />
+          <CustomText fontSize={12} color={colors.black}>{username}</CustomText>
         </View>
         <View style={styles.element}>
-          <Icon color={colors.blue} name="calendar-today" size={15} />
-          <CustomText fontSize={16} color={colors.black}>{date}</CustomText>
+          <Icon color={colors.blue} name="calendar-today" size={18} />
+          <CustomText fontSize={12} color={colors.black}>{date}</CustomText>
         </View>
       </View>
       <View>
-        <CustomText fontSize={16} color={colors.black}>{message}</CustomText>
+        <CustomText fontSize={12} color={colors.black}>{message}</CustomText>
       </View>
     </View>
   )
@@ -41,13 +41,9 @@ const styles = StyleSheet.create({
     element:{
         flexDirection: 'row',
         alignItems: 'center',
+        gap: 4
 
-    }, 
-    username:{
-        color: colors.blue,
-        fontWeight: 'bold',
-        fontSize: 15,
-    }
+    },
    
 })
 export default Item;

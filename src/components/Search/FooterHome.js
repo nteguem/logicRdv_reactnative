@@ -31,7 +31,7 @@ const FooterHome = () => {
                     paddingVertical={16}
                     paddingHorizontal={20}
                     textColor={colors.orange100}
-                    textFontSize={12}
+                    textFontSize={16}
                     fontWeight='bold'
                     bkgroundColor='transparent' />
                 <CustomAppButton
@@ -41,7 +41,7 @@ const FooterHome = () => {
                     paddingVertical={10}
                     paddingHorizontal={20}
                     textColor={colors.white}
-                    textFontSize={12}
+                    textFontSize={16}
                     fontWeight='bold'
                     borderWidth={1}
                     borderRadius={5}
@@ -49,10 +49,10 @@ const FooterHome = () => {
                     bkgroundColor='transparent' />
             </View>
             <View style={styles.containerText}>
-                <CustomText fontSize={12} fontWeight='bold' color={colors.white} style={styles.text}>
+                <CustomText fontSize={19} fontWeight='bold' color={colors.white} style={styles.text}>
                     Logicrdv c'est aussi la téléconsultation avec votre médecin.
                 </CustomText>
-                <CustomText fontSize={12} color={colors.white} style={styles.text}>
+                <CustomText fontSize={15} color={colors.white} style={styles.text}>
                     Logicrdv c'est plus de 13 millions d'appels recus, plus de 5 millions de rendez-vous internet.
                 </CustomText>
             </View>

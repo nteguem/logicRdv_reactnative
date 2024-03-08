@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import CustomText from '../global/CustomText'
 import { colors } from '../global/colors'
@@ -6,24 +6,19 @@ import CustomAppButton from '../global/CustomAppButton'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ModalView from './ModalView'
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { resultRequest, searchRequest } from '../../redux/search/actions'
-import { UseSelector } from 'react-redux'
 
-const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
+const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
-    const searchall = useSelector(
-        (state) => state.SearchReducer.results
-    );
-
     const [location, setLocation] = useState('');
     const [profession, setProfession] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
     const handleLocationChange = (text) => {
         setLocation(text);
     };
-
+    
     const handleProfessionChange = (text) => {
         if (!selectedItem || !selectedItem.civility) {
             setProfession(text);
@@ -34,18 +29,17 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
 
 
     const handleSearch = () => {
-
         dispatch(resultRequest({
-            "proxy_ville": "75001 PARIS 1er",
-            "proxy_nom": "Médecin Généraliste",
-            "proxy_ville_id": "30924",
-            "proxy_nom_id": "c1",
+            "proxy_ville":location,
+            "proxy_nom": profession,
+            "proxy_ville_id": "",
+            "proxy_nom_id": "",
             "proxy_search": "",
             "proxy_page": "2"
         }));
-        console.log(searchall);
+        
 
-        navigation.navigate("Résultats", { location, profession, searchall });
+        navigation.navigate("Résultats", { location, profession, results });
     };
 
     return (
@@ -89,7 +83,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
                 </View>
             </View>
             {(location !== '' && profession !== '') && (
-                <View style={{ justifyContent: 'flex-end', marginVertical: 12, }}>
+                <View style={{marginBottom:15}}>
                     <CustomAppButton
                         iconComponent={<Ionicons name="search" size={18} color={colors.white} style={{ marginHorizontal: 15 }} />}
                         title='Rechercher'
@@ -104,6 +98,8 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor }) => {
                         bkgroundColor={colors.blue}
                         width='100%'
                         onPress={handleSearch}
+                        
+                        
                     />
                 </View>
             )}
@@ -140,4 +136,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SearchForm;
+const mapStateToProps = ({ SearchReducer }) => ({
+    results: SearchReducer?.results,
+});
+export default connect(mapStateToProps)( SearchForm);

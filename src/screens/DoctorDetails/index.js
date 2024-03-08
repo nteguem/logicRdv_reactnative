@@ -14,17 +14,17 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
     const fullName = `${civility} ${name}`;
     const proxy_ville = `${zip} ${city}`;
     const [betweenSearch, setBetweenSearch] = useState(true);
-    
+
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
     useEffect(() => {
         dispatch(infosDoctorRequest({ "id": proxy_nom_id }));
-        dispatch(resultRequest({ "proxy_ville": proxy_ville, "proxy_nom": profession, "proxy_ville_id": proxy_ville_id, "proxy_nom_id": proxy_nom_id, "proxy_search": "", "proxy_page": "1" }));
-    }, []);
+    }, [proxy_nom_id]);
 
     const handleSearchChange = () => {
-        navigation.navigate('Résultats', { civility, name, results, betweenSearch })
+        dispatch(resultRequest({ "proxy_ville": proxy_ville, "proxy_nom": profession, "proxy_ville_id": proxy_ville_id, "proxy_nom_id": proxy_nom_id, "proxy_search": "", "proxy_page": "1" }));
+        navigation.navigate('Résultats', { civility, name, results, betweenSearch, city })
     };
 
     const CustomButtonComponent = (
@@ -46,7 +46,8 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
     return (
         <ContainerScreen isLoading={isLoading}>
             <ScrollView>
-                {doctorInfos?.appointment.token !== "" && CustomButtonComponent}
+                {doctorInfos && doctorInfos.appointment && doctorInfos.appointment.token !== "" && CustomButtonComponent}
+
                 <Doctor
                     texte1={fullName}
                     texte2={profession}
@@ -79,13 +80,17 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
 
                 <View style={styles.card}>
                     <CustomText fontSize={15} fontWeight='bold' color={colors.black}>Caractéristiques & Horaires</CustomText>
-                    {doctorInfos?.chapters.map((doctor, index) => {
+                    {doctorInfos?.chapters && doctorInfos.chapters.map((doctor, index) => {
                         return (
                             <View key={index}>
-                                <CustomText fontSize={15} fontWeight='bold' color={colors.black} style={{ backgroundColor: colors.blue400, borderRadius: 10, padding: 15 }}>
-                                    {doctor.title}
-                                </CustomText>
-                                <CustomText fontSize={12} color={colors.black} style={{ marginTop: 15 }}>{doctor.description}</CustomText>
+                                {doctor.description && (
+                                    <>
+                                        <CustomText fontSize={15} fontWeight='bold' color={colors.black} style={{ backgroundColor: colors.blue400, borderRadius: 10, padding: 15 }}>
+                                            {doctor.title}
+                                        </CustomText>
+                                        <CustomText fontSize={12} color={colors.black} style={{ marginTop: 15 }}>{doctor.description}</CustomText>
+                                    </>
+                                )}
                             </View>
                         );
                     })}
@@ -97,7 +102,8 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
                         {profession}
                     </CustomText>
                 </View>
-                {doctorInfos?.appointment.token !== "" && CustomButtonComponent}
+                {doctorInfos && doctorInfos.appointment && doctorInfos.appointment.token !== "" && CustomButtonComponent}
+
             </ScrollView>
         </ContainerScreen>
     )

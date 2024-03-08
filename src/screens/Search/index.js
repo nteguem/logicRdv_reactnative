@@ -16,7 +16,7 @@ const Search = () => {
                     <SearchForm 
                         borderWidth={0.5} 
                         borderRadius={6} 
-                        borderColor={colors.gray100} 
+                        borderColor={colors.gray} 
                     />
                 </View>
             </ScrollView>
@@ -28,17 +28,13 @@ const styles = StyleSheet.create({
     card: {
         backgroundColor: colors.white,
         borderRadius: 10,
-        borderWidth: 1,
-        borderColor: colors.gray100,
         marginTop: 25,
     },
     cardForm: {
         backgroundColor: colors.white,
         borderRadius: 10,
-        borderWidth: 1,
-        borderColor: colors.gray100,
         marginTop: 10,
-        padding: 24
+        padding: 20
 
     },
     scrollViewContent: {

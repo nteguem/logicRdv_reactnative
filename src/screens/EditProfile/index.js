@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import CustomText from '../../components/global/CustomText'
@@ -8,9 +8,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome6';
 import Profil from '../../components/Settings/Profil';
+import { getUserData } from '../../utils/helpers';
 
 const EditProfile = () => {
     const [firstName, setFirstName] = useState('');
+    const [LastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [email, setEmail] = useState('');
     const [adress, setAdress] = useState('');
@@ -20,6 +22,18 @@ const EditProfile = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [userData, setUserData] = useState("");
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await getUserData();
+            setUserData(data);
+            setFirstName(data.nom || "");
+            setPhoneNumber(data.mobile || "");
+            setEmail(data.email || "");
+            setLastName(data.prenom || "");
+        };
+        fetchData();
+    }, []);
 
     const onChangeFirstName = (text) => {
         setFirstName(text);
@@ -58,17 +72,29 @@ const EditProfile = () => {
     return (
         <ContainerScreen>
             <ScrollView>
-                <Profil username='NTEGUEM Roland' email='nteguemroland@gmail.com' />
+                <Profil username={`${userData?.nom} ${userData?.prenom}`} email={userData?.email} />
                 <View style={styles.container} >
+                    <View>
+                        <CustomText fontSize={12} color={colors.blue100}>
+                           Nom
+                        </CustomText>
+                        <TextInput
+                            style={styles.input}
+                            placeholder={userData?.nom}
+                            placeholderTextColor={colors.gray}
+                            value={firstName}
+                            onChangeText={onChangeFirstName}
+                        />
+                    </View>
                     <View>
                         <CustomText fontSize={12} color={colors.blue100}>
                             Prénom
                         </CustomText>
                         <TextInput
                             style={styles.input}
-                            placeholder="Prénom"
+                            placeholder={userData?.prenom}
                             placeholderTextColor={colors.gray}
-                            value={firstName}
+                            value={LastName}
                             onChangeText={onChangeFirstName}
                         />
                     </View>
@@ -79,7 +105,7 @@ const EditProfile = () => {
                         </CustomText>
                         <TextInput
                             style={styles.input}
-                            placeholder="Numéro de téléphone"
+                            placeholder={userData?.mobile}
                             placeholderTextColor={colors.gray}
                             value={phoneNumber}
                             onChangeText={onChangePhoneNumber}
@@ -93,7 +119,7 @@ const EditProfile = () => {
                         </CustomText>
                         <TextInput
                             style={styles.input}
-                            placeholder="Email"
+                            placeholder={userData?.email}
                             placeholderTextColor={colors.gray}
                             value={email}
                             onChangeText={onChangeEmail}

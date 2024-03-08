@@ -39,7 +39,7 @@ const LoadingComponent = ({ nom }) => {
     inputRange: [0, 1],
     outputRange: ['0deg', '-360deg'],
   });
-  console.log(width, height)
+ 
   return (
     <View style={styles.overlay}>
       <View style={styles.loadingContainer}>
