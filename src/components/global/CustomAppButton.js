@@ -18,7 +18,8 @@ const CustomAppButton = ({
   iconComponent,
   marginHorizontal,
   fontWeight,
-  width
+  width,
+  disabled=false
 }) => {
   const styles = StyleSheet.create({
     // ...
@@ -38,11 +39,12 @@ const CustomAppButton = ({
     appButtonText: {
       alignSelf: 'center',
       marginHorizontal: marginHorizontal,
-      fontWeight: fontWeight
+      fontWeight: fontWeight,
+      opacity: disabled ? 0.5 : 1
     },
   });
   return (
-      <TouchableOpacity onPress={onPress} style={styles.appButtonContainer}>
+      <TouchableOpacity onPress={onPress} style={styles.appButtonContainer} disabled={disabled}>
         {iconComponent && iconComponent}
         <CustomText
           fontSize={textFontSize}

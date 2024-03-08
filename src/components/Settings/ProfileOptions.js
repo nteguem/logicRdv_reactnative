@@ -29,10 +29,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomText from '../global/CustomText';
 import { colors } from '../global/colors';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { listNotificationsRequest, manageNotificationRequest } from '../../redux/notification/actions';
 
 const ProfileOptions = () => {
   const navigation = useNavigation();
-  const [isEnabled, setIsEnabled] = useState(false);
+  const dispatch = useDispatch();
+  const [isSubscribed, setIsSubscribed] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   const handleAccountParams = () => {
@@ -46,6 +49,29 @@ const ProfileOptions = () => {
   const handleNotification = () => {
     navigation.navigate("Notifications");
   };
+
+  const toggleNotification = async (value, callback) => {
+  
+    try {
+      await setIsSubscribed(value);
+  
+      if (callback) {
+        callback(value);
+      }
+      if (value) {
+        dispatch(listNotificationsRequest());
+        dispatch(manageNotificationRequest(true));
+      } else {
+        dispatch(manageNotificationRequest(false));
+      }
+
+     
+    } catch (error) {
+      console.error('Erreur lors du basculement des notifications:', error);
+      throw error;
+    }
+  };
+  
 
   const options = [
     { icon: <Ionicons name="settings-sharp" size={18} style={styles.icon} />, text: "Paramètres du compte", onPress: handleAccountParams },
@@ -71,7 +97,7 @@ const ProfileOptions = () => {
       ))}
       <View style={[styles.container, { justifyContent: 'space-between' }]}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          {isEnabled ? <MaterialIcons name="notifications-on" size={18} style={styles.icon} /> : <MaterialIcons name="notifications-off" size={18} style={styles.icon} />}
+          {isSubscribed ? <MaterialIcons name="notifications-on" size={18} style={styles.icon} /> : <MaterialIcons name="notifications-off" size={18} style={styles.icon} />}
           <CustomText
             fontSize={12}
             fontWeight={'bold'}
@@ -82,10 +108,10 @@ const ProfileOptions = () => {
         </View>
         <Switch
           trackColor={{ false: colors.gray300, true: colors.blue }}
-          thumbColor={isEnabled ? colors.blue : colors.gray100}
+          thumbColor={isSubscribed ? colors.blue : colors.gray100}
           ios_backgroundColor={colors.gray200}
-          onValueChange={toggleSwitch}
-          value={isEnabled}
+          onValueChange={toggleNotification}
+          value={isSubscribed}
         />
       </View>
     </View>

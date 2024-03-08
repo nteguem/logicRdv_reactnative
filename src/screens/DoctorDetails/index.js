@@ -39,6 +39,7 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
                 textFontSize={10}
                 borderRadius={10}
                 bkgroundColor={colors.blue}
+                width='100%'
             />
         </View>
     );
@@ -46,7 +47,9 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
     return (
         <ContainerScreen isLoading={isLoading}>
             <ScrollView>
-                {doctorInfos && doctorInfos.appointment && doctorInfos.appointment.token !== "" && CustomButtonComponent}
+                <View style={{ width: '100%' }}>
+                    {doctorInfos && doctorInfos.appointment && doctorInfos.appointment.token !== "" && CustomButtonComponent}
+                </View>
 
                 <Doctor
                     texte1={fullName}
@@ -102,8 +105,9 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
                         {profession}
                     </CustomText>
                 </View>
-                {doctorInfos && doctorInfos.appointment && doctorInfos.appointment.token !== "" && CustomButtonComponent}
-
+                <View style={{ width: '100%', marginBottom: 10 }}>
+                    {doctorInfos && doctorInfos.appointment && doctorInfos.appointment.token !== "" && CustomButtonComponent}
+                </View>
             </ScrollView>
         </ContainerScreen>
     )

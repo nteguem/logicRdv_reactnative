@@ -26,7 +26,7 @@ const NotificationReducer = (state = initialState, action) => {
         ...state,
         isLoading: true,
         error: null
-      };
+      }; 
     case LIST_NOTIFICATION_SUCCESS:
       return {
         ...state,
