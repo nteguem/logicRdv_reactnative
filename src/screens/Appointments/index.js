@@ -1,20 +1,25 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import CustomAppButton from '../../components/global/CustomAppButton'
 import AppointmentDetails from '../../components/MyAppointment/Appointment_Details'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import { colors } from '../../components/global/colors'
 import dataAppointment from '../data/dataAppointment'
-import { connect } from 'react-redux';
+import { connect,useDispatch } from 'react-redux';
 import CustomText from '../../components/global/CustomText'
 import { useNavigation } from '@react-navigation/native';
+import { manageNotificationRequest,listNotificationsRequest } from '../../redux/notification/actions'
 
 const Appointments = ({ list, isLoading }) => {
     const navigation = useNavigation();
-
+    const dispatch = useDispatch();
     const handleAppointment = () => {
         navigation.navigate('Fixez rendez-vous');
     };
+    useEffect(() => {
+        // dispatch(manageNotificationRequest(true));
+        // dispatch(listNotificationsRequest());
+      }, []);
 
     return (
         <ContainerScreen isLoading={isLoading}>

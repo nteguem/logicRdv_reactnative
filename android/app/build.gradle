@@ -81,6 +81,9 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        buildConfigField 'String', 'WONDERPUSH_CLIENT_ID', '"8033e148ddd69f1db51722bb224b241c786cb8bb"'
+        buildConfigField 'String', 'WONDERPUSH_CLIENT_SECRET', '"fe27526b26385042416bb74dde35e818dcda321be2eb548592c9f0d308a11ea3"'
+    
     }
     signingConfigs {
         debug {

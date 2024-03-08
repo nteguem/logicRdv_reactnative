@@ -33,6 +33,51 @@ export const getUserData = async () => {
   }
 };
 
+export const getInstallationId = async () => {
+  try {
+    const installationIdString = await AsyncStorage.getItem('installationId');
+    if (installationIdString) {
+      return installationIdString;
+    } else {
+      console.log('Aucune installationId trouvée.');
+      return null;
+    }
+  } catch (error) {
+    console.error('Erreur lors de la récupération de installationId:', error);
+    return null;
+  }
+}
+
+export const setInstallationId = async (installationId) => {
+  try {
+    await AsyncStorage.setItem('installationId', JSON.stringify(installationId));
+  } catch (error) {
+    console.error('Erreur lors de la sauvegarde de installationId:', error);
+  }
+}
+
+export const isSubscribedNotification = async () => {
+  try {
+    const isSubscribe = await AsyncStorage.getItem('isSubscribe');
+    if (isSubscribe) {
+      return isSubscribe;
+    } else {
+      console.log('Aucune isSubscribe trouvée.');
+      return null;
+    }
+  } catch (error) {
+    console.error('Erreur lors de la récupération de isSubscribe:', error);
+    return null;
+  }
+}
+
+export const setIsSubscribeNotification = async (value) => {
+  try {
+    await AsyncStorage.setItem('isSubscribe', value.toString());
+  } catch (error) {
+    console.error('Erreur lors de la sauvegarde de isSubscribe:', error);
+  }
+}
 
 export const setUserData = async (userData) => {
   try {

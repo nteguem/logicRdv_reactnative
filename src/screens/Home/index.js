@@ -1,11 +1,12 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { ScrollView, StyleSheet, View, ImageBackground } from 'react-native';
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import FooterHome from '../../components/Search/FooterHome';
 import Header from '../../components/Search/Header';
 import SearchForm from '../../components/Search/SearchForm';
+import { manageNotificationRequest } from '../../redux/notification/actions';
 
-const Home = () => {
+const Home = () => {   
     return (
         <>
             <ContainerScreen backgroundColor='white'>

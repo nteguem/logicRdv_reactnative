@@ -1,16 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import Routes from './src/routes/Routes';
-import {initializeApp, isAuth} from './src/utils/helpers';
+import {initializeApp,setInstallationId, isAuth} from './src/utils/helpers';
 import {useDispatch} from 'react-redux';
 import {setLoggedIn} from './src/redux/auth/actions';
 import {ActivityIndicator} from 'react-native';
-import { colors } from './src/components/global/colors';
+import {colors} from './src/components/global/colors';
 import FlashMessage from 'react-native-flash-message';
+import WonderPush from 'react-native-wonderpush';
 
 const App = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchInstallationId = async () => {
+      await WonderPush.subscribeToNotifications();
+      const installationId = await WonderPush.getInstallationId();
+      await setInstallationId(installationId);
+  };
+  fetchInstallationId();
+  }, []);
 
   useEffect(() => {
     const initialize = async () => {
@@ -35,7 +45,7 @@ const App = () => {
     <>
       {loading ? (
         <View style={styles.container}>
-          <ActivityIndicator  size="large" color={colors.blue} />
+          <ActivityIndicator size="large" color={colors.blue} />
         </View>
       ) : (
         <>
