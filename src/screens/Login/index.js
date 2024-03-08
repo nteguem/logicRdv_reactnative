@@ -34,8 +34,8 @@ const Login = ({ session, headerError, headerMessage, inputFields, buttons, isLo
         break;
     }
   };
-
-  const handleButtonPress = (action) => {
+  
+  const handleButtonPress = (action, label) => {
     let inputData = '';
 
     if (code !== '') {
@@ -51,7 +51,7 @@ const Login = ({ session, headerError, headerMessage, inputFields, buttons, isLo
 
     setEmail('');
     setCode('');
-    if (inputFields.some(input => input.label === "Entrez un nouveau mot de passe")) {
+    if (label === "Mot de passe Oublié") {
       setPassword('');
     }
   };
@@ -112,7 +112,7 @@ const Login = ({ session, headerError, headerMessage, inputFields, buttons, isLo
                 {buttons.map((button, index) => (
                   <CustomAppButton
                     key={index}
-                    onPress={() => handleButtonPress(button.onclick_action)}
+                    onPress={() => handleButtonPress(button.onclick_action, button.label)}
                     title={button.label}
                     alignSelf="baseline"
                     paddingVertical={16}
