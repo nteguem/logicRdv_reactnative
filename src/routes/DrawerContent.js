@@ -12,9 +12,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import FontAwesome from 'react-native-vector-icons/FontAwesome6';
 import { showMessage } from 'react-native-flash-message';
 import { getUserData } from '../utils/helpers';
+import { listNotificationsRequest,manageNotificationRequest } from '../redux/notification/actions';
 
 const DrawerContent = ({ navigation, isAuth }) => {
-  const [isEnabled, setIsEnabled] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState("");
 
@@ -26,8 +27,32 @@ const DrawerContent = ({ navigation, isAuth }) => {
     fetchData();
   }, [])
 
+
   const dispatch = useDispatch();
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
+  const toggleNotification = async (value, callback) => {
+  
+    try {
+      await setIsSubscribed(value);
+  
+      if (callback) {
+        callback(value);
+      }
+      if (value) {
+        dispatch(listNotificationsRequest());
+        dispatch(manageNotificationRequest(true));
+      } else {
+        dispatch(manageNotificationRequest(false));
+      }
+
+     
+    } catch (error) {
+      console.error('Erreur lors du basculement des notifications:', error);
+      throw error;
+    }
+  };
+  
+
 
   const navigateToScreen = (screenName) => () => {
     navigation.navigate(screenName);
@@ -187,17 +212,17 @@ const DrawerContent = ({ navigation, isAuth }) => {
         <View style={{ marginVertical: '55%' }}>
           <View style={[styles.containerToggle, { justifyContent: 'space-between' }]}>
             <TouchableOpacity onPress={navigateToScreen('Home')} style={styles.menuItem}>
-              {isEnabled ? <MaterialIcons name="notifications-on" size={20} color={colors.blue} /> : <MaterialIcons name="notifications-off" size={20} color={colors.blue} />}
+              {isSubscribed ? <MaterialIcons name="notifications-on" size={20} color={colors.blue} /> : <MaterialIcons name="notifications-off" size={20} color={colors.blue} />}
               <CustomText fontSize={14} fontWeight={'700'} color={colors.black} style={styles.drawerItem}>
                 Notification
               </CustomText>
             </TouchableOpacity>
             <Switch
               trackColor={{ false: colors.gray300, true: colors.blue }}
-              thumbColor={isEnabled ? colors.blue : colors.gray100}
+              thumbColor={isSubscribed ? colors.blue : colors.gray100}
               ios_backgroundColor={colors.gray200}
-              onValueChange={toggleSwitch}
-              value={isEnabled}
+              onValueChange={toggleNotification}
+              value={isSubscribed}
             />
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>

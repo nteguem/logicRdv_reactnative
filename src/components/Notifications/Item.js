@@ -5,13 +5,20 @@ import { colors } from '../global/colors';
 import CustomText from '../global/CustomText';
 
 const Item = (props) => { // Utilisation de props pour recevoir les propriétés du composant
-  const { date, username, message } = props; // Extraction des propriétés de l'objet props
+  const { date, username, message, nameIcon } = props; //  message-reply-text  "notifications"
+  const isNotification = () => {
+    if (nameIcon === "Notification") {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.entete} >
         <View style={styles.element}>
-          <Icon color={colors.blue} name="notifications" size={18} />
+          <Icon color={colors.blue} name= {isNotification() ? "notifications" : "message"} size={18} />
           <CustomText fontSize={12} color={colors.black}>{username}</CustomText>
         </View>
         <View style={styles.element}>
