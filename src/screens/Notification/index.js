@@ -1,64 +1,45 @@
-
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { FlatList, View } from 'react-native';
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import Item from '../../components/Notifications/Item';
-import { ScrollView, View } from 'react-native';
+import { listNotificationsRequest } from '../../redux/notification/actions';
 
-const Notifications = () => {
-  const data =[
-    {
-        username: 'John Doe',
-        date: '12/12/2020',
-        message: 'ceci est ma premiere notification alors stp ne te face pas si je suis laid tu vois j aime les risque alors epouse moi pour cela'
-    },
-    {
-        username: 'John Doe',
-        date: '12/12/2020',
-        message: 'ceci est ma premiere notification alors stp ne te face pas si je suis laid tu vois j aime les risque alors epouse moi pour cela'
-    },
-    {
-        username: 'John Doe',
-        date: '12/12/2020',
-        message: 'ceci est ma premiere notification alors stp ne te face pas si je suis laid tu vois j aime les risque alors epouse moi pour cela'
-    },
-    {
-        username: 'John Doe',
-        date: '12/12/2020',
-        message: 'ceci est ma premiere notification alors stp ne te face pas si je suis laid tu vois j aime les risque alors epouse moi pour cela'
-    },
-    {
-        username: 'John Doe',
-        date: '12/12/2020',
-        message: 'ceci est ma premiere notification alors stp ne te face pas si je suis laid tu vois j aime les risque alors epouse moi pour cela'
-    },
-    {
-        username: 'John Doe',
-        date: '12/12/2020',
-        message: 'ceci est ma premiere notification alors stp ne te face pas si je suis laid tu vois j aime les risque alors epouse moi pour cela'
-    },
-    {
-        username: 'John Doe',
-        date: '12/12/2020',
-        message: 'ceci est ma premiere notification alors stp ne te face pas si je suis laid tu vois j aime les risque alors epouse moi pour cela'
-    }
-];
+const Notifications = ({ isSubscribed, list, isLoading, listNotificationsRequest }) => {
+  useEffect(() => {
+    listNotificationsRequest();
+  }, [listNotificationsRequest]);
+
+  const listnotification = list.list;
+ 
 
   return (
-    <ContainerScreen>
-      <ScrollView>
-        <View>
-          {data.map((item, index) => (
-            <Item 
-              key={index} 
-              date={item.date} 
-              username={item.username}
-              message={item.message}
-            />
-          ))}
-        </View>
-      </ScrollView>
+    <ContainerScreen isLoading={isLoading}>
+      <FlatList
+        data={isSubscribed ? listnotification : []}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <Item
+            key={item.id}
+            date={item.date}
+            username={item.nom}
+            message={item.message}
+            nameIcon={item.nature}
+          />
+        )}
+      />
     </ContainerScreen>
-  )
-}
+  );
+};
 
-export default Notifications
+const mapStateToProps = (state) => ({
+  list: state.NotificationReducer.list,
+  isLoading: state.NotificationReducer.isLoading,
+  isSubscribed: state.NotificationReducer.isSubscribed
+});
+
+const mapDispatchToProps = {
+  listNotificationsRequest,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Notifications);

@@ -38,7 +38,7 @@ const Home = () => {
     );
 };
 
-const { height, width } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,

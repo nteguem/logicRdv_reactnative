@@ -49,7 +49,7 @@ function* manageNotifications({ payload }) {
     const successType = response.data.total == 1 ? SUBSCRIBE_NOTIFICATION_SUCCESS : UNSUBSCRIBE_NOTIFICATION_SUCCESS;
     if (successType === "SUBSCRIBE_NOTIFICATION_SUCCESS")
     {
-     yield WonderPush.subscribeToNotifications();
+     yield WonderPush.subscribeToNotifications(true);
      yield  setIsSubscribeNotification(true);
      showMessage({
       message: 'Notifications activées',
