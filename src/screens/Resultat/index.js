@@ -9,9 +9,9 @@ import { useDispatch, connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { infosDoctorRequest } from '../../redux/search/actions';
 
-const SearchResult = ({ isLoading, isSearch = true, doctorInfos }) => {
+const SearchResult = ({ isLoading, isSearch = true }) => {
   const { params } = useRoute();
-  const { location, profession, searchall, civility, name, results, betweenSearch, city, proxy_nom_id } = params;
+  const { location, profession, searchall, name, results, city, proxy_nom_id } = params;
   const result = searchall || results;
   const isEmptySearch = !result || result.length === 0;
   const dispatch = useDispatch();

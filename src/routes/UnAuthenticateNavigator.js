@@ -8,6 +8,8 @@ import UserLogin from '../screens/Login';
 import ResultatRecherche from '../screens/Resultat';
 import DoctorDetails from '../screens/DoctorDetails';
 import SearchResult from '../screens/Resultat';
+import Motifs from '../screens/Motifs';
+import AppointmentPlanification from '../screens/AppointmentPlanification';
 
 const Stack = createStackNavigator();
 
@@ -22,8 +24,10 @@ const UnauthenticatedNavigator = () => {
       <Stack.Screen name="Se connecter" options={pageOption} component={UserLogin} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.MENU }} />
       <Stack.Screen name="Résultat" options={pageOption} component={ResultatRecherche} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.MENU }} />
       <Stack.Screen name="Détail du médécin" options={pageOption} component={DoctorDetails} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.MENU }} />
-      <Stack.Screen name="Notifications" options={pageOption} component={Notifications} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />
+      <Stack.Screen name="Notifications" options={pageOption} component={Notifications} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.MENU }} />
       <Stack.Screen name="Résultats" options={pageOption} component={SearchResult} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.MENU }} />
+      <Stack.Screen name="Motif du Rendez-vous" options={pageOption} component={Motifs} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.MENU }} />
+      <Stack.Screen name="Jour et Heure du Rdv" options={pageOption} component={AppointmentPlanification} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.MENU }} />
     </Stack.Navigator>
   );
 };

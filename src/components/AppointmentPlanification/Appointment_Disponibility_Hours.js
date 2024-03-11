@@ -33,10 +33,10 @@ const Appointment_Disponibility_Hours = ({time, doctor}) => {
     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
       <TouchableOpacity onPress={handleValidationAppointment}>
       <View style={styles.container}>
-        <CustomText fontSize={11} style={styles.time}>
+        <CustomText fontSize={10} style={styles.time}>
           {time}
         </CustomText>
-        <CustomText fontSize={11} style={styles.doctor}>{doctor}</CustomText>
+        <CustomText fontSize={10} style={styles.doctor}>{doctor}</CustomText>
       </View>
       </TouchableOpacity>
     </ScrollView>
