@@ -14,22 +14,30 @@ import { showMessage } from 'react-native-flash-message';
 import { getUserData } from '../utils/helpers';
 import { listNotificationsRequest,manageNotificationRequest } from '../redux/notification/actions';
 
-const DrawerContent = ({ navigation, isAuth }) => {
+const DrawerContent = ({ navigation, isAuth, }) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState("");
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchData = async () => {
-      const data = await getUserData();
-      setUserData(data);
+      setLoading(true);
+      try {
+        const data = await getUserData();
+       await setUserData(data);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des données utilisateur :', error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchData();
-  }, [])
+  }, [userData]);
+  console.log(userData)
 
 
   const dispatch = useDispatch();
-
+  
   const toggleNotification = async (value, callback) => {
   
     try {
@@ -79,7 +87,14 @@ const DrawerContent = ({ navigation, isAuth }) => {
   };
 
   const renderHeader = () => {
-    if (isAuth) {
+    if (loading) {
+      return (
+        <View >
+          <ActivityIndicator size="large" color={colors.white} />
+        </View>
+      );
+    }
+    if (isAuth && userData) {
       return (
         <View style={styles.containerHeader}>
           <View style={styles.header}>
@@ -93,13 +108,16 @@ const DrawerContent = ({ navigation, isAuth }) => {
             </TouchableOpacity>
           </View>
           <View>
+            
             <CustomText fontSize={14} fontWeight={'700'} color={colors.white} style={styles.drawerItem}>
-            {`${userData?.nom} ${userData?.prenom}`}
+              {`${userData?.nom} ${userData?.prenom}`}
             </CustomText>
             <CustomText fontSize={12} fontWeight={'700'} color={colors.white} style={{ paddingHorizontal: 10, }}>
               {userData?.email}
             </CustomText>
+            
           </View>
+
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 5, marginBottom: -25 }}>
             <CustomText fontSize={8} fontWeight={'700'} color={colors.white} style={styles.drawerItem}>
               V 1.0.4
