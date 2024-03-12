@@ -26,10 +26,10 @@ const Appointment_Disponibility = ({ label, label2, creneaux }) => {
     <View style={styles.container}>
       <View style={styles.day}>
         <View style={styles.leftnow} >
-          <CustomText fontSize={15} fontWeight={700} style={{ color: colors.black }}>
+          <CustomText fontSize={12} fontWeight={700} style={{ color: colors.black }}>
             {label}
           </CustomText>
-          <CustomText fontSize={15} fontWeight={700} style={{ color: colors.blue }}>
+          <CustomText fontSize={12} fontWeight={700} style={{ color: colors.blue }}>
             {label2}
           </CustomText>
         </View  >

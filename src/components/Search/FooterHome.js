@@ -48,7 +48,7 @@ const FooterHome = () => {
                     bkgroundColor='transparent' />
             </View>
             <View style={styles.containerText}>
-                <CustomText fontSize={13} fontWeight='bold' color={colors.white} style={styles.text}>
+                <CustomText fontSize={13} fontWeight='bold' color={colors.white}>
                     Logicrdv c'est aussi la téléconsultation avec votre médecin.
                 </CustomText>
                 <CustomText fontSize={12} color={colors.white} style={styles.text}>
@@ -77,9 +77,6 @@ const styles = StyleSheet.create({
         gap: 4,
         textAlign: "justify",
         marginHorizontal: 20
-    },
-    text: {
-        // textAlign:"start"
     },
 });
 

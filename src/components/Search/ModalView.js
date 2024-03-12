@@ -71,9 +71,9 @@ const ModalView = ({
                 city: item.city,
                 tel: item.tel,
                 proxy_ville_id: item.id_city,
-                proxy_nom_id: item.id
+                proxy_nom_id: item.id,
+                tokenappointment: item.appointment.token,
             })
-
         }
         setModalVisible(false);
         setSelectedItem(item);

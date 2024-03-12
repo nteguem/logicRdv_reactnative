@@ -8,12 +8,12 @@ import CustomAppButton from '../../components/global/CustomAppButton'
 import { infosDoctorRequest, resultRequest } from '../../redux/search/actions'
 import { useDispatch, connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { createAppointmentRequest } from '../../redux/appointment/actions'
 
-const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
-    const { civility, name, profession, adresse, zip, city, tel, proxy_ville_id, proxy_nom_id } = route.params;
+const DoctorDetails = ({ route, results, isLoading, doctorInfos, motifRendezVous , session }) => {
+    const { civility, name, profession, adresse, zip, city, tel, proxy_ville_id, proxy_nom_id, tokenappointment } = route.params;
     const fullName = `${civility} ${name}`;
     const proxy_ville = `${zip} ${city}`;
-    const [betweenSearch, setBetweenSearch] = useState(true);
 
     const dispatch = useDispatch();
     const navigation = useNavigation();
@@ -22,15 +22,34 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
         dispatch(infosDoctorRequest({ "id": proxy_nom_id }));
     }, [proxy_nom_id]);
 
+    useEffect(() => {
+        const tokenuser = ''; 
+        const week = ''; 
+        const data = ''; 
+        const action = ''; 
+        
+        dispatch(createAppointmentRequest(tokenuser, tokenappointment, week, data, action, session));
+    }, []);
+
     const handleSearchChange = () => {
         dispatch(resultRequest({ "proxy_ville": proxy_ville, "proxy_nom": profession, "proxy_ville_id": proxy_ville_id, "proxy_nom_id": proxy_nom_id, "proxy_search": "", "proxy_page": "1" }));
-        navigation.navigate('Résultats', { civility, name, results, betweenSearch, city })
+        navigation.navigate('Résultats', { civility, name, results, city })
     };
+
+    const handleMotifs = (action, data, week) => {
+        const tokenuser = ''
+        dispatch(createAppointmentRequest(tokenuser, tokenappointment, week, data, action, session));
+        navigation.navigate('Motif du Rendez-vous', {motifs: motifRendezVous} );
+    };
+
+    const onClickAction = motifRendezVous[0]?.onclick_action ;
+    const onClickData = motifRendezVous[0]?.onclick_data ;
+    const onClickWeek = motifRendezVous[0]?.onclick_week ;
 
     const CustomButtonComponent = (
         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
             <CustomAppButton
-                // onPress={handleAppointment}
+                onPress={() => handleMotifs(onClickAction, onClickData, onClickWeek)}
                 title="PRENDRE UN RENDEZ-VOUS RAPIDE"
                 alignSelf="baseline"
                 paddingVertical={16}
@@ -124,11 +143,16 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = ({ SearchReducer }) => ({
-    results: SearchReducer?.results,
-    isLoading: SearchReducer?.isLoading,
-    doctorInfos: SearchReducer?.doctorInfos
+const mapStateToProps = (state) => ({
+    results: state.SearchReducer?.results,
+    isLoading: state.SearchReducer?.isLoading,
+    doctorInfos: state.SearchReducer?.doctorInfos,
+    session: state.AppointmentReducer?.session,
+    headerMessage: state.AppointmentReducer?.headerMessage,
+    type: state.AppointmentReducer?.type,
+    navigation: state.AppointmentReducer?.navigation,
+    motifRendezVous : state.AppointmentReducer?.motifRendezVous,
+    isLoadingAppointment: state.AppointmentReducer?.isLoading,
 });
 
 export default connect(mapStateToProps)(DoctorDetails);
-
