@@ -14,7 +14,7 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos, motifRendezVous
     const { civility, name, profession, adresse, zip, city, tel, proxy_ville_id, proxy_nom_id, tokenappointment } = route.params;
     const fullName = `${civility} ${name}`;
     const proxy_ville = `${zip} ${city}`;
-
+    
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
@@ -36,20 +36,14 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos, motifRendezVous
         navigation.navigate('Résultats', { civility, name, results, city })
     };
 
-    const handleMotifs = (action, data, week) => {
-        const tokenuser = ''
-        dispatch(createAppointmentRequest(tokenuser, tokenappointment, week, data, action, session));
-        navigation.navigate('Motif du Rendez-vous', {motifs: motifRendezVous} );
+    const handleMotifs = () => {
+        navigation.navigate('Motif du Rendez-vous', {motifs: motifRendezVous, tokenappointment} );
     };
-
-    const onClickAction = motifRendezVous[0]?.onclick_action ;
-    const onClickData = motifRendezVous[0]?.onclick_data ;
-    const onClickWeek = motifRendezVous[0]?.onclick_week ;
 
     const CustomButtonComponent = (
         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
             <CustomAppButton
-                onPress={() => handleMotifs(onClickAction, onClickData, onClickWeek)}
+                onPress={handleMotifs}
                 title="PRENDRE UN RENDEZ-VOUS RAPIDE"
                 alignSelf="baseline"
                 paddingVertical={16}
