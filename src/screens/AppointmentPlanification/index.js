@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import Appointment_Disponibility from '../../components/AppointmentPlanification/Appointment_Disponibility';
 import datadisponibility from '../data/datadisponibility';
@@ -9,21 +9,20 @@ import CustomAppButton from '../../components/global/CustomAppButton';
 import { useDispatch, connect } from 'react-redux';
 import { createAppointmentRequest } from '../../redux/appointment/actions';
 
-const DateAppointment = ({ route, session }) => {
-  const { motif, dataCreneau, tokenappointment, navigationAppointment } = route.params;
 
+const DateAppointment = ({ route, session, isLoadingAppointment, motifRendezVous, navigationAppointment }) => {
+  const { motif, tokenappointment } = route.params;
+  
   const dispatch = useDispatch();
-  const handleButtonWeekPress = (week) => {
+  
+  const handleButtonWeekPress = (week, data, action) => {
     const tokenuser = '';
-    const data = '';
-    const action = '';
     dispatch(createAppointmentRequest(tokenuser, tokenappointment, week, data, action, session));
-
   };
 
   return (
     <>
-      <ContainerScreen>
+      <ContainerScreen isLoading={isLoadingAppointment}>
         <View style={styles.title}>
           <CustomText fontSize={12} fontWeight={'bold'} color={colors.black}>
             Date et heure pour:
@@ -34,13 +33,13 @@ const DateAppointment = ({ route, session }) => {
         </View>
         <ScrollView>
           {
-            dataCreneau.map((item, index) => (
+            motifRendezVous?.map((item, index) => (
               <Appointment_Disponibility
                 key={index}
-                label={item.label}
-                label2={item.label2}
-                creneaux={item.creneaux}
-                message={item.message}
+                label={item?.label}
+                label2={item?.label2}
+                creneaux={item?.creneaux}
+                message={item?.message}
               />
             ))
           }
@@ -48,11 +47,11 @@ const DateAppointment = ({ route, session }) => {
       </ContainerScreen>
       <View style={styles.container}>
         <View style={styles.containerButton}>
-          {navigationAppointment.prev.onclick_week && (
+          {navigationAppointment.prevweek && navigationAppointment.prevweek?.onclick_week && (
             <View style={{ marginLeft: 'auto' }}>
               <CustomAppButton
-                onPress={() => handleButtonWeekPress(navigationAppointment.prev.onclick_week)}
-                title='sem.prec'
+                onPress={() => handleButtonWeekPress(navigationAppointment.prevweek?.onclick_week, navigationAppointment.prevweek?.onclick_data, navigationAppointment.prevweek?.onclick_action)}
+                title='sem.préc'
                 alignSelf="baseline"
                 paddingVertical={16}
                 textColor={colors.white}
@@ -61,10 +60,10 @@ const DateAppointment = ({ route, session }) => {
               />
             </View>
           )}
-          {navigationAppointment.nextweek.onclick_week && (
+          {navigationAppointment.nextweek && navigationAppointment.nextweek?.onclick_week && (
             <View style={{ marginLeft: 'auto' }}>
               <CustomAppButton
-                onPress={() => handleButtonWeekPress(navigationAppointment.nextweek.onclick_week)}
+                onPress={() => handleButtonWeekPress(navigationAppointment.nextweek?.onclick_week, navigationAppointment.nextweek?.onclick_data, navigationAppointment.nextweek?.onclick_action)}
                 title='sem.suiv'
                 alignSelf="baseline"
                 paddingVertical={16}

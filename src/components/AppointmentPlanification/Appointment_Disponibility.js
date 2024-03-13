@@ -33,9 +33,8 @@ const Appointment_Disponibility = ({ label, label2, creneaux, message }) => {
             {label2}
           </CustomText>
         </View  >
-        <View style={[styles.rigthnow, creneaux.length === 0 && styles.fullWidth]}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {creneaux.map((creneau, index) => (
+            {creneaux?.map((creneau, index) => (
               <Appointment_Disponibility_Hours
                 key={index}
                 time={creneau.fromhour}
@@ -43,14 +42,13 @@ const Appointment_Disponibility = ({ label, label2, creneaux, message }) => {
               />
             ))}
           </ScrollView>
-          {creneaux.length === 0 && (
-            <View style={{ padding: 15, backgroundColor: colors.blue400 }}>
+          {creneaux?.length === 0 && (
+            <View style={[styles.fullWidth, { padding: 15, backgroundColor: colors.blue400 }]}>
               <CustomText fontSize={12} color={colors.gray500} style={{marginRight: 35, textAlign: "center" }}>
                 {message}
               </CustomText>
             </View>
           )}
-        </View>
       </View>
     </View>
   );

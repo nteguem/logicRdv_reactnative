@@ -13,28 +13,24 @@ const Motifs = ({ route, isLoadingAppointment, navigationAppointment, motifRende
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      // Assurez-vous d'ajuster les valeurs de tokenuser, week, data et action en fonction de vos besoins
       const tokenuser = '';
       const motif = motifs[0]; // Choisissez le premier motif, ou sélectionnez celui qui convient
       const week = motif.onclick_week;
       const data = motif.onclick_data;
       const action = motif.onclick_action;
       dispatch(createAppointmentRequest(tokenuser, tokenappointment, week, data, action, session));
-    };
-
-    fetchData();
   }, []);
 
   const handleMotif = (motif) => {
-    navigation.navigate('Jour et Heure du Rdv', {motif, dataCreneau: motifRendezVous, navigationAppointment, tokenappointment});
+    console.log(motif)
+    navigation.navigate('Jour et Heure du Rdv', {motif, motifRendezVous, navigationAppointment, tokenappointment});
   };
 
   return (
     <ContainerScreen isLoading={isLoadingAppointment}>
       {
         motifs.map((motif, index) => (
-          <TouchableOpacity key={motif.onclick_data} onPress={() => handleMotif(motif)}>
+          <TouchableOpacity key={index} onPress={() => handleMotif(motif)}>
             <Motif
               labelplace={motif.labelplace}
               color={motif.color}
