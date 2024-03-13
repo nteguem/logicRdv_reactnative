@@ -94,7 +94,7 @@ export const removeUserData = async () => {
       message: 'Déconnexion réussie',
       description: 'Vous êtes maintenant déconnecté.',
       type: 'success',
-      duration: 5000,
+      duration: 3500,
     });
   } catch (error) {
     console.error('Erreur lors de la suppression des informations utilisateur:', error);

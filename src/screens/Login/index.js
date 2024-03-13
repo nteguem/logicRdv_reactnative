@@ -46,7 +46,6 @@ const Login = ({ session, headerError, headerMessage, inputFields, buttons, isLo
       inputData = password;
     }
 
-    console.log(inputData);
     dispatch(loginRequest(inputData, action, session));
 
     setEmail('');

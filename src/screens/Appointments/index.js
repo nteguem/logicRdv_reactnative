@@ -38,7 +38,7 @@ const Appointments = ({ list, isLoading }) => {
                         bkgroundColor={colors.blue}
                     />
                 </View>
-                {list.length === 0 ? (
+                {list?.list?.length === 0 ? (
                     <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginVertical: 200}}>
                         <Image source={require('../../assets/images/Logo.png')} style={styles.image} />
                         <CustomText fontSize={12} color={colors.blue100} fontWeight='bold'>Aucun rendez-vous pour le moment.</CustomText>
@@ -46,7 +46,7 @@ const Appointments = ({ list, isLoading }) => {
                 ) : (
                     <>
                         <CustomText fontSize={15} color={colors.black} fontWeight='bold'>Mes Rendez-vous</CustomText>
-                        {list.map((item, index) => (
+                        {list?.list?.map((item, index) => (
                             <AppointmentDetails
                                 key={index}
                                 date={item.appointment.date}

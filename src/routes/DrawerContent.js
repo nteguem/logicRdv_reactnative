@@ -70,7 +70,7 @@ const DrawerContent = ({ navigation, isAuth }) => {
         message: 'Erreur',
         description: 'Une erreur est survenue lors de la déconnexion.',
         type: 'danger',  
-        duration: 5000,
+        duration: 3500,
       });
     }
     finally {

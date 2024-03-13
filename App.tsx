@@ -16,7 +16,6 @@ const App = () => {
   useEffect(() => {
     const fetchInstallationId = async () => {
       await WonderPush.subscribeToNotifications(true);
-      await WonderPush.setLogging(true);
       const installationId = await WonderPush.getInstallationId();
       await setInstallationId(installationId);
   };

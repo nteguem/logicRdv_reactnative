@@ -28,7 +28,7 @@ function* login({payload}) {
         message: 'Bienvenue !',
         description: `Vous êtes maintenant connecté.`,
         type: 'success',
-        duration: 5000,
+        duration: 3500,
       });
       yield put(listAppointmentsRequest({"id":1}));
     }     
@@ -56,7 +56,7 @@ function* signup({ payload }) {
           message: 'Inscription reussie',
           description: `${response.message}`,
           type: 'success',
-          duration: 5000,
+          duration: 3500,
         });
         yield put(loginRequest(response.params.email,"next","{\"step\":\"1\"}"));
         RootNavigation.navigate('Se connecter');
@@ -68,7 +68,7 @@ function* signup({ payload }) {
           message: 'Echec inscription',
           description: `${response.message}`,
           type: 'danger',
-          duration: 5000,
+          duration: 3500,
         });
        }
 
