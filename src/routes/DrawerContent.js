@@ -100,7 +100,7 @@ const DrawerContent = ({ navigation, isAuth }) => {
               {userData?.email}
             </CustomText>
           </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 5, marginBottom: -25 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 1 }}>
             <CustomText fontSize={8} fontWeight={'700'} color={colors.white} style={styles.drawerItem}>
               V 1.0.4
             </CustomText>
@@ -122,7 +122,7 @@ const DrawerContent = ({ navigation, isAuth }) => {
               </CustomText>
             </TouchableOpacity>
           </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 35, marginBottom: -25 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 15, marginBottom: 5 }}>
             <CustomText fontSize={8} fontWeight={'700'} color={colors.white} style={styles.drawerItem}>
               V 1.0.4
             </CustomText>
@@ -209,7 +209,7 @@ const DrawerContent = ({ navigation, isAuth }) => {
   const renderFooter = () => {
     if (isAuth) {
       return (
-        <View style={{ marginVertical: '55%' }}>
+        <View style={styles.version}>
           <View style={[styles.containerToggle, { justifyContent: 'space-between' }]}>
             <TouchableOpacity onPress={navigateToScreen('Home')} style={styles.menuItem}>
               {isSubscribed ? <MaterialIcons name="notifications-on" size={20} color={colors.blue} /> : <MaterialIcons name="notifications-off" size={20} color={colors.blue} />}
@@ -234,7 +234,7 @@ const DrawerContent = ({ navigation, isAuth }) => {
       );
     } else {
       return (
-        <View style={{ display: isAuth ? 'flex' : 'none' }}>
+        <View style={styles.version}>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             <CustomText fontSize={14} fontWeight={'700'} color={colors.blue} style={styles.drawerItem}>
               Version 1.0.4
@@ -252,15 +252,18 @@ const DrawerContent = ({ navigation, isAuth }) => {
           <ActivityIndicator size="large" color={colors.blue} />
         </View>
       ) : (
-        <DrawerContentScrollView style={{ marginBottom: '-35%' }}>
-          {renderHeader()}
-          {renderMenuItems()}
+        <>
+          <DrawerContentScrollView style={{ marginBottom: '-35%' }}>
+            {renderHeader()}
+            {renderMenuItems()}
+          </DrawerContentScrollView>
           {renderFooter()}
-        </DrawerContentScrollView>
+        </>
       )}
     </>
   );
 };
+
 
 const styles = StyleSheet.create({
   containerHeader: {
@@ -324,6 +327,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#ffffff',
   },
+  version:{
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    flex: 1,
+    marginTop:10,
+  }
 });
 
 export default DrawerContent;

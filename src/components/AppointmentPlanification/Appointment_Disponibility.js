@@ -21,19 +21,19 @@ import Appointment_Disponibility_Hours from './Appointment_Disponibility_Hours';
 import { colors } from '../global/colors';
 import CustomText from '../global/CustomText';
 
-const Appointment_Disponibility = ({ label, label2, creneaux }) => {
+const Appointment_Disponibility = ({ label, label2, creneaux, message }) => {
   return (
     <View style={styles.container}>
       <View style={styles.day}>
         <View style={styles.leftnow} >
-          <CustomText fontSize={15} fontWeight={700} style={{ color: colors.black }}>
+          <CustomText fontSize={12} fontWeight={700} style={{ color: colors.black }}>
             {label}
           </CustomText>
-          <CustomText fontSize={15} fontWeight={700} style={{ color: colors.blue }}>
+          <CustomText fontSize={12} fontWeight={700} style={{ color: colors.blue }}>
             {label2}
           </CustomText>
         </View  >
-        <View style={styles.rigthnow}>
+        <View style={[styles.rigthnow, creneaux.length === 0 && styles.fullWidth]}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {creneaux.map((creneau, index) => (
               <Appointment_Disponibility_Hours
@@ -43,6 +43,13 @@ const Appointment_Disponibility = ({ label, label2, creneaux }) => {
               />
             ))}
           </ScrollView>
+          {creneaux.length === 0 && (
+            <View style={{ padding: 15, backgroundColor: colors.blue400 }}>
+              <CustomText fontSize={12} color={colors.gray500} style={{marginRight: 35, textAlign: "center" }}>
+                {message}
+              </CustomText>
+            </View>
+          )}
         </View>
       </View>
     </View>
@@ -55,19 +62,20 @@ const styles = StyleSheet.create({
   },
   day: {
     flexDirection: 'row',
-    gap:2,
-    justifyContent:"space-between",
-    marginRight: 20,
-    marginVertical:3,
+    justifyContent: "space-between",
+    marginVertical: 3,
   },
-  leftnow:{
-    width:90
+  leftnow: {
+    width: 70
   },
-  rigthnow:{
-    justifyContent:"space-between",
-    alignContent:"flex-start"
+  fullWidth: {
+    width: '90%',
+  },
+  rigthnow: {
+    justifyContent: "space-between",
+    alignContent: "flex-start"
   }
-  
+
 });
 
 export default Appointment_Disponibility;
