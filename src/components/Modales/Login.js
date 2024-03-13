@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Modal, Button, FlatList, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { useDispatch } from 'react-redux';
 import LoginForm from '../LoginComponent/LoginForm';
 import RegistrationButtons from '../LoginComponent/RegistrationButtons';
 import { colors } from '../global/colors';
 import CustomText from '../global/CustomText';
+import { loginRequest } from '../../redux/auth/actions';
 
-const LoginModal = () => {
+const LoginModal = ({ openModalProp }) => {
+  const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
 
-  const openModal = () => {
-    setModalVisible(true);
-  };
+  useEffect(() => {
+    dispatch(loginRequest('','',''));
+    setModalVisible(openModalProp);
+  }, [openModalProp]);
 
   const closeModal = () => {
     setModalVisible(false);
@@ -24,25 +28,22 @@ const LoginModal = () => {
   const renderItem = ({ item }) => <View>{item.component}</View>;
 
   return (
-    <View>
-      <Button title="test" onPress={openModal} />
-      <Modal visible={modalVisible} onRequestClose={closeModal} transparent={true}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
-                <CustomText  style={styles.closeButtonText}>X</CustomText>
-            </TouchableOpacity>
-            <FlatList
+    <Modal visible={modalVisible} onRequestClose={closeModal} transparent={true}>
+      <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+          <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+            <CustomText style={styles.closeButtonText}>X</CustomText>
+          </TouchableOpacity>
+          <FlatList
             showsVerticalScrollIndicator={false}
-              data={data}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.id}
-              contentContainerStyle={{ flexGrow: 1 }}
-            />
-          </View>
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={{ flexGrow: 1 }}
+          />
         </View>
-      </Modal>
-    </View>
+      </View>
+    </Modal>
   );
 };
 

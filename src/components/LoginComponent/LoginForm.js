@@ -9,7 +9,7 @@ import { useDispatch, connect } from 'react-redux';
 import { loginStyles } from './styles';
 import { loginRequest } from '../../redux/auth/actions';
 
-const LoginForm = ({ session, headerError, headerMessage, inputFields, buttons  }) => {
+const LoginForm = ({ session, headerError, headerMessage, inputFields, buttons, isLoading  }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
