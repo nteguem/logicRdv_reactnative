@@ -8,16 +8,24 @@ import { colors } from '../../components/global/colors';
 import CustomAppButton from '../../components/global/CustomAppButton';
 import { useDispatch, connect } from 'react-redux';
 import { createAppointmentRequest } from '../../redux/appointment/actions';
+import { useNavigation } from '@react-navigation/native';
 
-
-const DateAppointment = ({ route, session, isLoadingAppointment, motifRendezVous, navigationAppointment }) => {
+const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, navigationAppointment }) => {
   const { motif, tokenappointment } = route.params;
-  
+
   const dispatch = useDispatch();
-  
-  const handleButtonWeekPress = (week, data, action) => {
+  const navigation = useNavigation();
+
+  const handleButtonWeekPress = async (week, data, action) => {
     const tokenuser = '';
-    dispatch(createAppointmentRequest(tokenuser, tokenappointment, week, data, action, session));
+    await dispatch(createAppointmentRequest(tokenuser, tokenappointment, week, data, action, session));
+  };
+
+  const handleValidation = async (creneau) => {
+    const tokenuser = 'SyL6yfPf5EDRiGSFZqLNEOEPUL6Q1e0Cbuu2Jy6iag4fACPjJVKnV0802014';
+    const { onclick_week, onclick_data, onclick_action } = creneau;
+    await dispatch(createAppointmentRequest(tokenuser, tokenappointment, onclick_week, onclick_data, onclick_action, session));
+    navigation.navigate('Valider le Rendez-vous', { tokenappointment: tokenappointment });
   };
 
   return (
@@ -33,13 +41,14 @@ const DateAppointment = ({ route, session, isLoadingAppointment, motifRendezVous
         </View>
         <ScrollView>
           {
-            motifRendezVous?.map((item, index) => (
+            dataCreneaux.map((item, index) => (
               <Appointment_Disponibility
                 key={index}
                 label={item?.label}
                 label2={item?.label2}
                 creneaux={item?.creneaux}
                 message={item?.message}
+                handleValidationAppointment={handleValidation}
               />
             ))
           }
@@ -98,7 +107,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   navigationAppointment: state.AppointmentReducer?.navigation,
-  motifRendezVous: state.AppointmentReducer?.motifRendezVous,
+  dataCreneaux: state.AppointmentReducer?.dataCreneaux,
+  appointmentValidation: state.AppointmentReducer?.appointmentValidation,
   session: state.AppointmentReducer?.session,
   isLoadingAppointment: state.AppointmentReducer?.isLoading,
 });

@@ -16,12 +16,13 @@
   - day: Layout styles for the container displaying the day and date.
 */
 import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Appointment_Disponibility_Hours from './Appointment_Disponibility_Hours';
 import { colors } from '../global/colors';
 import CustomText from '../global/CustomText';
 
-const Appointment_Disponibility = ({ label, label2, creneaux, message }) => {
+const Appointment_Disponibility = ({ label, label2, creneaux, message, handleValidationAppointment }) => {
+
   return (
     <View style={styles.container}>
       <View style={styles.day}>
@@ -33,22 +34,23 @@ const Appointment_Disponibility = ({ label, label2, creneaux, message }) => {
             {label2}
           </CustomText>
         </View  >
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {creneaux?.map((creneau, index) => (
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {creneaux?.map((creneau, index) => (
+            <TouchableOpacity key={index} onPress={() => handleValidationAppointment(creneau)}>
               <Appointment_Disponibility_Hours
-                key={index}
                 time={creneau.fromhour}
                 doctor={creneau.doctor}
               />
-            ))}
-          </ScrollView>
-          {creneaux?.length === 0 && (
-            <View style={[styles.fullWidth, { padding: 15, backgroundColor: colors.blue400 }]}>
-              <CustomText fontSize={12} color={colors.gray500} style={{marginRight: 35, textAlign: "center" }}>
-                {message}
-              </CustomText>
-            </View>
-          )}
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+        {creneaux?.length === 0 && (
+          <View style={[styles.fullWidth, { padding: 15, backgroundColor: colors.blue400 }]}>
+            <CustomText fontSize={10} color={colors.gray500} style={{ marginRight: 35, textAlign: "center" }}>
+              {message}
+            </CustomText>
+          </View>
+        )}
       </View>
     </View>
   );

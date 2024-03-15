@@ -70,7 +70,10 @@ const AppointmentDetails = (
     buttonBorderColor,
     buttonTextColor,
     display,
-    firstCompartmentBackgroundColor
+    firstCompartmentBackgroundColor,
+    userIcon,
+    isDisplay,
+    handleNewAppt
   }) => {
 
   return (
@@ -81,17 +84,24 @@ const AppointmentDetails = (
             <MaterialCommunityIcons name="calendar-blank" size={16} color={colors.white} marginRight={5} style={{ transform: [{ rotate: '-45deg' }] }} />
             <CustomText fontSize={10} color={colors.white}>{date}</CustomText>
           </View>
-          <View style={styles.detailsContainer}>
+          <View style={[styles.detailsContainer, {display: display}]}>
             <MaterialCommunityIcons name="clock-outline" size={16} color={colors.white} marginRight={5} />
             <CustomText fontSize={10} color={colors.white}>{time}</CustomText>
           </View>
         </View>
       </View>
-      
+
       <View style={[styles.compartment, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginRight: 10 }]}>
-        <View style={styles.compartmentContainer}>
-          <CustomText fontSize={15} fontWeight='bold' color={colors.black}>{doctor}</CustomText>
-          <CustomText fontSize={12} color={colors.black} style={styles.appointmentType}>{appointmentType}</CustomText>
+        <View style={[styles.compartmentContainer, {flexDirection: 'row',alignItems: 'center',}]}>
+          {userIcon && (
+            <View style={styles.circleUser}>
+              <Icon name="user-circle" size={50} color={colors.gray100} />
+            </View>
+          )}
+          <View>
+            <CustomText fontSize={userIcon ? 12:15} fontWeight='bold' color={colors.black}>{doctor}</CustomText>
+            <CustomText fontSize={userIcon ? 10:12} color={colors.black} style={styles.appointmentType}>{appointmentType}</CustomText>
+          </View>
         </View>
         <View style={[styles.button, { display: display }]}>
           <CustomAppButton
@@ -102,82 +112,86 @@ const AppointmentDetails = (
             alignSelf='baseline'
             borderColor={buttonBorderColor}
             textColor={buttonTextColor}
-            paddingHorizontal={20}
+            paddingHorizontal={userIcon ? 12:20}
             paddingVertical={5}
             borderRadius={2}
-            textFontSize={12}
+            textFontSize={userIcon ? 10:12}
           />
         </View>
       </View>
-      <View style={styles.divider} />
-      <View style={styles.compartment}>
-        <View style={styles.compartmentContainer}>
-          <View style={[styles.detailsContainer, { marginBottom: 10 }]}>
-            <View style={styles.circleUser}>
-              <Icon name="user-circle" size={50} color={colors.gray100} />
-            </View>
-            <CustomText fontSize={15} color={colors.black} fontWeight='bold'>{patientName}</CustomText>
-          </View>
-          <View style={[styles.detailsContainer, { marginBottom: 10 }]}>
-            <Icon name="phone" size={18} color={colors.black} marginRight={5} />
-            <CustomText fontSize={12} color={colors.black}>{patientPhone}</CustomText>
-          </View>
-          <View style={[styles.detailsContainer]}>
-            <Icon name="envelope" size={18} color={colors.black} marginRight={5} />
-            <CustomText fontSize={12} color={colors.black}>{patientEmail}</CustomText>
-          </View>
-        </View>
-      </View>
-      <View style={styles.divider} />
-      <View style={styles.compartment}>
-        <View style={styles.compartmentContainer}>
-          <CustomText fontSize={15} color={colors.black} fontWeight='bold' >{addressName}</CustomText>
-          <CustomText fontSize={12} color={colors.black} style={{ fontStyle: 'italic' }} >{addressLine1}</CustomText>
-          <CustomText fontSize={12} color={colors.black} style={{ fontStyle: 'italic' }} >{addressLine2}</CustomText>
-          <View style={styles.detailsContainer}>
-            <CustomText fontSize={12} color={colors.black}>{addressPhone}</CustomText>
-            <View style={[styles.circle, { backgroundColor: colors.blue, marginLeft: 10, }]}>
-              <Icon name="phone" size={20} color={colors.white} />
-            </View>
-          </View>
-        </View>
-      </View>
-      <View style={styles.divider} />
-      {buttonlabeltelecons !== '' && (
+      {isDisplay && (
         <>
+          <View style={styles.divider} />
+          <View style={styles.compartment}>
+            <View style={styles.compartmentContainer}>
+              <View style={[styles.detailsContainer, { marginBottom: 10 }]}>
+                <View style={styles.circleUser}>
+                  <Icon name="user-circle" size={50} color={colors.gray100} />
+                </View>
+                <CustomText fontSize={15} color={colors.black} fontWeight='bold'>{patientName}</CustomText>
+              </View>
+              <View style={[styles.detailsContainer, { marginBottom: 10 }]}>
+                <Icon name="phone" size={18} color={colors.black} marginRight={5} />
+                <CustomText fontSize={12} color={colors.black}>{patientPhone}</CustomText>
+              </View>
+              <View style={[styles.detailsContainer]}>
+                <Icon name="envelope" size={18} color={colors.black} marginRight={5} />
+                <CustomText fontSize={12} color={colors.black}>{patientEmail}</CustomText>
+              </View>
+            </View>
+          </View>
+          <View style={styles.divider} />
+          <View style={styles.compartment}>
+            <View style={styles.compartmentContainer}>
+              <CustomText fontSize={15} color={colors.black} fontWeight='bold' >{addressName}</CustomText>
+              <CustomText fontSize={12} color={colors.black} style={{ fontStyle: 'italic' }} >{addressLine1}</CustomText>
+              <CustomText fontSize={12} color={colors.black} style={{ fontStyle: 'italic' }} >{addressLine2}</CustomText>
+              <View style={styles.detailsContainer}>
+                <CustomText fontSize={12} color={colors.black}>{addressPhone}</CustomText>
+                <View style={[styles.circle, { backgroundColor: colors.blue, marginLeft: 10, }]}>
+                  <Icon name="phone" size={20} color={colors.white} />
+                </View>
+              </View>
+            </View>
+          </View>
+          <View style={styles.divider} />
+          {buttonlabeltelecons !== '' && (
+            <>
+              <View style={styles.compartment}>
+                <View style={styles.button}>
+                  <CustomAppButton
+                    onPress={() => Alert.alert('Button pressed')}
+                    title={buttonTitle}
+                    bkgroundColor={colors.blue}
+                    alignSelf='center'
+                    textColor={colors.white}
+                    paddingHorizontal={35}
+                    paddingVertical={8}
+                    borderRadius={6}
+                    textFontSize={12}
+                    fontWeight='bold'
+                  />
+                </View>
+              </View>
+              <View style={styles.divider} />
+            </>
+          )}
+
           <View style={styles.compartment}>
             <View style={styles.button}>
               <CustomAppButton
-                onPress={() => Alert.alert('Button pressed')}
-                title={buttonTitle}
-                bkgroundColor={colors.blue}
+                onPress={handleNewAppt}
+                title="REPRENDRE UN RDV"
+                bkgroundColor='transparent'
                 alignSelf='center'
-                textColor={colors.white}
-                paddingHorizontal={35}
-                paddingVertical={8}
-                borderRadius={6}
+                textColor={colors.blue}
                 textFontSize={12}
                 fontWeight='bold'
               />
             </View>
           </View>
-          <View style={styles.divider} />
         </>
       )}
-
-      <View style={styles.compartment}>
-        <View style={styles.button}>
-          <CustomAppButton
-            onPress={() => Alert.alert('Button pressed')}
-            title="REPRENDRE UN RDV"
-            bkgroundColor='transparent'
-            alignSelf='center'
-            textColor={colors.blue}
-            textFontSize={12}
-            fontWeight='bold'
-          />
-        </View>
-      </View>
     </View>
   );
 };

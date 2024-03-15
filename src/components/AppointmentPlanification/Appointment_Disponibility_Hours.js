@@ -17,28 +17,20 @@
 */
 
 import React from 'react';
-import {View, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
-import {colors} from '../global/colors';
+import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { colors } from '../global/colors';
 import CustomText from '../global/CustomText';
-import { useNavigation } from '@react-navigation/native';
 
-const Appointment_Disponibility_Hours = ({time, doctor}) => {
-  const navigation = useNavigation();
-
-    const handleValidationAppointment = () => {
-        navigation.navigate('Valider le Rendez-vous');
-    };
+const Appointment_Disponibility_Hours = ({ time, doctor }) => {
 
   return (
     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-      <TouchableOpacity onPress={handleValidationAppointment}>
-      <View style={styles.container}>
-        <CustomText fontSize={10} style={styles.time}>
-          {time}
-        </CustomText>
-        <CustomText fontSize={10} style={styles.doctor}>{doctor}</CustomText>
-      </View>
-      </TouchableOpacity>
+        <View style={styles.container}>
+          <CustomText fontSize={10} style={styles.time}>
+            {time}
+          </CustomText>
+          <CustomText fontSize={10} style={styles.doctor}>{doctor}</CustomText>
+        </View>
     </ScrollView>
   );
 };
@@ -47,12 +39,12 @@ const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
     borderColor: colors.black,
-    marginHorizontal:4,
-    textAlign:"center",
-    paddingVertical:2,
-    paddingHorizontal:10,
+    marginHorizontal: 4,
+    textAlign: "center",
+    paddingVertical: 2,
+    paddingHorizontal: 10,
     justifyContent: "center",
-    alignItems:"center",
+    alignItems: "center",
     flexDirection: 'column',
     gap: 8
   },

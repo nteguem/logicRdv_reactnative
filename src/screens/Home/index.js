@@ -28,7 +28,6 @@ const Home = () => {
                         />
                         
                     </View>
-                    <LoginModal openModalProp={true}/>
                     
                 </ImageBackground>
                
