@@ -27,14 +27,14 @@
 */
 
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {colors} from '../global/colors';
+import { View, Text, StyleSheet } from 'react-native';
+import { colors } from '../global/colors';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CustomText from '../global/CustomText';
 
-const ValidationInfoRDV = ({title, date, doctor, place, patient}) => {
+const ValidationInfoRDV = ({ title, date, doctor, place, patient }) => {
   return (
     <View style={styles.card}>
       <View style={styles.compartment}>
@@ -66,7 +66,7 @@ const ValidationInfoRDV = ({title, date, doctor, place, patient}) => {
             marginRight={5}
           />
           <CustomText fontSize={12} color={colors.black}>
-            Avec {doctor}
+            {doctor}
           </CustomText>
         </View>
         <View style={styles.detailsContainer}>
@@ -87,8 +87,8 @@ const ValidationInfoRDV = ({title, date, doctor, place, patient}) => {
             color={colors.blue}
             marginRight={5}
           />
-          <CustomText fontSize={12} color={colors.black}>
-            pour le patient {patient}
+          <CustomText fontSize={12} color={colors.black} style={{ flex: 1 }} numberOfLines={1}>
+            {patient}
           </CustomText>
         </View>
       </View>
@@ -100,8 +100,6 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.white,
     borderRadius: 10,
-    marginLeft: 10,
-    marginRight: 10,
     marginTop: 10,
   },
   compartment: {

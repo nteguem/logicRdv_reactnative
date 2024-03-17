@@ -10,11 +10,10 @@ import { useDispatch, connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { createAppointmentRequest } from '../../redux/appointment/actions'
 
-const DoctorDetails = ({ route, results, isLoading, doctorInfos, motifRendezVous , session }) => {
+const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
     const { civility, name, profession, adresse, zip, city, tel, proxy_ville_id, proxy_nom_id, tokenappointment } = route.params;
     const fullName = `${civility} ${name}`;
     const proxy_ville = `${zip} ${city}`;
-    
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
@@ -22,22 +21,14 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos, motifRendezVous
         dispatch(infosDoctorRequest({ "id": proxy_nom_id }));
     }, [proxy_nom_id]);
 
-    useEffect(() => {
-        const tokenuser = ''; 
-        const week = ''; 
-        const data = ''; 
-        const action = ''; 
-        
-        dispatch(createAppointmentRequest(tokenuser, tokenappointment, week, data, action, session));
-    }, []);
-
-    const handleSearchChange = () => {
-        dispatch(resultRequest({ "proxy_ville": proxy_ville, "proxy_nom": profession, "proxy_ville_id": proxy_ville_id, "proxy_nom_id": proxy_nom_id, "proxy_search": "", "proxy_page": "1" }));
+    const handleSearchChange = async () => {
+        await dispatch(resultRequest({ "proxy_ville": proxy_ville, "proxy_nom": profession, "proxy_ville_id": proxy_ville_id, "proxy_nom_id": proxy_nom_id, "proxy_search": "", "proxy_page": "1" }));
         navigation.navigate('Résultats', { civility, name, results, city })
     };
 
-    const handleMotifs = () => {
-        navigation.navigate('Motif du Rendez-vous', {motifs: motifRendezVous, tokenappointment} );
+    const handleMotifs = async () => {
+        await dispatch(createAppointmentRequest('', tokenappointment, '', '', '', ''));
+        navigation.navigate('Motif du Rendez-vous', { tokenappointment: tokenappointment });
     };
 
     const CustomButtonComponent = (
@@ -86,7 +77,7 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos, motifRendezVous
                         alignSelf="baseline"
                         paddingVertical={16}
                         textColor={colors.white}
-                        textFontSize={12}
+                        textFontSize={10}
                         borderRadius={10}
                         bkgroundColor={colors.blue}
                         width='100%'
@@ -141,12 +132,11 @@ const mapStateToProps = (state) => ({
     results: state.SearchReducer?.results,
     isLoading: state.SearchReducer?.isLoading,
     doctorInfos: state.SearchReducer?.doctorInfos,
-    session: state.AppointmentReducer?.session,
-    headerMessage: state.AppointmentReducer?.headerMessage,
-    type: state.AppointmentReducer?.type,
-    navigation: state.AppointmentReducer?.navigation,
-    motifRendezVous : state.AppointmentReducer?.motifRendezVous,
-    isLoadingAppointment: state.AppointmentReducer?.isLoading,
+    // session: state.AppointmentReducer?.session,
+    // headerMessage: state.AppointmentReducer?.headerMessage,
+    // type: state.AppointmentReducer?.type,
+    // navigation: state.AppointmentReducer?.navigation,
+    // isLoadingAppointment: state.AppointmentReducer?.isLoading,
 });
 
 export default connect(mapStateToProps)(DoctorDetails);

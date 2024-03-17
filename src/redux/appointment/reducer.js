@@ -15,6 +15,9 @@ const initialState = {
   step: 0,
   navigation: [],
   motifRendezVous: [],
+  dataCreneaux: [],
+  appointmentValidation: [],
+  appointmentValided: [],
   headerMessage: '',
   type: '',
   session: ''
@@ -46,23 +49,71 @@ const AppointmentReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case CREATE_APPOINTMENT_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        navigation: action.payload.navigation,
-        motifRendezVous: action.payload.data,
-        headerMessage: action.payload.headermessage,
-        type: action.payload.type,
+      if (action.payload.type === 'appttype') {
+        return {
+          ...state,
+          isLoading: false,
+          motifRendezVous: action.payload.data,
+          headerMessage: action.payload.headermessage,
+        };
+      } else if (action.payload.type === 'apptcreneaux') {
+        return {
+          ...state,
+          isLoading: false,
+          navigation: action.payload.navigation,
+          dataCreneaux: action.payload.data,
+          headerMessage: action.payload.headermessage,
+        };
+      } else if (action.payload.type === 'apptconfirm') {
+        return {
+          ...state,
+          isLoading: false,
+          appointmentValidation: action.payload.data,
+          headerMessage: action.payload.headermessage,
+        };
+      } else if (action.payload.type === 'apptvalided') {
+        return {
+          ...state,
+          isLoading: false,
+          navigation: action.payload.navigation,
+          appointmentValided: action.payload.data,
+          headerMessage: action.payload.headermessage,
+        };
       };
     case CREATE_APPOINTMENT_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        navigation: action.payload.navigation,
-        motifRendezVous: action.payload.data,
-        headerMessage: action.payload.headermessage,
-        type: action.payload.type,
-      };
+      if (action.payload.type === 'appttype') {
+        return {
+          ...state,
+          isLoading: false,
+          navigation: action.payload.navigation,
+          motifRendezVous: action.payload.data,
+          headerMessage: action.payload.headermessage,
+        };
+      } else if (action.payload.type === 'apptcreneaux') {
+        return {
+          ...state,
+          isLoading: false,
+          navigation: action.payload.navigation,
+          dataCreneaux: action.payload.data,
+          headerMessage: action.payload.headermessage,
+        };
+      } else if (action.payload.type === 'apptconfirm') {
+        return {
+          ...state,
+          isLoading: false,
+          navigation: action.payload.navigation,
+          appointmentValidation: action.payload.data,
+          headerMessage: action.payload.headermessage,
+        };
+      } else if (action.payload.type === 'apptvalided') {
+        return {
+          ...state,
+          isLoading: false,
+          navigation: action.payload.navigation,
+          appointmentValided: action.payload.data,
+          headerMessage: action.payload.headermessage,
+        };
+      }
     case STEP_REQUEST:
       return {
         ...state,

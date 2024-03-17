@@ -1,10 +1,8 @@
 import React from 'react';
-import {StyleSheet, Text} from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
-const CustomText = ({children, fontSize, fontWeight, color, style}) => {
-  const passedStyles = Array.isArray(style)
-    ? Object.assign({}, ...style)
-    : style;
+const CustomText = ({ children, fontSize, fontWeight, color, style, numberOfLines }) => {
+  const passedStyles = Array.isArray(style) ? Object.assign({}, ...style) : style;
   const styles = StyleSheet.create({
     regularTextStyle: {
       fontSize: fontSize,
@@ -15,7 +13,7 @@ const CustomText = ({children, fontSize, fontWeight, color, style}) => {
     },
   });
   return (
-    <Text style={[styles.regularTextStyle, {...passedStyles}]}>{children}</Text>
+    <Text style={[styles.regularTextStyle, { ...passedStyles }]} numberOfLines={numberOfLines} ellipsizeMode="tail">{children}</Text>
   );
 };
 

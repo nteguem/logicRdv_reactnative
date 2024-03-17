@@ -36,13 +36,11 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.white,
     borderRadius: 10,
-    marginLeft: 10,
-    marginRight: 10,
     marginBottom: 5,
   },
   compartment: {
-    paddingVertical: 25,
-    paddingHorizontal: 40,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
   },
 });
 
