@@ -11,48 +11,7 @@ const Login = ({ isLoading }) => {
     { id: 'registrationButtons', component: <RegistrationButtons /> },
   ];
 
-  const navigation = useNavigation();
-
-  const handleInputChange = (text, type) => {
-    switch (type) {
-      case 'email':
-        setEmail(text);
-        break;
-      case 'password':
-        setPassword(text);
-        break;
-      case 'code':
-        setCode(text);
-        break;
-      default:
-        break;
-    }
-  };
-  
-  const handleButtonPress = (action, label) => {
-    let inputData = '';
-
-    if (code !== '') {
-      inputData = code;
-    } else if (email !== '') {
-      inputData = email;
-    } else if (password !== '') {
-      inputData = password;
-    }
-
-    dispatch(loginRequest(inputData, action, session));
-
-    setEmail('');
-    setCode('');
-    if (label === "Mot de passe Oublié") {
-      setPassword('');
-    }
-  };
-
-
-  const handleSignUp = () => {
-    navigation.navigate('Inscription rapide');
-  };
+  const renderItem = ({ item }) => <View>{item.component}</View>;
 
   return (
     <ContainerScreen isLoading={isLoading}>
