@@ -56,8 +56,8 @@ const Paiement = (
                             paragraph1={paiement?.payment?.statuslabel}
                             paragraph2={paiement?.payment?.text}
                             textBottom={paiement?.payment?.history !== '' ? paiement?.payment?.history : null}
-                            iconComponent={paiement?.infos?.buttonstartteleconsdisabled === '0' ? (<MaterialIcons name="credit-card" size={18} color={colors.white} style={{ marginRight: 5 }} />) : (<MaterialIcons name="featured-video" size={18} color={colors.white} style={{ marginRight: 5 }} />)}
-                            buttonLabel={paiement?.infos?.buttonstartteleconsdisabled === '0' ? 'Prépaiement' : 'Lancer la Téléconsultation'}
+                            iconComponent={paiement?.infos?.buttonstartteleconsdisabled === '1' ? (<MaterialIcons name="credit-card" size={18} color={colors.white} style={{ marginRight: 5 }} />) : (<MaterialIcons name="featured-video" size={18} color={colors.white} style={{ marginRight: 5 }} />)}
+                            buttonLabel={paiement?.infos?.buttonstartteleconsdisabled === '1' ? 'Prépaiement' : 'Lancer la Téléconsultation'}
                             isTeleconsultation
                         />
                     </View>

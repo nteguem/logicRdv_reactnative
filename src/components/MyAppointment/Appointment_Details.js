@@ -73,7 +73,7 @@ const AppointmentDetails = (
     firstCompartmentBackgroundColor,
     userIcon,
     isDisplay,
-    handleNewAppt, 
+    handleNewAppt,
     handleApptType
   }) => {
 
@@ -85,23 +85,25 @@ const AppointmentDetails = (
             <MaterialCommunityIcons name="calendar-blank" size={16} color={colors.white} marginRight={5} style={{ transform: [{ rotate: '-45deg' }] }} />
             <CustomText fontSize={10} color={colors.white}>{date}</CustomText>
           </View>
-          <View style={[styles.detailsContainer, {display: display}]}>
-            <MaterialCommunityIcons name="clock-outline" size={16} color={colors.white} marginRight={5} />
-            <CustomText fontSize={10} color={colors.white}>{time}</CustomText>
-          </View>
+          {isDisplay && (
+            <View style={styles.detailsContainer}>
+              <MaterialCommunityIcons name="clock-outline" size={16} color={colors.white} marginRight={5} />
+              <CustomText fontSize={10} color={colors.white}>{time}</CustomText>
+            </View>
+          )}
         </View>
       </View>
 
       <View style={[styles.compartment, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginRight: 10 }]}>
-        <View style={[styles.compartmentContainer, {flexDirection: 'row',alignItems: 'center',}]}>
+        <View style={[styles.compartmentContainer, { flexDirection: 'row', alignItems: 'center', }]}>
           {userIcon && (
             <View style={styles.circleUser}>
               <Icon name="user-circle" size={50} color={colors.gray100} />
             </View>
           )}
           <View>
-            <CustomText fontSize={userIcon ? 12:15} fontWeight='bold' color={colors.black}>{doctor}</CustomText>
-            <CustomText fontSize={userIcon ? 10:12} color={colors.black} style={styles.appointmentType}>{appointmentType}</CustomText>
+            <CustomText fontSize={userIcon ? 12 : 15} fontWeight='bold' color={colors.black}>{doctor}</CustomText>
+            <CustomText fontSize={userIcon ? 10 : 12} color={colors.black} style={styles.appointmentType}>{appointmentType}</CustomText>
           </View>
         </View>
         <View style={[styles.button, { display: display }]}>
@@ -113,10 +115,10 @@ const AppointmentDetails = (
             alignSelf='baseline'
             borderColor={buttonBorderColor}
             textColor={buttonTextColor}
-            paddingHorizontal={userIcon ? 12:20}
+            paddingHorizontal={userIcon ? 12 : 20}
             paddingVertical={5}
             borderRadius={2}
-            textFontSize={userIcon ? 10:12}
+            textFontSize={userIcon ? 10 : 12}
           />
         </View>
       </View>
