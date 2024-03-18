@@ -30,6 +30,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CustomText from '../global/CustomText';
 import {colors} from '../global/colors';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const PatientdetailsTwo = ({
   detailsTitle,
@@ -40,28 +41,28 @@ const PatientdetailsTwo = ({
   return (
     <View style={styles.parentStyle}>
       <View style={styles.row1}>
-        <Fontisto name="first-aid-alt" color={colors.white} size={20} />
-        <CustomText fontSize={18} fontWeight={'bold'} color={colors.white} style={styles.textStyle}>
+        <Fontisto name="first-aid-alt" color={colors.white} size={18} />
+        <CustomText fontSize={15} fontWeight={'bold'} color={colors.white} style={styles.textStyle}>
           {detailsTitle}
         </CustomText>
       </View>
       <View style={styles.row2}>
         <View style={styles.row22}>
-          <FontAwesome5 name="user-md" color={colors.white} size={25} />
-          <CustomText fontSize={16} fontWeight={'bold'} style={styles.textStyle}>
-            Avec {doctorName}
+          <FontAwesome5 name="user-md" color={colors.white} size={25} marginRight={5}/>
+          <CustomText fontSize={12} color={Colors.white} style={styles.textStyle}>
+            {doctorName}
           </CustomText>
         </View>
         <View style={styles.row22}>
-          <FontAwesome name="user-circle" color={colors.white} size={25} />
-          <CustomText fontSize={16} fontWeight={'bold'} style={[styles.textStyle]}>
-            Pour {patientName}
+          <FontAwesome name="user-circle" color={colors.white} size={25} marginRight={5}/>
+          <CustomText fontSize={12} color={Colors.white} style={[styles.textStyle]}>
+            {patientName}
           </CustomText>
         </View>
       </View>
       <View style={styles.row3}>
-        <CustomText fontSize={18} fontWeight={'bold'} color={colors.white}>
-          Le {dateTime}
+        <CustomText fontSize={15} color={colors.white}>
+          {dateTime}
         </CustomText>
       </View>
     </View>

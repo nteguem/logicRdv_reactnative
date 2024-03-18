@@ -8,7 +8,7 @@ import dataAppointment from '../data/dataAppointment'
 import { useDispatch, connect } from 'react-redux';
 import CustomText from '../../components/global/CustomText'
 import { useNavigation } from '@react-navigation/native';
-import { createAppointmentRequest, listAppointmentsRequest } from '../../redux/appointment/actions'
+import { createAppointmentRequest, listAppointmentsRequest, paiementApptRequest } from '../../redux/appointment/actions'
 
 const Appointments = ({ list, isLoading }) => {
     const navigation = useNavigation();
@@ -23,10 +23,16 @@ const Appointments = ({ list, isLoading }) => {
     };
 
     const handleNewAppt = async () => {
-        const tokenuser = 'SyL6yfPf5EDRiGSFZqLNEOEPUL6Q1e0Cbuu2Jy6iag4fACPjJVKnV0802014';
         const tokenappointment = "SMGjf076sX0fTKGH78YwT0X1OtC00hD910plL01eABDt42WWdNvWH8RqgOiu";
-        await dispatch(createAppointmentRequest(tokenuser, tokenappointment, '', '', '', ''));
-        navigation.navigate('Motif du Rendez-vous', { tokenappointment });
+        await dispatch(createAppointmentRequest(tokenappointment, '', '', '', ''));
+        navigation.navigate('Motif du Rendez-vous', { tokenappointment, item });
+    }
+
+    const handleApptType = async (item) => {
+        console.log(item)
+        const tokentelecons = item.appointment.tokentelecons
+        await dispatch(paiementApptRequest(tokentelecons));
+        navigation.navigate('Paiement', { tokentelecons });
     }
 
     return (
@@ -90,6 +96,7 @@ const Appointments = ({ list, isLoading }) => {
                                             item.appointment.past === '1' ? colors.gray : ''
                                 }
                                 isDisplay
+                                handleApptType={() => handleApptType(item)}
                                 handleNewAppt={handleNewAppt}
                             />
                         ))}

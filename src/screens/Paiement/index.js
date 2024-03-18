@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import { ScrollView, ImageBackground, StyleSheet, View } from 'react-native'
 import PatientDetailsThree from '../../components/Prepaiement/PatientDetailsThree'
@@ -6,46 +6,62 @@ import PatientdetailsTwo from '../../components/Prepaiement/PatientdetailsTwo'
 import CustomText from '../../components/global/CustomText'
 import { colors } from '../../components/global/colors'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; 
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch, connect } from 'react-redux';
+import { paiementApptRequest } from '../../redux/appointment/actions'
 
-const Paiement = () => {
+const Paiement = (
+    {
+        isLoading,
+        paiement,
+        route,
+    }
+) => {
+    const { tokentelecons } = route.params;
+    const dispatch = useDispatch();
+    const navigation = useNavigation();
+    useEffect(() => {
+        dispatch(paiementApptRequest(tokentelecons));
+    }, []);
 
     return (
-        <ContainerScreen >
-            <ImageBackground source={require('../../assets/images/background.png')} style={styles.backgroundImage}>
-            <ScrollView >
-                <View style={styles.screenContainer}>
-                    <View style={styles.container}>
-                        <CustomText fontSize={20} color={colors.white} fontWeight={'bold'} style={{ marginBottom: 18 }}>
-                            Dr Formation
-                        </CustomText>
-                        <CustomText fontSize={16} color={colors.white} style={{ paddingTop: 10, fontStyle: 'italic' }}>
-                            41 rue de Paris
-                        </CustomText>
-                        <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 10 }}>
-                            <CustomText fontSize={16} color={colors.white}>
-                                01 76 31 00 99
+        <ContainerScreen isLoading={isLoading}>
+            <ImageBackground source={require('../../assets/images/background_tc.png')} style={styles.backgroundImage}>
+                <ScrollView >
+                    <View style={styles.screenContainer}>
+                        <View style={styles.container}>
+                            <CustomText fontSize={15} color={colors.white} fontWeight={'bold'} style={{ marginBottom: 18 }}>
+                                {paiement?.etablissement?.nom}
                             </CustomText>
-                            <View style={[styles.circle, { backgroundColor: colors.blue, marginLeft: 15, }]}>
-                                <Icon name="phone" size={20} color={colors.white} />
+                            <CustomText fontSize={12} color={colors.white} style={{ fontStyle: 'italic' }}>
+                            {paiement?.etablissement?.address}
+                            </CustomText>
+                            <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                <CustomText fontSize={12} color={colors.white}>
+                                {paiement?.etablissement?.tel}
+                                </CustomText>
+                                <View style={[styles.circle, { backgroundColor: colors.blue, marginLeft: 15, }]}>
+                                    <Icon name="phone" size={18} color={colors.white} />
+                                </View>
                             </View>
                         </View>
+                        <PatientdetailsTwo
+                            detailsTitle={paiement?.appt?.description}
+                            doctorName={paiement?.appt?.doctor}
+                            patientName={paiement?.appt?.patient}
+                            dateTime={paiement?.appt?.date} />
+                        <PatientDetailsThree
+                            motif={paiement?.payment?.title}
+                            paragraph1={paiement?.payment?.statuslabel}
+                            paragraph2={paiement?.payment?.text}
+                            textBottom={paiement?.payment?.history !== '' ? paiement?.payment?.history : null}
+                            iconComponent={paiement?.infos?.buttonstartteleconsdisabled === '0' ? (<MaterialIcons name="credit-card" size={18} color={colors.white} style={{ marginRight: 5 }} />) : (<MaterialIcons name="featured-video" size={18} color={colors.white} style={{ marginRight: 5 }} />)}
+                            buttonLabel={paiement?.infos?.buttonstartteleconsdisabled === '0' ? 'Prépaiement' : 'Lancer la Téléconsultation'}
+                            isTeleconsultation
+                        />
                     </View>
-                    <PatientdetailsTwo
-                        detailsTitle='Consultation'
-                        doctorName='Dr Ringard'
-                        patientName='NTEGUEM Roland'
-                        dateTime='Jeudi 09/02/24 14:40' />
-                    <PatientDetailsThree
-                        motif='Téléphonique'
-                        paragraph1='40.00 EUR a prelever en fin de consultation'
-                        paragraph2='Le 08/09/24 sur votre CB xxx 0003'
-                        textBottom='Votre Rendez-vous a ete pré-payé'
-                        textBody=
-                        '40.00 EUR a prelever en fin de consultation 40.00 EUR a prelever en fin de consultation 40.00 EUR a prelever en fin de consultation 40.00 EUR a prelever en fin de consultation 40.00 EUR a prelever en fin de consultation'
-                        isTeleconsultation
-                    />
-                </View>
-            </ScrollView>
+                </ScrollView>
             </ImageBackground>
         </ContainerScreen>
     )
@@ -54,7 +70,7 @@ const Paiement = () => {
 const styles = StyleSheet.create({
     backgroundImage: {
         flex: 1,
-        resizeMode: 'repeat', 
+        resizeMode: 'repeat',
         width: '100%',
         height: '100%',
     },
@@ -73,12 +89,17 @@ const styles = StyleSheet.create({
         paddingVertical: 35,
     },
     circle: {
-        width: 30,
-        height: 30,
-        borderRadius: 20,
+        width: 25,
+        height: 25,
+        borderRadius: 12,
         justifyContent: 'center',
         alignItems: 'center',
     },
 });
 
-export default Paiement
+const mapStateToProps = (state) => ({
+    paiement: state.AppointmentReducer?.paiement,
+    isLoading: state.AppointmentReducer?.isLoading,
+});
+
+export default connect(mapStateToProps)(Paiement);

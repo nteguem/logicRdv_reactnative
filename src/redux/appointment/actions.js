@@ -5,7 +5,17 @@ export const listAppointmentsRequest = (data) => ({
   payload: {data},
 });
 
-export const createAppointmentRequest = (tokenuser, tokenappointment, week, data, action, session) => ({
+export const createAppointmentRequest = (tokenappointment, week, data, action, session) => ({
   type: types.CREATE_APPOINTMENT_REQUEST,
-  payload: { tokenuser, tokenappointment, week, data, action, session },
+  payload: { tokenappointment, week, data, action, session },
+});
+
+export const listDoctorRequest = (data) => ({
+  type: types.LIST_DOCTOR_REQUEST,
+  payload: { data },
+});
+
+export const paiementApptRequest = (tokentelecons) => ({
+  type: types.PAIEMENT_APPOINTMENT_REQUEST,
+  payload: { tokentelecons },
 });

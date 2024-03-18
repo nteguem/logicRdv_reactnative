@@ -73,7 +73,8 @@ const AppointmentDetails = (
     firstCompartmentBackgroundColor,
     userIcon,
     isDisplay,
-    handleNewAppt
+    handleNewAppt, 
+    handleApptType
   }) => {
 
   return (
@@ -160,7 +161,7 @@ const AppointmentDetails = (
               <View style={styles.compartment}>
                 <View style={styles.button}>
                   <CustomAppButton
-                    onPress={() => Alert.alert('Button pressed')}
+                    onPress={handleApptType}
                     title={buttonTitle}
                     bkgroundColor={colors.blue}
                     alignSelf='center'

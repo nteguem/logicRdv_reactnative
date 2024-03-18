@@ -1,8 +1,7 @@
-import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import React, { useEffect } from 'react';
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import Appointment_Disponibility from '../../components/AppointmentPlanification/Appointment_Disponibility';
-import datadisponibility from '../data/datadisponibility';
 import CustomText from '../../components/global/CustomText';
 import { colors } from '../../components/global/colors';
 import CustomAppButton from '../../components/global/CustomAppButton';
@@ -12,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, navigationAppointment }) => {
   const { motif, tokenappointment } = route.params;
-
+console.log(dataCreneaux)
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -22,9 +21,8 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
   };
 
   const handleValidation = async (creneau) => {
-    const tokenuser = 'SyL6yfPf5EDRiGSFZqLNEOEPUL6Q1e0Cbuu2Jy6iag4fACPjJVKnV0802014';
     const { onclick_week, onclick_data, onclick_action } = creneau;
-    await dispatch(createAppointmentRequest(tokenuser, tokenappointment, onclick_week, onclick_data, onclick_action, session));
+    await dispatch(createAppointmentRequest(tokenappointment, onclick_week, onclick_data, onclick_action, session));
     navigation.navigate('Valider le Rendez-vous', { tokenappointment: tokenappointment });
   };
 

@@ -27,41 +27,38 @@ const PatientDetailsThree = ({
   paragraph1,
   paragraph2,
   textBottom,
+  buttonLabel,
+  iconComponent,
   isTeleconsultation = false
 }) => {
   return (
     <View>
-    <View style={styles.container}>
-      <CustomText fontSize={18} fontWeight={'bold'} color={colors.black}>
-        Prépaiement de votre Rendez-vous {motif}
-      </CustomText>
-      <CustomText fontSize={16} color={colors.black} style={{ paddingTop: 10 }}>
-        {paragraph1}
-      </CustomText>
-      <CustomText fontSize={16} color={colors.black} style={{ paddingTop: 10 }}>
-        {paragraph2}
-      </CustomText>
-      {textBody && (
-        <CustomText fontSize={16} color={colors.black} style={{ paddingTop: 10 }}>
-          {textBody}
+      <View style={styles.container}>
+        <CustomText fontSize={15} fontWeight={'bold'} color={colors.black}>
+          {motif}
         </CustomText>
-      )}
-      <CustomText fontSize={16} color={colors.black} style={{ paddingTop: 25 }}>
-        {textBottom}
-      </CustomText>
-    </View>
-    {isTeleconsultation && (
-        <View style={{marginTop: 15}}>
+        <CustomText fontSize={12} color={colors.black} style={{ paddingTop: 10 }}>
+          {paragraph1}
+        </CustomText>
+        <CustomText fontSize={12} color={colors.black} style={{ paddingTop: 10 }}>
+          {paragraph2}
+        </CustomText>
+        <CustomText fontSize={12} color={colors.black} style={{ paddingTop: 25 }}>
+          {textBottom}
+        </CustomText>
+      </View>
+      {isTeleconsultation && (
+        <View style={{ width: '100%', marginTop: 15 }}>
           <CustomAppButton
-            iconComponent={<MaterialIcons name="featured-video" size={25} color={colors.white} style={{ marginHorizontal: 15 }} />}
-            title='Lancer la téléconsultation'
+            iconComponent={iconComponent}
+            title={buttonLabel}
             alignSelf="center"
             paddingVertical={15}
-            paddingHorizontal={50}
             textColor={colors.white}
-            textFontSize={18}
-            borderRadius={15}
+            textFontSize={12}
+            borderRadius={10}
             bkgroundColor={colors.blue}
+            width='100%'
           />
         </View>
       )}

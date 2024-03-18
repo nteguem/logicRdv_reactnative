@@ -99,13 +99,42 @@ const FloatingLabelInput = ({
 
 const ValidationAppointment = ({ route, session, appointmentValidation, isLoadingAppointment }) => {
   const { tokenappointment } = route.params;
-  const [isAppointmentInProgress, setIsAppointmentInProgress] = useState(true);
+  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [securityNumber, setSecurityNumber] = useState('');
+  const [reasonForAppointment, setReasonForAppointment] = useState('');
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
+console.log('appointmentValidation:::', appointmentValidation?.payment)
+  const handleDateChange = text => {
+    // Supprimer tout sauf les chiffres et le caractère "/"
+    const formattedText = text.replace(/[^\d/]/g, '');
+
+    // Vérifier si la longueur est inférieure à 11 pour correspondre au format "dd/mm/yyyy"
+    if (formattedText.length <= 10) {
+      // Si la longueur est de 2 ou 5, ajoutez automatiquement "/"
+      if (formattedText.length === 2 || formattedText.length === 5) {
+        if (formattedText.charAt(formattedText.length - 1) !== '/') {
+          setDateOfBirth(formattedText + '/');
+        } else {
+          setDateOfBirth(formattedText);
+        }
+      } else {
+        setDateOfBirth(formattedText);
+      }
+    }
+  };
+
+  const handleSecurityNumberChange = text => {
+    setSecurityNumber(text)
+  };
+
+  const handleReasonForAppointmentChange = text => {
+    setReasonForAppointment(text)
+  };
 
   const handleConfirmationAppointment = async (week, data, action) => {
-    const tokenuser = 'SyL6yfPf5EDRiGSFZqLNEOEPUL6Q1e0Cbuu2Jy6iag4fACPjJVKnV0802014';
-    await dispatch(createAppointmentRequest(tokenuser, tokenappointment, week, data, action, session));
+    await dispatch(createAppointmentRequest(tokenappointment, week, data, action, session));
     navigation.navigate('Confirmation rdv', { tokenappointment: tokenappointment, appointmentValidation });
   };
 
@@ -165,7 +194,7 @@ const ValidationAppointment = ({ route, session, appointmentValidation, isLoadin
                   fontWeight={700}
                   color={colors.black}
                   style={styles.title}>
-                  Informations à compléter
+                  INFORMATIONS A COMPLETER
                 </CustomText>
               </View>
 
@@ -175,11 +204,20 @@ const ValidationAppointment = ({ route, session, appointmentValidation, isLoadin
                     <FloatingLabelInput
                       key={index}
                       label={input?.label}
-                      value={input?.value}
-                      // onChangeText={(text)=>setValue(text)}
+                      value={
+                        input.name === 'client_birthday' && input.value === '' ? dateOfBirth :
+                          input.name === 'client_nir' && input.value === '' ? securityNumber :
+                            input.name === 'note' && input.value === '' ? reasonForAppointment :
+                              input.value
+                      }
+                      onChangeText={
+                        input.name === 'client_birthday' ? handleDateChange :
+                          input.name === 'client_nir' ? handleSecurityNumberChange :
+                            handleReasonForAppointmentChange
+                      }
                       placeholderTextColor="gray"
                       maxLength={input.name === 'note' ? 40 : 10}
-                      keyboardType="numeric"
+                      keyboardType={input.name === 'note' ? 'default' : 'numeric'}
                       numberOfLines={input.name === 'note' ? 6 : 'single'}
                       multiline={input.name === 'note' ? true : false}
                       showCrossIcon
@@ -189,10 +227,29 @@ const ValidationAppointment = ({ route, session, appointmentValidation, isLoadin
             </View>
           </SafeAreaView>
 
-          {/* <ValidationPaymentForm /> */}
-          <ValidationNoticeRDV
-            container={appointmentValidation?.messageglobalinternet}
-          />
+          {appointmentValidation?.payment !== '' && (
+            <ValidationPaymentForm />
+          )}
+
+          {appointmentValidation?.payment !== '' && (
+            <ValidationNoticeRDV
+              container={`${appointmentValidation?.payment?.amountlabel}: ${appointmentValidation?.payment?.amount}`}
+              fontWeight='bold'
+            />
+          )}
+
+          <View style={{ marginVertical: 12 }}>
+            <ValidationNoticeRDV
+              container={appointmentValidation?.messageglobalinternet}
+            />
+          </View>
+
+          {appointmentValidation?.payment !== '' && (
+            <ValidationNoticeRDV
+              container={appointmentValidation?.payment?.infos}
+            />
+          )}
+
           <View style={{ width: '100%', marginVertical: 10 }}>
             <CustomAppButton
               onPress={() => handleConfirmationAppointment(appointmentValidation.apptbuttonvalidation.onclick_week, appointmentValidation.apptbuttonvalidation.onclick_data, appointmentValidation.apptbuttonvalidation.onclick_action)}
