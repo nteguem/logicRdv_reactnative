@@ -105,7 +105,7 @@ const ValidationAppointment = ({ route, session, appointmentValidation, isLoadin
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
-console.log('appointmentValidation:::', appointmentValidation?.payment)
+console.log('appointmentValidation:::', appointmentValidation)
   const handleDateChange = text => {
     // Supprimer tout sauf les chiffres et le caractère "/"
     const formattedText = text.replace(/[^\d/]/g, '');

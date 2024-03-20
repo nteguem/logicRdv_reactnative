@@ -13,7 +13,7 @@ import { createAppointmentRequest, listAppointmentsRequest, paiementApptRequest 
 const Appointments = ({ list, isLoading }) => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
-console.log(list)
+// console.log(list)
     useEffect(() => {
         dispatch(listAppointmentsRequest({ "id": 1 }));
     }, []);
@@ -22,10 +22,11 @@ console.log(list)
         navigation.navigate('Fixez rendez-vous');
     };
 
-    const handleNewAppt = async () => {
-        const tokenappointment = "SMGjf076sX0fTKGH78YwT0X1OtC00hD910plL01eABDt42WWdNvWH8RqgOiu";
+    const handleNewAppt = async (item) => {
+        console.log('item::', item)
+        const tokenappointment = item?.cabinet?.token;
         await dispatch(createAppointmentRequest(tokenappointment, '', '', '', ''));
-        navigation.navigate('Motif du Rendez-vous', { tokenappointment, item });
+        navigation.navigate('Motif du Rendez-vous', { tokenappointment });
     }
 
     const handleApptType = async (item) => {
@@ -96,7 +97,7 @@ console.log(list)
                                 }
                                 isDisplay
                                 handleApptType={() => handleApptType(item)}
-                                handleNewAppt={handleNewAppt}
+                                handleNewAppt={() => handleNewAppt(item)}
                             />
                         ))}
                     </>

@@ -11,7 +11,7 @@ const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, appointmen
   const { tokenappointment } = route.params;
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
+  
   const handleBackToHome = () => {
     navigation.navigate('Mes rendez-vous');
   };
