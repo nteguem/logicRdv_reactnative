@@ -14,7 +14,7 @@ const Motifs = ({ route, isLoadingAppointment, motifRendezVous, session }) => {
   const dispatch = useDispatch();
   // console.log('===================',motifRendezVous)
   const handleMotif = async(motif) => {
-    await dispatch(createAppointmentRequest('', tokenappointment, motif?.onclick_week, motif?.onclick_data, motif?.onclick_action, session));
+    await dispatch(createAppointmentRequest(tokenappointment, motif?.onclick_week, motif?.onclick_data, motif?.onclick_action, session));
     navigation.navigate('Jour et Heure du Rdv', {motif: motif, tokenappointment: tokenappointment });
   };
 
@@ -38,6 +38,7 @@ const mapStateToProps = (state) => ({
   motifRendezVous: state.AppointmentReducer?.motifRendezVous,
   session: state.AppointmentReducer?.session,
   isLoadingAppointment: state.AppointmentReducer?.isLoading,
+  dataCreneaux: state.AppointmentReducer.dataCreneaux
 });
 
 export default connect(mapStateToProps)(Motifs);

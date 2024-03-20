@@ -36,7 +36,7 @@ const AuthenticatedNavigator = () => {
       <Stack.Screen name="Jour et Heure du Rdv" options={pageOption} component={AppointmentPlanification} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />
       <Stack.Screen name="Confirmation rdv" options={pageOption} component={AppointmentConfirmation} />
       <Stack.Screen name="Valider le Rendez-vous" options={pageOption} component={ValidationAppointment} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />
-      <Stack.Screen name="Paiement" options={pageOption} component={Paiement} initialParams={{ left: HeaderIcons.GO_BACK }} />
+      <Stack.Screen name="Paiement" options={pageOption} component={Paiement} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />
       <Stack.Screen name="Message" options={pageOption} component={Message} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />
       <Stack.Screen name="Gestion des patients" options={pageOption} component={PatientManagement} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />
       <Stack.Screen name="Liste des patients" options={pageOption} component={ListOfPatients} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />

@@ -17,8 +17,7 @@ const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, appointmen
   };
 
   const handleBackToAppointment = async (week, data, action) => {
-    const tokenuser = 'SyL6yfPf5EDRiGSFZqLNEOEPUL6Q1e0Cbuu2Jy6iag4fACPjJVKnV0802014';
-    await dispatch(createAppointmentRequest(tokenuser, tokenappointment, week, data, action, session));
+    await dispatch(createAppointmentRequest(tokenappointment, week, data, action, session));
     navigation.navigate('Motif du Rendez-vous', { tokenappointment });
   };
 

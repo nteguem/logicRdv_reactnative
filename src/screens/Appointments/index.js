@@ -8,12 +8,12 @@ import dataAppointment from '../data/dataAppointment'
 import { useDispatch, connect } from 'react-redux';
 import CustomText from '../../components/global/CustomText'
 import { useNavigation } from '@react-navigation/native';
-import { createAppointmentRequest, listAppointmentsRequest } from '../../redux/appointment/actions'
+import { createAppointmentRequest, listAppointmentsRequest, paiementApptRequest } from '../../redux/appointment/actions'
 
 const Appointments = ({ list, isLoading }) => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
-
+console.log(list)
     useEffect(() => {
         dispatch(listAppointmentsRequest({ "id": 1 }));
     }, []);
@@ -23,10 +23,15 @@ const Appointments = ({ list, isLoading }) => {
     };
 
     const handleNewAppt = async () => {
-        const tokenuser = 'SyL6yfPf5EDRiGSFZqLNEOEPUL6Q1e0Cbuu2Jy6iag4fACPjJVKnV0802014';
         const tokenappointment = "SMGjf076sX0fTKGH78YwT0X1OtC00hD910plL01eABDt42WWdNvWH8RqgOiu";
-        await dispatch(createAppointmentRequest(tokenuser, tokenappointment, '', '', '', ''));
-        navigation.navigate('Motif du Rendez-vous', { tokenappointment });
+        await dispatch(createAppointmentRequest(tokenappointment, '', '', '', ''));
+        navigation.navigate('Motif du Rendez-vous', { tokenappointment, item });
+    }
+
+    const handleApptType = async (item) => {
+        const tokentelecons = item?.appointment?.tokentelecons
+        await dispatch(paiementApptRequest(tokentelecons));
+        navigation.navigate('Paiement', { tokentelecons });
     }
 
     return (
@@ -56,40 +61,41 @@ const Appointments = ({ list, isLoading }) => {
                         {list?.list?.map((item, index) => (
                             <AppointmentDetails
                                 key={index}
-                                date={item.appointment.date}
-                                time={item.appointment.time}
-                                doctor={item.appointment.with}
-                                appointmentType={item.appointment.label}
-                                patientName={item.patient.nom}
-                                patientPhone={item.patient.phone}
-                                patientEmail={item.patient.email}
-                                addressName={item.cabinet.nom}
-                                addressLine1={item.cabinet.city}
-                                addressLine2={item.cabinet.address}
-                                addressPhone={item.cabinet.phone}
+                                date={item?.appointment?.date}
+                                time={item?.appointment?.time}
+                                doctor={item?.appointment?.with}
+                                appointmentType={item?.appointment?.label}
+                                patientName={item?.patient?.nom}
+                                patientPhone={item?.patient?.phone}
+                                patientEmail={item?.patient?.email}
+                                addressName={item?.cabinet?.nom}
+                                addressLine1={item?.cabinet?.city}
+                                addressLine2={item?.cabinet?.address}
+                                addressPhone={item?.cabinet?.phone}
                                 buttonlabeltelecons={
-                                    item.appointment.past === '0' ? item.appointment.buttonlabeltelecons : ''
+                                    item?.appointment?.past === '0' ? item?.appointment?.buttonlabeltelecons : ''
                                 }
-                                buttonTitle={item.appointment.buttonlabeltelecons !== '' ? item.appointment.buttonlabeltelecons : ''}
+                                buttonTitle={item?.appointment?.buttonlabeltelecons !== '' ? item?.appointment?.buttonlabeltelecons : ''}
                                 buttonBorderColor={
-                                    (item.appointment.past === '0' && item.appointment.status !== 'cancel') ||
-                                        (item.appointment.past !== '1' && item.appointment.status === 'cancel') ? colors.red :
-                                        item.appointment.past === '0' && item.appointment.status === 'cancel' ? colors.gray :
-                                            item.appointment.past === '1' ? 'transparent' : ''
+                                    (item?.appointment?.past === '0' && item?.appointment?.status !== 'cancel') ||
+                                        (item?.appointment?.past !== '1' && item?.appointment?.status === 'cancel') ? colors.red :
+                                        item?.appointment?.past === '0' && item?.appointment?.status === 'cancel' ? colors.gray :
+                                            item?.appointment?.past === '1' ? 'transparent' : ''
                                 }
                                 buttonTextColor={
-                                    (item.appointment.past === '0' && item.appointment.status !== 'cancel') ||
-                                        (item.appointment.past !== '1' && item.appointment.status === 'cancel') ? colors.red :
-                                        item.appointment.past === '0' && item.appointment.status === 'cancel' ? colors.gray : ''
+                                    (item?.appointment?.past === '0' && item?.appointment?.status !== 'cancel') ||
+                                        (item?.appointment?.past !== '1' && item?.appointment?.status === 'cancel') ? colors.red :
+                                        item?.appointment?.past === '0' && item?.appointment?.status === 'cancel' ? colors.gray : ''
                                 }
-                                cancelButton={item.appointment.past === '1' ? 'Annulé' : 'Annuler'}
-                                display={item.appointment.past === '1' && item.appointment.status === '' ? 'none' : 'flex'}
+                                cancelButton={item?.appointment?.past === '1' ? 'Annulé' : 'Annuler'}
+                                display={item?.appointment?.past === '1' && item?.appointment?.status === '' ? 'none' : 'flex'}
                                 firstCompartmentBackgroundColor={
-                                    item.appointment.past === '0' && item.appointment.status !== 'cancel' ? colors.blue :
-                                        item.appointment.past === '0' && item.appointment.status === 'cancel' ? colors.gray :
-                                            item.appointment.past === '1' ? colors.gray : ''
+                                    item?.appointment?.past === '0' && item?.appointment?.status !== 'cancel' ? colors.blue :
+                                        item?.appointment?.past === '0' && item?.appointment?.status === 'cancel' ? colors.gray :
+                                            item?.appointment?.past === '1' ? colors.gray : ''
                                 }
                                 isDisplay
+                                handleApptType={() => handleApptType(item)}
                                 handleNewAppt={handleNewAppt}
                             />
                         ))}
