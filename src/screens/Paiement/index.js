@@ -21,6 +21,7 @@ const Paiement = (
     const { tokentelecons } = route.params;
     const dispatch = useDispatch();
     const navigation = useNavigation();
+    console.log('paiement =>', paiement)
     useEffect(() => {
         dispatch(paiementApptRequest(tokentelecons));
     }, []);
