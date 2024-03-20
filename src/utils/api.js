@@ -28,7 +28,7 @@ export const request = async (method, url, data, headers = {}) => {
         message: 'Erreur',
         description: `Erreur  : ${description}`,
         type: 'danger',
-        duration: 5000,
+        duration: 3500,
       });
       throw new Error('Erreur lors de la requête: ' + response.status);
     }
@@ -40,7 +40,7 @@ export const request = async (method, url, data, headers = {}) => {
         message: 'Erreur de connexion',
         description: `Veuillez vérifier votre connexion Internet`,
         type: 'danger',
-        duration: 5000,
+        duration: 3500,
       });
     } else {
       throw error;

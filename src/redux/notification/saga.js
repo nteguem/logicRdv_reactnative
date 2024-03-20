@@ -43,7 +43,7 @@ function* manageNotifications({ payload }) {
         message: 'Souscrire aux notifications',
         description: `Pour recevoir des notifications, veuillez activer les notifications dans les paramètres de l'application.`,
         type: 'info',
-        duration: 5000,
+        duration: 3500,
       });
     }
     const successType = response.data.total == 1 ? SUBSCRIBE_NOTIFICATION_SUCCESS : UNSUBSCRIBE_NOTIFICATION_SUCCESS;
@@ -55,7 +55,7 @@ function* manageNotifications({ payload }) {
       message: 'Notifications activées',
       description: `Vous recevrez désormais des notifications.`,
       type: 'success',
-      duration: 5000,
+      duration: 3500,
     });
     }
     else
@@ -66,7 +66,7 @@ function* manageNotifications({ payload }) {
         message: 'Notifications désactivées',
         description: `Vous ne recevrez plus de notifications.`,
         type: 'info',
-        duration: 5000,
+        duration: 3500,
       });
     }
     yield put({ type: successType, payload: response.data });

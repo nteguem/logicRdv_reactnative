@@ -24,8 +24,7 @@ function* list({ payload }) {
     const userData = yield getUserData();
     const body = { "tokenuser": userData.tokenuser, "page": payload.data.id }
     const response = yield call(sendRequest, 'POST', endpoint, body);
-    console.log("response appointment", response)
-    yield put({ type: LIST_APPOINTMENT_SUCCESS, payload: response.data.list });
+    yield put({ type: LIST_APPOINTMENT_SUCCESS, payload: response.data });
   } catch (error) {
     console.error('error', error);
     yield put({ type: LIST_APPOINTMENT_FAILURE, payload: error });
