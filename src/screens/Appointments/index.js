@@ -25,8 +25,8 @@ console.log(list)
     const handleNewAppt = async () => {
         const tokenappointment = "SMGjf076sX0fTKGH78YwT0X1OtC00hD910plL01eABDt42WWdNvWH8RqgOiu";
         await dispatch(createAppointmentRequest(tokenappointment, '', '', '', ''));
-        navigation.navigate('Motif du Rendez-vous', { tokenappointment, item
-    } });
+        navigation.navigate('Motif du Rendez-vous', { tokenappointment, item });
+    }
 
     const handleApptType = async (item) => {
         const tokentelecons = item?.appointment?.tokentelecons
