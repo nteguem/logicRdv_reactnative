@@ -18,6 +18,7 @@ import ConditionOfUse from '../screens/ConditionOfUse';
 import DoctorDetails from '../screens/DoctorDetails';
 import Notifications from '../screens/Notification';
 import SearchResult from '../screens/Resultat';
+import VideoCall from '../screens/Video_Call';
 
 
 const Stack = createStackNavigator();
@@ -44,6 +45,8 @@ const AuthenticatedNavigator = () => {
       <Stack.Screen name="Modification du profil" options={pageOption} component={EditProfile} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />
       <Stack.Screen name="Notifications" options={pageOption} component={Notifications} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />
       <Stack.Screen name="Conditions Générales d'utilisation" options={pageOption} component={ConditionOfUse} initialParams={{ left: HeaderIcons.GO_BACK }} />
+      <Stack.Screen name="Video Call" options={pageOption} component={VideoCall} initialParams={{ left: HeaderIcons.GO_BACK }} />
+
     </Stack.Navigator>
   );
 };

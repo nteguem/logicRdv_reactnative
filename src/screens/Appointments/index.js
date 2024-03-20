@@ -13,7 +13,6 @@ import { createAppointmentRequest, listAppointmentsRequest, paiementApptRequest 
 const Appointments = ({ list, isLoading }) => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
-// console.log(list)
     useEffect(() => {
         dispatch(listAppointmentsRequest({ "id": 1 }));
     }, []);
@@ -23,7 +22,6 @@ const Appointments = ({ list, isLoading }) => {
     };
 
     const handleNewAppt = async (item) => {
-        console.log('item::', item)
         const tokenappointment = item?.cabinet?.token;
         await dispatch(createAppointmentRequest(tokenappointment, '', '', '', ''));
         navigation.navigate('Motif du Rendez-vous', { tokenappointment });

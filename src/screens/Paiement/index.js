@@ -21,7 +21,11 @@ const Paiement = (
     const { tokentelecons } = route.params;
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    console.log('paiement =>', paiement)
+
+    const handleVideocall = () =>{
+        navigation.navigate("Video Call", {paiement} )
+    }
+
     useEffect(() => {
         dispatch(paiementApptRequest(tokentelecons));
     }, []);
@@ -60,6 +64,7 @@ const Paiement = (
                             iconComponent={paiement?.infos?.buttonstartteleconsdisabled === '1' ? (<MaterialIcons name="credit-card" size={18} color={colors.white} style={{ marginRight: 5 }} />) : (<MaterialIcons name="featured-video" size={18} color={colors.white} style={{ marginRight: 5 }} />)}
                             buttonLabel={paiement?.infos?.buttonstartteleconsdisabled === '1' ? 'Prépaiement' : 'Lancer la Téléconsultation'}
                             isTeleconsultation
+                            handleVideocall={handleVideocall}
                         />
                     </View>
                 </ScrollView>
