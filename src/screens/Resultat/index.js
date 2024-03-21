@@ -39,6 +39,8 @@ const SearchResult = ({ isLoading, isSearch = true }) => {
                 isRightIcons={true}
                 isPhoneIcons={true}
                 isDelete={true}
+                lat={item.lat}
+                lng={item.lng}
                 texte1={`${item.civility} ${item.nom}`}
                 texte2={item.category}
                 texte3={item.address}
@@ -68,6 +70,8 @@ const SearchResult = ({ isLoading, isSearch = true }) => {
           {results.map((result, index) => (
             <Doctor
               key={index}
+              lat={result.lat}
+              lng={result.lng}
               texte1={`${result.civility} ${result.nom}`}
               texte2={result.category}
               texte3={result.address}

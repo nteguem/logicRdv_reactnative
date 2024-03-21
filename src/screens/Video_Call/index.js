@@ -3,6 +3,7 @@ import { SafeAreaView, StyleSheet, ScrollView, View, Text, Dimensions, Button, T
 import { OT, OTSession, OTPublisher, OTSubscriber, OTSubscriberView } from 'opentok-react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
+import { colors } from '../../components/global/colors';
 
 const dimensions = {
   width: Dimensions.get('window').width,
@@ -276,9 +277,10 @@ const VideoCall = ( {route} ) => {
   
             <View style = {styles.chiffrement}>
               <Icon 
+                style={{color:colors.gray500}} 
                 name='lock-outline'
               />
-              <Text> Chiffré de bout en bout</Text>
+              <Text style={{color:colors.gray500}}> Chiffré de bout en bout</Text>
             </View>
             <OTSession
               apiKey={apiKey}
@@ -417,6 +419,7 @@ const styles = StyleSheet.create({
       alignItems:"center",
       flexDirection:"row",
       marginVertical:4,
+      color:colors.gray500
     },
     CallName:{
       justifyContent:"center",
@@ -430,6 +433,7 @@ const styles = StyleSheet.create({
     },
     wait:{
       fontSize:13,
+      color:colors.gray500
     }
   });
 

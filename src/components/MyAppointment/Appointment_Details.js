@@ -48,7 +48,7 @@ import CustomText from '../global/CustomText';
 import { colors } from '../global/colors'
 import CustomAppButton from '../global/CustomAppButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Alert } from 'react-native';
+import { Alert, Linking,} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const AppointmentDetails = (
@@ -77,6 +77,9 @@ const AppointmentDetails = (
     handleApptType
   }) => {
 
+    const handlePhoneCall = () =>{
+      Linking.openURL(`tel:${addressPhone}`)
+    }
   return (
     <View style={styles.card}>
       <View style={[styles.compartment, styles.firstCompartment, { backgroundColor: firstCompartmentBackgroundColor }]}>
@@ -152,7 +155,7 @@ const AppointmentDetails = (
               <View style={styles.detailsContainer}>
                 <CustomText fontSize={12} color={colors.black}>{addressPhone}</CustomText>
                 <View style={[styles.circle, { backgroundColor: colors.blue, marginLeft: 10, }]}>
-                  <Icon name="phone" size={20} color={colors.white} />
+                  <Icon name="phone" size={20} color={colors.white} onPress={handlePhoneCall} />
                 </View>
               </View>
             </View>

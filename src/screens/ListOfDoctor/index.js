@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import { useNavigation } from '@react-navigation/native';
 import Doctor from '../../components/global/Doctor';
@@ -21,7 +21,6 @@ const DoctorListScreen = ({ listDoctor, isLoading, session }) => {
     await dispatch(createAppointmentRequest(tokenappointment, '', '', '', session));
     navigation.navigate('Motif du Rendez-vous', { tokenappointment: tokenappointment });
   };
-
   return (
     <ContainerScreen isLoading={isLoading}>
       {listDoctor.map((doctor, index) => (
@@ -41,6 +40,8 @@ const DoctorListScreen = ({ listDoctor, isLoading, session }) => {
           isDelete
           isAppointment
           isRightIcons
+          lat={doctor.lat}
+          lng={doctor.lng}
         />
       ))}
     </ContainerScreen>
