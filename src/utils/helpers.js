@@ -130,11 +130,10 @@ export const checkTokenValidity = async () => {
     } else if (response.httpstatut === 401) {
       return false;
     } else {
-      throw new Error('Erreur lors de la vérification du token');
+      return false;
     }
   } catch (error) {
-    console.error('Erreur lors de la vérification du token:', error);
-    throw error;
+    return false;
   }
 };
 

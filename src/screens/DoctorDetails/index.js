@@ -27,8 +27,7 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
     };
 
     const handleMotifs = async () => {
-        await dispatch(createAppointmentRequest('', tokenappointment, '', '', '', ''));
-        navigation.navigate('Motif du Rendez-vous', { tokenappointment: tokenappointment });
+        await dispatch(createAppointmentRequest(tokenappointment, '', '', '', ''));
     };
 
     const CustomButtonComponent = (

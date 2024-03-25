@@ -16,6 +16,7 @@ import {
   PAIEMENT_APPOINTMENT_SUCCESS,
   PAIEMENT_APPOINTMENT_FAILURE,
 } from './types';
+import * as RootNavigation from '../../routes/RootNavigation';
 
 
 function* list({ payload }) {
@@ -48,10 +49,20 @@ function* create({ payload }) {
   try {
     const endpoint = 'appointment/create/';
     const userData = yield getUserData();
-    const body = { "tokenuser": userData.tokenuser, ...payload }
+    const body = { "tokenuser": userData?.tokenuser, ...payload }
     const response = yield call(sendRequest, 'POST', endpoint, body);
     yield put({ type: CREATE_APPOINTMENT_SUCCESS, payload: response.data });
+    if(response.data.type === "appttype")
+    {
+    RootNavigation.navigate('Motif du Rendez-vous', { tokenappointment:response.params.tokenappointment });
+    }
+    else if ( response.data.type === "apptcreneaux")
+    {
+      navigation.navigate('Jour et Heure du Rdv', { tokenappointment: response.params.tokenappointment });
+    }
+
   } catch (error) {
+    console.log("error:",error)
     yield put({ type: CREATE_APPOINTMENT_FAILURE, payload: error });
   }
 }
