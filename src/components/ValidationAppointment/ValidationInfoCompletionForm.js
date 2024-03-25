@@ -46,6 +46,7 @@ import {
 import { colors } from '../global/colors';
 import Icon from 'react-native-vector-icons/Entypo';
 import CustomText from '../global/CustomText';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const FloatingLabelInput = ({
   label,
@@ -132,25 +133,43 @@ const ValidationInfoCompletionForm = ({title}) => {
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [securityNumber, setSecurityNumber] = useState('');
   const [reasonForAppointment, setReasonForAppointment] = useState('');
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
-  const handleDateChange = text => {
-    // Supprimer tout sauf les chiffres et le caractère "/"
-    const formattedText = text.replace(/[^\d/]/g, '');
-
-    // Vérifier si la longueur est inférieure à 11 pour correspondre au format "dd/mm/yyyy"
-    if (formattedText.length <= 10) {
-      // Si la longueur est de 2 ou 5, ajoutez automatiquement "/"
-      if (formattedText.length === 2 || formattedText.length === 5) {
-        if (formattedText.charAt(formattedText.length - 1) !== '/') {
-          setDateOfBirth(formattedText + '/');
-        } else {
-          setDateOfBirth(formattedText);
-        }
-      } else {
-        setDateOfBirth(formattedText);
-      }
-    }
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
   };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    console.warn("A date has been picked: ", date);
+    hideDatePicker();
+  };
+
+
+
+  // const handleSelectDate = (date) => {
+  //   // Convertir la date sélectionnée en format de chaîne souhaité et l'affecter à l'état
+  //   const formattedDate = formatDateToString(date);
+  //   setDateOfBirth(formattedDate);
+  //   setIsCalendarVisible(false); // Fermer la modal après avoir sélectionné une date
+  // };
+
+  const formatDateToString = (date) => {
+    const day = date.getDate();
+    const month = date.getMonth() + 1; 
+    const year = date.getFullYear();
+  
+    // Ajoutez un zéro initial si nécessaire pour garantir un format "dd"
+    const formattedDay = day < 10 ? `0${day}` : day;
+    // Ajoutez un zéro initial si nécessaire pour garantir un format "mm"
+    const formattedMonth = month < 10 ? `0${month}` : month;
+  
+    // Format final "dd/mm/yyyy"
+    return `${formattedDay}/${formattedMonth}/${year}`;
+  };  
 
   const clearText = () => {
     setDateOfBirth('');
@@ -174,7 +193,8 @@ const ValidationInfoCompletionForm = ({title}) => {
           <FloatingLabelInput
             label="Date de naissance"
             value={dateOfBirth}
-            onChangeText={handleDateChange}
+            onChangeText={formatDateToString}
+            onFocus={() => showDatePicker} 
             placeholderTextColor="gray"
             maxLength={10}
             keyboardType="numeric"
@@ -198,6 +218,13 @@ const ValidationInfoCompletionForm = ({title}) => {
           />
         </View>
       </View>
+
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+      />
     </SafeAreaView>
   );
 };
