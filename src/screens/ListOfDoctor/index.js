@@ -19,7 +19,6 @@ const DoctorListScreen = ({ listDoctor, isLoading, session }) => {
     console.log('doctor::', doctor)
     const tokenappointment = doctor.appointment.token
     await dispatch(createAppointmentRequest(tokenappointment, '', '', '', session));
-    navigation.navigate('Motif du Rendez-vous', { tokenappointment: tokenappointment });
   };
   return (
     <ContainerScreen isLoading={isLoading}>

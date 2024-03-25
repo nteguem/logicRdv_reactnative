@@ -11,7 +11,6 @@ import { useNavigation } from '@react-navigation/native';
 
 const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, navigationAppointment }) => {
   const { motif, tokenappointment } = route.params;
-console.log(dataCreneaux)
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
