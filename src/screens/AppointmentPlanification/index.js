@@ -11,13 +11,11 @@ import { useNavigation } from '@react-navigation/native';
 
 const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, navigationAppointment }) => {
   const { motif, tokenappointment } = route.params;
-console.log(dataCreneaux)
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const handleButtonWeekPress = async (week, data, action) => {
-    const tokenuser = '';
-    await dispatch(createAppointmentRequest(tokenuser, tokenappointment, week, data, action, session));
+    await dispatch(createAppointmentRequest(tokenappointment, week, data, action, session));
   };
 
   const handleValidation = async (creneau) => {

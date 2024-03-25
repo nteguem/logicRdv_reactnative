@@ -24,7 +24,6 @@ const Appointments = ({ list, isLoading }) => {
     const handleNewAppt = async (item) => {
         const tokenappointment = item?.cabinet?.token;
         await dispatch(createAppointmentRequest(tokenappointment, '', '', '', ''));
-        navigation.navigate('Motif du Rendez-vous', { tokenappointment });
     }
 
     const handleApptType = async (item) => {
