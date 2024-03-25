@@ -27,13 +27,14 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
     };
 
     const handleMotifs = async () => {
+        const tokenappointment = doctorInfos?.appointment?.token
         await dispatch(createAppointmentRequest(tokenappointment, '', '', '', ''));
     };
 
     const CustomButtonComponent = (
         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
             <CustomAppButton
-                onPress={handleMotifs}
+                onPress={() => handleMotifs()}
                 title="PRENDRE UN RENDEZ-VOUS"
                 alignSelf="baseline"
                 paddingVertical={16}
