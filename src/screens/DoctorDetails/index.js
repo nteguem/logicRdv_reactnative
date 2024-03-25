@@ -27,7 +27,7 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
     };
 
     const handleMotifs = async () => {
-        await dispatch(createAppointmentRequest('', tokenappointment, '', '', '', ''));
+        await dispatch(createAppointmentRequest(tokenappointment, '', '', '', ''));
         navigation.navigate('Motif du Rendez-vous', { tokenappointment: tokenappointment });
     };
 
@@ -35,7 +35,7 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
             <CustomAppButton
                 onPress={handleMotifs}
-                title="PRENDRE UN RENDEZ-VOUS RAPIDE"
+                title="PRENDRE UN RENDEZ-VOUS"
                 alignSelf="baseline"
                 paddingVertical={16}
                 paddingHorizontal={20}
