@@ -130,24 +130,33 @@ const FloatingLabelInput = ({
 };
 
 const ValidationInfoCompletionForm = ({title}) => {
-  const [dateOfBirth, setDateOfBirth] = useState('');
   const [securityNumber, setSecurityNumber] = useState('');
   const [reasonForAppointment, setReasonForAppointment] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [thisDate, setThisDate] = useState("");
 
   const showDatePicker = () => {
-    setDatePickerVisibility(true);
+      setDatePickerVisibility(true);
   };
 
   const hideDatePicker = () => {
-    setDatePickerVisibility(false);
+      setDatePickerVisibility(false);
   };
 
   const handleConfirm = (date) => {
-    console.warn("A date has been picked: ", date);
-    hideDatePicker();
+      console.warn("A date has been picked: ", date);
+      setThisDate(formatDateToString(date)); 
+      hideDatePicker();
   };
 
+  const formatDateToString = (date) => {
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+      const formattedDay = day < 10 ? `0${day}` : day;
+      const formattedMonth = month < 10 ? `0${month}` : month;
+      return `${formattedDay}/${formattedMonth}/${year}`;
+  };
 
 
   // const handleSelectDate = (date) => {
@@ -157,24 +166,25 @@ const ValidationInfoCompletionForm = ({title}) => {
   //   setIsCalendarVisible(false); // Fermer la modal après avoir sélectionné une date
   // };
 
-  const formatDateToString = (date) => {
-    const day = date.getDate();
-    const month = date.getMonth() + 1; 
-    const year = date.getFullYear();
+  // const formatDateToString = (date) => {
+  //   const day = date.getDate();
+  //   const month = date.getMonth() + 1; 
+  //   const year = date.getFullYear();
   
-    // Ajoutez un zéro initial si nécessaire pour garantir un format "dd"
-    const formattedDay = day < 10 ? `0${day}` : day;
-    // Ajoutez un zéro initial si nécessaire pour garantir un format "mm"
-    const formattedMonth = month < 10 ? `0${month}` : month;
+  //   // Ajoutez un zéro initial si nécessaire pour garantir un format "dd"
+  //   const formattedDay = day < 10 ? `0${day}` : day;
+  //   // Ajoutez un zéro initial si nécessaire pour garantir un format "mm"
+  //   const formattedMonth = month < 10 ? `0${month}` : month;
   
-    // Format final "dd/mm/yyyy"
-    return `${formattedDay}/${formattedMonth}/${year}`;
-  };  
+  //   // Format final "dd/mm/yyyy"
+  //   return `${formattedDay}/${formattedMonth}/${year}`;
+  // };  
 
   const clearText = () => {
     setDateOfBirth('');
     setSecurityNumber('');
   };
+
 
   return (
     <SafeAreaView>
@@ -192,12 +202,11 @@ const ValidationInfoCompletionForm = ({title}) => {
         <View style={styles.compartment}>
           <FloatingLabelInput
             label="Date de naissance"
-            value={dateOfBirth}
-            onChangeText={formatDateToString}
-            onFocus={() => showDatePicker} 
+            value={thisDate} 
+            onChange={formatDateToString}
+            onFocus={showDatePicker} 
             placeholderTextColor="gray"
             maxLength={10}
-            keyboardType="numeric"
             showCrossIcon
           />
           <FloatingLabelInput
@@ -220,11 +229,21 @@ const ValidationInfoCompletionForm = ({title}) => {
       </View>
 
       <DateTimePickerModal
-        isVisible={isDatePickerVisible}
-        mode="date"
-        onConfirm={handleConfirm}
-        onCancel={hideDatePicker}
-      />
+                isVisible={isDatePickerVisible}
+                mode="date"
+                theme={{
+                    backgroundColor: "blue",
+                    headerTextColor: "white",
+                    headerBackgroundColor: "blue",
+                    accentColor: "white",
+                    textDayFontSize: 18,
+                    textMonthFontSize: 20,
+                    textDayHeaderFontSize: 16,
+                    textDayFontWeight: "bold",
+                }}
+                onConfirm={handleConfirm}
+                onCancel={hideDatePicker}
+            />
     </SafeAreaView>
   );
 };
