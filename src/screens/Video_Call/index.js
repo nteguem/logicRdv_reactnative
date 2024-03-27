@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { OTSession, OTPublisher, OTSubscriber, OTSubscriberView } from 'opentok-react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -9,10 +9,12 @@ import CustomText from '../../components/global/CustomText';
 const VideoCall = ( {route} ) => {
   const navigation = useNavigation();
   const { paiement } = route.params;
+  const titlecall = paiement?.appt?.description
+  const concerner = paiement?.appt?.patient
   const apiKey = paiement?.tokbox?.apiKey;
   const sessionId = paiement?.tokbox?.sessionId;
   const token = paiement?.tokbox?.token;
-  const doctorName = paiement?.etablissement?.nom
+  const doctorName = paiement?.appt?.doctor
   
 
   const [subscriberIds, setSubscriberIds] = useState([]);
@@ -20,7 +22,43 @@ const VideoCall = ( {route} ) => {
   const [localPublishVideo, setLocalPublishVideo] = useState(true);
   const [streamProperties, setStreamProperties] = useState({});
   const [publisherProperties, setPublisherProperties] = useState({ cameraPosition: 'front' });
+  const [callDuration, setCallDuration] = useState(0);
+
+
+  useEffect(() => {
+    let startTime = 0;
+    const interval = setInterval(() => {
+      startTime += 1000; 
+      setCallDuration(Math.floor(startTime / 1000)); 
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
   
+  const removeWordFromString = (inputString, wordToRemove) => {
+    const wordsArray = inputString.split(" ");
+    const filteredArray = wordsArray.filter(word => word !== wordToRemove);
+    const resultString = filteredArray.join(" ");
+  
+    return resultString;
+  };
+
+
+  const renderCallInfo = () => {
+    return (
+      <View style={styles.callInfoContainer}>
+        <Text style={styles.mytitle}>{titlecall} :</Text>
+        <Text style={styles.doctorName}> Entre {removeWordFromString(doctorName , "Avec")} et {removeWordFromString(concerner , "Pour")} </Text>
+        <Text style={styles.callDuration}>{formatCallDuration(callDuration)}</Text>
+      </View>
+    );
+  };
+
+  const formatCallDuration = (durationInSeconds) => {
+    const minutes = Math.floor(durationInSeconds / 60);
+    const seconds = durationInSeconds % 60;
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  };
+
 
   const sessionEventHandlers = {
     streamCreated: (event) => {
@@ -111,20 +149,25 @@ const VideoCall = ( {route} ) => {
     if (subscribers.length > 0) {
       const streamId = subscribers[0]; 
       return (
+        <>
           <OTSubscriberView
             streamId={streamId}
             key={streamId}
             style={{width: '100%', height: '70%', }}
           />
+          <View style={styles.callInfo}>
+            {renderCallInfo()}
+          </View>
+        </>
       );
     } else {
       return (
         <View style={styles.CallName}>
-          <Text style={styles.DR}> {doctorName} </Text>
+          <Text style={styles.DR}> { removeWordFromString (doctorName, "Avec")} </Text>
           <Text style={styles.wait}> En attente de réponse... </Text>
         </View>
       );
-    }
+    } 
   };
   
 
@@ -275,6 +318,28 @@ const styles = StyleSheet.create({
     wait:{
       fontSize:13,
       color:colors.gray500
+    },
+    callInfo:{
+      position: 'absolute',
+      bottom: 90,
+      left: 10,
+      width:"50%",
+    },
+    doctorName: {
+      fontSize: 12,
+      fontWeight: 'bold',
+      color: '#333333',
+      textAlign: "center",
+    },
+    callDuration: {
+      fontSize: 14,
+      color: '#666666',
+      textAlign: "center",
+    },
+    mytitle:{
+      fontSize: 14,
+      color: colors.blue,
+      textAlign: "center"
     }
   });
 
