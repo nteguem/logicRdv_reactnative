@@ -1,19 +1,17 @@
-import React from 'react';
-import {Dimensions, StyleSheet, View, ImageBackground, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, ImageBackground, FlatList, TextInput, Button } from 'react-native';
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import FooterHome from '../../components/Search/FooterHome';
 import Header from '../../components/Search/Header';
 import SearchForm from '../../components/Search/SearchForm';
 import { colors } from '../../components/global/colors';
-import LoginModal from '../../components/Modales/Login';
-import LoginForm from '../../components/LoginComponent/LoginForm';
 
-const Home = () => {   
+const Home = () => {
     return (
-       <>
+        <>
             <ContainerScreen backgroundColor={colors.white}>
                 <ImageBackground source={require('../../assets/images/background.png')} style={styles.backgroundImage}>
-                    <View >
+                    <View>
                         <FlatList
                             contentContainerStyle={styles.scrollViewContent}
                             ListHeaderComponent={() =>
@@ -24,19 +22,14 @@ const Home = () => {
                                 </View>
                             )
                             }
-                        
                         />
-                        
                     </View>
-                    
                 </ImageBackground>
-               
             </ContainerScreen>
             <View style={styles.footerContainer}>
                 <FooterHome />
             </View>
-       </>
-        
+        </>
     );
 };
 
@@ -47,7 +40,7 @@ const styles = StyleSheet.create({
     },
     backgroundImage: {
         flex: 1,
-        position:"relative",
+        position: "relative",
         resizeMode: "cover",
         justifyContent: "center"
     },
@@ -55,11 +48,17 @@ const styles = StyleSheet.create({
         flexGrow: 1,
     },
     footerContainer: {
-       bottom:0,
-       left:0,
-       right:0,
-       width: '100%',
-
+        bottom: 0,
+        left: 0,
+        right: 0,
+        width: '100%',
+    },
+    textInput: {
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 5,
+        padding: 10,
+        marginVertical: 10,
     },
 });
 
