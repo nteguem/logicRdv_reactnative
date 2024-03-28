@@ -95,6 +95,7 @@ const Doctor = ({
                 borderRadius={13}
                 bkgroundColor={colors.blue}
                 textFontSize={12}
+                fontWeight='bold'
               />
             </View>
           )}

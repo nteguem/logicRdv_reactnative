@@ -43,7 +43,7 @@ const Appointments = ({ list, isLoading }) => {
                         paddingVertical={16}
                         paddingHorizontal={20}
                         textColor={colors.white}
-                        textFontSize={10}
+                        textFontSize={12}
                         borderRadius={10}
                         bkgroundColor={colors.blue}
                         fontWeight='bold'

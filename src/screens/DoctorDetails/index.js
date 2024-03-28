@@ -40,10 +40,11 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
                 paddingVertical={16}
                 paddingHorizontal={20}
                 textColor={colors.white}
-                textFontSize={10}
+                textFontSize={12}
                 borderRadius={10}
                 bkgroundColor={colors.blue}
                 width='100%'
+                fontWeight='bold'
             />
         </View>
     );
@@ -77,10 +78,11 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
                         alignSelf="baseline"
                         paddingVertical={16}
                         textColor={colors.white}
-                        textFontSize={10}
+                        textFontSize={12}
                         borderRadius={10}
                         bkgroundColor={colors.blue}
                         width='100%'
+                        fontWeight='bold'
                         isLoading={isLoading}
                     />
                 </View>
