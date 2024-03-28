@@ -51,7 +51,7 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
         </ScrollView>
       </ContainerScreen>
       <View style={styles.container}>
-        <View style={styles.containerButton}>
+        <View style={[styles.containerButton, {justifyContent: navigationAppointment.nextweek && navigationAppointment.prevweek ? 'space-between' : 'flex-end',}]}>
           {navigationAppointment.prevweek &&  (
               <CustomAppButton
                 onPress={() => handleButtonWeekPress(navigationAppointment.prevweek?.onclick_week, navigationAppointment.prevweek?.onclick_data, navigationAppointment.prevweek?.onclick_action)}
@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
   },
   containerButton: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     marginHorizontal: 14
   },
