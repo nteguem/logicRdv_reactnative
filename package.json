@@ -23,6 +23,7 @@
     "@reduxjs/toolkit": "^2.1.0",
     "opentok-react-native": "^2.27.0",
     "react": "18.2.0",
+    "react-codemod": "^5.4.4",
     "react-icons": "^5.0.1",
     "react-native": "0.73.4",
     "react-native-asset": "^2.1.1",
