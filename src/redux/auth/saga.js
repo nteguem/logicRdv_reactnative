@@ -30,7 +30,6 @@ function* login({payload}) {
         type: 'success',
         duration: 3500,
       });
-      yield put(listAppointmentsRequest({"id":1}));
     }     
     yield put({ type: STEP_REQUEST, payload: response.data });
   } catch (error) {

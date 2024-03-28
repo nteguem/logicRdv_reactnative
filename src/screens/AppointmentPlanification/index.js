@@ -10,9 +10,8 @@ import { createAppointmentRequest } from '../../redux/appointment/actions';
 import { useNavigation } from '@react-navigation/native';
 
 const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, navigationAppointment }) => {
-  const { motif, tokenappointment } = route.params;
+  const { title, tokenappointment } = route.params;
   const dispatch = useDispatch();
-  const navigation = useNavigation();
 
   const handleButtonWeekPress = async (week, data, action) => {
     await dispatch(createAppointmentRequest(tokenappointment, week, data, action, session));
@@ -21,7 +20,6 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
   const handleValidation = async (creneau) => {
     const { onclick_week, onclick_data, onclick_action } = creneau;
     await dispatch(createAppointmentRequest(tokenappointment, onclick_week, onclick_data, onclick_action, session));
-    navigation.navigate('Valider le Rendez-vous', { tokenappointment: tokenappointment });
   };
 
   return (
@@ -32,7 +30,7 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
             Date et heure pour:
           </CustomText>
           <CustomText fontSize={12} fontWeight={'bold'} color={colors.blue}>
-            {motif.description}
+            {title}
           </CustomText>
         </View>
         <ScrollView>

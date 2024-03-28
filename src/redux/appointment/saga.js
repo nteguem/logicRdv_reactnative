@@ -1,7 +1,9 @@
 
 import { takeLatest, call, put, select } from 'redux-saga/effects';
 import { sendRequest } from '../../utils/api';
-import { getUserData } from "../../utils/helpers"
+import { getUserData } from "../../utils/helpers";
+import {setModalVisible} from '../app/actions';
+import { loginRequest } from '../auth/actions';
 import {
   LIST_APPOINTMENT_FAILURE,
   LIST_APPOINTMENT_REQUEST,
@@ -17,7 +19,6 @@ import {
   PAIEMENT_APPOINTMENT_FAILURE,
 } from './types';
 import * as RootNavigation from '../../routes/RootNavigation';
-
 
 function* list({ payload }) {
   try {
@@ -49,16 +50,47 @@ function* create({ payload }) {
   try {
     const endpoint = 'appointment/create/';
     const userData = yield getUserData();
-    const body = { "tokenuser": userData?.tokenuser, ...payload }
+    const { optionalParam, ...restPayload } = payload;
+    const body = { "tokenuser": userData?.tokenuser, ...restPayload }
     const response = yield call(sendRequest, 'POST', endpoint, body);
     yield put({ type: CREATE_APPOINTMENT_SUCCESS, payload: response.data });
+    console.log("response",response)
     if(response.data.type === "appttype")
     {
     RootNavigation.navigate('Motif du Rendez-vous', { tokenappointment:response.params.tokenappointment });
     }
     else if ( response.data.type === "apptcreneaux")
+    { 
+      RootNavigation.navigate('Jour et Heure du Rdv', { tokenappointment:response.params.tokenappointment,title:payload.optionalParam });
+    }
+    else if (response.data.type === "apptnothing")
     {
-      navigation.navigate('Jour et Heure du Rdv', { tokenappointment: response.params.tokenappointment });
+      yield put(setModalVisible(true, response.data.headermessage));
+    }
+    else if ( response.data.type === "apptpatients")
+    {
+
+    }
+    else if ( response.data.type === "apptconnect")
+    {
+      yield put(loginRequest("","",""));
+      RootNavigation.navigate('Se connecter', { title:response.data.headermessage});
+      {
+        showMessage({
+          message: 'Se connecter',
+          description: response.data.headermessage,
+          type: 'info',
+          duration: 3500,
+        });
+      }
+    }
+    else if (response.data.type === "apptlocked")
+    {
+      yield put(setModalVisible(true, response.data.headermessage));
+    }
+    else if (response.data.type === "apptconfirm")
+    {
+     
     }
 
   } catch (error) {

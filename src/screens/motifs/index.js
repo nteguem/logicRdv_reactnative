@@ -9,13 +9,9 @@ import { createAppointmentRequest } from '../../redux/appointment/actions';
 
 const Motifs = ({ route, isLoadingAppointment, motifRendezVous, session }) => {
   const { tokenappointment } = route.params;
-
-  const navigation = useNavigation();
   const dispatch = useDispatch();
-  // console.log('===================',motifRendezVous)
   const handleMotif = async(motif) => {
-    await dispatch(createAppointmentRequest(tokenappointment, motif?.onclick_week, motif?.onclick_data, motif?.onclick_action, session));
-    navigation.navigate('Jour et Heure du Rdv', {motif: motif, tokenappointment: tokenappointment });
+    await dispatch(createAppointmentRequest(tokenappointment, motif?.onclick_week, motif?.onclick_data, motif?.onclick_action, session,motif?.description));
   };
 
   return (

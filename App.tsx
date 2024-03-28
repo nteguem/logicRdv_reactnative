@@ -8,7 +8,7 @@ import {ActivityIndicator} from 'react-native';
 import {colors} from './src/components/global/colors';
 import FlashMessage from 'react-native-flash-message';
 import WonderPush from 'react-native-wonderpush';
-
+import CustomModal from './src/components/global/CustomModal';
 const App = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
@@ -50,6 +50,7 @@ const App = () => {
       ) : (
         <>
           <Routes />
+          <CustomModal/>
           <FlashMessage position="top" />
         </>
       )}
