@@ -1,25 +1,20 @@
-import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, ScrollView, View, Text, Dimensions, Button, TouchableOpacity } from 'react-native';
-import { OT, OTSession, OTPublisher, OTSubscriber, OTSubscriberView } from 'opentok-react-native';
+import React, { useState,useEffect } from 'react';
+import { StyleSheet, View, Text } from 'react-native';
+import { OTSession, OTPublisher, OTSubscriber, OTSubscriberView } from 'opentok-react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import { colors } from '../../components/global/colors';
-
-const dimensions = {
-  width: Dimensions.get('window').width,
-  height: Dimensions.get('window').height,
-};
-
-const mainSubscribersResolution = { width: 1280, height: 720 };
-const secondarySubscribersResolution = { width: 352, height: 288 };
+import CustomText from '../../components/global/CustomText';
 
 const VideoCall = ( {route} ) => {
   const navigation = useNavigation();
   const { paiement } = route.params;
+  const titlecall = paiement?.appt?.description
+  const concerner = paiement?.appt?.patient
   const apiKey = paiement?.tokbox?.apiKey;
   const sessionId = paiement?.tokbox?.sessionId;
   const token = paiement?.tokbox?.token;
-  const doctorName = paiement?.etablissement?.nom
+  const doctorName = paiement?.appt?.doctor
   
 
   const [subscriberIds, setSubscriberIds] = useState([]);
@@ -27,9 +22,45 @@ const VideoCall = ( {route} ) => {
   const [localPublishVideo, setLocalPublishVideo] = useState(true);
   const [join, setJoinCall] = useState(false);
   const [streamProperties, setStreamProperties] = useState({});
-  const [mainSubscriberStreamId, setMainSubscriberStreamId] = useState(null);
   const [publisherProperties, setPublisherProperties] = useState({ cameraPosition: 'front' });
+  const [callDuration, setCallDuration] = useState(0);
+
+
+  useEffect(() => {
+    let startTime = 0;
+    const interval = setInterval(() => {
+      startTime += 1000; 
+      setCallDuration(Math.floor(startTime / 1000)); 
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
   
+  const removeWordFromString = (inputString, wordToRemove) => {
+    const wordsArray = inputString.split(" ");
+    const filteredArray = wordsArray.filter(word => word !== wordToRemove);
+    const resultString = filteredArray.join(" ");
+  
+    return resultString;
+  };
+
+
+  const renderCallInfo = () => {
+    return (
+      <View style={styles.callInfoContainer}>
+        <Text style={styles.mytitle}>{titlecall} :</Text>
+        <Text style={styles.doctorName}> Entre {removeWordFromString(doctorName , "Avec")} et {removeWordFromString(concerner , "Pour")} </Text>
+        <Text style={styles.callDuration}>{formatCallDuration(callDuration)}</Text>
+      </View>
+    );
+  };
+
+  const formatCallDuration = (durationInSeconds) => {
+    const minutes = Math.floor(durationInSeconds / 60);
+    const seconds = durationInSeconds % 60;
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  };
+
+
 
   const sessionEventHandlers = {
     streamCreated: (event) => {
@@ -38,6 +69,7 @@ const VideoCall = ( {route} ) => {
         [event.streamId]: {
           subscribeToAudio: true,
           subscribeToVideo: true,
+          preferredResolution: { width: 1280, height: 720 },
         },
       };
       setStreamProperties(newStreamProperties);
@@ -112,189 +144,57 @@ const VideoCall = ( {route} ) => {
   };
 
   const endCall = () => {
-      setJoinCall(false);
       navigation.navigate('Paiement');
   };
 
- 
-
-  const handleSubscriberSelection = (subscribers, streamId) => {
-    console.log('handleSubscriberSelection', streamId);
-    let subscriberToSwap = subscribers.indexOf(streamId);
-    let currentSubscribers = subscribers;
-    let temp = currentSubscribers[subscriberToSwap];
-    currentSubscribers[subscriberToSwap] = currentSubscribers[0];
-    currentSubscribers[0] = temp;
-      const newStreamProps = {...prevstreamProperties};
-      for (let i = 0; i < currentSubscribers.length; i += 1) {
-        if (i === 0) {
-          newStreamProps[currentSubscribers[i]] = {
-            ...prevstreamProperties[currentSubscribers[i]],
-          };
-          newStreamProps[
-            currentSubscribers[i]
-          ].preferredResolution = mainSubscribersResolution;
-        } else {
-          newStreamProps[currentSubscribers[i]] = {
-            ...prevstreamProperties[currentSubscribers[i]],
-          };
-          newStreamProps[
-            currentSubscribers[i]
-          ].preferredResolution = secondarySubscribersResolution;
-        }
-      }
-      console.log('mainSubscriberStreamId', streamId);
-      console.log('streamProperties#2', newStreamProps);
-      return {
-        mainSubscriberStreamId: streamId,
-        streamProperties: newStreamProps,
-      };
-  };
-
-  const handleScrollEnd = (event, subscribers) => {
-    console.log('handleScrollEnd', event.nativeEvent); // event.nativeEvent.contentOffset.x
-    console.log('handleScrollEnd - events', event.target); // event.nativeEvent.contentOffset.x
-    let firstVisibleIndex;
-    if (
-      event &&
-      event.nativeEvent &&
-      !isNaN(event.nativeEvent.contentOffset.x)
-    ) {
-      firstVisibleIndex = parseInt(
-        event.nativeEvent.contentOffset.x / (dimensions.width / 2),
-        10,
-      );
-      console.log('firstVisibleIndex', firstVisibleIndex);
-    }
-      const newStreamProps = {...prevstreamProperties};
-      if (firstVisibleIndex !== undefined && !isNaN(firstVisibleIndex)) {
-        for (let i = 0; i < subscribers.length; i += 1) {
-          if (i === firstVisibleIndex || i === firstVisibleIndex + 1) {
-            newStreamProps[subscribers[i]] = {
-              ...prevstreamProperties[subscribers[i]],
-            };
-            newStreamProps[subscribers[i]].subscribeToVideo = true;
-          } else {
-            newStreamProps[subscribers[i]] = {
-              ...prevstreamProperties[subscribers[i]],
-            };
-            newStreamProps[subscribers[i]].subscribeToVideo = false;
-          }
-        }
-      }
-      return {streamProperties: newStreamProps};
-  };
-
   const renderSubscribers = (subscribers) => {
-    console.log('renderSubscribers', subscribers);
-    console.log('subscriberIds', subscriberIds);
-    console.log(
-      'mainSubscriberStreamId',
-      mainSubscriberStreamId,
-    );
-    if (mainSubscriberStreamId) {
-      subscribers = subscribers.filter(
-        (sub) => sub !== mainSubscriberStreamId,
+    if (subscribers.length > 0) {
+      const streamId = subscribers[0]; 
+      return (
+        <>
+          <OTSubscriberView
+            streamId={streamId}
+            key={streamId}
+            style={{width: '100%', height: '70%', }}
+          />
+          <View style={styles.callInfo}>
+            {renderCallInfo()}
+          </View>
+        </>
       );
-      subscribers.unshift(mainSubscriberStreamId);
-    }
-    console.log('renderSubscribers - sorted', subscribers);
-    return subscribers.length > 1 ? (
-      <>
-        <View style={styles.mainSubscriberStyle}>
-          
-          <TouchableOpacity
-            onPress={() =>
-              handleSubscriberSelection(subscribers, subscribers[0])
-            }
-            key={subscribers[0]}>
-            <OTSubscriberView
-              streamId={subscribers[0]}
-              style={{
-                width: '100%',
-                height: '100%',
-              }}
-            />
-          </TouchableOpacity>
+    } else {
+      return (
+        <View style={styles.CallName}>
+          <Text style={styles.DR}> { removeWordFromString (doctorName, "Avec")} </Text>
+          <Text style={styles.wait}> En attente de réponse... </Text>
         </View>
-
-        <View style={styles.secondarySubscribers}>
-          <ScrollView
-            horizontal={true}
-            decelerationRate={0}
-            snapToInterval={dimensions.width / 2}
-            snapToAlignment={'center'}
-            onScrollEndDrag={(e) =>
-              handleScrollEnd(e, subscribers.slice(1))
-            }
-            style={{
-              width: dimensions.width,
-              height: dimensions.height / 4,
-            }}>
-            {subscribers.slice(1).map((streamId) => (
-              <TouchableOpacity
-                onPress={() =>
-                  handleSubscriberSelection(subscribers, streamId)
-                }
-                style={{
-                  width: dimensions.width / 2,
-                  height: dimensions.height / 4,
-                }}
-                key={streamId}>
-                <OTSubscriberView
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                  }}
-                  key={streamId}
-                  streamId={streamId}
-                />
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
-      </>
-    ) : subscribers.length > 0 ? (
-      <TouchableOpacity style={styles.fullView}>
-        <OTSubscriberView
-          streamId={subscribers[0]}
-          key={subscribers[0]}
-          style={{width: '100%', height: '100%'}}
-        />
-      </TouchableOpacity>
-    ) : (
-      <View style = {styles.CallName}>
-        <Text style={styles.DR}> {doctorName} </Text>
-        <Text style={styles.wait}> En attente de reponse... </Text>
-      </View>
-    );
+      );
+    } 
   };
+  
 
   const videoView = () => {
     return (
         <>
+          <View style={styles.chiffrement}>
+            <Icon
+              style={{ color: colors.gray }}
+              name='lock-outline'
+            />
+            <CustomText fontSize={12} style={{ color: colors.gray }}> Chiffré de bout en bout</CustomText>
+          </View>
           <View style={styles.fullView}>
-  
-            <View style = {styles.chiffrement}>
-              <Icon 
-                style={{color:colors.gray500}} 
-                name='lock-outline'
-              />
-              <Text style={{color:colors.gray500}}> Chiffré de bout en bout</Text>
-            </View>
             <OTSession
               apiKey={apiKey}
               sessionId={sessionId}
               token={token}
-              eventHandlers={sessionEventHandlers}
-              options={{enableStereoOutput: true}}>
+              eventHandlers={sessionEventHandlers}>
               <OTPublisher
                 properties={publisherProperties}
                 eventHandlers={publisherEventHandlers}
                 style={styles.publisherStyle}
               />
               <OTSubscriber
-                style={{height: dimensions.height, width: dimensions.width}}
                 eventHandlers={subscriberEventHandlers}
                 streamProperties={streamProperties}>
                 {renderSubscribers}
@@ -349,7 +249,7 @@ const styles = StyleSheet.create({
       display: 'flex',
       width: '100%',
       position: 'absolute',
-      bottom: 0,
+      bottom: 10,
       left: 0,
       flexDirection: 'row',
       justifyContent: 'center',
@@ -360,31 +260,15 @@ const styles = StyleSheet.create({
     fullView: {
       flex: 1,
     },
-    scrollView: {
-      // backgroundColor: Colors.lighter,
-    },
-    footer: {
-      fontSize: 12,
-      fontWeight: '600',
-      padding: 4,
-      paddingRight: 12,
-      textAlign: 'right',
-    },
     publisherStyle: {
-      width: 100,
-      height: 150,
       position: 'absolute',
+      width: 150,
+      height: 200,
       bottom:70,
       right: 5,
-      zIndex: 5,
   
     },
-    mainSubscriberStyle: {
-      height: (dimensions.height * 3) / 4 - 50,
-    },
-    secondarySubscribers: {
-      height: dimensions.height / 4,
-    },
+   
     circularIconContainer: {
       justifyContent: 'center',
       alignItems: 'center',
@@ -408,18 +292,19 @@ const styles = StyleSheet.create({
       paddingVertical:2,
       color: '#fff',
       fontSize: 30,
-      height:35,
-      width:35,
     },
     chiffrement:{
       position:"absolute",
-      left:"25%",
-      backgroundColor:"transparent",
+      borderRadius:10,
+      top:20,
+      backgroundColor:colors.white,
       justifyContent:"center",
       alignItems:"center",
       flexDirection:"row",
       marginVertical:4,
-      color:colors.gray500
+      color:colors.gray500,
+      height:20,
+      width:"100%"
     },
     CallName:{
       justifyContent:"center",
@@ -434,6 +319,28 @@ const styles = StyleSheet.create({
     wait:{
       fontSize:13,
       color:colors.gray500
+    },
+    callInfo:{
+      position: 'absolute',
+      bottom: 90,
+      left: 10,
+      width:"50%",
+    },
+    doctorName: {
+      fontSize: 12,
+      fontWeight: 'bold',
+      color: '#333333',
+      textAlign: "center",
+    },
+    callDuration: {
+      fontSize: 14,
+      color: '#666666',
+      textAlign: "center",
+    },
+    mytitle:{
+      fontSize: 14,
+      color: colors.blue,
+      textAlign: "center"
     }
   });
 

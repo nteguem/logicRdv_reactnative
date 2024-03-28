@@ -21,7 +21,7 @@ const Paiement = (
     const { tokentelecons } = route.params;
     const dispatch = useDispatch();
     const navigation = useNavigation();
-
+console.log(paiement)
     const handleVideocall = () =>{
         navigation.navigate("Video Call", {paiement} )
     }

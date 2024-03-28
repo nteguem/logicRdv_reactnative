@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react'
 import { Alert, Image, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { colors } from './colors';
@@ -13,6 +11,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import ModalPatient from '../ListOfPatients/Modal';
 import { Linking } from 'react-native';
 import Share from 'react-native-share';
+import SvgUri from 'react-native-svg-uri';
 
 
 const Doctor = ({
@@ -41,36 +40,36 @@ const Doctor = ({
   lng
 }) => {
 
-  const handlePhoneCall = () =>{
+  const handlePhoneCall = () => {
     Linking.openURL(`tel:${texte5}`)
   }
-  
+
 
   const shareOnWhatsApp = async () => {
     try {
       const shareOptions = {
         title: 'Share via',
-        message: texte1 + ":" + texte4 + "," + texte3 + "." + "Position :", 
-        url: 'https://maps.google.com/?q='+lat+","+lng, 
-        social: Share.Social.WHATSAPP 
+        message: texte1 + ":" + texte4 + "," + texte3 + "." + "Position :",
+        url: 'https://maps.google.com/?q=' + lat + "," + lng,
+        social: Share.Social.WHATSAPP
       };
       await Share.open(shareOptions);
     } catch (error) {
       console.error('Error sharing on WhatsApp:', error.message);
     }
   };
-  
+
   const openDoctorLocationInMaps = () => {
     const doctorLatitude = lat;
     const doctorLongitude = lng;
     const doctorLocationLink = `https://www.google.com/maps/dir/?api=1&destination=${doctorLatitude},${doctorLongitude}`;
-  
+
     Linking.openURL(doctorLocationLink).catch(err => console.error('Erreur lors de l\'ouverture de Google Maps :', err));
   };
 
   const openLocationInWaze = () => {
     const wazeUrl = `https://www.waze.com/ul?ll=${lat},${lng}&navigate=yes`;
-  
+
     Linking.openURL(wazeUrl).catch(err => console.error('Erreur lors de l\'ouverture de Waze :', err));
   };
   return (
@@ -160,18 +159,18 @@ const Doctor = ({
             )}
           </View>
 
-          <View style={styles.item}>   
+          <View style={styles.item}>
             {texte5 && (
               <>
                 <CustomText fontSize={11} color={colorContain} fontWeight={'bold'}>
                   {texte5}
                 </CustomText>
                 {
-                  isPhoneIcons && <Icon  style={styles.myicon2} 
-                  name="phone-alt" 
-                  onPress={handlePhoneCall}
-                  color={colors.white} 
-                  size={15} />
+                  isPhoneIcons && <Icon style={styles.myicon2}
+                    name="phone-alt"
+                    onPress={handlePhoneCall}
+                    color={colors.white}
+                    size={15} />
                 }
               </>
             )}
@@ -202,19 +201,31 @@ const Doctor = ({
 
         {isRightIcons && (
           <TouchableOpacity onPress={shareOnWhatsApp}>
-            <Image source={require('../../assets/images/whatsapp.png')} style={{ width: 24, height: 24, objectFit: 'contain' }} />
+            <SvgUri
+              width="24"
+              height="24"
+              source={require('../../assets/images/whatsapp.svg')}
+            />
           </TouchableOpacity>
         )}
 
         {isRightIcons && (
-          <TouchableOpacity onPress={openLocationInWaze} >
-            <Image source={require('../../assets/images/waze.png')} style={{ width: 24, height: 24, objectFit: 'contain' }} />
+          <TouchableOpacity onPress={openLocationInWaze}>
+            <SvgUri
+              width="24"
+              height="24"
+              source={require('../../assets/images/waze.svg')}
+            />
           </TouchableOpacity>
         )}
 
         {isRightIcons && (
           <TouchableOpacity onPress={openDoctorLocationInMaps}>
-            <Image source={require('../../assets/images/google-maps.png')} />
+            <SvgUri
+              width="24"
+              height="24"
+              source={require('../../assets/images/google-maps.svg')}
+            />
           </TouchableOpacity>
         )}
 

@@ -141,7 +141,7 @@ console.log('appointmentValidation:::', appointmentValidation)
   return (
     <ContainerScreen isLoading={isLoadingAppointment}>
       {appointmentValidation?.apptsinprogress?.appts.length > 0 ? (
-        <ScrollView>
+        <ScrollView> 
           <CustomText fontSize={10} color={colors.black} style={{ marginVertical: 12 }}>
             {appointmentValidation?.apptsinprogress.message}
           </CustomText>

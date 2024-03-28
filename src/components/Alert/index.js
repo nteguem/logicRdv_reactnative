@@ -20,14 +20,15 @@
 
 
 import React from 'react';
-import { View, Text, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Dimensions, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import CustomAppButton from '../global/CustomAppButton';
 import Icon from 'react-native-vector-icons/dist/AntDesign';
 
-const CustumAlert = ({ isSuccess, message, button1, button2, color }) => {
+const CustumAlert = ({ isSuccess, message, button1, button2, color, visible, onClose }) => {
   const renderIconName = () => {
     return isSuccess ? 'checkcircleo' : 'closecircleo';
   };
+
   const renderButtons = () => {
     if (!button1 && !button2) return null;
 
@@ -78,54 +79,52 @@ const CustumAlert = ({ isSuccess, message, button1, button2, color }) => {
   };
 
   return (
-    <View style={styles.container}>
-     <View style={styles.innerContainer}>
-        {isSuccess !== undefined && (
-          <Icon style={styles.myicon} name={renderIconName()} size={60} color={isSuccess ? 'green' : 'red'} />
-        )}        
-        <View >
-          <Text style={[styles.message, { color: color }]}>{message}</Text>
-          {renderButtons()}
+    <Modal visible={visible} transparent>
+      <View style={styles.container}>
+        <View style={styles.innerContainer}>
+          {isSuccess !== undefined && (
+            <Icon style={styles.myicon} name={renderIconName()} size={60} color={isSuccess ? 'green' : 'red'} />
+          )}
+          <View>
+            <Text style={[styles.message, { color: color }]}>{message}</Text>
+            {renderButtons()}
+          </View>
         </View>
-     </View>
-    </View>
+      </View>
+    </Modal>
   );
 };
 
 const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    width: width,
-    height: height,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal:20,
-    paddingVertical:10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
   innerContainer: {
-    paddingVertical:10,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)', 
-    margin:20,
+    paddingVertical: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    margin: 20,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  myicon:{
-    margin:10,
+  myicon: {
+    margin: 10,
   },
-
   message: {
-    textAlign:'center',
-    margin:20,
+    textAlign: 'center',
+    margin: 20,
     fontSize: 16,
     marginBottom: 10,
-
   }
 });
 

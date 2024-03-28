@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
+import { colors } from './colors';
 
 const CustomText = ({ children, fontSize, fontWeight, color, style, numberOfLines }) => {
   const passedStyles = Array.isArray(style) ? Object.assign({}, ...style) : style;
@@ -7,8 +8,8 @@ const CustomText = ({ children, fontSize, fontWeight, color, style, numberOfLine
     regularTextStyle: {
       fontSize: fontSize,
       fontWeight: fontWeight,
-      color: color,
-      fontFamily: 'Montserrat-Regular',
+      color: color || colors.black,
+      // fontFamily: 'Montserrat-Regular',
       textAlign: 'left',
     },
   });

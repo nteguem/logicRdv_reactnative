@@ -50,8 +50,7 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
       </ContainerScreen>
       <View style={styles.container}>
         <View style={styles.containerButton}>
-          {navigationAppointment.prevweek && navigationAppointment.prevweek?.onclick_week && (
-            <View style={{ marginLeft: 'auto' }}>
+          {navigationAppointment.prevweek &&  (
               <CustomAppButton
                 onPress={() => handleButtonWeekPress(navigationAppointment.prevweek?.onclick_week, navigationAppointment.prevweek?.onclick_data, navigationAppointment.prevweek?.onclick_action)}
                 title='sem.préc'
@@ -61,10 +60,8 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
                 textFontSize={10}
                 bkgroundColor='transparent'
               />
-            </View>
           )}
-          {navigationAppointment.nextweek && navigationAppointment.nextweek?.onclick_week && (
-            <View style={{ marginLeft: 'auto' }}>
+          {navigationAppointment.nextweek && (
               <CustomAppButton
                 onPress={() => handleButtonWeekPress(navigationAppointment.nextweek?.onclick_week, navigationAppointment.nextweek?.onclick_data, navigationAppointment.nextweek?.onclick_action)}
                 title='sem.suiv'
@@ -74,7 +71,6 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
                 textFontSize={10}
                 bkgroundColor='transparent'
               />
-            </View>
           )}
         </View>
       </View>
