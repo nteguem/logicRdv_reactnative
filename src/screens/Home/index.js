@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, ImageBackground, FlatList, TextInput, Button } from 'react-native';
+import { StyleSheet, View, ImageBackground, FlatList, TextInput, Button, ScrollView } from 'react-native';
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import FooterHome from '../../components/Search/FooterHome';
 import Header from '../../components/Search/Header';
@@ -12,17 +12,12 @@ const Home = () => {
             <ContainerScreen backgroundColor={colors.white}>
                 <ImageBackground source={require('../../assets/images/background.png')} style={styles.backgroundImage}>
                     <View>
-                        <FlatList
-                            contentContainerStyle={styles.scrollViewContent}
-                            ListHeaderComponent={() =>
-                            (
-                                <View>
+                        <ScrollView style={styles.scrollViewContent}>
+                            <View>
                                     <Header isHome />
                                     <SearchForm borderRadius={12} />
-                                </View>
-                            )
-                            }
-                        />
+                            </View>
+                        </ScrollView>
                     </View>
                 </ImageBackground>
             </ContainerScreen>
