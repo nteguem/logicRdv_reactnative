@@ -90,7 +90,17 @@ function* create({ payload }) {
         break;
 
       case "apptconfirm":
-        console.log("apptconfirm");
+        RootNavigation.navigate('Valider le Rendez-vous', { tokenappointment: response.params.tokenappointment });
+        showMessage({
+          message: 'Validation du renndez-vous',
+          description: response.data.headermessage,
+          type: 'info',
+          duration: 3500,
+        });
+        break;
+
+        case "apptvalided":
+        RootNavigation.navigate('Confirmation rdv', { tokenappointment: response.params.tokenappointment });
         break;
 
       default:

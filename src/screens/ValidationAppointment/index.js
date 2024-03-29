@@ -230,7 +230,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
             <ValidationPaymentForm />
           )}
 
-          {data?.payment !== '' && (
+          {data?.payment?.length > 0 && (
             <ValidationNoticeRDV
               container={`${data?.payment?.amountlabel}: ${data?.payment?.amount}`}
               fontWeight='bold'
@@ -243,7 +243,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
             />
           </View>
 
-          {data?.payment !== '' && (
+          {data?.payment?.length > 0 && (
             <ValidationNoticeRDV
               container={data?.payment?.infos}
             />

@@ -14,8 +14,8 @@ const Home = () => {
                     <View>
                         <ScrollView style={styles.scrollViewContent}>
                             <View>
-                                    <Header isHome />
-                                    <SearchForm borderRadius={12} />
+                                <Header isHome />
+                                <SearchForm borderRadius={12} />
                             </View>
                         </ScrollView>
                     </View>
