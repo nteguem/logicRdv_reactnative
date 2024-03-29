@@ -9,7 +9,6 @@ const CustomText = ({ children, fontSize, fontWeight, color, style, numberOfLine
       fontSize: fontSize,
       fontWeight: fontWeight,
       color: color || colors.black,
-      // fontFamily: 'Montserrat-Regular',
       textAlign: 'left',
     },
   });

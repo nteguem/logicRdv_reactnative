@@ -49,9 +49,8 @@ const DateAppointment = ({ route, session, isLoadingAppointment, data, navigatio
         </ScrollView>
       </ContainerScreen>
       <View style={styles.container}>
-        <View style={styles.containerButton}>
-          {navigationAppointment.prevweek && navigationAppointment.prevweek?.onclick_week && (
-            <View style={{ marginLeft: 'auto' }}>
+        <View style={[styles.containerButton, {justifyContent: navigationAppointment.nextweek && navigationAppointment.prevweek ? 'space-between' : 'flex-end',}]}>
+          {navigationAppointment.prevweek &&  (
               <CustomAppButton
                 onPress={() => handleButtonWeekPress(navigationAppointment.prevweek?.onclick_week, navigationAppointment.prevweek?.onclick_data, navigationAppointment.prevweek?.onclick_action)}
                 title='sem.préc'
@@ -93,7 +92,6 @@ const styles = StyleSheet.create({
   },
   containerButton: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     marginHorizontal: 14
   },
