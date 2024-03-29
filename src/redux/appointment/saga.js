@@ -53,49 +53,52 @@ function* create({ payload }) {
     const userData = yield getUserData();
     const { optionalParam, ...restPayload } = payload;
     const body = { "tokenuser": userData?.tokenuser, ...restPayload }
-    console.log("body",body)
+    console.log("body", body)
     const response = yield call(sendRequest, 'POST', endpoint, body);
     yield put({ type: CREATE_APPOINTMENT_SUCCESS, payload: response });
-    console.log("response  :",response)
-    if(response.data.type === "appttype")
-    {
-    RootNavigation.navigate('Motif du Rendez-vous', { tokenappointment:response.params.tokenappointment });
-    }
-    else if ( response.data.type === "apptcreneaux")
-    { 
-      RootNavigation.navigate('Jour et Heure du Rdv', { tokenappointment:response.params.tokenappointment,title:payload.optionalParam });
-    }
-    else if (response.data.type === "apptnothing")
-    {
-      yield put(setModalVisible(true, response.data.headermessage));
-    }
-    else if ( response.data.type === "apptpatients")
-    {
-     console.log("apptpatients")
-    }
-    else if ( response.data.type === "apptconnect")
-    {
-    yield  RootNavigation.navigate('Se connecter',{type:response.data.type });
-      {
+    console.log("response  :", response)
+
+    switch (response.data.type) {
+      case "appttype":
+        RootNavigation.navigate('Motif du Rendez-vous', { tokenappointment: response.params.tokenappointment });
+        break;
+
+      case "apptcreneaux":
+        RootNavigation.navigate('Jour et Heure du Rdv', { tokenappointment: response.params.tokenappointment, title: payload.optionalParam });
+        break;
+
+      case "apptnothing":
+        yield put(setModalVisible(true, response.data.headermessage));
+        break;
+
+      case "apptpatients":
+        console.log("apptpatients");
+        break;
+
+      case "apptconnect":
+        yield RootNavigation.navigate('Se connecter', { type: response.data.type });
         showMessage({
           message: 'Se connecter',
           description: response.data.headermessage,
           type: 'info',
           duration: 3500,
         });
-      }
-    }
-    else if (response.data.type === "apptlocked")
-    {
-      yield put(setModalVisible(true, response.data.headermessage));
-    }
-    else if (response.data.type === "apptconfirm")
-    {
-      console.log("apptconfirm")
+        break;
+
+      case "apptlocked":
+        yield put(setModalVisible(true, response.data.headermessage));
+        break;
+
+      case "apptconfirm":
+        console.log("apptconfirm");
+        break;
+
+      default:
+        break;
     }
 
   } catch (error) {
-    console.log("error:",error)
+    console.log("error:", error)
     yield put({ type: CREATE_APPOINTMENT_FAILURE, payload: error });
   }
 }
