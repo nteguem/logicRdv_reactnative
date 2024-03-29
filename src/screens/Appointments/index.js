@@ -46,7 +46,6 @@ const Appointments = ({ list, isLoading }) => {
                         textFontSize={10}
                         borderRadius={10}
                         bkgroundColor={colors.blue}
-                        fontWeight='bold'
                     />
                 </View>
                 {list?.list?.length === 0 ? (

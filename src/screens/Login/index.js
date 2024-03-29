@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import CustomText from '../../components/global/CustomText'
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch, connect } from 'react-redux';
 import { loginStyles } from './styles';
 import { loginRequest } from '../../redux/auth/actions'
-const Login = ({ session, headerError, headerMessage, inputFields, buttons,isLoading }) => {
+const Login = ({ route,session, headerError, headerMessage, inputFields, buttons,isLoading }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -17,6 +17,11 @@ const Login = ({ session, headerError, headerMessage, inputFields, buttons,isLoa
   const dispatch = useDispatch();
 
   const navigation = useNavigation();
+  const { type } = route.params;
+
+  useEffect(() => {
+    dispatch(loginRequest('','','',type));
+  }, []);
 
   const handleInputChange = (text, type) => {
     switch (type) {
@@ -38,7 +43,7 @@ const Login = ({ session, headerError, headerMessage, inputFields, buttons,isLoa
   }
   const handleButtonPress = (action) => {
     const inputData = password !== '' ? password : code !== '' ? code : email;
-    dispatch(loginRequest(inputData, action, session));
+    dispatch(loginRequest(inputData, action, session,type));
   };
 
   const handleSignUp = () => {

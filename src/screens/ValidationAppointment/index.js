@@ -97,7 +97,7 @@ const FloatingLabelInput = ({
   );
 };
 
-const ValidationAppointment = ({ route, session, appointmentValidation, isLoadingAppointment }) => {
+const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) => {
   const { tokenappointment } = route.params;
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [securityNumber, setSecurityNumber] = useState('');
@@ -105,7 +105,6 @@ const ValidationAppointment = ({ route, session, appointmentValidation, isLoadin
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
-console.log('appointmentValidation:::', appointmentValidation)
   const handleDateChange = text => {
     // Supprimer tout sauf les chiffres et le caractère "/"
     const formattedText = text.replace(/[^\d/]/g, '');
@@ -135,15 +134,15 @@ console.log('appointmentValidation:::', appointmentValidation)
 
   const handleConfirmationAppointment = async (week, data, action) => {
     await dispatch(createAppointmentRequest(tokenappointment, week, data, action, session));
-    navigation.navigate('Confirmation rdv', { tokenappointment: tokenappointment, appointmentValidation });
+    navigation.navigate('Confirmation rdv', { tokenappointment: tokenappointment, data });
   };
 
   return (
     <ContainerScreen isLoading={isLoadingAppointment}>
-      {appointmentValidation?.apptsinprogress?.appts.length > 0 ? (
+      {data?.apptsinprogress?.appts.length > 0 ? (
         <ScrollView> 
           <CustomText fontSize={10} color={colors.black} style={{ marginVertical: 12 }}>
-            {appointmentValidation?.apptsinprogress.message}
+            {data?.apptsinprogress.message}
           </CustomText>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
             <CustomAppButton
@@ -161,7 +160,7 @@ console.log('appointmentValidation:::', appointmentValidation)
               display='none'
             />
           </View>
-          {appointmentValidation?.apptsinprogress?.appts.map((appt, index) => (
+          {data?.apptsinprogress?.appts.map((appt, index) => (
             <AppointmentDetails
               key={index}
               date={appt?.date}
@@ -179,11 +178,11 @@ console.log('appointmentValidation:::', appointmentValidation)
       ) : (
         <ScrollView>
           <ValidationInfoRDV
-            title={appointmentValidation?.messagenbperson}
-            date={appointmentValidation?.appttovalid?.date}
-            doctor={appointmentValidation?.appttovalid?.doctor}
-            place={appointmentValidation?.appttovalid?.description}
-            patient={appointmentValidation?.appttovalid?.patient}
+            title={data?.messagenbperson}
+            date={data?.appttovalid?.date}
+            doctor={data?.appttovalid?.doctor}
+            place={data?.appttovalid?.description}
+            patient={data?.appttovalid?.patient}
           />
 
           <SafeAreaView>
@@ -199,8 +198,8 @@ console.log('appointmentValidation:::', appointmentValidation)
               </View>
 
               <View style={styles.compartment}>
-                {appointmentValidation?.apptinput &&
-                  appointmentValidation?.apptinput.map((input, index) => (
+                {data?.apptinput &&
+                  data?.apptinput.map((input, index) => (
                     <FloatingLabelInput
                       key={index}
                       label={input?.label}
@@ -227,34 +226,34 @@ console.log('appointmentValidation:::', appointmentValidation)
             </View>
           </SafeAreaView>
 
-          {appointmentValidation?.payment !== '' && (
+          {data?.payment !== '' && (
             <ValidationPaymentForm />
           )}
 
-          {appointmentValidation?.payment !== '' && (
+          {data?.payment !== '' && (
             <ValidationNoticeRDV
-              container={`${appointmentValidation?.payment?.amountlabel}: ${appointmentValidation?.payment?.amount}`}
+              container={`${data?.payment?.amountlabel}: ${data?.payment?.amount}`}
               fontWeight='bold'
             />
           )}
 
           <View style={{ marginVertical: 12 }}>
             <ValidationNoticeRDV
-              container={appointmentValidation?.messageglobalinternet}
+              container={data?.messageglobalinternet}
             />
           </View>
 
-          {appointmentValidation?.payment !== '' && (
+          {data?.payment !== '' && (
             <ValidationNoticeRDV
-              container={appointmentValidation?.payment?.infos}
+              container={data?.payment?.infos}
             />
           )}
 
           <View style={{ width: '100%', marginVertical: 10 }}>
             <CustomAppButton
-              onPress={() => handleConfirmationAppointment(appointmentValidation.apptbuttonvalidation.onclick_week, appointmentValidation.apptbuttonvalidation.onclick_data, appointmentValidation.apptbuttonvalidation.onclick_action)}
+              onPress={() => handleConfirmationAppointment(data.apptbuttonvalidation.onclick_week, data.apptbuttonvalidation.onclick_data, data.apptbuttonvalidation.onclick_action)}
               iconComponent={<MaterialIcons name="save" size={18} color={colors.white} style={{ marginRight: 5 }} />}
-              title={appointmentValidation?.apptbuttonvalidation?.label}
+              title={data?.apptbuttonvalidation?.label}
               alignSelf="center"
               paddingVertical={15}
               textColor={colors.white}
@@ -325,7 +324,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  appointmentValidation: state.AppointmentReducer?.appointmentValidation,
+  data: state.AppointmentReducer?.data,
   session: state.AppointmentReducer?.session,
   isLoadingAppointment: state.AppointmentReducer?.isLoading,
 });

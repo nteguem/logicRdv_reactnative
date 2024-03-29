@@ -3,6 +3,7 @@ import { showMessage } from 'react-native-flash-message';
 import { listAppointmentsRequest } from '../appointment/actions';
 import { sendRequest } from '../../utils/api';
 import {loginRequest} from './actions'
+import {createAppointmentRequest} from "../appointment/actions"
 import * as RootNavigation from '../../routes/RootNavigation';
 import {setUserData} from "../../utils/helpers"
 import {
@@ -20,7 +21,9 @@ import {
 
 function* login({payload}) {
   try {
-    const response = yield call(sendRequest, 'POST', 'login/process/', payload);
+    const { optionalParam, ...restPayload } = payload;
+    const { session ,params} = yield select(state => state.AppointmentReducer);
+    const response = yield call(sendRequest, 'POST', 'login/process/', restPayload);
     if (response.data && response.data.user && response.data.user.tokenuser) {
       yield put({ type: LOGIN_SUCCESS, payload: { token: response.data.user.tokenuser } });
       yield setUserData(response.data.user);
@@ -30,6 +33,10 @@ function* login({payload}) {
         type: 'success',
         duration: 3500,
       });
+      if(optionalParam === "apptconnect")
+      {
+         yield put(createAppointmentRequest(params.tokenappointment, params.week, params.data, params.action, session));
+      }
     }     
     yield put({ type: STEP_REQUEST, payload: response.data });
   } catch (error) {

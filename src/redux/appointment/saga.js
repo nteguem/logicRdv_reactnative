@@ -4,6 +4,7 @@ import { sendRequest } from '../../utils/api';
 import { getUserData } from "../../utils/helpers";
 import {setModalVisible} from '../app/actions';
 import { loginRequest } from '../auth/actions';
+import { showMessage } from 'react-native-flash-message';
 import {
   LIST_APPOINTMENT_FAILURE,
   LIST_APPOINTMENT_REQUEST,
@@ -52,9 +53,10 @@ function* create({ payload }) {
     const userData = yield getUserData();
     const { optionalParam, ...restPayload } = payload;
     const body = { "tokenuser": userData?.tokenuser, ...restPayload }
+    console.log("body",body)
     const response = yield call(sendRequest, 'POST', endpoint, body);
-    yield put({ type: CREATE_APPOINTMENT_SUCCESS, payload: response.data });
-    console.log("response",response)
+    yield put({ type: CREATE_APPOINTMENT_SUCCESS, payload: response });
+    console.log("response  :",response)
     if(response.data.type === "appttype")
     {
     RootNavigation.navigate('Motif du Rendez-vous', { tokenappointment:response.params.tokenappointment });
@@ -69,12 +71,11 @@ function* create({ payload }) {
     }
     else if ( response.data.type === "apptpatients")
     {
-
+     console.log("apptpatients")
     }
     else if ( response.data.type === "apptconnect")
     {
-      yield put(loginRequest("","",""));
-      RootNavigation.navigate('Se connecter', { title:response.data.headermessage});
+    yield  RootNavigation.navigate('Se connecter',{type:response.data.type });
       {
         showMessage({
           message: 'Se connecter',
@@ -90,7 +91,7 @@ function* create({ payload }) {
     }
     else if (response.data.type === "apptconfirm")
     {
-     
+      console.log("apptconfirm")
     }
 
   } catch (error) {

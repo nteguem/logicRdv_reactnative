@@ -13,7 +13,6 @@ const FooterHome = () => {
     const dispatch = useDispatch();
 
     const handleSignIn = () => {
-        dispatch(loginRequest('','',''));
         navigation.navigate('Se connecter');
     };
 

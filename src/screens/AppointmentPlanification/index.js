@@ -9,7 +9,7 @@ import { useDispatch, connect } from 'react-redux';
 import { createAppointmentRequest } from '../../redux/appointment/actions';
 import { useNavigation } from '@react-navigation/native';
 
-const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, navigationAppointment }) => {
+const DateAppointment = ({ route, session, isLoadingAppointment, data, navigationAppointment }) => {
   const { title, tokenappointment } = route.params;
   const dispatch = useDispatch();
 
@@ -35,7 +35,7 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
         </View>
         <ScrollView>
           {
-            dataCreneaux.map((item, index) => (
+            data.map((item, index) => (
               <Appointment_Disponibility
                 key={index}
                 label={item?.label}
@@ -50,7 +50,8 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
       </ContainerScreen>
       <View style={styles.container}>
         <View style={styles.containerButton}>
-          {navigationAppointment.prevweek &&  (
+          {navigationAppointment.prevweek && navigationAppointment.prevweek?.onclick_week && (
+            <View style={{ marginLeft: 'auto' }}>
               <CustomAppButton
                 onPress={() => handleButtonWeekPress(navigationAppointment.prevweek?.onclick_week, navigationAppointment.prevweek?.onclick_data, navigationAppointment.prevweek?.onclick_action)}
                 title='sem.préc'
@@ -60,8 +61,10 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
                 textFontSize={10}
                 bkgroundColor='transparent'
               />
+            </View>
           )}
-          {navigationAppointment.nextweek && (
+          {navigationAppointment.nextweek && navigationAppointment.nextweek?.onclick_week && (
+            <View style={{ marginLeft: 'auto' }}>
               <CustomAppButton
                 onPress={() => handleButtonWeekPress(navigationAppointment.nextweek?.onclick_week, navigationAppointment.nextweek?.onclick_data, navigationAppointment.nextweek?.onclick_action)}
                 title='sem.suiv'
@@ -71,6 +74,7 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
                 textFontSize={10}
                 bkgroundColor='transparent'
               />
+            </View>
           )}
         </View>
       </View>
@@ -97,8 +101,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   navigationAppointment: state.AppointmentReducer?.navigation,
-  dataCreneaux: state.AppointmentReducer?.dataCreneaux,
-  appointmentValidation: state.AppointmentReducer?.appointmentValidation,
+  data: state.AppointmentReducer?.data,
   session: state.AppointmentReducer?.session,
   isLoadingAppointment: state.AppointmentReducer?.isLoading,
 });

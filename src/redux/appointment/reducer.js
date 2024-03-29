@@ -6,7 +6,6 @@ import {
   CREATE_APPOINTMENT_REQUEST,
   CREATE_APPOINTMENT_SUCCESS,
   CREATE_APPOINTMENT_FAILURE,
-  STEP_REQUEST,
   LIST_DOCTOR_REQUEST,
   LIST_DOCTOR_SUCCESS,
   LIST_DOCTOR_FAILURE,
@@ -21,14 +20,15 @@ const initialState = {
   listDoctor: [],
   step: 0,
   navigation: [],
-  motifRendezVous: [],
-  dataCreneaux: [],
-  appointmentValidation: [],
-  appointmentValided: [],
-  paiement: [],
+  data: [],
   headerMessage: '',
   type: '',
-  session: ''
+  session: '',
+  error:'',
+  params:{},
+  message:'',
+  paiement: [],
+ 
 };
 
 const AppointmentReducer = (state = initialState, action) => {
@@ -55,82 +55,39 @@ const AppointmentReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
+        navigation: [],
+        data: [],
+        headerMessage: '',
+        error:'',
+        message:'',
+        type:'',
       };
     case CREATE_APPOINTMENT_SUCCESS:
-      if (action.payload.type === 'appttype') {
-        return {
-          ...state,
-          isLoading: false,
-          motifRendezVous: action.payload.data,
-          headerMessage: action.payload.headermessage,
-        };
-      } else if (action.payload.type === 'apptcreneaux') {
-        return {
-          ...state,
-          isLoading: false,
-          navigation: action.payload.navigation,
-          dataCreneaux: action.payload.data,
-          headerMessage: action.payload.headermessage,
-        };
-      } else if (action.payload.type === 'apptconfirm') {
-        return {
-          ...state,
-          isLoading: false,
-          appointmentValidation: action.payload.data,
-          headerMessage: action.payload.headermessage,
-        };
-      } else if (action.payload.type === 'apptvalided') {
-        return {
-          ...state,
-          isLoading: false,
-          navigation: action.payload.navigation,
-          appointmentValided: action.payload.data,
-          headerMessage: action.payload.headermessage,
-        };
-      };
-    case CREATE_APPOINTMENT_FAILURE:
-      if (action.payload.type === 'appttype') {
-        return {
-          ...state,
-          isLoading: false,
-          navigation: action.payload.navigation,
-          motifRendezVous: action.payload.data,
-          headerMessage: action.payload.headermessage,
-        };
-      } else if (action.payload.type === 'apptcreneaux') {
-        return {
-          ...state,
-          isLoading: false,
-          navigation: action.payload.navigation,
-          dataCreneaux: action.payload.data,
-          headerMessage: action.payload.headermessage,
-        };
-      } else if (action.payload.type === 'apptconfirm') {
-        return {
-          ...state,
-          isLoading: false,
-          navigation: action.payload.navigation,
-          appointmentValidation: action.payload.data,
-          headerMessage: action.payload.headermessage,
-        };
-      } else if (action.payload.type === 'apptvalided') {
-        return {
-          ...state,
-          isLoading: false,
-          navigation: action.payload.navigation,
-          appointmentValided: action.payload.data,
-          headerMessage: action.payload.headermessage,
-        };
-      }
-    case STEP_REQUEST:
       return {
         ...state,
-        session: action.payload.session,
-        headerMessage: action.payload.headermessage,
-        type: action.payload.type,
         isLoading: false,
+        navigation: action.payload.data.navigation,
+        data: action.payload.data.data,
+        headerMessage: action.payload.data.headermessage,
+        error:action.payload.error,
+        message:action.payload.message,
+        params:action.payload.params,
+        type:action.payload.data.type,
+        session:action.payload.data.session,
       };
-
+    case CREATE_APPOINTMENT_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        navigation: action.payload.data.navigation,
+        data: action.payload.data.data,
+        headerMessage: action.payload.data.headermessage,
+        error:action.payload.error,
+        message:action.payload.message,
+        params:action.payload.params,
+        type:action.payload.data.type,
+        session:action.payload.data.session,
+      }
     case LIST_DOCTOR_REQUEST:
       return {
         ...state,

@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch, connect } from 'react-redux';
 import { createAppointmentRequest } from '../../redux/appointment/actions';
 
-const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, appointmentValided, navigationAppointment, headerMessage, session }) => {
+const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, data, navigationAppointment, headerMessage, session }) => {
   const { tokenappointment } = route.params;
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -41,8 +41,8 @@ const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, appointmen
             </View >
             <View style={styles.button}>
               <CustomAppButton
-                onPress={() => handleBackToAppointment(appointmentValided[0]?.onclick_week, appointmentValided[0]?.onclick_data, appointmentValided[0]?.onclick_action)}
-                title={appointmentValided[0]?.label}
+                onPress={() => handleBackToAppointment(data[0]?.onclick_week, data[0]?.onclick_data, data[0]?.onclick_action)}
+                title={data[0]?.label}
                 bkgroundColor={colors.blue}
                 textColor={colors.white}
                 paddingHorizontal={35}
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   },
 })
 const mapStateToProps = (state) => ({
-  appointmentValided: state.AppointmentReducer?.appointmentValided,
+  data: state.AppointmentReducer?.data,
   headerMessage: state.AppointmentReducer?.headerMessage,
   navigationAppointment: state.AppointmentReducer?.navigation,
   session: state.AppointmentReducer?.session,
