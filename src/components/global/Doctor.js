@@ -150,9 +150,9 @@ const Doctor = ({
           </View>
 
           <View style={[styles.detailsContainer, { marginBottom: 5 }]}>
-            {isIcon && (
+            {/* {isIcon && (
               <Icon1 name="envelope" size={16} color={colors.blue} marginRight={5} />
-            )}
+            )} */}
             {texte6 && (
               <CustomText fontSize={11} color={colorContain}>
                 {texte6}
