@@ -1,44 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
 import Doctor from '../../components/global/Doctor';
 import { useNavigation } from '@react-navigation/native';
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import { colors } from '../../components/global/colors';
+import { useDispatch, connect } from 'react-redux';
+import { listDoctorRequest } from '../../redux/appointment/actions';
 
-function PatientManagement() {
+function PatientManagement({listDoctor, isLoading}) {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
-  const handleListPatient = () => {
-    navigation.navigate('Liste des patients');
+  useEffect(() => {
+    dispatch(listDoctorRequest());
+  }, []);
+
+  const handleListPatient = (doctor) => {
+    console.log('doctor:::', doctor)
+    const tokenappointment = doctor?.appointment?.token
+    navigation.navigate('Liste des patients', {tokenappointment});
   };
-  const data = [
-    {
-      name: "Dr Formation",
-      Specialisation: 'Generaliste',
-      isDoctorSpecialisationText: 'false',
-      zip: "75020 Paris",
-      address: "41 rue de Paris",
-      phone: '0123453622',
-      isRightIcons: 'false',
-      isButton: 'false',
-      isProfileIcon: 'true',
-      isArrowIcon: "true",
-    },
-  ];
   
   return (
-    <ContainerScreen>
+    <ContainerScreen isLoading={isLoading}>
       <ScrollView>
         {
-          data.map((result, index) => (
+          listDoctor.map((doctor, index) => (
             <View  >
-              <TouchableOpacity onPress={handleListPatient}>
+              <TouchableOpacity onPress={() => handleListPatient(doctor)}>
                 <Doctor
-                  texte2={result.Specialisation}
-                  texte3={result.address}
-                  texte4={result.zip}
-                  texte1={result.name}
-                  texte5={result.phone}
+                key={index}
+                  texte2={doctor.category}
+                  texte3={doctor.address}
+                  texte4={`${doctor.zip} ${doctor.city}`}
+                  texte1={doctor.civility ? `${doctor.civility} ${doctor.nom}` : doctor.nom}
+                  texte5={doctor.tel}
                   colorTitle={colors.yellow}
                   colorContain={colors.blue}
                   fontWeight={'bold'}
@@ -54,5 +50,9 @@ function PatientManagement() {
     </ContainerScreen>
   );
 }
+const mapStateToProps = ({ AppointmentReducer }) => ({
+  listDoctor: AppointmentReducer.listDoctor,
+  isLoading: AppointmentReducer.isLoading,
+});
 
-export default PatientManagement;
+export default connect(mapStateToProps)(PatientManagement);

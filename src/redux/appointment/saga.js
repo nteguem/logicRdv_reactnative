@@ -18,6 +18,9 @@ import {
   PAIEMENT_APPOINTMENT_REQUEST,
   PAIEMENT_APPOINTMENT_SUCCESS,
   PAIEMENT_APPOINTMENT_FAILURE,
+  LIST_PATIENT_SUCCESS,
+  LIST_PATIENT_FAILURE,
+  LIST_PATIENT_REQUEST,
 } from './types';
 import * as RootNavigation from '../../routes/RootNavigation';
 
@@ -44,6 +47,21 @@ function* listDoctor({ payload }) {
   } catch (error) {
     console.error('error', error);
     yield put({ type: LIST_DOCTOR_FAILURE, payload: error });
+  }
+}
+
+function* listPatient({ payload }) {
+  try {
+    const endpoint = 'patients/list/';
+    const { tokenappt } = payload;
+    const userData = yield getUserData();
+    const body = { "tokenuser": userData.tokenuser, "tokenappt": tokenappt }
+    const response = yield call(sendRequest, 'POST', endpoint, body);
+    console.log('liste des patients:::', response)
+    yield put({ type: LIST_PATIENT_SUCCESS, payload: response.data });
+  } catch (error) {
+    console.error('error', error);
+    yield put({ type: LIST_PATIENT_FAILURE, payload: error });
   }
 }
 
@@ -127,6 +145,7 @@ function* paiementAppt({ payload }) {
 function* AppointmentSaga() {
   yield takeLatest(LIST_APPOINTMENT_REQUEST, list);
   yield takeLatest(LIST_DOCTOR_REQUEST, listDoctor);
+  yield takeLatest(LIST_PATIENT_REQUEST, listPatient);
   yield takeLatest(CREATE_APPOINTMENT_REQUEST, create);
   yield takeLatest(PAIEMENT_APPOINTMENT_REQUEST, paiementAppt);
 }

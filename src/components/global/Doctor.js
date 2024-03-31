@@ -116,7 +116,7 @@ const Doctor = ({
         </View>
       </View>
 
-      <View style={{ marginLeft: isAppointment ? -110 : isSearch ? -40 : -10, width: isSearch || isDetail ? '60%' : 'none', marginRight: isSearch ? -60 : 'none' }}>
+      <View style={{ marginLeft: isAppointment ? -110 : isSearch ? -40 : isDetail ? -10 : 10, width: isSearch || isDetail ? '60%' : 'none', marginRight: isSearch ? -60 : 'none' }}>
         <View style={{ marginLeft: isUpdate || isAppointment || isDetail || isSearch ? 0 : -55 }}>
           <CustomText fontSize={15} color={colorTitle} fontWeight={'bold'} style={{ marginBottom: marginBottom }}>
             {texte1}
@@ -150,9 +150,6 @@ const Doctor = ({
           </View>
 
           <View style={[styles.detailsContainer, { marginBottom: 5 }]}>
-            {/* {isIcon && (
-              <Icon1 name="envelope" size={16} color={colors.blue} marginRight={5} />
-            )} */}
             {texte6 && (
               <CustomText fontSize={11} color={colorContain}>
                 {texte6}
@@ -180,7 +177,7 @@ const Doctor = ({
       </View>
 
       {isUpdate && (
-        <View style={styles.divider} />
+        <View style={[styles.divider, {marginRight: 10}]} />
       )}
 
       <View style={[styles.rightColumn, { marginLeft: isUpdate ? -20 : 0 }]}>
@@ -190,7 +187,7 @@ const Doctor = ({
             style={styles.unique}
             name="right"
             color={colors.gray}
-            size={25}
+            size={20}
             onPress={() => Alert.alert('Arrow pressed')}
 
           />

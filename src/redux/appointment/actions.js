@@ -15,6 +15,11 @@ export const listDoctorRequest = (data) => ({
   payload: { data },
 });
 
+export const listPatientRequest = (tokenappt) => ({
+  type: types.LIST_PATIENT_REQUEST,
+  payload: { tokenappt },
+});
+
 export const paiementApptRequest = (tokentelecons) => ({
   type: types.PAIEMENT_APPOINTMENT_REQUEST,
   payload: { tokentelecons },

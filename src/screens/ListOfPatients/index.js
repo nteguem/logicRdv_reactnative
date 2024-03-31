@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import CustomText from '../../components/global/CustomText'
@@ -7,24 +7,53 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ModalPatient from '../../components/ListOfPatients/Modal'
 import Doctor from '../../components/global/Doctor'
+import { useDispatch, connect } from 'react-redux';
+import { listPatientRequest } from '../../redux/appointment/actions'
+import CustomAppButton from '../../components/global/CustomAppButton'
 
-const ListOfPatients = () => {
+const ListOfPatients = ({ route, listPatient, isLoading }) => {
+    const { tokenappointment } = route.params;
+    const dispatch = useDispatch();
+    console.log('listPatient:::', listPatient)
+    useEffect(() => {
+        dispatch(listPatientRequest(tokenappointment));
+    }, [tokenappointment]); 
+
     return (
-        <ContainerScreen>
+        <ContainerScreen isLoading={isLoading}>
             <ScrollView>
-            <Doctor
-                  texte1='Ndeh Wilfried'
-                  texte2='+33 6 58 66 94 53'
-                  texte3='01/01/2000'
-                  texte4='rootndehl@gmail.com'
-                  colorTitle={colors.black}
-                  colorContain={colors.black}
-                  marginBottom={10}
-                  isIcon
-                  isUpdate
-                  isDelete
-                  isProfileIcon
-                />
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                    <CustomAppButton
+                        // onPress={() => handleMotifs()}
+                        title="AJOUTER UN PATIENT"
+                        alignSelf="baseline"
+                        paddingVertical={16}
+                        paddingHorizontal={20}
+                        textColor={colors.white}
+                        textFontSize={12}
+                        borderRadius={10}
+                        bkgroundColor={colors.blue}
+                        width='100%'
+                        fontWeight='bold'
+                    />
+                </View>
+                {listPatient.map((patient, index) => (
+                    <Doctor
+                        key={index}
+                        texte1={`${patient.nom} ${patient.prenom}`}
+                        texte2={patient.phone}
+                        texte3={patient.dob}
+                        texte4={patient.email}
+                        colorTitle={colors.black}
+                        colorContain={colors.black}
+                        marginBottom={10}
+                        isIcon
+                        isUpdate
+                        isDelete
+                        isProfileIcon
+                    />
+                ))}
+
             </ScrollView>
 
         </ContainerScreen>
@@ -86,4 +115,10 @@ const styles = StyleSheet.create({
         height: '100%',
     }
 });
-export default ListOfPatients
+
+const mapStateToProps = ({ AppointmentReducer }) => ({
+    listPatient: AppointmentReducer.listPatient,
+    isLoading: AppointmentReducer.isLoading,
+});
+
+export default connect(mapStateToProps)(ListOfPatients);
