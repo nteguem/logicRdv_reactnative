@@ -46,9 +46,8 @@ const ListOfPatients = ({ route, listPatient, isLoading, session }) => {
                     />
                 </View>
                 {listPatient.map((patient, index) => (
-                    <TouchableOpacity onPress={() => handleAppt(patient)}>
+                    <TouchableOpacity key={index} onPress={() => handleAppt(patient)}>
                     <Doctor
-                        key={index}
                         texte1={`${patient.nom} ${patient.prenom}`}
                         texte2={patient.phone}
                         texte3={patient.dob}
