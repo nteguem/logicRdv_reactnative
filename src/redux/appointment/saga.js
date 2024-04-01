@@ -57,7 +57,6 @@ function* listPatient({ payload }) {
     const userData = yield getUserData();
     const body = { "tokenuser": userData.tokenuser, "tokenappt": tokenappt }
     const response = yield call(sendRequest, 'POST', endpoint, body);
-    console.log('liste des patients:::', response)
     yield put({ type: LIST_PATIENT_SUCCESS, payload: response.data });
   } catch (error) {
     console.error('error', error);
@@ -90,7 +89,7 @@ function* create({ payload }) {
         break;
 
       case "apptpatients":
-        console.log("apptpatients");
+        RootNavigation.navigate('Liste des patients', { tokenappointment: response.params.tokenappointment });
         break;
 
       case "apptconnect":
@@ -105,6 +104,9 @@ function* create({ payload }) {
 
       case "apptlocked":
         yield put(setModalVisible(true, response.data.headermessage));
+        if (response.data.data.lockmessage !== '') {
+          yield put(setModalVisible(true, response.data.data.lockmessage));
+        }
         break;
 
       case "apptconfirm":

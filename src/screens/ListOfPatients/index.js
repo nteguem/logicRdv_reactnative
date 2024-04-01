@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import CustomText from '../../components/global/CustomText'
 import { colors } from '../../components/global/colors'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -8,16 +8,24 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import ModalPatient from '../../components/ListOfPatients/Modal'
 import Doctor from '../../components/global/Doctor'
 import { useDispatch, connect } from 'react-redux';
-import { listPatientRequest } from '../../redux/appointment/actions'
+import { createAppointmentRequest, listPatientRequest } from '../../redux/appointment/actions'
 import CustomAppButton from '../../components/global/CustomAppButton'
 
-const ListOfPatients = ({ route, listPatient, isLoading }) => {
+const ListOfPatients = ({ route, listPatient, isLoading, session }) => {
     const { tokenappointment } = route.params;
     const dispatch = useDispatch();
-    console.log('listPatient:::', listPatient)
+
     useEffect(() => {
         dispatch(listPatientRequest(tokenappointment));
     }, [tokenappointment]); 
+
+    const handleAppt = async (patient) => {
+        console.log(patient)
+        const action = patient?.onclick_action
+        const data = patient?.onclick_data
+        const week = patient?.onclick_week
+        await dispatch(createAppointmentRequest(tokenappointment, week, data, action, session,));
+    }
 
     return (
         <ContainerScreen isLoading={isLoading}>
@@ -38,6 +46,7 @@ const ListOfPatients = ({ route, listPatient, isLoading }) => {
                     />
                 </View>
                 {listPatient.map((patient, index) => (
+                    <TouchableOpacity onPress={() => handleAppt(patient)}>
                     <Doctor
                         key={index}
                         texte1={`${patient.nom} ${patient.prenom}`}
@@ -52,6 +61,7 @@ const ListOfPatients = ({ route, listPatient, isLoading }) => {
                         isDelete
                         isProfileIcon
                     />
+                    </TouchableOpacity>
                 ))}
 
             </ScrollView>
@@ -118,6 +128,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ AppointmentReducer }) => ({
     listPatient: AppointmentReducer.listPatient,
+    session: AppointmentReducer.session,
     isLoading: AppointmentReducer.isLoading,
 });
 
