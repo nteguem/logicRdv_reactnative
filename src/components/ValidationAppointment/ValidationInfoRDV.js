@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: 12,
+    textAlign: 'center'
   },
 });
 
