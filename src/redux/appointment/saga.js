@@ -2,8 +2,9 @@
 import { takeLatest, call, put, select } from 'redux-saga/effects';
 import { sendRequest } from '../../utils/api';
 import { getUserData } from "../../utils/helpers";
-import {setModalVisible} from '../app/actions';
+import { setModalVisible } from '../app/actions';
 import { loginRequest } from '../auth/actions';
+import { createAppointmentRequest } from './actions';
 import { showMessage } from 'react-native-flash-message';
 import {
   LIST_APPOINTMENT_FAILURE,
@@ -50,6 +51,29 @@ function* listDoctor({ payload }) {
   }
 }
 
+function* addDoctor(id, phone, tokenuser) {
+  try {
+    const { session, params, data } = yield select(state => state.AppointmentReducer);
+    const endpoint = 'account/doctoradd/';
+    const body = { "id": id, "phone": phone, "tokenuser": tokenuser };
+    const response = yield call(sendRequest, 'POST', endpoint, body);
+    if(response.httpstatut == 200)
+     {
+      yield put(createAppointmentRequest(params.tokenappointment, data[0].onclick_week, data[0].onclick_data, data[0].onclick_action, session));
+     }
+     else
+     {
+      yield RootNavigation.navigate('Mes rendez-vous');
+      yield put(setModalVisible(true, "Impossible d'ajouter le cabinet médical. Veuillez réessayer plus tard."));
+     }
+  } catch (error) {
+    console.error('error', error);
+    yield RootNavigation.navigate('Mes rendez-vous');
+    yield put(setModalVisible(true, "Impossible d'ajouter le cabinet médical. Veuillez réessayer plus tard."));
+  }
+}
+
+
 function* listPatient({ payload }) {
   try {
     const endpoint = 'patients/list/';
@@ -70,7 +94,6 @@ function* create({ payload }) {
     const userData = yield getUserData();
     const { optionalParam, ...restPayload } = payload;
     const body = { "tokenuser": userData?.tokenuser, ...restPayload }
-    console.log("body", body)
     const response = yield call(sendRequest, 'POST', endpoint, body);
     yield put({ type: CREATE_APPOINTMENT_SUCCESS, payload: response });
     console.log("response  :", response)
@@ -85,6 +108,7 @@ function* create({ payload }) {
         break;
 
       case "apptnothing":
+        yield put(setModalVisible(false, ""));
         yield put(setModalVisible(true, response.data.headermessage));
         break;
 
@@ -103,10 +127,9 @@ function* create({ payload }) {
         break;
 
       case "apptlocked":
+        yield put(setModalVisible(false, ""));
         yield put(setModalVisible(true, response.data.headermessage));
-        if (response.data.data.lockmessage !== '') {
-          yield put(setModalVisible(true, response.data.data.lockmessage));
-        }
+        createAppointmentRequest(response.params.tokenappointment, "", "", "", response.session)
         break;
 
       case "apptconfirm":
@@ -119,10 +142,18 @@ function* create({ payload }) {
         });
         break;
 
-        case "apptvalided":
+      case "apptvalided":
         RootNavigation.navigate('Confirmation rdv', { tokenappointment: response.params.tokenappointment });
         break;
-
+      case "apptdoctoradd":
+        const session = response.data.session;
+        const JsonSession = JSON.parse(session.replace(/\\"/g, '"'));
+        yield put(setModalVisible(true, response.data.headermessage.replace(/\./g, " ") + JsonSession.rdvworkername.replace(/<br>/gi, "")));
+        yield addDoctor(response.data.data[0].id, response.data.data[0].phone, userData?.tokenuser);
+        break;
+      case "apptstripeandautovalide":
+        console.log("apptstripeandautovalide")
+        break;
       default:
         break;
     }
