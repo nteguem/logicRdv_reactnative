@@ -112,7 +112,7 @@ const ModalPatient = ({
                                             />
                                         </View>
                                     </View>
-                                    <View style={[styles.containButton, ]}>
+                                    <View style={[styles.containButton,]}>
                                         <CustomAppButton
                                             onPress={() => setModalVisible(!modalVisible)}
                                             title='Annuler'
@@ -155,16 +155,24 @@ const ModalPatient = ({
                         size={25}
                         color={colors.blue}
                         marginRight={5}
-                        style= {{marginTop: -15}}
+                        style={{ marginTop: -15 }}
                     />
                 ) : (
-                    <MaterialCommunityIcons
-                        onPress={() => setModalVisible(!modalVisible)}
-                        name="plus-circle"
-                        size={40}
-                        color={colors.blue}
-                        marginRight={5}
-                    />
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                        <CustomAppButton
+                            onPress={() => setModalVisible(!modalVisible)}
+                            title="AJOUTER UN PATIENT"
+                            alignSelf="baseline"
+                            paddingVertical={16}
+                            paddingHorizontal={20}
+                            textColor={colors.white}
+                            textFontSize={12}
+                            borderRadius={10}
+                            bkgroundColor={colors.blue}
+                            width='100%'
+                            fontWeight='bold'
+                        />
+                    </View>
                 )}
             </View>
         </View>

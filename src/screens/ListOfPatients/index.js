@@ -30,21 +30,7 @@ const ListOfPatients = ({ route, listPatient, isLoading, session }) => {
     return (
         <ContainerScreen isLoading={isLoading}>
             <ScrollView>
-                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-                    <CustomAppButton
-                        // onPress={() => handleMotifs()}
-                        title="AJOUTER UN PATIENT"
-                        alignSelf="baseline"
-                        paddingVertical={16}
-                        paddingHorizontal={20}
-                        textColor={colors.white}
-                        textFontSize={12}
-                        borderRadius={10}
-                        bkgroundColor={colors.blue}
-                        width='100%'
-                        fontWeight='bold'
-                    />
-                </View>
+                <ModalPatient isEdit={false}/>
                 {listPatient.map((patient, index) => (
                     <TouchableOpacity onPress={() => handleAppt(patient)}>
                     <Doctor
