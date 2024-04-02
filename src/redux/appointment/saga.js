@@ -16,6 +16,10 @@ import {
   LIST_DOCTOR_REQUEST,
   LIST_DOCTOR_SUCCESS,
   LIST_DOCTOR_FAILURE,
+  REMOVE_DOCTOR_REQUEST,
+  REMOVE_DOCTOR_SUCCESS,
+  REMOVE_DOCTOR_FORBIDDEN,
+  REMOVE_DOCTOR_FAILURE,
   PAIEMENT_APPOINTMENT_REQUEST,
   PAIEMENT_APPOINTMENT_SUCCESS,
   PAIEMENT_APPOINTMENT_FAILURE,
@@ -51,21 +55,46 @@ function* listDoctor({ payload }) {
   }
 }
 
+function* deleteDoctor({ payload }) {
+  try {
+    const endpoint = 'account/doctorremove/';
+    const userData = yield getUserData();
+    const body = { "tokenuser": userData.tokenuser, "id": payload.id.id }
+    const response = yield call(sendRequest, 'POST', endpoint, body);
+    console.log(response);
+    if (response.httpstatut == 200) {
+      yield put({ type: REMOVE_DOCTOR_SUCCESS, payload: { message: response.message } });
+      showMessage({
+        message: 'Suppression réussie',
+        description: response.message,
+        type: 'info',
+        duration: 3500,
+      });
+      // yield listDoctor(response.data.activeEtabs);
+    }
+  } catch (error) {
+    console.error('error', error);
+    if (error.response && error.response.httpstatut === 403) {
+      yield put({ type: REMOVE_DOCTOR_FORBIDDEN, payload: { message: response.message } });
+    } else {
+      yield put({ type: REMOVE_DOCTOR_FAILURE, payload: error.message });
+    }
+  }
+}
+
 function* addDoctor(id, phone, tokenuser) {
   try {
     const { session, params, data } = yield select(state => state.AppointmentReducer);
     const endpoint = 'account/doctoradd/';
     const body = { "id": id, "phone": phone, "tokenuser": tokenuser };
     const response = yield call(sendRequest, 'POST', endpoint, body);
-    if(response.httpstatut == 200)
-     {
+    if (response.httpstatut == 200) {
       yield put(createAppointmentRequest(params.tokenappointment, data[0].onclick_week, data[0].onclick_data, data[0].onclick_action, session));
-     }
-     else
-     {
+    }
+    else {
       yield RootNavigation.navigate('Mes rendez-vous');
       yield put(setModalVisible(true, "Impossible d'ajouter le cabinet médical. Veuillez réessayer plus tard."));
-     }
+    }
   } catch (error) {
     console.error('error', error);
     yield RootNavigation.navigate('Mes rendez-vous');
@@ -177,6 +206,7 @@ function* paiementAppt({ payload }) {
 function* AppointmentSaga() {
   yield takeLatest(LIST_APPOINTMENT_REQUEST, list);
   yield takeLatest(LIST_DOCTOR_REQUEST, listDoctor);
+  yield takeLatest(REMOVE_DOCTOR_REQUEST, deleteDoctor);
   yield takeLatest(LIST_PATIENT_REQUEST, listPatient);
   yield takeLatest(CREATE_APPOINTMENT_REQUEST, create);
   yield takeLatest(PAIEMENT_APPOINTMENT_REQUEST, paiementAppt);

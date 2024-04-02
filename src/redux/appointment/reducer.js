@@ -9,6 +9,10 @@ import {
   LIST_DOCTOR_REQUEST,
   LIST_DOCTOR_SUCCESS,
   LIST_DOCTOR_FAILURE,
+  REMOVE_DOCTOR_REQUEST,
+  REMOVE_DOCTOR_SUCCESS,
+  REMOVE_DOCTOR_FAILURE,
+  REMOVE_DOCTOR_FORBIDDEN,
   LIST_PATIENT_REQUEST,
   LIST_PATIENT_SUCCESS,
   LIST_PATIENT_FAILURE,
@@ -21,6 +25,7 @@ const initialState = {
   isLoading: false,
   list: [],
   listDoctor: [],
+  doctorDeletedMessage: '',
   listPatient: [],
   step: 0,
   navigation: [],
@@ -108,6 +113,29 @@ const AppointmentReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         listDoctor: []
+      };
+
+    case REMOVE_DOCTOR_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case REMOVE_DOCTOR_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        doctorDeletedMessage: action.payload.message
+      };
+    case REMOVE_DOCTOR_FORBIDDEN:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload.message
+      };
+    case REMOVE_DOCTOR_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
       };
 
     case LIST_PATIENT_REQUEST:
