@@ -129,13 +129,12 @@ function* create({ payload }) {
       case "apptlocked":
         yield put(setModalVisible(false, ""));
         yield put(setModalVisible(true, response.data.headermessage));
-        createAppointmentRequest(response.params.tokenappointment, "", "", "", response.session)
         break;
 
       case "apptconfirm":
         RootNavigation.navigate('Valider le Rendez-vous', { tokenappointment: response.params.tokenappointment });
         showMessage({
-          message: 'Validation du renndez-vous',
+          message: 'Validation du rendez-vous',
           description: response.data.headermessage,
           type: 'info',
           duration: 3500,

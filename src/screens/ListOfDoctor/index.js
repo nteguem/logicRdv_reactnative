@@ -6,7 +6,7 @@ import { colors } from '../../components/global/colors';
 import { useDispatch, connect } from 'react-redux';
 import { createAppointmentRequest, listDoctorRequest } from '../../redux/appointment/actions';
 
-const DoctorListScreen = ({ listDoctor, isLoading, session }) => {
+const DoctorListScreen = ({ listDoctor, isLoading }) => {
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const DoctorListScreen = ({ listDoctor, isLoading, session }) => {
 
   const handleMotifs = async (doctor) => {
     const tokenappointment = doctor.appointment.token
-    await dispatch(createAppointmentRequest(tokenappointment, '', '', '', session));
+    await dispatch(createAppointmentRequest(tokenappointment, '', '', '', ''));
   };
   return (
     <ContainerScreen isLoading={isLoading}>
@@ -48,7 +48,6 @@ const DoctorListScreen = ({ listDoctor, isLoading, session }) => {
 
 const mapStateToProps = ({ AppointmentReducer }) => ({
   listDoctor: AppointmentReducer.listDoctor,
-  session: AppointmentReducer.session,
   isLoading: AppointmentReducer.isLoading,
 });
 
