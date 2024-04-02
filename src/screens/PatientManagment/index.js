@@ -7,7 +7,7 @@ import { colors } from '../../components/global/colors';
 import { useDispatch, connect } from 'react-redux';
 import { listDoctorRequest } from '../../redux/appointment/actions';
 
-function PatientManagement({listDoctor, isLoading}) {
+function PatientManagement({ listDoctor, isLoading }) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -18,18 +18,18 @@ function PatientManagement({listDoctor, isLoading}) {
   const handleListPatient = (doctor) => {
     console.log('doctor:::', doctor)
     const tokenappointment = doctor?.appointment?.token
-    navigation.navigate('Liste des patients', {tokenappointment});
+    navigation.navigate('Liste des patients', { tokenappointment });
   };
-  
+
   return (
     <ContainerScreen isLoading={isLoading}>
       <ScrollView>
         {
           listDoctor.map((doctor, index) => (
             <View  >
-              <TouchableOpacity onPress={() => handleListPatient(doctor)}>
+              <TouchableOpacity key={index} onPress={() => handleListPatient(doctor)}>
                 <Doctor
-                key={index}
+                  key={index}
                   texte2={doctor.category}
                   texte3={doctor.address}
                   texte4={`${doctor.zip} ${doctor.city}`}
@@ -42,7 +42,7 @@ function PatientManagement({listDoctor, isLoading}) {
                   isProfileIcon
                 />
               </TouchableOpacity>
-              
+
             </View>
           ))
         }

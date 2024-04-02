@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Modal, StyleSheet, View, TextInput, ScrollView } from 'react-native';
 import CustomText from '../global/CustomText';
 import { colors } from '../global/colors';
@@ -7,12 +7,31 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const ModalPatient = ({
     isEdit = false,
+    user
 }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [nom, setNom] = useState('');
     const [prenom, setPrenom] = useState('');
     const [email, setEmail] = useState('');
     const [telephone, setTelephone] = useState('');
+
+    const truncateEmail = (email, maxLength) => {
+        if (email.length > maxLength) {
+          return email.substring(0, maxLength) + '...';
+        }
+        return email;
+      };
+
+      const maxEmailLength = 20;
+
+    useEffect(() => {
+        if (user) {
+          setNom(user.nom || '');
+          setPrenom(user.prenom || '');
+          setEmail(user.email || '');
+          setTelephone(user.phone || '');
+        }
+      }, [user]);
 
     return (
         <View style={styles.centeredView}>
@@ -60,7 +79,7 @@ const ModalPatient = ({
                         <View style={styles.body}>
                             <View style={{ marginHorizontal: 5 }}>
                                 <ScrollView>
-                                    <View style={{ height: '83%', justifyContent: 'center' }}>
+                                    <View style={{ height: '83%', justifyContent: 'center', marginLeft: 15 }}>
                                         <View style={styles.containInput}>
                                             <CustomText fontSize={17} fontWeight='bold' color={colors.gray300}>
                                                 Nom du patient
@@ -158,7 +177,7 @@ const ModalPatient = ({
                         style={{ marginTop: -15 }}
                     />
                 ) : (
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                         <CustomAppButton
                             onPress={() => setModalVisible(!modalVisible)}
                             title="AJOUTER UN PATIENT"
@@ -188,7 +207,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         backgroundColor: 'white',
-        padding: 35,
+        padding: 10,
         shadowColor: colors.black,
         shadowOffset: {
             width: 0,
@@ -197,11 +216,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        height: '76%'
+        height: '76%',
+        width: "90%",
     },
     compartment: {
-        marginTop: -35,
-        marginHorizontal: -35
+        marginTop: -10,
+        marginHorizontal: -10
     },
     body: {
         flexDirection: 'column',
@@ -214,7 +234,7 @@ const styles = StyleSheet.create({
     },
     containButton: {
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
         alignItems: 'center',
         gap: 8,
         marginTop: 14
@@ -226,7 +246,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlignVertical: 'center',
         backgroundColor: colors.white,
-        height: 50
+        height: 50,
     },
     inputProfession: {
         marginVertical: 10,
@@ -246,7 +266,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginVertical: 3,
         textAlignVertical: 'center',
-        // width: "90%"
+        width: "95%"
     },
     modalBackground: {
         position: 'absolute',
