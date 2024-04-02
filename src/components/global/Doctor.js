@@ -17,6 +17,7 @@ import SvgUri from 'react-native-svg-uri';
 const Doctor = ({
   isRightIcons = false,
   isArrowIcon = false,
+  isLock = false,
   isProfileIcon = false,
   isPhoneIcons = false,
   isUpdate = false,
@@ -37,8 +38,10 @@ const Doctor = ({
   fontWeight,
   marginBottom,
   lat,
-  lng
+  lng,
+  user 
 }) => {
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handlePhoneCall = () => {
     Linking.openURL(`tel:${texte5}`)
@@ -75,7 +78,7 @@ const Doctor = ({
   return (
     <View style={styles.Container}>
       {/* les donnee de gauche ie juste l'icon de photo */}
-      <View style={[styles.leftColumn, { marginLeft: isUpdate || isDetail ? 0 : -24, alignItems: isSearch ? 'center' : 'flex-start' }]}>
+      <View style={[styles.leftColumn, { marginLeft: isUpdate || isDetail ? 0 : 0, alignItems: isSearch ? 'center' : 'flex-start' }]}>
         <View style={styles.usericon}>
           {isProfileIcon && (
             <View style={styles.circleUser}>
@@ -116,11 +119,13 @@ const Doctor = ({
         </View>
       </View>
 
-      <View style={{ marginLeft: isAppointment ? -110 : isSearch ? -40 : isDetail ? -10 : 10, width: isSearch || isDetail ? '60%' : 'none', marginRight: isSearch ? -60 : 'none' }}>
-        <View style={{ marginLeft: isUpdate || isAppointment || isDetail || isSearch ? 0 : -55 }}>
+      <View style={{ marginLeft: isAppointment ? 0 : isSearch ? 0 : isDetail ? 0 : 0, marginRight: isSearch ? 0 : 'none', flexWrap: 'wrap', }}>
+        <View style={{ marginLeft: isUpdate || isAppointment || isDetail || isSearch ? 0 : 0 }}>
+          <View style= {{ width: isIcon ? '90%' : 200}}>
           <CustomText fontSize={15} color={colorTitle} fontWeight={'bold'} style={{ marginBottom: marginBottom }}>
             {texte1}
           </CustomText>
+          </View>
 
           <View style={[styles.detailsContainer, { marginBottom: 5 }]}>
             {isIcon && (
@@ -135,9 +140,11 @@ const Doctor = ({
             {isIcon && (
               <MaterialCommunityIcons name="calendar-blank" size={18} color={colors.blue} marginRight={5} />
             )}
+            <View style= {{ width: isSearch ? 200 : 'auto'}}>
             <CustomText fontSize={11} color={colorContain}>
               {texte3}
             </CustomText>
+            </View>
           </View>
 
           <View style={[styles.detailsContainer, { marginBottom: 5 }]}>
@@ -177,7 +184,7 @@ const Doctor = ({
       </View>
 
       {isUpdate && (
-        <View style={[styles.divider, {marginRight: 10}]} />
+        <View style={[styles.divider, { marginRight: 10 }]} />
       )}
 
       <View style={[styles.rightColumn, { marginLeft: isUpdate ? -20 : 0 }]}>
@@ -193,8 +200,18 @@ const Doctor = ({
           />
         )}
 
+        {isLock && (
+          <MaterialCommunityIcons
+            style={[styles.unique, {marginBottom: 16}]}
+            name="account-lock"
+            color={colors.red}
+            size={20}
+
+          />
+        )}
+
         {isUpdate && (
-          <ModalPatient isEdit />
+          <ModalPatient isEdit isVisible={modalVisible} closeModal={() => setModalVisible(false)} user={user}/>
         )}
 
         {isRightIcons && (

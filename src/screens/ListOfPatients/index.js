@@ -10,42 +10,58 @@ import Doctor from '../../components/global/Doctor'
 import { useDispatch, connect } from 'react-redux';
 import { createAppointmentRequest, listPatientRequest } from '../../redux/appointment/actions'
 import CustomAppButton from '../../components/global/CustomAppButton'
+import { setModalVisible } from '../../redux/app/actions'
 
 const ListOfPatients = ({ route, listPatient, isLoading, session }) => {
     const { tokenappointment } = route.params;
     const dispatch = useDispatch();
 
+    const truncateText = (text, maxLength) => {
+        if (text.length <= maxLength) {
+            return text;
+        } else {
+            return text.substring(0, maxLength-1) + '...';
+        }
+    };
+
     useEffect(() => {
         dispatch(listPatientRequest(tokenappointment));
-    }, [tokenappointment]); 
+    }, [tokenappointment]);
 
     const handleAppt = async (patient) => {
         console.log(patient)
-        const action = patient?.onclick_action
-        const data = patient?.onclick_data
-        const week = patient?.onclick_week
-        await dispatch(createAppointmentRequest(tokenappointment, week, data, action, session,));
+        if (patient?.lockmessage !== "") {
+            await dispatch(setModalVisible(true, patient?.lockmessage));
+        } else {
+            // const action = patient?.onclick_action
+            // const data = patient?.onclick_data
+            // const week = patient?.onclick_week
+            // await dispatch(createAppointmentRequest(tokenappointment, "", "", "", session,));
+        }
     }
 
     return (
         <ContainerScreen isLoading={isLoading}>
             <ScrollView>
-                <ModalPatient isEdit={false}/>
+                <ModalPatient isEdit={false} />
                 {listPatient.map((patient, index) => (
                     <TouchableOpacity key={index} onPress={() => handleAppt(patient)}>
-                    <Doctor
-                        texte1={`${patient.nom} ${patient.prenom}`}
-                        texte2={patient.phone}
-                        texte3={patient.dob}
-                        texte4={patient.email}
-                        colorTitle={colors.black}
-                        colorContain={colors.black}
-                        marginBottom={10}
-                        isIcon
-                        isUpdate
-                        isDelete
-                        isProfileIcon
-                    />
+                        <Doctor
+                            key={index}
+                            texte1={`${patient.nom} ${patient.prenom}`}
+                            texte2={patient.phone}
+                            texte3={patient.dob}
+                            texte4={truncateText(patient.email, 25)}
+                            colorTitle={colors.black}
+                            colorContain={colors.black}
+                            marginBottom={10}
+                            isIcon
+                            isLock={patient.lockmessage !== ""}
+                            isUpdate
+                            isDelete
+                            isProfileIcon
+                            user={patient}
+                        />
                     </TouchableOpacity>
                 ))}
 
