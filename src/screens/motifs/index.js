@@ -17,7 +17,7 @@ const Motifs = ({ route, isLoadingAppointment, data, session }) => {
   return (
     <ContainerScreen isLoading={isLoadingAppointment}>
       {
-        data.map((motif, index) => (
+        data?.map((motif, index) => (
           <TouchableOpacity key={index} onPress={() => handleMotif(motif)}>
             <Motif
               labelplace={motif?.labelplace}
