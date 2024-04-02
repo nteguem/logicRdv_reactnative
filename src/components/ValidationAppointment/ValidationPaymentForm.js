@@ -115,6 +115,20 @@ const ValidationPaymentForm = ({pricemessage}) => {
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCVV] = useState('');
 
+  const handleCardNumber = (text) => {
+    // Supprimer tout sauf les chiffres
+    const formattedText = text.replace(/[^\d]/g, '');
+
+    // Diviser la chaîne en blocs de 4 caractères
+    const blocks = formattedText.match(/.{1,4}/g);
+
+    // Rejoindre les blocs avec un espace entre chaque groupe de 4 chiffres
+    const formattedNumber = blocks ? blocks.join(' ') : '';
+
+    // Mettre à jour l'état avec le numéro de carte formaté
+    setCardNumber(formattedNumber);
+  };
+
   const handleExpiryDateChange = text => {
     // Supprimer tout sauf les chiffres et le caractère "/"
     const formattedText = text.replace(/[^\d/]/g, '');
@@ -130,15 +144,15 @@ const ValidationPaymentForm = ({pricemessage}) => {
     }
   };
 
-  const errorMessage = 'Entrer des donnees correcte';
   return (
     <SafeAreaView>
       <View style={styles.compartment}>
         <FloatingLabelInput
           label="Numéro de la carte"
           value={cardNumber}
-          onChangeText={setCardNumber}
+          onChangeText={handleCardNumber}
           placeholderTextColor="gray"
+          keyboardType="numeric"
         />
         <View style={styles.containe}>
           <FloatingLabelInput
