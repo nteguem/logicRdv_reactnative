@@ -8,6 +8,7 @@ import CustomText from '../../components/global/CustomText';
 import { colors } from '../../components/global/colors';
 import CustomAppButton from '../../components/global/CustomAppButton';
 import { createAppointmentRequest } from '../../redux/appointment/actions';
+import { setModalVisible } from '../../redux/app/actions';
 
 const DateAppointment = ({ route, session, isLoadingAppointment, data, navigationAppointment }) => {
   const { title, tokenappointment } = route.params;
@@ -19,9 +20,16 @@ const DateAppointment = ({ route, session, isLoadingAppointment, data, navigatio
   };
 
   const handleValidation = async (creneau) => {
-    const { onclick_week, onclick_data, onclick_action } = creneau;
-    await dispatch(createAppointmentRequest(tokenappointment, onclick_week, onclick_data, onclick_action, session));
-  };
+    if(creneau.onclick_message == "")
+    {
+      const { onclick_week, onclick_data, onclick_action } = creneau;
+      await dispatch(createAppointmentRequest(tokenappointment, onclick_week, onclick_data, onclick_action, session));  
+    }
+    else 
+    {
+      dispatch(setModalVisible(true, creneau.onclick_message))
+    }
+ };
 
   return (
     <View style={styles.container}>

@@ -15,6 +15,7 @@ import CustomText from '../../components/global/CustomText'
 import { createAppointmentRequest } from '../../redux/appointment/actions'
 import AppointmentDetails from '../../components/MyAppointment/Appointment_Details'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { showMessage } from 'react-native-flash-message'
 
 const FloatingLabelInput = ({
   label,
@@ -89,9 +90,7 @@ const FloatingLabelInput = ({
           {...rest}
         />
         {showCrossIcon && value !== '' && (
-          <TouchableOpacity onPress={clearText}>
-            <Icon name="cross" size={24} color={colors.red} style={styles.icon} />
-          </TouchableOpacity>
+          <Icon name="cross" size={24} color={colors.black} style={styles.icon} onPress={clearText} />
         )}
       </View>
     </View>
@@ -159,14 +158,24 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
   };
 
   const handleConfirmationAppointment = async (week, data, action) => {
-    await dispatch(createAppointmentRequest(tokenappointment, week, data, action, session));
-    navigation.navigate('Confirmation rdv', { tokenappointment: tokenappointment, data });
+    // Vérifier si les champs obligatoires sont remplis
+    if (dateOfBirth && securityNumber && reasonForAppointment) {
+      await dispatch(createAppointmentRequest(tokenappointment, week, data, action, session));
+      navigation.navigate('Confirmation rdv', { tokenappointment: tokenappointment, data });
+    } else {
+      showMessage({
+        message: 'Champs manquants',
+        description: 'Veuillez remplir tout les champs de la section INFORMATION A COMPLETER',
+        type: 'info',
+        duration: 3500,
+      });
+    }
   };
 
   return (
     <ContainerScreen isLoading={isLoadingAppointment}>
       {data?.apptsinprogress?.appts.length > 0 ? (
-        <ScrollView> 
+        <ScrollView>
           <CustomText fontSize={10} color={colors.black} style={{ marginVertical: 12 }}>
             {data?.apptsinprogress.message}
           </CustomText>
@@ -230,9 +239,9 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
                       key={index}
                       label={input?.label}
                       value={
-                        input.name === 'client_birthday' && input.value === '' ? thisDate :
-                          input.name === 'client_nir' && input.value === '' ? securityNumber :
-                            input.name === 'note' && input.value === '' ? reasonForAppointment :
+                        input.name === 'client_birthday' ? thisDate :
+                          input.name === 'client_nir' ? securityNumber :
+                            input.name === 'note' ? reasonForAppointment :
                               input.value
                       }
                       onChangeText={
@@ -243,7 +252,8 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
                       onFocus={
                         input.name === 'client_birthday' ? showDatePicker :
                           input.name === 'client_nir' ? handleSecurityNumberChange :
-                            handleReasonForAppointmentChange
+                            input.name === 'note' ? handleReasonForAppointmentChange :
+                              input.name
                       }
                       placeholderTextColor="gray"
                       maxLength={input.name === 'note' ? 40 : 10}
@@ -261,7 +271,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
             <ValidationPaymentForm />
           )}
 
-          {data?.payment?.length > 0 && (
+          {data?.payment?.amountlabel !== '' && (
             <ValidationNoticeRDV
               container={`${data?.payment?.amountlabel}: ${data?.payment?.amount}`}
               fontWeight='bold'
@@ -274,7 +284,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
             />
           </View>
 
-          {data?.payment?.length > 0 && (
+          {data?.payment?.amountlabel !== '' && (
             <ValidationNoticeRDV
               container={data?.payment?.infos}
             />
@@ -357,8 +367,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     marginRight: 10,
     right: 10,
-    top: '10%',
-    transform: [{ translateY: -35 }]
+    top: '20%',
   },
   titleRDV: {
     flexDirection: 'row',

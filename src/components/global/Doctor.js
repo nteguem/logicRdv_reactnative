@@ -37,6 +37,7 @@ const Doctor = ({
   colorContain,
   fontWeight,
   marginBottom,
+  handleDelete,
   lat,
   lng,
   user 
@@ -245,7 +246,7 @@ const Doctor = ({
         )}
 
         {isDelete && (
-          <Icon2 name="delete" color={colors.red} size={25} />
+          <Icon2 name="delete" color={colors.red} size={25} onPress = {handleDelete}/>
         )}
 
 
