@@ -16,7 +16,7 @@ const Motifs = ({ route, isLoadingAppointment, data, session }) => {
 
   return (
     <ContainerScreen isLoading={isLoadingAppointment}>
-      {
+      {data.length > 0 ?
         data?.map((motif, index) => (
           <TouchableOpacity key={index} onPress={() => handleMotif(motif)}>
             <Motif
@@ -26,6 +26,8 @@ const Motifs = ({ route, isLoadingAppointment, data, session }) => {
             />
           </TouchableOpacity>
         ))
+        :
+        <Text>Pas de motifs</Text>
       }
     </ContainerScreen>
   )

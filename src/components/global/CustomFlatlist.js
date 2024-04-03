@@ -90,10 +90,8 @@ const CustomFlatlist = ({
                     onEndReachedThreshold={0.1}
                 /> :
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        {/* <TouchableOpacity onPress={onRefresh} > */}
                         <Image source={require('../../assets/images/favicon.jpg')} style={{ width: 25, height: 25, borderRadius: 5 }} />
                         <CustomText color={colors.blue}>Aucune donnée disponible</CustomText>
-                        {/* </TouchableOpacity> */}
                     </View>
             }
         </>

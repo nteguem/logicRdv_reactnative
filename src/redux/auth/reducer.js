@@ -12,6 +12,7 @@ import {
 
 const initialState = {
   isLoggedIn: false,
+  userData:null,
   isLoading: false,
   step: 0,
   session: '',
@@ -31,7 +32,8 @@ const AuthReducer = (state = initialState, action) => {
     case SET_LOGGED_IN:
       return {
         ...state,
-        isLoggedIn: action.payload,
+        isLoggedIn: action.payload.isLoggedIn,
+        userData: action.payload.dataUser,
       };
     case LOGIN_REQUEST:
       return {
