@@ -3,7 +3,7 @@ import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import Motif from '../../components/Motif/Motif';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, connect } from 'react-redux';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity,Text } from 'react-native';
 import { createAppointmentRequest } from '../../redux/appointment/actions';
 
 
