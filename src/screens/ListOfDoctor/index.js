@@ -103,7 +103,7 @@ const DoctorListScreen = ({ listDoctor, isLoading, doctorDeletedMessage }) => {
             fontWeight={'bold'}
             isPhoneIcons
             isProfileIcon
-            isDelete={listPatient.length > 1}
+            isDelete={listDoctor.length > 1}
             isAppointment
             isRightIcons
             lat={doctor.lat}
