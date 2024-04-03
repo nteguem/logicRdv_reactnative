@@ -15,6 +15,11 @@ export const listDoctorRequest = (data) => ({
   payload: { data },
 });
 
+export const removeDoctorRequest = (id) => ({
+  type: types.REMOVE_DOCTOR_REQUEST,
+  payload: { id },
+});
+
 export const listPatientRequest = (tokenappt) => ({
   type: types.LIST_PATIENT_REQUEST,
   payload: { tokenappt },
