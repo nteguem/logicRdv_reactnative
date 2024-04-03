@@ -24,6 +24,7 @@ const SearchReducer = (state = initialState, action) => {
     case SEARCH_REQUEST:
       return {
         ...state,
+        results:[],
         isLoading: true,
       };
     case SEARCH_SUCCESS:
@@ -43,6 +44,7 @@ const SearchReducer = (state = initialState, action) => {
         return {
           ...state,
           isLoading: true,
+          results:[],
         };
       case RESULT_SUCCESS:
         return {

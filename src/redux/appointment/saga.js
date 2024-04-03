@@ -96,6 +96,7 @@ function* create({ payload }) {
     const body = { "tokenuser": userData?.tokenuser, ...restPayload }
     const response = yield call(sendRequest, 'POST', endpoint, body);
     yield put({ type: CREATE_APPOINTMENT_SUCCESS, payload: response });
+    console.log("body  :::", body)
     console.log("response  :", response)
 
     switch (response.data.type) {
