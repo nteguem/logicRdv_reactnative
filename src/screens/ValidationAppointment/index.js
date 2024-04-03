@@ -140,7 +140,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
       showMessage({
         message: 'Champs manquants',
         description: 'Veuillez remplir tout les champs de la section INFORMATION A COMPLETER',
-        type: 'info',
+        type: 'warning',
         duration: 3500,
       });
     }

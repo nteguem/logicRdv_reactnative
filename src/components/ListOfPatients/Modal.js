@@ -7,31 +7,19 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const ModalPatient = ({
     isEdit = false,
-    user
+    user,
+    nom,
+    prenom,
+    email,
+    telephone,
+    handleNomChange,
+    handlePrenomChange,
+    handleEmailChange,
+    handleTelephoneChange,
+    handleEditPatient,
+    handleAddPatient
 }) => {
     const [modalVisible, setModalVisible] = useState(false);
-    const [nom, setNom] = useState('');
-    const [prenom, setPrenom] = useState('');
-    const [email, setEmail] = useState('');
-    const [telephone, setTelephone] = useState('');
-
-    const truncateEmail = (email, maxLength) => {
-        if (email.length > maxLength) {
-          return email.substring(0, maxLength) + '...';
-        }
-        return email;
-      };
-
-      const maxEmailLength = 20;
-
-    useEffect(() => {
-        if (user) {
-          setNom(user.nom || '');
-          setPrenom(user.prenom || '');
-          setEmail(user.email || '');
-          setTelephone(user.phone || '');
-        }
-      }, [user]);
 
     return (
         <View style={styles.centeredView}>
@@ -87,7 +75,7 @@ const ModalPatient = ({
                                             <TextInput
                                                 style={styles.inputModal}
                                                 value={nom}
-                                                onChangeText={setNom}
+                                                onChangeText={handleNomChange}
                                                 placeholder='Entrez le nom '
                                                 placeholderTextColor={colors.gray}
                                             />
@@ -99,7 +87,7 @@ const ModalPatient = ({
                                             <TextInput
                                                 style={styles.inputModal}
                                                 value={prenom}
-                                                onChangeText={setPrenom}
+                                                onChangeText={handlePrenomChange}
                                                 placeholder='Entrez le prénom'
                                                 placeholderTextColor={colors.gray}
                                             />
@@ -112,9 +100,10 @@ const ModalPatient = ({
                                             <TextInput
                                                 style={styles.inputModal}
                                                 value={email}
-                                                onChangeText={setEmail}
+                                                onChangeText={handleEmailChange}
                                                 placeholder="Entrez l'adresse email"
                                                 placeholderTextColor={colors.gray}
+                                                keyboardType='email-address'
                                             />
                                         </View>
 
@@ -125,9 +114,10 @@ const ModalPatient = ({
                                             <TextInput
                                                 style={styles.inputModal}
                                                 value={telephone}
-                                                onChangeText={setTelephone}
+                                                onChangeText={handleTelephoneChange}
                                                 placeholder="Entrez le numéro du patient"
                                                 placeholderTextColor={colors.gray}
+                                                keyboardType='numeric'
                                             />
                                         </View>
                                     </View>
@@ -146,7 +136,15 @@ const ModalPatient = ({
                                             bkgroundColor={colors.blue200}
                                         />
                                         <CustomAppButton
-                                            // onPress={() => setModalVisible(!modalVisible)}
+                                            onPress={isEdit ?
+                                                () => {
+                                                    handleEditPatient(user);
+                                                    setModalVisible(true);
+                                                } :
+                                                () => {
+                                                    handleAddPatient(nom, prenom, email, telephone);
+                                                    setModalVisible(false);
+                                                }}
                                             title='Valider'
                                             alignSelf="baseline"
                                             paddingVertical={10}
@@ -169,7 +167,10 @@ const ModalPatient = ({
             <View style={{ flex: 1 }}>
                 {isEdit ? (
                     <MaterialCommunityIcons
-                        onPress={() => setModalVisible(!modalVisible)}
+                        onPress={() => {
+                            // handleEditPatient(user); // Utilisez la fonction handleEditPatient pour pré-remplir les champs
+                            setModalVisible(true); // Ouvrir la modal
+                        }}
                         name="pencil-circle"
                         size={25}
                         color={colors.blue}

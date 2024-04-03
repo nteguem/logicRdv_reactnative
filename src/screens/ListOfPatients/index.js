@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Modal, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import CustomText from '../../components/global/CustomText'
 import { colors } from '../../components/global/colors'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -8,19 +8,22 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import ModalPatient from '../../components/ListOfPatients/Modal'
 import Doctor from '../../components/global/Doctor'
 import { useDispatch, connect } from 'react-redux';
-import { createAppointmentRequest, listPatientRequest } from '../../redux/appointment/actions'
+import { addPatientRequest, createAppointmentRequest, listPatientRequest, removePatientRequest } from '../../redux/appointment/actions'
 import CustomAppButton from '../../components/global/CustomAppButton'
 import { setModalVisible } from '../../redux/app/actions'
 
-const ListOfPatients = ({ route, listPatient, isLoading, session }) => {
+const ListOfPatients = ({ route, listPatient, isLoading, session, user }) => {
     const { tokenappointment } = route.params;
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [patientToDelete, setPatientToDelete] = useState(null);
+
     const dispatch = useDispatch();
 
     const truncateText = (text, maxLength) => {
         if (text.length <= maxLength) {
             return text;
         } else {
-            return text.substring(0, maxLength-1) + '...';
+            return text.substring(0, maxLength - 1) + '...';
         }
     };
 
@@ -40,10 +43,114 @@ const ListOfPatients = ({ route, listPatient, isLoading, session }) => {
         }
     }
 
+    const [nom, setNom] = useState('');
+    const [prenom, setPrenom] = useState('');
+    const [email, setEmail] = useState('');
+    const [telephone, setTelephone] = useState('');
+
+    useEffect(() => {
+        if (user) {
+            setNom(user.nom || '');
+            setPrenom(user.prenom || '');
+            setEmail(user.email || '');
+            setTelephone(user.phone || '');
+        }
+    }, [user]);
+
+    const handleNomChange = (text) => {
+        setNom(text);
+    };
+
+    const handlePrenomChange = (text) => {
+        setPrenom(text);
+    };
+
+    const handleEmailChange = (text) => {
+        setEmail(text);
+    };
+
+    const handleTelephoneChange = (text) => {
+        setTelephone(text);
+    };
+
+    const handleAddPatient = async () => {
+        await dispatch(addPatientRequest(email, nom, telephone, prenom, tokenappointment));
+    }
+
+    const handleRemovePatient = async () => {
+        if (patientToDelete) {
+            const tokenpatient = patientToDelete.token
+            await dispatch(removePatientRequest(tokenappointment, tokenpatient));
+            setPatientToDelete(null);
+            setShowDeleteModal(false);
+        }
+    };
+
     return (
         <ContainerScreen isLoading={isLoading}>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={showDeleteModal}
+                onRequestClose={() => setShowDeleteModal(false)}
+            >
+                <View style={styles.modalBackground}></View>
+                <View style={styles.centeredView}>
+                    <View
+                        style={[styles.modalView,
+                        {
+                            borderRadius: 8
+                        }]}
+                    >
+                        <View style={styles.body}>
+                            <CustomText fontSize={12} fontWeight='bold'>Êtes-vous sûr de vouloir supprimer ce patient ?</CustomText>
+                            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 8 }}>
+                                <CustomAppButton
+                                    onPress={() => setShowDeleteModal(false)}
+                                    title="Annuler"
+                                    alignSelf="baseline"
+                                    paddingVertical={16}
+                                    paddingHorizontal={40}
+                                    textColor={colors.white}
+                                    textFontSize={12}
+                                    borderRadius={5}
+                                    bkgroundColor={colors.blue}
+                                    userIcon
+                                    display='none'
+                                />
+                                <CustomAppButton
+                                    onPress={() => handleRemovePatient(patientToDelete)}
+                                    title="Confirmer"
+                                    alignSelf="baseline"
+                                    paddingVertical={16}
+                                    paddingHorizontal={30}
+                                    textColor={colors.white}
+                                    textFontSize={12}
+                                    borderRadius={5}
+                                    bkgroundColor={colors.red}
+                                    userIcon
+                                    display='none'
+                                />
+                            </View>
+
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
             <ScrollView>
-                <ModalPatient isEdit={false} />
+                <ModalPatient
+                    nom={nom}
+                    prenom={prenom}
+                    email={email}
+                    telephone={telephone}
+                    handleNomChange={handleNomChange}
+                    handlePrenomChange={handlePrenomChange}
+                    handleEmailChange={handleEmailChange}
+                    handleTelephoneChange={handleTelephoneChange}
+                    isEdit={false}
+                    handleAddPatient={handleAddPatient} />
+
                 {listPatient.map((patient, index) => (
                     <TouchableOpacity key={index} onPress={() => handleAppt(patient)}>
                         <Doctor
@@ -58,9 +165,14 @@ const ListOfPatients = ({ route, listPatient, isLoading, session }) => {
                             isIcon
                             isLock={patient.lockmessage !== ""}
                             isUpdate
-                            isDelete
+                            isDelete={index > 0 && listPatient.length > 1}
                             isProfileIcon
                             user={patient}
+                            tokenappointment={tokenappointment}
+                            handleDelete={() => {
+                                setPatientToDelete(patient);
+                                setShowDeleteModal(true);
+                            }}
                         />
                     </TouchableOpacity>
                 ))}
@@ -124,7 +236,49 @@ const styles = StyleSheet.create({
         borderLeftWidth: 1,
         borderStyle: 'dashed',
         height: '100%',
-    }
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalView: {
+        backgroundColor: 'white',
+        padding: 10,
+        shadowColor: colors.black,
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        width: "80%",
+    },
+    compartment: {
+        marginTop: -10,
+        marginHorizontal: -10
+    },
+    body: {
+        flexDirection: 'column',
+        marginVertical: 16,
+        gap: 12
+    },
+    containButton: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        gap: 8,
+        marginTop: 14
+    },
+    modalBackground: {
+        position: 'absolute',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Couleur de fond semi-transparente
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+    },
 });
 
 const mapStateToProps = ({ AppointmentReducer }) => ({

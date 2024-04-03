@@ -16,23 +16,34 @@ import {
   LIST_PATIENT_REQUEST,
   LIST_PATIENT_SUCCESS,
   LIST_PATIENT_FAILURE,
+  ADD_PATIENT_REQUEST,
+  ADD_PATIENT_SUCCESS,
+  ADD_PATIENT_FAILURE,
+  EDIT_PATIENT_REQUEST,
+  EDIT_PATIENT_SUCCESS,
+  EDIT_PATIENT_FAILURE,
   PAIEMENT_APPOINTMENT_REQUEST,
   PAIEMENT_APPOINTMENT_SUCCESS,
   PAIEMENT_APPOINTMENT_FAILURE,
+  UPDATE_PATIENT_LIST,
+  REMOVE_PATIENT_REQUEST,
+  REMOVE_PATIENT_SUCCESS,
+  REMOVE_PATIENT_FAILURE,
 } from './types';
 
 const initialState = {
   isLoading: false,
   list: [],
   listDoctor: [],
-  doctorDeletedMessage: '',
   listPatient: [],
   step: 0,
   navigation: [],
   data: [],
+  patient: [],
   headerMessage: '',
   type: '',
   session: '',
+  doctorDeletedMessage: '',
   error: '',
   params: {},
   message: '',
@@ -130,7 +141,7 @@ const AppointmentReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: action.payload.message
+        doctorDeletedMessage: action.payload.message
       };
     case REMOVE_DOCTOR_FAILURE:
       return {
@@ -154,6 +165,66 @@ const AppointmentReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         listPatient: []
+      };
+
+    case ADD_PATIENT_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case ADD_PATIENT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        patient: action.payload
+      };
+    case ADD_PATIENT_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        patient: []
+      };
+
+    case EDIT_PATIENT_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case EDIT_PATIENT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        patient: action.payload
+      };
+    case EDIT_PATIENT_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        patient: []
+      };
+
+    case REMOVE_PATIENT_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case REMOVE_PATIENT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        patient: action.payload
+      };
+    case REMOVE_PATIENT_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        patient: []
+      };
+
+    case UPDATE_PATIENT_LIST:
+      return {
+        ...state,
+        listPatient: action.payload,
       };
 
     case PAIEMENT_APPOINTMENT_REQUEST:
