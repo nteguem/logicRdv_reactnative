@@ -51,6 +51,9 @@ const ModalView = ({
     };
 
     const handleSelectItem = (item) => {
+        console.log('====================================');
+        console.log("hello",item);
+        console.log('====================================');
         if (isCity) {
             setValue(item.clientinfos);
             onChange(item.clientinfos);

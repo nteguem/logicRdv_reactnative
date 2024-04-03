@@ -27,7 +27,7 @@ const SearchResult = ({ isLoading, isSearch = true }) => {
 
 
   const renderContent = () => {
-    const tas = results.length
+    const tas = result.length
     if (tas === 1){
       return(
         <View style={styles.centered}>
@@ -40,7 +40,7 @@ const SearchResult = ({ isLoading, isSearch = true }) => {
       return (
         <ScrollView>
           {result.map((item, index) => (
-            item.civility === "Dr" && (
+            item.civility === "Dr" && item.nom !== "Affiner ma recherche ..." && (
               <Doctor
                 key={index}
                 isProfileIcon={true}

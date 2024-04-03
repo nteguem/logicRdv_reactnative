@@ -41,12 +41,14 @@ const SearchReducer = (state = initialState, action) => {
         error:action.payload
       };
       case RESULT_REQUEST:
+        console.log('Traitement de la requête dans le reducer', action.payload);
         return {
           ...state,
           isLoading: true,
           results:[],
         };
       case RESULT_SUCCESS:
+        console.log('Traitement de la requête dans le reducer', action.payload);
         return {
           ...state,
           isLoading: false,

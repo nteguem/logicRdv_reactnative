@@ -16,9 +16,6 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
     const [profession, setProfession] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
 
-    useEffect(() => {
-        dispatch(clearResults());
-    }, []);
 
     const handleLocationChange = (text) => {
         setLocation(text);
@@ -32,24 +29,23 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
         }
     };
 
-
-    const handleSearch = () => {
-        dispatch(clearResults());
-        dispatch(resultRequest({
-            "proxy_ville":location,
-            "proxy_nom": profession,
-            "proxy_ville_id": "",
-            "proxy_nom_id": "",
-            "proxy_search": "",
-            "proxy_page": "2"
-        }));
-        
-        console.log('====================================');
-        console.log("resuly", results);
-        console.log('====================================');
-        navigation.navigate("Résultats", { location, profession, results });
+    const handleSearch = async () => {
+        try {
+            await dispatch(resultRequest({
+                "proxy_ville": location,
+                "proxy_nom": profession,
+                "proxy_ville_id": "",
+                "proxy_nom_id": "",
+                "proxy_search": "",
+                "proxy_page": "1"
+            }));
+            
+            navigation.navigate("Résultats", { location, profession,results });
+        } catch (error) {
+            console.log("error", error);
+        }
     };
-
+   
     return (
         <View>
             <View>
