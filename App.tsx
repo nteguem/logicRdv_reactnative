@@ -2,7 +2,7 @@ console.warn = () => {}
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import Routes from './src/routes/Routes';
-import {initializeApp,setInstallationId, isAuth} from './src/utils/helpers';
+import {initializeApp,setInstallationId, isAuth,getUserData} from './src/utils/helpers';
 import {useDispatch} from 'react-redux';
 import {setLoggedIn} from './src/redux/auth/actions';
 import {ActivityIndicator} from 'react-native';
@@ -28,7 +28,8 @@ const App = () => {
       try {
         await initializeApp();
         const isLoggedIn = await isAuth();
-        dispatch(setLoggedIn(isLoggedIn));
+        const userData = await getUserData();
+        dispatch(setLoggedIn(isLoggedIn,userData));
       } catch (error) {
         console.error(
           "Erreur lors de l'initialisation de l'application:",

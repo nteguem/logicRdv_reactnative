@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView,Text } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
@@ -43,7 +43,7 @@ const DateAppointment = ({ route, session, isLoadingAppointment, data, navigatio
           </CustomText>
         </View>
         <ScrollView>
-          {data.map((item, index) => (
+          {data.length > 0 ? data.map((item, index) => (
             <Appointment_Disponibility
               key={index}
               label={item?.label}
@@ -52,7 +52,9 @@ const DateAppointment = ({ route, session, isLoadingAppointment, data, navigatio
               message={item?.message}
               handleValidationAppointment={handleValidation}
             />
-          ))}
+          )) :
+          <Text>Aucun créneau disponible</Text>
+        }
         </ScrollView>
       </ContainerScreen>
       <View style={[styles.buttonContainer, {justifyContent: navigationAppointment.nextweek && navigationAppointment.prevweek ? 'space-between' : 'flex-end'}]}>

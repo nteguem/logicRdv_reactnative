@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, TouchableOpacity, StyleSheet, Switch, ActivityIndicator } from 'react-native';
+import { View, Image, TouchableOpacity, StyleSheet, Switch, ActivityIndicator,BackHandler,AppState,Platform  } from 'react-native';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { connect } from 'react-redux';
 import { colors } from '../components/global/colors';
 import { useDispatch } from 'react-redux';
 import { setLoggedIn } from '../redux/auth/actions';
@@ -11,23 +12,11 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FontAwesome from 'react-native-vector-icons/FontAwesome6';
 import { showMessage } from 'react-native-flash-message';
-import { getUserData } from '../utils/helpers';
 import { listNotificationsRequest,manageNotificationRequest } from '../redux/notification/actions';
 
-const DrawerContent = ({ navigation, isAuth }) => {
+const DrawerContent = ({ navigation, isAuth,userData }) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [userData, setUserData] = useState("");
-
-  useEffect(()=>{
-    const fetchData = async () => {
-      const data = await getUserData();
-      setUserData(data);
-    };
-    fetchData();
-  }, [])
-
-
   const dispatch = useDispatch();
 
   const toggleNotification = async (value, callback) => {
@@ -53,6 +42,15 @@ const DrawerContent = ({ navigation, isAuth }) => {
   };
   
 
+  const handleExitApp = () => {
+    if (Platform.OS === 'android') {
+      BackHandler.exitApp();
+    } else if (Platform.OS === 'ios') {
+      if (AppState.exitApp) {
+        AppState.exitApp();
+      } 
+    }
+  };
 
   const navigateToScreen = (screenName) => () => {
     navigation.navigate(screenName);
@@ -63,7 +61,7 @@ const DrawerContent = ({ navigation, isAuth }) => {
       setLoading(true);
       await removeUserData();
       navigation.closeDrawer();
-      dispatch(setLoggedIn(false));
+      dispatch(setLoggedIn(false,null));
     } catch (error) {
       console.error('Erreur lors de la déconnexion :', error);
       showMessage({
@@ -86,7 +84,7 @@ const DrawerContent = ({ navigation, isAuth }) => {
             <View style={styles.circleUserAuth}>
               <Icon name="user-circle" size={55} color={colors.gray100} />
             </View>
-            <TouchableOpacity onPress={navigateToScreen('Home')} >
+            <TouchableOpacity onPress={handleExitApp} >
               <CustomText fontSize={14} fontWeight={'700'} color={colors.white} style={styles.drawerItem}>
                 Quitter
               </CustomText>
@@ -116,7 +114,7 @@ const DrawerContent = ({ navigation, isAuth }) => {
                 <Image source={require('../assets/images/Logo.png')} style={styles.image} />
               </View>
             </View>
-            <TouchableOpacity onPress={navigateToScreen('Home')} >
+            <TouchableOpacity onPress={handleExitApp} >
               <CustomText fontSize={14} fontWeight={'700'} color={colors.white} style={styles.drawerItem}>
                 Quitter
               </CustomText>
@@ -337,4 +335,9 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DrawerContent;
+const mapStateToProps = ({ AuthReducer }) => ({
+  userData: AuthReducer.userData,
+});
+
+export default connect(mapStateToProps)(DrawerContent);
+
