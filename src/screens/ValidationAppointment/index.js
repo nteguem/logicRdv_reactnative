@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import CustomText from '../../components/global/CustomText'
 import { createAppointmentRequest } from '../../redux/appointment/actions'
 import AppointmentDetails from '../../components/MyAppointment/Appointment_Details'
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { showMessage } from 'react-native-flash-message'
 
 const FloatingLabelInput = ({
@@ -101,6 +102,31 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [securityNumber, setSecurityNumber] = useState('');
   const [reasonForAppointment, setReasonForAppointment] = useState('');
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [thisDate, setThisDate] = useState("");
+
+  const showDatePicker = () => {
+      setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+      setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+      console.warn("A date has been picked: ", date);
+      setThisDate(formatDateToString(date)); 
+      hideDatePicker();
+  };
+
+  const formatDateToString = (date) => {
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+      const formattedDay = day < 10 ? `0${day}` : day;
+      const formattedMonth = month < 10 ? `0${month}` : month;
+      return `${formattedDay}/${formattedMonth}/${year}`;
+  };
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -213,13 +239,18 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
                       key={index}
                       label={input?.label}
                       value={
-                        input.name === 'client_birthday' ? dateOfBirth :
+                        input.name === 'client_birthday' ? thisDate :
                           input.name === 'client_nir' ? securityNumber :
                             input.name === 'note' ? reasonForAppointment :
                               input.value
                       }
                       onChangeText={
-                        input.name === 'client_birthday' ? handleDateChange :
+                        input.name === 'client_birthday' ? formatDateToString :
+                          input.name === 'client_nir' ? handleSecurityNumberChange :
+                            handleReasonForAppointmentChange
+                      }
+                      onFocus={
+                        input.name === 'client_birthday' ? showDatePicker :
                           input.name === 'client_nir' ? handleSecurityNumberChange :
                             input.name === 'note' ? handleReasonForAppointmentChange :
                               input.name
@@ -273,6 +304,22 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
               width='100%'
             />
           </View>
+          <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode="date"
+                theme={{
+                    backgroundColor: "blue",
+                    headerTextColor: "white",
+                    headerBackgroundColor: "blue",
+                    accentColor: "white",
+                    textDayFontSize: 18,
+                    textMonthFontSize: 20,
+                    textDayHeaderFontSize: 16,
+                    textDayFontWeight: "bold",
+                }}
+                onConfirm={handleConfirm}
+                onCancel={hideDatePicker}
+            />
         </ScrollView>
       )}
 

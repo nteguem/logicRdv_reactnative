@@ -27,11 +27,20 @@ const SearchResult = ({ isLoading, isSearch = true }) => {
 
 
   const renderContent = () => {
+    const tas = result.length
+    if (tas === 1){
+      return(
+        <View style={styles.centered}>
+          <Image source={require('../../assets/images/Logo.png')} style={styles.image} />
+          <CustomText fontSize={12} color={colors.blue100} fontWeight='bold'>Aucunes données pour le moment.</CustomText>
+        </View>
+      )
+    }
     if (isSearch) {
       return (
         <ScrollView>
           {result.map((item, index) => (
-            item.civility === "Dr" && (
+            item.civility === "Dr" && item.nom !== "Affiner ma recherche ..." && (
               <Doctor
                 key={index}
                 isProfileIcon={true}
@@ -75,7 +84,7 @@ const SearchResult = ({ isLoading, isSearch = true }) => {
               texte1={`${result.civility} ${result.nom}`}
               texte2={result.category}
               texte3={result.address}
-              texte4={`${result.zip} ${result.city}`}
+              texte4={`${result.zip} ${result.city}`} 
               texte5={result.tel}
               texte6={result.km_diff && (`à ${result.km_diff} km`)}
               colorTitle={colors.yellow}

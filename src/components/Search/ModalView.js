@@ -51,6 +51,9 @@ const ModalView = ({
     };
 
     const handleSelectItem = (item) => {
+        console.log('====================================');
+        console.log("hello",item);
+        console.log('====================================');
         if (isCity) {
             setValue(item.clientinfos);
             onChange(item.clientinfos);
@@ -247,7 +250,7 @@ const ModalView = ({
                                     ) : (
                                         <View style={{ height: '98%', marginHorizontal: -35 }}>
                                             <ScrollView>
-                                                {results.map((result, index) => (
+                                                {results?.map((result, index) => (
                                                     <TouchableOpacity key={index} onPress={() => handleSelectItem(result)}>
                                                         <View >
                                                             <CustomText fontSize={12} fontWeight={'bold'} color={colors.black} style={{ marginLeft: 12 }}>

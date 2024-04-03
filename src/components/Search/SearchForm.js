@@ -7,7 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ModalView from './ModalView'
 import { useNavigation } from '@react-navigation/native';
 import { connect, useDispatch, useSelector } from 'react-redux'
-import { resultRequest, searchRequest } from '../../redux/search/actions'
+import { resultRequest, clearResults } from '../../redux/search/actions'
 
 const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
     const navigation = useNavigation();
@@ -15,6 +15,8 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
     const [location, setLocation] = useState('');
     const [profession, setProfession] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
+
+
     const handleLocationChange = (text) => {
         setLocation(text);
     };
@@ -27,21 +29,23 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
         }
     };
 
-
-    const handleSearch = () => {
-        dispatch(resultRequest({
-            "proxy_ville":location,
-            "proxy_nom": profession,
-            "proxy_ville_id": "",
-            "proxy_nom_id": "",
-            "proxy_search": "",
-            "proxy_page": "2"
-        }));
-        
-
-        navigation.navigate("Résultats", { location, profession, results });
+    const handleSearch = async () => {
+        try {
+            await dispatch(resultRequest({
+                "proxy_ville": location,
+                "proxy_nom": profession,
+                "proxy_ville_id": "",
+                "proxy_nom_id": "",
+                "proxy_search": "",
+                "proxy_page": "1"
+            }));
+            
+            navigation.navigate("Résultats", { location, profession,results });
+        } catch (error) {
+            console.log("error", error);
+        }
     };
-
+   
     return (
         <View>
             <View>

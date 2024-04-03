@@ -1,11 +1,10 @@
 import { takeLatest, call, put, select } from 'redux-saga/effects';
 import { showMessage } from 'react-native-flash-message';
-import { listAppointmentsRequest } from '../appointment/actions';
 import { sendRequest } from '../../utils/api';
-import {loginRequest} from './actions'
+import {loginRequest,setLoggedIn} from './actions'
 import {createAppointmentRequest} from "../appointment/actions"
 import * as RootNavigation from '../../routes/RootNavigation';
-import {setUserData} from "../../utils/helpers"
+import {setUserData} from "../../utils/helpers";
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -27,6 +26,8 @@ function* login({payload}) {
     if (response.data && response.data.user && response.data.user.tokenuser) {
       yield put({ type: LOGIN_SUCCESS, payload: { token: response.data.user.tokenuser } });
       yield setUserData(response.data.user);
+      yield put(setLoggedIn(true,response.data.user));
+
       showMessage({
         message: 'Bienvenue !',
         description: `Vous êtes maintenant connecté.`,

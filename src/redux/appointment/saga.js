@@ -216,11 +216,11 @@ function* create({ payload }) {
 
     switch (response.data.type) {
       case "appttype":
-        RootNavigation.navigate('Motif du Rendez-vous', { tokenappointment: response.params.tokenappointment });
+        yield RootNavigation.navigate('Motif du Rendez-vous', { tokenappointment: response.params.tokenappointment });
         break;
 
       case "apptcreneaux":
-        RootNavigation.navigate('Jour et Heure du Rdv', { tokenappointment: response.params.tokenappointment, title: payload.optionalParam });
+       yield RootNavigation.navigate('Jour et Heure du Rdv', { tokenappointment: response.params.tokenappointment, title: payload.optionalParam });
         break;
 
       case "apptnothing":
@@ -229,7 +229,7 @@ function* create({ payload }) {
         break;
 
       case "apptpatients":
-        RootNavigation.navigate('Liste des patients', { tokenappointment: response.params.tokenappointment });
+        yield RootNavigation.navigate('Liste des patients', { tokenappointment: response.params.tokenappointment });
         break;
 
       case "apptconnect":
@@ -248,7 +248,8 @@ function* create({ payload }) {
         break;
 
       case "apptconfirm":
-        RootNavigation.navigate('Valider le Rendez-vous', { tokenappointment: response.params.tokenappointment });
+        console.log("appconfirm::",response.data.data.payment)
+        yield RootNavigation.navigate('Valider le Rendez-vous', { tokenappointment: response.params.tokenappointment });
         showMessage({
           message: 'Validation du rendez-vous',
           description: response.data.headermessage,
@@ -258,7 +259,7 @@ function* create({ payload }) {
         break;
 
       case "apptvalided":
-        RootNavigation.navigate('Confirmation rdv', { tokenappointment: response.params.tokenappointment });
+        yield RootNavigation.navigate('Confirmation rdv', { tokenappointment: response.params.tokenappointment });
         break;
       case "apptdoctoradd":
         const session = response.data.session;

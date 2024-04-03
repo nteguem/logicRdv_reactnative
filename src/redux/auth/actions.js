@@ -10,7 +10,7 @@ export const signUpRequest = (type,data) => ({
   payload: { type, data },
 });
 
-export const setLoggedIn = (isLoggedIn) => ({
+export const setLoggedIn = (isLoggedIn,dataUser) => ({
   type: types.SET_LOGGED_IN,
-  payload: isLoggedIn,
+  payload: {isLoggedIn,dataUser},
 });
