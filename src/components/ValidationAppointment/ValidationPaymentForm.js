@@ -36,10 +36,8 @@ import {
   StyleSheet,
   TextInput,
   Animated,
-  useColorScheme,
 } from 'react-native';
 import {colors} from '../global/colors';
-import CustomText from '../global/CustomText';
 
 const FloatingLabelInput = ({
   label,

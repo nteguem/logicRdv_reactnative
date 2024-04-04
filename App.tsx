@@ -1,11 +1,11 @@
 console.warn = () => {}
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet,ActivityIndicator,StatusBar} from 'react-native';
+import { StripeProvider } from '@stripe/stripe-react-native';
 import Routes from './src/routes/Routes';
 import {initializeApp,setInstallationId, isAuth,getUserData} from './src/utils/helpers';
 import {useDispatch} from 'react-redux';
 import {setLoggedIn} from './src/redux/auth/actions';
-import {ActivityIndicator} from 'react-native';
 import {colors} from './src/components/global/colors';
 import FlashMessage from 'react-native-flash-message';
 import WonderPush from 'react-native-wonderpush';
@@ -44,7 +44,10 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <>
+    <StripeProvider
+    publishableKey={"pk_test_hZFvrVBKMDFPgrfkEattC9yj00O3lDXRh1"}
+  >
+    <StatusBar backgroundColor={colors.blue} barStyle="light-content" />
       {loading ? (
         <View style={styles.container}>
           <ActivityIndicator size="large" color={colors.blue} />
@@ -56,7 +59,7 @@ const App = () => {
           <FlashMessage position="top" />
         </>
       )}
-    </>
+    </StripeProvider>
   );
 };
 

@@ -16,7 +16,7 @@ import { cancelAppointmentRequest, createAppointmentRequest } from '../../redux/
 import AppointmentDetails from '../../components/MyAppointment/Appointment_Details'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { showMessage } from 'react-native-flash-message'
-
+import { CardField, useStripe } from '@stripe/stripe-react-native';
 const FloatingLabelInput = ({
   label,
   value,
@@ -60,14 +60,13 @@ const FloatingLabelInput = ({
 
   const handleLabelPress = () => {
     setIsFocused(true);
-    // Focus the input field programmatically
     inputRef.current.focus();
   };
 
   const inputRef = useRef(null);
 
   const clearText = () => {
-    onChangeText(''); // Effacer le texte
+    onChangeText(''); 
   };
 
   return (
@@ -110,7 +109,6 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
   const [thisDate, setThisDate] = useState('');
 
   useEffect(() => {
-    // Initialize securityNumber, reasonForAppointment, and thisDate with data values
     if (data && data.apptinput) {
       const securityNumberInput = data.apptinput.find(input => input.name === 'client_nir');
       const reasonForAppointmentInput = data.apptinput.find(input => input.name === 'note');
@@ -342,7 +340,27 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
           </SafeAreaView>
 
           {data?.payment && Object.keys(data.payment).length > 0 && (
-            <ValidationPaymentForm />
+                <CardField
+                postalCodeEnabled={true}
+                placeholders={{
+                  number: '4242 4242 4242 4242',
+                }}
+                cardStyle={{
+                  backgroundColor: '#FFFFFF',
+                  textColor: '#000000',
+                }}
+                style={{
+                  width: '100%',
+                  height: 50,
+                  marginVertical: 30,
+                }}
+                onCardChange={(cardDetails) => {
+                  console.log('cardDetails', cardDetails);
+                }}
+                onFocus={(focusedField) => {
+                  console.log('focusField', focusedField);
+                }}
+              />
           )}
 
           {data?.payment && Object.keys(data.payment).length > 0 && (
