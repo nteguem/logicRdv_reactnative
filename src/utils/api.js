@@ -43,7 +43,7 @@ export const request = async (method, url, data, headers = {}) => {
         duration: 3500,
       });
     } else {
-      throw error;
+      // throw error;
     }
   }
   

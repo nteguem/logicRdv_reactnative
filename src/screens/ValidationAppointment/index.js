@@ -45,7 +45,7 @@ const FloatingLabelInput = ({
 
   const labelStyle = {
     position: 'absolute',
-    left: 20,
+    left: 40,
     top: animatedIsFocused.interpolate({
       inputRange: [0, 1],
       outputRange: [15, -10],
@@ -179,6 +179,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
 
   const handleCancelAppt = async () => {
     if (apptToCancel) {
+      console.log(apptToCancel);
       const tokenappointment = apptToCancel?.token
       await dispatch(cancelAppointmentRequest({ tokenappointment: tokenappointment }));
       setApptToCancel(null);
@@ -194,8 +195,6 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
       { label: 'Motif du Rdv', mandatory: '1', name: 'note', value: reasonForAppointment }
     ];
     const filledMandatoryFields = mandatoryFields.filter((field) => field?.value.trim() !== '');
-    console.log('mandatoryFields', mandatoryFields);
-    console.log('filledMandatoryFields', filledMandatoryFields);
     if (mandatoryFields.length === filledMandatoryFields.length) {
       await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session));
       navigation.navigate('Confirmation rdv', { tokenappointment: tokenappointment, data });
@@ -433,12 +432,14 @@ const styles = StyleSheet.create({
   },
   container: {
     position: 'relative',
+    marginVertical: 10
   },
   input: {
-    marginLeft: 12,
-    marginRight: 12,
+    marginLeft: 24,
+    marginRight: 24,
     borderWidth: 1,
-    padding: 10,
+    paddingLeft: 15,
+    paddingTop: 15,
     color: colors.black,
     fontSize: 12,
     borderRadius: 6,
@@ -457,9 +458,9 @@ const styles = StyleSheet.create({
   },
   icon: {
     position: 'absolute',
-    marginRight: 10,
-    right: 10,
-    top: '20%',
+    marginRight: 15,
+    right: 20,
+    top: '30%',
   },
   titleRDV: {
     flexDirection: 'row',

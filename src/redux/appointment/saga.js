@@ -57,7 +57,7 @@ function* list({ payload }) {
 
 function* listDoctor() {
   try {
-    const endpoint = 'account/doctors/';
+    const endpoint = 'account/doctors/'; 
     const userData = yield getUserData();
     const body = { "tokenuser": userData.tokenuser }
     const response = yield call(sendRequest, 'POST', endpoint, body);
@@ -216,7 +216,6 @@ function* create({ payload }) {
     const response = yield call(sendRequest, 'POST', endpoint, body);
     yield put({ type: CREATE_APPOINTMENT_SUCCESS, payload: response });
     console.log("response  :", response)
-    console.log("apptsinprogress: ", response.data.apptsinprogress);
 
     switch (response.data.type) {
       case "appttype":
@@ -279,7 +278,7 @@ function* create({ payload }) {
 
   } catch (error) {
     console.log("error:", error)
-    yield put({ tyANCEL, payload: error });
+    yield put({ type: CREATE_APPOINTMENT_FAILURE, payload: error });
   }
 }
 
@@ -287,11 +286,13 @@ function* cancelAppt({ payload }) {
   try {
     const endpoint = 'account/appcancel/';
     const userData = yield getUserData();
-    const body = { "tokenuser": userData.tokenuser, "tokenappointment": payload.tokenappointment.tokenappointment };
+    const body = { "tokenuser": userData.tokenuser, "token": payload.token.tokenappointment };
+    console.log(body)
     const response = yield call(sendRequest, 'POST', endpoint, body);
     console.log(response)
     if (response.httpstatut == 200) {
       yield put({ type: CANCEL_APPOINTMENT_SUCCESS, payload: { message: response.message } });
+      yield call(create, { payload: { data: payload.data } });
       showMessage({
         message: 'Annulation du rdv',
         description: 'Rendez-vous annulé avec succès!',
@@ -301,7 +302,6 @@ function* cancelAppt({ payload }) {
     }
 
   } catch (error) {
-    console.error('error', error);
     yield put({ type: CANCEL_APPOINTMENT_FAILURE, payload: error });
   }
 }
