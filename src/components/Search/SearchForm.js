@@ -7,7 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ModalView from './ModalView'
 import { useNavigation } from '@react-navigation/native';
 import { connect, useDispatch, useSelector } from 'react-redux'
-import { resultRequest, clearResults } from '../../redux/search/actions'
+import { resultRequest, searchRequest } from '../../redux/search/actions'
 
 const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
     const navigation = useNavigation();
@@ -15,8 +15,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
     const [location, setLocation] = useState('');
     const [profession, setProfession] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
-
-
+    const [ville_id, setVille_id] = useState("")
     const handleLocationChange = (text) => {
         setLocation(text);
     };
@@ -28,6 +27,10 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
             setProfession('');
         }
     };
+    const handleIdChange = (idcity, idname) => {
+        setVille_id(idcity);
+    };
+
 
     const handleSearch = async () => {
         try {
@@ -35,17 +38,22 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
                 "proxy_ville": location,
                 "proxy_nom": profession,
                 "proxy_ville_id": "",
-                "proxy_nom_id": "",
+                "proxy_nom_id": ville_id,
                 "proxy_search": "",
                 "proxy_page": "1"
             }));
             
-            navigation.navigate("Résultats", { location, profession,results });
+            console.log('====================================');
+            console.log("ceci est le result envoier", results, location, profession);
+            console.log('====================================');
+            if (results && results.length > 0) {
+                navigation.navigate("Résultats", { location, profession, results });
+            }
         } catch (error) {
             console.log("error", error);
         }
     };
-   
+
     return (
         <View>
             <View>
@@ -62,6 +70,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
                             borderWidth={borderWidth}
                             borderRadius={borderRadius}
                             borderColor={borderColor}
+                            onIdChange={handleIdChange}
                             clearInputText={()=>setLocation('')}
                         />
                     </View>
@@ -82,6 +91,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
                         borderWidth={borderWidth}
                         borderRadius={borderRadius}
                         borderColor={borderColor}
+                        onIdChange={handleIdChange}
                         clearInputText={()=>setProfession('')}
                     />
                 </View>
