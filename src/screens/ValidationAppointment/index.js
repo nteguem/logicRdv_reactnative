@@ -15,6 +15,8 @@ import CustomText from '../../components/global/CustomText'
 import { createAppointmentRequest } from '../../redux/appointment/actions'
 import AppointmentDetails from '../../components/MyAppointment/Appointment_Details'
 import { showMessage } from 'react-native-flash-message'
+import { CardField, useStripe } from '@stripe/stripe-react-native';
+
 
 const FloatingLabelInput = ({
   label,
@@ -237,7 +239,18 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
           </SafeAreaView>
 
           {data?.payment !== '' && (
-            <ValidationPaymentForm />
+              <CardField
+              postalCodeEnabled={false}
+              placeholder={{
+                number: 'Numéro de carte',
+                cvc: 'CVC',
+                postalCode: 'Code postal',
+                expiry: 'MM/AA',
+              }}
+              cardStyle={styles.card}
+              style={styles.cardField}
+              onCardChange={(cardDetails) => setCardDetails(cardDetails)}
+            />
           )}
 
           {data?.payment?.amountlabel !== '' && (

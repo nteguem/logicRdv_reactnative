@@ -161,7 +161,6 @@ function* create({ payload }) {
         break;
 
       case "apptconfirm":
-        console.log("appconfirm::",response.data.data.payment)
         yield RootNavigation.navigate('Valider le Rendez-vous', { tokenappointment: response.params.tokenappointment });
         showMessage({
           message: 'Validation du rendez-vous',
