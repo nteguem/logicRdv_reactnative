@@ -293,7 +293,6 @@ function* cancelAppt({ payload }) {
     console.log(response)
     if (response.httpstatut == 200) {
       yield put({ type: CANCEL_APPOINTMENT_SUCCESS, payload: { message: response.message } });
-      yield call(create, { payload: { data: payload.data } });
       showMessage({
         message: 'Annulation du rdv',
         description: 'Rendez-vous annulé avec succès!',

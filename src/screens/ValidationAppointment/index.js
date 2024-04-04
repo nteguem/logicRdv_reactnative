@@ -99,14 +99,14 @@ const FloatingLabelInput = ({
   );
 };
 
-const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) => {
+const ValidationAppointment = ({ route, session, data, isLoadingAppointment, params }) => {
   const { tokenappointment } = route.params;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [apptToCancel, setApptToCancel] = useState(null);
   const [showAppointmentList, setShowAppointmentList] = useState(false);
   const [securityNumber, setSecurityNumber] = useState('');
   const [reasonForAppointment, setReasonForAppointment] = useState('');
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(true);
   const [thisDate, setThisDate] = useState('');
 
   useEffect(() => {
@@ -139,29 +139,24 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
+
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
 
+  const handleConfirm = (date) => {
+    console.warn("A date has been picked: ", date);
+    setThisDate(formatDateToString(date));
+    hideDatePicker();
+  };
 
   const formatDateToString = (date) => {
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
-    const formattedDay = day < 10 ? `00${day}` : day;
+    const formattedDay = day < 10 ? `0${day}` : day;
     const formattedMonth = month < 10 ? `0${month}` : month;
     return `${formattedDay}/${formattedMonth}/${year}`;
-  };
-
-  const cleardate = () =>{
-    setThisDate("")
-  }
-
-  
-  const handleConfirm = (date) => {
-    console.warn("A date has been picked: ", date);
-    setThisDate(formatDateToString(date));
-    hideDatePicker();
   };
 
   const dispatch = useDispatch();
@@ -180,6 +175,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
       console.log(apptToCancel);
       const tokenappointment = apptToCancel?.token
       await dispatch(cancelAppointmentRequest({ tokenappointment: tokenappointment }));
+      await dispatch(createAppointmentRequest(params.tokenappointment, params.week, params.data, params.action, params.session));
       setApptToCancel(null);
       setShowDeleteModal(false);
     }
@@ -261,7 +257,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
       {showAppointmentList ? (
         <ScrollView>
           <CustomText fontSize={10} color={colors.black} style={{ marginVertical: 12 }}>
-            {data?.apptsinprogress.message}
+            {data?.apptsinprogress?.message}
           </CustomText>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
             <CustomAppButton
@@ -328,8 +324,8 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
                         key={index}
                         label={input?.label}
                         value={input?.name === 'client_birthday' ? thisDate : input?.name === 'client_nir' ? securityNumber : reasonForAppointment}
-                        onChangeText={input?.name === 'client_birthday' ?  cleardate: input?.name === 'client_nir' ? handleSecurityNumberChange : handleReasonForAppointmentChange}
-                        onFocus={input?.name === 'client_birthday' ? showDatePicker : null} 
+                        onChangeText={input?.name === 'client_birthday' ? formatDateToString : input?.name === 'client_nir' ? handleSecurityNumberChange : handleReasonForAppointmentChange}
+                        onFocus={input?.name === 'client_birthday' ? showDatePicker : null} // Vous pouvez définir onFocus à null pour désactiver la gestion de l'événement onFocus
                         placeholderTextColor="gray"
                         maxLength={input?.name === 'note' ? 40 : 10}
                         keyboardType={input?.name === 'note' ? 'default' : 'numeric'}
@@ -505,6 +501,7 @@ const mapStateToProps = (state) => ({
   data: state.AppointmentReducer?.data,
   session: state.AppointmentReducer?.session,
   isLoadingAppointment: state.AppointmentReducer?.isLoading,
+  params: state.AppointmentReducer?.params,
 });
 
 export default connect(mapStateToProps)(ValidationAppointment);
