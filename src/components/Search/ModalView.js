@@ -19,7 +19,8 @@ const ModalView = ({
     borderColor,
     clearInputText,
     results,
-    isLoading
+    isLoading,
+    onIdChange
 }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [address, setAddress] = useState('');
@@ -28,8 +29,6 @@ const ModalView = ({
     const [input, setInput] = useState('');
     const [value, setValue] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
-    const [idname, setidname]= useState("");
-    const [idcity, setidcity] = useState("");
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
@@ -51,18 +50,16 @@ const ModalView = ({
     };
 
     const handleSelectItem = (item) => {
-        console.log('====================================');
-        console.log("hello",item);
-        console.log('====================================');
         if (isCity) {
             setValue(item.clientinfos);
             onChange(item.clientinfos);
             setCity(item.id)
+            onIdChange(item.id);
         }
        else if (!item.civility) {
             setValue(item.nom);
             onChange(item.nom);
-            setidname(item.id)
+            onIdChange(item.id); 
         } else {
             
             navigation.navigate('Détail du médécin', {
