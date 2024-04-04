@@ -179,7 +179,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
     if (apptToCancel) {
       console.log(apptToCancel);
       const tokenappointment = apptToCancel?.token
-      await dispatch(cancelAppointmentRequest({ tokenappointment: tokenappointment, data: data }));
+      await dispatch(cancelAppointmentRequest({ tokenappointment: tokenappointment }));
       setApptToCancel(null);
       setShowDeleteModal(false);
     }
