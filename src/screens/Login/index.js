@@ -81,8 +81,8 @@ const Login = ({ route,session, headerError, headerMessage, inputFields, buttons
                       secureTextEntry={input.name === 'password' ? !showPassword : showPassword}
                     />
                     {input.name === 'password' && (
-                      <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                        <Icon name={showPassword ? "eye" : "eye-off"} size={24} color={colors.gray100} style={loginStyles.icon} />
+                      <TouchableOpacity >
+                        <Icon name={showPassword ? "eye" : "eye-off"} size={24} color={colors.gray100} style={loginStyles.icon} onPress={() => setShowPassword(!showPassword)}/>
                       </TouchableOpacity>
                     )}
                   </View>
