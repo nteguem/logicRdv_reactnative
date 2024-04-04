@@ -19,7 +19,8 @@ const ModalView = ({
     borderColor,
     clearInputText,
     results,
-    isLoading
+    isLoading,
+    onIdChange
 }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [address, setAddress] = useState('');
@@ -28,8 +29,6 @@ const ModalView = ({
     const [input, setInput] = useState('');
     const [value, setValue] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
-    const [idname, setidname]= useState("");
-    const [idcity, setidcity] = useState("");
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
@@ -55,11 +54,12 @@ const ModalView = ({
             setValue(item.clientinfos);
             onChange(item.clientinfos);
             setCity(item.id)
+            onIdChange(item.id);
         }
        else if (!item.civility) {
             setValue(item.nom);
             onChange(item.nom);
-            setidname(item.id)
+            onIdChange(item.id); 
         } else {
             
             navigation.navigate('Détail du médécin', {
@@ -247,7 +247,7 @@ const ModalView = ({
                                     ) : (
                                         <View style={{ height: '98%', marginHorizontal: -35 }}>
                                             <ScrollView>
-                                                {results.map((result, index) => (
+                                                {results?.map((result, index) => (
                                                     <TouchableOpacity key={index} onPress={() => handleSelectItem(result)}>
                                                         <View >
                                                             <CustomText fontSize={12} fontWeight={'bold'} color={colors.black} style={{ marginLeft: 12 }}>

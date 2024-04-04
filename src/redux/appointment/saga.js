@@ -26,6 +26,19 @@ import {
   LIST_PATIENT_SUCCESS,
   LIST_PATIENT_FAILURE,
   LIST_PATIENT_REQUEST,
+  ADD_PATIENT_REQUEST,
+  ADD_PATIENT_SUCCESS,
+  ADD_PATIENT_FAILURE,
+  UPDATE_PATIENT_LIST,
+  EDIT_PATIENT_FAILURE,
+  EDIT_PATIENT_REQUEST,
+  EDIT_PATIENT_SUCCESS,
+  REMOVE_PATIENT_FAILURE,
+  REMOVE_PATIENT_REQUEST,
+  REMOVE_PATIENT_SUCCESS,
+  CANCEL_APPOINTMENT_SUCCESS,
+  CANCEL_APPOINTMENT_REQUEST,
+  CANCEL_APPOINTMENT_FAILURE,
 } from './types';
 import * as RootNavigation from '../../routes/RootNavigation';
 
@@ -42,7 +55,7 @@ function* list({ payload }) {
   }
 }
 
-function* listDoctor({ payload }) {
+function* listDoctor() {
   try {
     const endpoint = 'account/doctors/';
     const userData = yield getUserData();
@@ -61,24 +74,27 @@ function* deleteDoctor({ payload }) {
     const userData = yield getUserData();
     const body = { "tokenuser": userData.tokenuser, "id": payload.id.id }
     const response = yield call(sendRequest, 'POST', endpoint, body);
-    console.log(response);
-    if (response.httpstatut == 200) {
+    if (response && response.httpstatut === 200) {
       yield put({ type: REMOVE_DOCTOR_SUCCESS, payload: { message: response.message } });
+      yield listDoctor();
       showMessage({
         message: 'Suppression réussie',
         description: response.message,
         type: 'info',
         duration: 3500,
       });
-      // yield listDoctor(response.data.activeEtabs);
+    } else if (response && response.httpstatut === 403 && response.error === 'account_doctorremove_notpossible') {
+      yield put({ type: REMOVE_DOCTOR_FORBIDDEN, payload: { message: response.message } });
+      showMessage({
+        message: 'Suppression impossible',
+        description: response.message,
+        type: 'warning',
+        duration: 3500,
+      });
     }
   } catch (error) {
     console.error('error', error);
-    if (error.response && error.response.httpstatut === 403) {
-      yield put({ type: REMOVE_DOCTOR_FORBIDDEN, payload: { message: response.message } });
-    } else {
-      yield put({ type: REMOVE_DOCTOR_FAILURE, payload: error.message });
-    }
+    yield put({ type: REMOVE_DOCTOR_FAILURE, payload: error.message });
   }
 }
 
@@ -102,7 +118,6 @@ function* addDoctor(id, phone, tokenuser) {
   }
 }
 
-
 function* listPatient({ payload }) {
   try {
     const endpoint = 'patients/list/';
@@ -110,10 +125,85 @@ function* listPatient({ payload }) {
     const userData = yield getUserData();
     const body = { "tokenuser": userData.tokenuser, "tokenappt": tokenappt }
     const response = yield call(sendRequest, 'POST', endpoint, body);
+    console.log(response)
     yield put({ type: LIST_PATIENT_SUCCESS, payload: response.data });
   } catch (error) {
     console.error('error', error);
     yield put({ type: LIST_PATIENT_FAILURE, payload: error });
+  }
+}
+
+function* addPatient({ payload }) {
+  try {
+    const endpoint = 'patients/add/';
+    const { ...restPayload } = payload;
+    const userData = yield getUserData();
+    const body = { "tokenuser": userData.tokenuser, ...restPayload }
+    const response = yield call(sendRequest, 'POST', endpoint, body);
+    if (response.httpstatut == 200) {
+      yield put({ type: ADD_PATIENT_SUCCESS, payload: response.data });
+      yield put({ type: UPDATE_PATIENT_LIST, payload: response.data });
+      showMessage({
+        message: 'Ajout réussi',
+        description: 'Patient ajouté dans la liste des patients.',
+        type: 'info',
+        duration: 3500,
+      });
+    }
+
+  } catch (error) {
+    console.error('error', error);
+    yield put({ type: ADD_PATIENT_FAILURE, payload: error });
+  }
+}
+
+function* editPatient({ payload }) {
+  try {
+    const endpoint = 'patients/modify/';
+    const { ...restPayload } = payload;
+    const userData = yield getUserData();
+    const body = { "tokenuser": userData.tokenuser, ...restPayload }
+    const response = yield call(sendRequest, 'POST', endpoint, body);
+    if (response.httpstatut == 200) {
+      yield put({ type: EDIT_PATIENT_SUCCESS, payload: response.data });
+      yield put({ type: UPDATE_PATIENT_LIST, payload: response.data });
+      showMessage({
+        message: 'Modification du patient',
+        description: response.message,
+        type: 'info',
+        duration: 3500,
+      });
+    }
+
+  } catch (error) {
+    console.error('error', error);
+    yield put({ type: EDIT_PATIENT_FAILURE, payload: error });
+  }
+}
+
+function* removePatient({ payload }) {
+  try {
+    const endpoint = 'patients/remove/';
+    const { ...restPayload } = payload;
+    console.log("payload>>>", payload);
+    const userData = yield getUserData();
+    const body = { "tokenuser": userData.tokenuser, ...restPayload }
+    const response = yield call(sendRequest, 'POST', endpoint, body);
+    console.log(response)
+    if (response.httpstatut == 200) {
+      yield put({ type: REMOVE_PATIENT_SUCCESS, payload: response.data });
+      yield put({ type: UPDATE_PATIENT_LIST, payload: response.data });
+      showMessage({
+        message: 'Suppression du patient',
+        description: response.message,
+        type: 'info',
+        duration: 3500,
+      });
+    }
+
+  } catch (error) {
+    console.error('error', error);
+    yield put({ type: REMOVE_PATIENT_FAILURE, payload: error });
   }
 }
 
@@ -126,6 +216,7 @@ function* create({ payload }) {
     const response = yield call(sendRequest, 'POST', endpoint, body);
     yield put({ type: CREATE_APPOINTMENT_SUCCESS, payload: response });
     console.log("response  :", response)
+    console.log("apptsinprogress: ", response.data.apptsinprogress);
 
     switch (response.data.type) {
       case "appttype":
@@ -133,7 +224,7 @@ function* create({ payload }) {
         break;
 
       case "apptcreneaux":
-       yield RootNavigation.navigate('Jour et Heure du Rdv', { tokenappointment: response.params.tokenappointment, title: payload.optionalParam });
+        yield RootNavigation.navigate('Jour et Heure du Rdv', { tokenappointment: response.params.tokenappointment, title: payload.optionalParam });
         break;
 
       case "apptnothing":
@@ -188,7 +279,30 @@ function* create({ payload }) {
 
   } catch (error) {
     console.log("error:", error)
-    yield put({ type: CREATE_APPOINTMENT_FAILURE, payload: error });
+    yield put({ tyANCEL, payload: error });
+  }
+}
+
+function* cancelAppt({ payload }) {
+  try {
+    const endpoint = 'account/appcancel/';
+    const userData = yield getUserData();
+    const body = { "tokenuser": userData.tokenuser, "tokenappointment": payload.tokenappointment.tokenappointment };
+    const response = yield call(sendRequest, 'POST', endpoint, body);
+    console.log(response)
+    if (response.httpstatut == 200) {
+      yield put({ type: CANCEL_APPOINTMENT_SUCCESS, payload: { message: response.message } });
+      showMessage({
+        message: 'Annulation du rdv',
+        description: 'Rendez-vous annulé avec succès!',
+        type: 'info',
+        duration: 3500,
+      });
+    }
+
+  } catch (error) {
+    console.error('error', error);
+    yield put({ type: CANCEL_APPOINTMENT_FAILURE, payload: error });
   }
 }
 
@@ -208,7 +322,11 @@ function* AppointmentSaga() {
   yield takeLatest(LIST_DOCTOR_REQUEST, listDoctor);
   yield takeLatest(REMOVE_DOCTOR_REQUEST, deleteDoctor);
   yield takeLatest(LIST_PATIENT_REQUEST, listPatient);
+  yield takeLatest(ADD_PATIENT_REQUEST, addPatient);
+  yield takeLatest(EDIT_PATIENT_REQUEST, editPatient);
+  yield takeLatest(REMOVE_PATIENT_REQUEST, removePatient);
   yield takeLatest(CREATE_APPOINTMENT_REQUEST, create);
+  yield takeLatest(CANCEL_APPOINTMENT_REQUEST, cancelAppt);
   yield takeLatest(PAIEMENT_APPOINTMENT_REQUEST, paiementAppt);
 }
 

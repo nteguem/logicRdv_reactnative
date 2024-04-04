@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Alert, Image, StyleSheet, View, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react'
+import { Alert, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { colors } from './colors';
 import CustomAppButton from './CustomAppButton';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -12,7 +12,8 @@ import ModalPatient from '../ListOfPatients/Modal';
 import { Linking } from 'react-native';
 import Share from 'react-native-share';
 import SvgUri from 'react-native-svg-uri';
-
+import { useDispatch, connect } from 'react-redux';
+import { editPatientRequest } from '../../redux/appointment/actions';
 
 const Doctor = ({
   isRightIcons = false,
@@ -40,7 +41,8 @@ const Doctor = ({
   handleDelete,
   lat,
   lng,
-  user 
+  user,
+  tokenappointment
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -76,10 +78,38 @@ const Doctor = ({
 
     Linking.openURL(wazeUrl).catch(err => console.error('Erreur lors de l\'ouverture de Waze :', err));
   };
+
+  const [nom, setNom] = useState('');
+  const [prenom, setPrenom] = useState('');
+  const [email, setEmail] = useState('');
+  const [telephone, setTelephone] = useState('');
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user) {
+      setNom(user.nom || '');
+      setPrenom(user.prenom || '');
+      setEmail(user.email || '');
+      setTelephone(user.phone || '');
+    }
+  }, [user]);
+
+  const handleEditPatient = async (patient) => {
+    console.log(patient.token )
+    setNom(patient.nom || '');
+    setPrenom(patient.prenom || '');
+    setEmail(patient.email || '');
+    setTelephone(patient.phone || '');
+    setModalVisible(true);
+    const tokenpatient = patient?.token
+    await dispatch(editPatientRequest(tokenappointment, tokenpatient, email, prenom, telephone, nom));
+  };
+
   return (
     <View style={styles.Container}>
       {/* les donnee de gauche ie juste l'icon de photo */}
-      <View style={[styles.leftColumn, { marginLeft: isUpdate || isDetail ? 0 : 0, alignItems: isSearch ? 'center' : 'flex-start' }]}>
+      <View style={[styles.leftColumn, { marginLeft: isUpdate || isDetail ? 0 : 0, alignItems: isSearch ? 'center' : 'center' }]}>
         <View style={styles.usericon}>
           {isProfileIcon && (
             <View style={styles.circleUser}>
@@ -122,10 +152,10 @@ const Doctor = ({
 
       <View style={{ marginLeft: isAppointment ? 0 : isSearch ? 0 : isDetail ? 0 : 0, marginRight: isSearch ? 0 : 'none', flexWrap: 'wrap', }}>
         <View style={{ marginLeft: isUpdate || isAppointment || isDetail || isSearch ? 0 : 0 }}>
-          <View style= {{ width: isIcon ? '90%' : 200}}>
-          <CustomText fontSize={15} color={colorTitle} fontWeight={'bold'} style={{ marginBottom: marginBottom }}>
-            {texte1}
-          </CustomText>
+          <View style={{ width: isIcon ? '90%' : 200 }}>
+            <CustomText fontSize={15} color={colorTitle} fontWeight={'bold'} style={{ marginBottom: marginBottom }}>
+              {texte1}
+            </CustomText>
           </View>
 
           <View style={[styles.detailsContainer, { marginBottom: 5 }]}>
@@ -137,16 +167,18 @@ const Doctor = ({
             </CustomText>
           </View>
 
-          <View style={[styles.detailsContainer, { marginBottom: 5 }]}>
-            {isIcon && (
-              <MaterialCommunityIcons name="calendar-blank" size={18} color={colors.blue} marginRight={5} />
-            )}
-            <View style= {{ width: isSearch ? 200 : 'auto'}}>
-            <CustomText fontSize={11} color={colorContain}>
-              {texte3}
-            </CustomText>
+          {texte3 !== "" && (
+            <View style={[styles.detailsContainer, { marginBottom: 5 }]}>
+              {isIcon && (
+                <MaterialCommunityIcons name="calendar-blank" size={18} color={colors.blue} marginRight={5} />
+              )}
+              <View style={{ width: isSearch ? 200 : 'auto' }}>
+                <CustomText fontSize={11} color={colorContain}>
+                  {texte3}
+                </CustomText>
+              </View>
             </View>
-          </View>
+          )}
 
           <View style={[styles.detailsContainer, { marginBottom: 5 }]}>
             {isIcon && (
@@ -203,7 +235,7 @@ const Doctor = ({
 
         {isLock && (
           <MaterialCommunityIcons
-            style={[styles.unique, {marginBottom: 16}]}
+            style={[styles.unique, { marginBottom: 16 }]}
             name="account-lock"
             color={colors.red}
             size={20}
@@ -212,7 +244,19 @@ const Doctor = ({
         )}
 
         {isUpdate && (
-          <ModalPatient isEdit isVisible={modalVisible} closeModal={() => setModalVisible(false)} user={user}/>
+          <ModalPatient
+            isEdit
+            isVisible={modalVisible}
+            user={user}
+            nom={nom}
+            prenom={prenom}
+            email={email}
+            telephone={telephone}
+            handleNomChange={setNom}
+            handlePrenomChange={setPrenom}
+            handleEmailChange={setEmail}
+            handleTelephoneChange={setTelephone}
+            handleEditPatient={handleEditPatient} />
         )}
 
         {isRightIcons && (
@@ -246,7 +290,7 @@ const Doctor = ({
         )}
 
         {isDelete && (
-          <Icon2 name="delete" color={colors.red} size={25} onPress = {handleDelete}/>
+          <Icon2 name="delete" color={colors.red} size={25} onPress={handleDelete} />
         )}
 
 

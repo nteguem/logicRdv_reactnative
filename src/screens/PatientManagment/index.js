@@ -16,7 +16,6 @@ function PatientManagement({ listDoctor, isLoading }) {
   }, []);
 
   const handleListPatient = (doctor) => {
-    console.log('doctor:::', doctor)
     const tokenappointment = doctor?.appointment?.token
     navigation.navigate('Liste des patients', { tokenappointment });
   };
@@ -26,10 +25,8 @@ function PatientManagement({ listDoctor, isLoading }) {
       <ScrollView>
         {
           listDoctor.map((doctor, index) => (
-            <View  >
-              <TouchableOpacity key={index} onPress={() => handleListPatient(doctor)}>
+              <TouchableOpacity key={doctor.id} onPress={() => handleListPatient(doctor)}>
                 <Doctor
-                  key={index}
                   texte2={doctor.category}
                   texte3={doctor.address}
                   texte4={`${doctor.zip} ${doctor.city}`}
@@ -42,8 +39,6 @@ function PatientManagement({ listDoctor, isLoading }) {
                   isProfileIcon
                 />
               </TouchableOpacity>
-
-            </View>
           ))
         }
       </ScrollView>

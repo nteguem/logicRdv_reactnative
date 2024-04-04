@@ -27,11 +27,21 @@ const SearchResult = ({ isLoading, isSearch = true }) => {
 
 
   const renderContent = () => {
+    const tas = result.length
+
+    if (tas === 0){
+      return(
+        <View style={styles.centered}>
+          <Image source={require('../../assets/images/Logo.png')} style={styles.image} />
+          <CustomText fontSize={12} color={colors.blue100} fontWeight='bold'>Aucunes données pour le moment.</CustomText>
+        </View>
+      )
+    }
     if (isSearch) {
       return (
         <ScrollView>
           {result.map((item, index) => (
-            item.civility === "Dr" && (
+            item.nom !== "Affiner ma recherche ..." && (
               <Doctor
                 key={index}
                 isProfileIcon={true}

@@ -15,6 +15,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
     const [location, setLocation] = useState('');
     const [profession, setProfession] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
+    const [ville_id, setVille_id] = useState("")
     const handleLocationChange = (text) => {
         setLocation(text);
     };
@@ -26,20 +27,31 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
             setProfession('');
         }
     };
+    const handleIdChange = (idcity, idname) => {
+        setVille_id(idcity);
+    };
 
 
-    const handleSearch = () => {
-        dispatch(resultRequest({
-            "proxy_ville":location,
-            "proxy_nom": profession,
-            "proxy_ville_id": "",
-            "proxy_nom_id": "",
-            "proxy_search": "",
-            "proxy_page": "2"
-        }));
-        
-
-        navigation.navigate("Résultats", { location, profession, results });
+    const handleSearch = async () => {
+        try {
+            await dispatch(resultRequest({
+                "proxy_ville": location,
+                "proxy_nom": profession,
+                "proxy_ville_id": "",
+                "proxy_nom_id": ville_id,
+                "proxy_search": "",
+                "proxy_page": "1"
+            }));
+            
+            console.log('====================================');
+            console.log("ceci est le result envoier", results, location, profession);
+            console.log('====================================');
+            if (results && results.length > 0) {
+                navigation.navigate("Résultats", { location, profession, results });
+            }
+        } catch (error) {
+            console.log("error", error);
+        }
     };
 
     return (
@@ -58,6 +70,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
                             borderWidth={borderWidth}
                             borderRadius={borderRadius}
                             borderColor={borderColor}
+                            onIdChange={handleIdChange}
                             clearInputText={()=>setLocation('')}
                         />
                     </View>
@@ -78,6 +91,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
                         borderWidth={borderWidth}
                         borderRadius={borderRadius}
                         borderColor={borderColor}
+                        onIdChange={handleIdChange}
                         clearInputText={()=>setProfession('')}
                     />
                 </View>

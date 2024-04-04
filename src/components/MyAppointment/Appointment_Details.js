@@ -73,6 +73,7 @@ const AppointmentDetails = (
     firstCompartmentBackgroundColor,
     userIcon,
     isDisplay,
+    handleCancelAppt,
     handleNewAppt,
     handleApptType
   }) => {
@@ -111,7 +112,7 @@ const AppointmentDetails = (
         </View>
         <View style={[styles.button, { display: display }]}>
           <CustomAppButton
-            onPress={() => Alert.alert('Button pressed')}
+            onPress={handleCancelAppt}
             title={cancelButton}
             bkgroundColor='transparent'
             borderWidth={1}

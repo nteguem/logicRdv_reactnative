@@ -46,7 +46,6 @@ import {
 import { colors } from '../global/colors';
 import Icon from 'react-native-vector-icons/Entypo';
 import CustomText from '../global/CustomText';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const FloatingLabelInput = ({
   label,
@@ -132,31 +131,7 @@ const FloatingLabelInput = ({
 const ValidationInfoCompletionForm = ({title}) => {
   const [securityNumber, setSecurityNumber] = useState('');
   const [reasonForAppointment, setReasonForAppointment] = useState('');
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [thisDate, setThisDate] = useState("");
 
-  const showDatePicker = () => {
-      setDatePickerVisibility(true);
-  };
-
-  const hideDatePicker = () => {
-      setDatePickerVisibility(false);
-  };
-
-  const handleConfirm = (date) => {
-      console.warn("A date has been picked: ", date);
-      setThisDate(formatDateToString(date)); 
-      hideDatePicker();
-  };
-
-  const formatDateToString = (date) => {
-      const day = date.getDate();
-      const month = date.getMonth() + 1;
-      const year = date.getFullYear();
-      const formattedDay = day < 10 ? `0${day}` : day;
-      const formattedMonth = month < 10 ? `0${month}` : month;
-      return `${formattedDay}/${formattedMonth}/${year}`;
-  };
 
 
   // const handleSelectDate = (date) => {

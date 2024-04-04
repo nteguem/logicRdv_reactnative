@@ -30,7 +30,6 @@ const DoctorListScreen = ({ listDoctor, isLoading, doctorDeletedMessage }) => {
   const handleDeleteDoctor = async () => {
     if (doctorToDelete) {
       const id = doctorToDelete.id
-      console.log('id::', id)
       await dispatch(removeDoctorRequest({ id: id }));
       setDoctorToDelete(null);
       setShowDeleteModal(false);
@@ -89,15 +88,6 @@ const DoctorListScreen = ({ listDoctor, isLoading, doctorDeletedMessage }) => {
         </View>
       </Modal>
 
-      {/* {doctorDeleted && (
-        showMessage({
-          message: '',
-          description: doctorDeleted.message,
-          type: 'info',
-          duration: 3500,
-        })
-      )} */}
-
       <ScrollView>
         {listDoctor.map((doctor, index) => (
           <Doctor
@@ -113,7 +103,7 @@ const DoctorListScreen = ({ listDoctor, isLoading, doctorDeletedMessage }) => {
             fontWeight={'bold'}
             isPhoneIcons
             isProfileIcon
-            isDelete
+            isDelete={listDoctor.length > 1}
             isAppointment
             isRightIcons
             lat={doctor.lat}
