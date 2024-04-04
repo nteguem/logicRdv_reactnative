@@ -156,10 +156,10 @@ const Appointments = ({ list, isLoading }) => {
                                 isDisplay
                                 handleApptType={() => handleApptType(item)}
                                 handleNewAppt={() => handleNewAppt(item)}
-                                handleCancelAppt={() => {
+                                handleCancelAppt={(item?.appointment?.past !== '1' && item?.appointment?.status === 'cancel') ? () => {
                                     setApptToCancel(item);
                                     setShowDeleteModal(true);
-                                }}
+                                } : null}
                             />
                         ))}
                     </>
