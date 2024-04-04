@@ -6,6 +6,9 @@ import {
   CREATE_APPOINTMENT_REQUEST,
   CREATE_APPOINTMENT_SUCCESS,
   CREATE_APPOINTMENT_FAILURE,
+  CANCEL_APPOINTMENT_REQUEST,
+  CANCEL_APPOINTMENT_SUCCESS,
+  CANCEL_APPOINTMENT_FAILURE,
   LIST_DOCTOR_REQUEST,
   LIST_DOCTOR_SUCCESS,
   LIST_DOCTOR_FAILURE,
@@ -44,6 +47,7 @@ const initialState = {
   type: '',
   session: '',
   doctorDeletedMessage: '',
+  apptCanceledMessage: '',
   error: '',
   params: {},
   message: '',
@@ -108,6 +112,24 @@ const AppointmentReducer = (state = initialState, action) => {
         type: action.payload.data.type,
         session: action.payload.data.session,
       }
+
+    case CANCEL_APPOINTMENT_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case CANCEL_APPOINTMENT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        apptCanceledMessage: action.payload.message
+      };
+    case CANCEL_APPOINTMENT_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+      };
+
     case LIST_DOCTOR_REQUEST:
       return {
         ...state,

@@ -36,6 +36,9 @@ import {
   REMOVE_PATIENT_FAILURE,
   REMOVE_PATIENT_REQUEST,
   REMOVE_PATIENT_SUCCESS,
+  CANCEL_APPOINTMENT_SUCCESS,
+  CANCEL_APPOINTMENT_REQUEST,
+  CANCEL_APPOINTMENT_FAILURE,
 } from './types';
 import * as RootNavigation from '../../routes/RootNavigation';
 
@@ -213,6 +216,7 @@ function* create({ payload }) {
     const response = yield call(sendRequest, 'POST', endpoint, body);
     yield put({ type: CREATE_APPOINTMENT_SUCCESS, payload: response });
     console.log("response  :", response)
+    console.log("apptsinprogress: ", response.data.apptsinprogress);
 
     switch (response.data.type) {
       case "appttype":
@@ -220,7 +224,7 @@ function* create({ payload }) {
         break;
 
       case "apptcreneaux":
-       yield RootNavigation.navigate('Jour et Heure du Rdv', { tokenappointment: response.params.tokenappointment, title: payload.optionalParam });
+        yield RootNavigation.navigate('Jour et Heure du Rdv', { tokenappointment: response.params.tokenappointment, title: payload.optionalParam });
         break;
 
       case "apptnothing":
@@ -248,7 +252,7 @@ function* create({ payload }) {
         break;
 
       case "apptconfirm":
-        console.log("appconfirm::",response.data.data.payment)
+        console.log("appconfirm::", response.data.data.payment)
         yield RootNavigation.navigate('Valider le Rendez-vous', { tokenappointment: response.params.tokenappointment });
         showMessage({
           message: 'Validation du rendez-vous',
@@ -276,7 +280,30 @@ function* create({ payload }) {
 
   } catch (error) {
     console.log("error:", error)
-    yield put({ type: CREATE_APPOINTMENT_FAILURE, payload: error });
+    yield put({ tyANCEL, payload: error });
+  }
+}
+
+function* cancelAppt({ payload }) {
+  try {
+    const endpoint = 'account/appcancel/';
+    const userData = yield getUserData();
+    const body = { "tokenuser": userData.tokenuser, "tokenappointment": payload.tokenappointment.tokenappointment };
+    const response = yield call(sendRequest, 'POST', endpoint, body);
+    console.log(response)
+    if (response.httpstatut == 200) {
+      yield put({ type: CANCEL_APPOINTMENT_SUCCESS, payload: { message: response.message } });
+      showMessage({
+        message: 'Annulation du rdv',
+        description: 'Rendez-vous annulé avec succès!',
+        type: 'info',
+        duration: 3500,
+      });
+    }
+
+  } catch (error) {
+    console.error('error', error);
+    yield put({ type: CANCEL_APPOINTMENT_FAILURE, payload: error });
   }
 }
 
@@ -300,6 +327,7 @@ function* AppointmentSaga() {
   yield takeLatest(EDIT_PATIENT_REQUEST, editPatient);
   yield takeLatest(REMOVE_PATIENT_REQUEST, removePatient);
   yield takeLatest(CREATE_APPOINTMENT_REQUEST, create);
+  yield takeLatest(CANCEL_APPOINTMENT_REQUEST, cancelAppt);
   yield takeLatest(PAIEMENT_APPOINTMENT_REQUEST, paiementAppt);
 }
 

@@ -1,5 +1,5 @@
-import { View, ScrollView } from 'react-native'
-import React, { useRef, useState } from 'react'
+import { View, ScrollView, Modal } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import ValidationInfoRDV from '../../components/ValidationAppointment/ValidationInfoRDV'
 import ValidationPaymentForm from '../../components/ValidationAppointment/ValidationPaymentForm'
@@ -12,7 +12,7 @@ import { useDispatch, connect } from 'react-redux';
 import { SafeAreaView, StyleSheet, TextInput, Animated, TouchableOpacity, } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import CustomText from '../../components/global/CustomText'
-import { createAppointmentRequest } from '../../redux/appointment/actions'
+import { cancelAppointmentRequest, createAppointmentRequest } from '../../redux/appointment/actions'
 import AppointmentDetails from '../../components/MyAppointment/Appointment_Details'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { showMessage } from 'react-native-flash-message'
@@ -26,6 +26,7 @@ const FloatingLabelInput = ({
   maxLength,
   numberOfLines,
   showCrossIcon = false,
+  required,
   ...rest
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -80,13 +81,14 @@ const FloatingLabelInput = ({
         <TextInput
           ref={inputRef}
           style={[styles.input, multiline && styles.multilineInput]}
-          value={value}
+          value={String(value)}
           onChangeText={onChangeText}
           onFocus={handleFocus}
           onBlur={handleBlur}
           multiline={multiline}
           keyboardType={keyboardType}
           maxLength={maxLength}
+          required={required}
           {...rest}
         />
         {showCrossIcon && value !== '' && (
@@ -99,73 +101,101 @@ const FloatingLabelInput = ({
 
 const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) => {
   const { tokenappointment } = route.params;
-  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [apptToCancel, setApptToCancel] = useState(null);
+  const [showAppointmentList, setShowAppointmentList] = useState(false);
   const [securityNumber, setSecurityNumber] = useState('');
   const [reasonForAppointment, setReasonForAppointment] = useState('');
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [thisDate, setThisDate] = useState("");
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(true);
+  const [thisDate, setThisDate] = useState('');
+
+  useEffect(() => {
+    // Initialize securityNumber, reasonForAppointment, and thisDate with data values
+    if (data && data.apptinput) {
+      const securityNumberInput = data.apptinput.find(input => input.name === 'client_nir');
+      const reasonForAppointmentInput = data.apptinput.find(input => input.name === 'note');
+      const thisDateInput = data.apptinput.find(input => input.name === 'client_birthday');
+
+      if (securityNumberInput) {
+        setSecurityNumber(securityNumberInput.value);
+      }
+      if (reasonForAppointmentInput) {
+        setReasonForAppointment(reasonForAppointmentInput.value);
+      }
+      if (thisDateInput) {
+        setThisDate(thisDateInput.value);
+      }
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (data?.apptsinprogress?.appts.length > 0) {
+      setShowAppointmentList(true);
+    } else {
+      setShowAppointmentList(false);
+    }
+  }, [data]);
 
   const showDatePicker = () => {
-      setDatePickerVisibility(true);
+    setDatePickerVisibility(true);
   };
 
   const hideDatePicker = () => {
-      setDatePickerVisibility(false);
+    setDatePickerVisibility(false);
   };
 
   const handleConfirm = (date) => {
-      console.warn("A date has been picked: ", date);
-      setThisDate(formatDateToString(date)); 
-      hideDatePicker();
+    console.warn("A date has been picked: ", date);
+    setThisDate(formatDateToString(date));
+    hideDatePicker();
   };
 
   const formatDateToString = (date) => {
-      const day = date.getDate();
-      const month = date.getMonth() + 1;
-      const year = date.getFullYear();
-      const formattedDay = day < 10 ? `0${day}` : day;
-      const formattedMonth = month < 10 ? `0${month}` : month;
-      return `${formattedDay}/${formattedMonth}/${year}`;
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const formattedDay = day < 10 ? `0${day}` : day;
+    const formattedMonth = month < 10 ? `0${month}` : month;
+    return `${formattedDay}/${formattedMonth}/${year}`;
   };
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const handleDateChange = text => {
-    // Supprimer tout sauf les chiffres et le caractère "/"
-    const formattedText = text.replace(/[^\d/]/g, '');
-
-    // Vérifier si la longueur est inférieure à 11 pour correspondre au format "dd/mm/yyyy"
-    if (formattedText.length <= 10) {
-      // Si la longueur est de 2 ou 5, ajoutez automatiquement "/"
-      if (formattedText.length === 2 || formattedText.length === 5) {
-        if (formattedText.charAt(formattedText.length - 1) !== '/') {
-          setDateOfBirth(formattedText + '/');
-        } else {
-          setDateOfBirth(formattedText);
-        }
-      } else {
-        setDateOfBirth(formattedText);
-      }
-    }
-  };
 
   const handleSecurityNumberChange = text => {
-    setSecurityNumber(text)
+    setSecurityNumber(text);
   };
 
   const handleReasonForAppointmentChange = text => {
     setReasonForAppointment(text)
   };
 
-  const handleConfirmationAppointment = async (week, data, action) => {
+  const handleCancelAppt = async () => {
+    if (apptToCancel) {
+      const tokenappointment = apptToCancel?.token
+      await dispatch(cancelAppointmentRequest({ tokenappointment: tokenappointment }));
+      setApptToCancel(null);
+      setShowDeleteModal(false);
+    }
+  }
+
+  const handleConfirmationAppointment = async (week, action) => {
     // Vérifier si les champs obligatoires sont remplis
-    if (dateOfBirth && securityNumber && reasonForAppointment) {
-      await dispatch(createAppointmentRequest(tokenappointment, week, data, action, session));
+    const mandatoryFields = [
+      { label: 'Date de naissance', mandatory: '1', name: 'client_birthday', value: thisDate },
+      { label: 'Numéro de sécurité social', mandatory: '1', name: 'client_nir', value: securityNumber },
+      { label: 'Motif du Rdv', mandatory: '1', name: 'note', value: reasonForAppointment }
+    ];
+    const filledMandatoryFields = mandatoryFields.filter((field) => field?.value.trim() !== '');
+    console.log('mandatoryFields', mandatoryFields);
+    console.log('filledMandatoryFields', filledMandatoryFields);
+    if (mandatoryFields.length === filledMandatoryFields.length) {
+      await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session));
       navigation.navigate('Confirmation rdv', { tokenappointment: tokenappointment, data });
     } else {
       showMessage({
         message: 'Champs manquants',
-        description: 'Veuillez remplir tout les champs de la section INFORMATION A COMPLETER',
+        description: 'Veuillez remplir tous les champs obligatoires.',
         type: 'warning',
         duration: 3500,
       });
@@ -174,14 +204,64 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
 
   return (
     <ContainerScreen isLoading={isLoadingAppointment}>
-      {data?.apptsinprogress?.appts.length > 0 ? (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showDeleteModal}
+        onRequestClose={() => setShowDeleteModal(false)}
+      >
+        <View style={styles.modalBackground}></View>
+        <View style={styles.centeredView}>
+          <View
+            style={[styles.modalView,
+            {
+              borderRadius: 8
+            }]}
+          >
+            <View style={styles.body}>
+              <CustomText fontSize={12} fontWeight='bold'>Êtes-vous sûr de vouloir annuler ce rendez-vous ?</CustomText>
+              <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 8 }}>
+                <CustomAppButton
+                  onPress={() => setShowDeleteModal(false)}
+                  title="Annuler"
+                  alignSelf="baseline"
+                  paddingVertical={16}
+                  paddingHorizontal={40}
+                  textColor={colors.white}
+                  textFontSize={12}
+                  borderRadius={5}
+                  bkgroundColor={colors.blue}
+                  userIcon
+                  display='none'
+                />
+                <CustomAppButton
+                  onPress={() => handleCancelAppt(apptToCancel)}
+                  title="Confirmer"
+                  alignSelf="baseline"
+                  paddingVertical={16}
+                  paddingHorizontal={30}
+                  textColor={colors.white}
+                  textFontSize={12}
+                  borderRadius={5}
+                  bkgroundColor={colors.red}
+                  userIcon
+                  display='none'
+                />
+              </View>
+
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {showAppointmentList ? (
         <ScrollView>
           <CustomText fontSize={10} color={colors.black} style={{ marginVertical: 12 }}>
             {data?.apptsinprogress.message}
           </CustomText>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
             <CustomAppButton
-              // onPress={handleAppointment}
+              onPress={() => setShowAppointmentList(false)}
               title='POURSUIVRE LA PRISE DE RDV'
               alignSelf="baseline"
               paddingVertical={16}
@@ -207,6 +287,10 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
               firstCompartmentBackgroundColor={colors.blue}
               userIcon={true}
               display='flex'
+              handleCancelAppt={() => {
+                setApptToCancel(appt);
+                setShowDeleteModal(true);
+              }}
             />
           ))}
         </ScrollView>
@@ -234,46 +318,36 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
 
               <View style={styles.compartment}>
                 {data?.apptinput &&
-                  data?.apptinput.map((input, index) => (
-                    <FloatingLabelInput
-                      key={index}
-                      label={input?.label}
-                      value={
-                        input.name === 'client_birthday' ? thisDate :
-                          input.name === 'client_nir' ? securityNumber :
-                            input.name === 'note' ? reasonForAppointment :
-                              input.value
-                      }
-                      onChangeText={
-                        input.name === 'client_birthday' ? formatDateToString :
-                          input.name === 'client_nir' ? handleSecurityNumberChange :
-                            handleReasonForAppointmentChange
-                      }
-                      onFocus={
-                        input.name === 'client_birthday' ? showDatePicker :
-                          input.name === 'client_nir' ? handleSecurityNumberChange :
-                            input.name === 'note' ? handleReasonForAppointmentChange :
-                              input.name
-                      }
-                      placeholderTextColor="gray"
-                      maxLength={input.name === 'note' ? 40 : 10}
-                      keyboardType={input.name === 'note' ? 'default' : 'numeric'}
-                      numberOfLines={input.name === 'note' ? 6 : 'single'}
-                      multiline={input.name === 'note' ? true : false}
-                      showCrossIcon
-                    />
-                  ))}
+                  data?.apptinput.map((input, index) => {
+                    return (
+                      <FloatingLabelInput
+                        key={index}
+                        label={input?.label}
+                        value={input?.name === 'client_birthday' ? thisDate : input?.name === 'client_nir' ? securityNumber : reasonForAppointment}
+                        onChangeText={input?.name === 'client_birthday' ? formatDateToString : input?.name === 'client_nir' ? handleSecurityNumberChange : handleReasonForAppointmentChange}
+                        onFocus={input?.name === 'client_birthday' ? showDatePicker : null} // Vous pouvez définir onFocus à null pour désactiver la gestion de l'événement onFocus
+                        placeholderTextColor="gray"
+                        maxLength={input?.name === 'note' ? 40 : 10}
+                        keyboardType={input?.name === 'note' ? 'default' : 'numeric'}
+                        numberOfLines={input?.name === 'note' ? 6 : 1}
+                        multiline={input?.name === 'note'}
+                        showCrossIcon={input?.name !== 'client_birthday'}
+                        required={input?.mandatory === '1'}
+                      />
+                    );
+                  })}
+
               </View>
             </View>
           </SafeAreaView>
 
-          {data?.payment !== '' && (
+          {data?.payment && Object.keys(data.payment).length > 0 && (
             <ValidationPaymentForm />
           )}
 
-          {data?.payment?.amountlabel !== '' && (
+          {data?.payment && Object.keys(data.payment).length > 0 && (
             <ValidationNoticeRDV
-              container={`${data?.payment?.amountlabel}: ${data?.payment?.amount}`}
+              container={`${data.payment.amountlabel}: ${data.payment.amount}`}
               fontWeight='bold'
             />
           )}
@@ -284,7 +358,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
             />
           </View>
 
-          {data?.payment?.amountlabel !== '' && (
+          {data?.payment && Object.keys(data.payment).length > 0 && (
             <ValidationNoticeRDV
               container={data?.payment?.infos}
             />
@@ -292,7 +366,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
 
           <View style={{ width: '100%', marginVertical: 10 }}>
             <CustomAppButton
-              onPress={() => handleConfirmationAppointment(data.apptbuttonvalidation.onclick_week, data.apptbuttonvalidation.onclick_data, data.apptbuttonvalidation.onclick_action)}
+              onPress={() => handleConfirmationAppointment(data.apptbuttonvalidation.onclick_week, data.apptbuttonvalidation.onclick_action)}
               iconComponent={<MaterialIcons name="save" size={18} color={colors.white} style={{ marginRight: 5 }} />}
               title={data?.apptbuttonvalidation?.label}
               alignSelf="center"
@@ -305,21 +379,21 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
             />
           </View>
           <DateTimePickerModal
-                isVisible={isDatePickerVisible}
-                mode="date"
-                theme={{
-                    backgroundColor: "blue",
-                    headerTextColor: "white",
-                    headerBackgroundColor: "blue",
-                    accentColor: "white",
-                    textDayFontSize: 18,
-                    textMonthFontSize: 20,
-                    textDayHeaderFontSize: 16,
-                    textDayFontWeight: "bold",
-                }}
-                onConfirm={handleConfirm}
-                onCancel={hideDatePicker}
-            />
+            isVisible={isDatePickerVisible}
+            mode="date"
+            theme={{
+              backgroundColor: "blue",
+              headerTextColor: "white",
+              headerBackgroundColor: "blue",
+              accentColor: "white",
+              textDayFontSize: 18,
+              textMonthFontSize: 20,
+              textDayHeaderFontSize: 16,
+              textDayFontWeight: "bold",
+            }}
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+          />
         </ScrollView>
       )}
 
@@ -377,6 +451,48 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: 12,
   },
+  centeredView: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    modalView: {
+      backgroundColor: 'white',
+      padding: 10,
+      shadowColor: colors.black,
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+      width: "80%",
+    },
+    compartment: {
+      marginTop: -10,
+      marginHorizontal: -10
+    },
+    body: {
+      flexDirection: 'column',
+      marginVertical: 16,
+      gap: 12
+    },
+    containButton: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      gap: 8,
+      marginTop: 14
+    },
+    modalBackground: {
+      position: 'absolute',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Couleur de fond semi-transparente
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+    },
 });
 
 const mapStateToProps = (state) => ({
