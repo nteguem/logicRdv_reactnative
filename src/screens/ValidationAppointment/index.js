@@ -60,14 +60,13 @@ const FloatingLabelInput = ({
 
   const handleLabelPress = () => {
     setIsFocused(true);
-    // Focus the input field programmatically
     inputRef.current.focus();
   };
 
   const inputRef = useRef(null);
 
   const clearText = () => {
-    onChangeText(''); // Effacer le texte
+    onChangeText(''); 
   };
 
   return (
@@ -110,7 +109,6 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
   const [thisDate, setThisDate] = useState('');
 
   useEffect(() => {
-    // Initialize securityNumber, reasonForAppointment, and thisDate with data values
     if (data && data.apptinput) {
       const securityNumberInput = data.apptinput.find(input => input.name === 'client_nir');
       const reasonForAppointmentInput = data.apptinput.find(input => input.name === 'note');
@@ -148,7 +146,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
-    const formattedDay = day < 10 ? `00${day}` : day;
+    const formattedDay = day < 10 ? `0${day}` : day;
     const formattedMonth = month < 10 ? `0${month}` : month;
     return `${formattedDay}/${formattedMonth}/${year}`;
   };
