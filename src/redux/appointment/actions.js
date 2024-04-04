@@ -10,9 +10,9 @@ export const createAppointmentRequest = (tokenappointment, week, data, action, s
   payload: { tokenappointment, week, data, action, session, optionalParam },
 });
 
-export const cancelAppointmentRequest = (tokenappointment) => ({
+export const cancelAppointmentRequest = (token) => ({
   type: types.CANCEL_APPOINTMENT_REQUEST,
-  payload: { tokenappointment },
+  payload: { token },
 });
 
 export const listDoctorRequest = (data) => ({
