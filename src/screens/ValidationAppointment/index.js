@@ -2,7 +2,6 @@ import { View, ScrollView, Modal } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import ValidationInfoRDV from '../../components/ValidationAppointment/ValidationInfoRDV'
-import ValidationPaymentForm from '../../components/ValidationAppointment/ValidationPaymentForm'
 import ValidationNoticeRDV from '../../components/ValidationAppointment/ValidationNoticeRDV'
 import CustomAppButton from '../../components/global/CustomAppButton'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -15,8 +14,8 @@ import CustomText from '../../components/global/CustomText'
 import { cancelAppointmentRequest, createAppointmentRequest } from '../../redux/appointment/actions'
 import AppointmentDetails from '../../components/MyAppointment/Appointment_Details'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { showMessage } from 'react-native-flash-message'
-import { CardField, useStripe } from '@stripe/stripe-react-native';
+import { CardField } from '@stripe/stripe-react-native';
+
 const FloatingLabelInput = ({
   label,
   value,
@@ -31,7 +30,6 @@ const FloatingLabelInput = ({
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const animatedIsFocused = new Animated.Value(value === '' ? 0 : 1);
-
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => setIsFocused(false);
 
@@ -107,6 +105,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
   const [reasonForAppointment, setReasonForAppointment] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(true);
   const [thisDate, setThisDate] = useState('');
+  const [cardDetails, setCardDetails] = useState(null);
 
   useEffect(() => {
     if (data && data.apptinput) {
@@ -170,7 +169,6 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
 
   const handleCancelAppt = async () => {
     if (apptToCancel) {
-      console.log(apptToCancel);
       const tokenappointment = apptToCancel?.token
       await dispatch(cancelAppointmentRequest({ tokenappointment: tokenappointment }));
       await dispatch(createAppointmentRequest(params.tokenappointment, params.week, params.data, params.action, params.session));
@@ -180,7 +178,6 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
   }
 
   const handleConfirmationAppointment = async (week, action) => {
-    // Vérifier si les champs obligatoires sont remplis
     const mandatoryFields = [
       { label: 'Date de naissance', mandatory: '1', name: 'client_birthday', value: thisDate },
       { label: 'Numéro de sécurité social', mandatory: '1', name: 'client_nir', value: securityNumber },
@@ -188,8 +185,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
     ];
     const filledMandatoryFields = mandatoryFields.filter((field) => field?.value.trim() !== '');
     if (mandatoryFields.length === filledMandatoryFields.length) {
-      await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session));
-      navigation.navigate('Confirmation rdv', { tokenappointment: tokenappointment, data });
+      await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session,cardDetails));
     } else {
       showMessage({
         message: 'Champs manquants',
@@ -341,25 +337,27 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
 
           {data?.payment && Object.keys(data.payment).length > 0 && (
                 <CardField
-                postalCodeEnabled={true}
+                postalCodeEnabled={false}
                 placeholders={{
                   number: 'XXXX XXXX XXXX XXXX',
                   expiration: 'MM/YY',
                   cvc: 'CVC',
+                  color: '#AAAAAA'
                 }}
                 cardStyle={{
-                  // backgroundColor: 'none',
+                  backgroundColor: '#FFFFFF',
                   textColor: '#000000',
-                  
+                  borderRadius: 5,
+                  padding: 10,
                 }}
                 style={{
-                  height: 50,
+                  width: '100%',
+                  height: 100, 
+                  marginBottom:10,
                 }}
-                onCardChange={(cardDetails) => {
-                  console.log('cardDetails', cardDetails);
-                }}
-                onFocus={(focusedField) => {
-                  console.log('focusField', focusedField);
+          
+                onCardChange={(newCardDetails) => {
+                  setCardDetails(newCardDetails); 
                 }}
               />
           )}
