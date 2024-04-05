@@ -14,6 +14,7 @@ import CustomText from '../../components/global/CustomText'
 import { cancelAppointmentRequest, createAppointmentRequest } from '../../redux/appointment/actions'
 import AppointmentDetails from '../../components/MyAppointment/Appointment_Details'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { showMessage } from 'react-native-flash-message'
 import { CardField } from '@stripe/stripe-react-native';
 
 const FloatingLabelInput = ({
@@ -26,12 +27,27 @@ const FloatingLabelInput = ({
   numberOfLines,
   showCrossIcon = false,
   required,
+  onFocusDate,
   ...rest
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const animatedIsFocused = new Animated.Value(value === '' ? 0 : 1);
-  const handleFocus = () => setIsFocused(true);
+  const [isFilled, setIsFilled] = useState(Boolean(value));
+
+  const handleFocus = () => {
+    if (label === 'Date de naissance' && onFocusDate) {
+      onFocusDate(); // Si le champ de la date est focus, appeler onFocusDate
+    } else {
+      setIsFocused(true); // Sinon, utiliser la logique d'origine
+    }
+  };
   const handleBlur = () => setIsFocused(false);
+
+  useEffect(() => {
+    setIsFilled(Boolean(value)); // Mettre à jour isFilled à chaque changement de valeur
+  }, [value]);
+
+  const borderColor = required && !isFilled ? 'red' : '#aaa';
 
   Animated.timing(animatedIsFocused, {
     toValue: isFocused || value !== '' ? 1 : 0,
@@ -64,7 +80,7 @@ const FloatingLabelInput = ({
   const inputRef = useRef(null);
 
   const clearText = () => {
-    onChangeText(''); 
+    onChangeText('');
   };
 
   return (
@@ -77,7 +93,7 @@ const FloatingLabelInput = ({
       <View>
         <TextInput
           ref={inputRef}
-          style={[styles.input, multiline && styles.multilineInput]}
+          style={[styles.input, multiline && styles.multilineInput, { borderColor }]}
           value={String(value)}
           onChangeText={onChangeText}
           onFocus={handleFocus}
@@ -133,6 +149,13 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
     }
   }, [data]);
 
+  const handleFocusOnDate = () => {
+    showDatePicker(); // Affiche le sélecteur de date lorsqu'on clique sur le champ de date
+  };
+  
+  const handleBlurOnDate = () => {
+    hideDatePicker(); // Cache le sélecteur de date lorsqu'on quitte le champ de date
+  };
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -319,7 +342,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
                         label={input?.label}
                         value={input?.name === 'client_birthday' ? thisDate : input?.name === 'client_nir' ? securityNumber : reasonForAppointment}
                         onChangeText={input?.name === 'client_birthday' ? formatDateToString : input?.name === 'client_nir' ? handleSecurityNumberChange : handleReasonForAppointmentChange}
-                        onFocus={input?.name === 'client_birthday' ? showDatePicker : null} // Vous pouvez définir onFocus à null pour désactiver la gestion de l'événement onFocus
+                        onFocus={input?.name === 'client_birthday' ? showDatePicker : null} 
                         placeholderTextColor="gray"
                         maxLength={input?.name === 'note' ? 40 : 10}
                         keyboardType={input?.name === 'note' ? 'default' : 'numeric'}
@@ -471,47 +494,47 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   centeredView: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    backgroundColor: 'white',
+    padding: 10,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
     },
-    modalView: {
-      backgroundColor: 'white',
-      padding: 10,
-      shadowColor: colors.black,
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5,
-      width: "80%",
-    },
-    compartment: {
-      marginTop: -10,
-      marginHorizontal: -10
-    },
-    body: {
-      flexDirection: 'column',
-      marginVertical: 16,
-      gap: 12
-    },
-    containButton: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      alignItems: 'center',
-      gap: 8,
-      marginTop: 14
-    },
-    modalBackground: {
-      position: 'absolute',
-      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Couleur de fond semi-transparente
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    width: "80%",
+  },
+  compartment: {
+    marginTop: -10,
+    marginHorizontal: -10
+  },
+  body: {
+    flexDirection: 'column',
+    marginVertical: 16,
+    gap: 12
+  },
+  containButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    gap: 8,
+    marginTop: 14
+  },
+  modalBackground: {
+    position: 'absolute',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Couleur de fond semi-transparente
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
 });
 
 const mapStateToProps = (state) => ({

@@ -36,8 +36,10 @@ const Appointments = ({ list, isLoading }) => {
 
     const handleCancelAppt = async () => {
         if (apptToCancel) {
+            console.log(apptToCancel);
             const tokenappointment = apptToCancel?.appointment?.token
             await dispatch(cancelAppointmentRequest({ tokenappointment: tokenappointment }));
+            await dispatch(listAppointmentsRequest({ "id": 1 }));
             setApptToCancel(null);
             setShowDeleteModal(false);
         }
@@ -60,7 +62,7 @@ const Appointments = ({ list, isLoading }) => {
                         }]}
                     >
                         <View style={styles.body}>
-                            <CustomText fontSize={12} fontWeight='bold'>Êtes-vous sûr de vouloir annuler ce rendez-vous ?</CustomText>
+                            <CustomText fontSize={12} fontWeight='bold' color={colors.black}>Êtes-vous sûr de vouloir annuler ce rendez-vous ?</CustomText>
                             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 8 }}>
                                 <CustomAppButton
                                     onPress={() => setShowDeleteModal(false)}
@@ -156,10 +158,10 @@ const Appointments = ({ list, isLoading }) => {
                                 isDisplay
                                 handleApptType={() => handleApptType(item)}
                                 handleNewAppt={() => handleNewAppt(item)}
-                                handleCancelAppt={(item?.appointment?.past !== '1' && item?.appointment?.status === 'cancel') ? () => {
+                                handleCancelAppt={(item?.appointment?.past === '1' && item?.appointment?.status === 'cancel') ? null : () => {
                                     setApptToCancel(item);
                                     setShowDeleteModal(true);
-                                } : null}
+                                }}
                             />
                         ))}
                     </>
@@ -187,44 +189,44 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-      },
-      modalView: {
+    },
+    modalView: {
         backgroundColor: 'white',
         padding: 10,
         shadowColor: colors.black,
         shadowOffset: {
-          width: 0,
-          height: 2,
+            width: 0,
+            height: 2,
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
         width: "80%",
-      },
-      compartment: {
+    },
+    compartment: {
         marginTop: -10,
         marginHorizontal: -10
-      },
-      body: {
+    },
+    body: {
         flexDirection: 'column',
         marginVertical: 16,
         gap: 12
-      },
-      containButton: {
+    },
+    containButton: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
         gap: 8,
         marginTop: 14
-      },
-      modalBackground: {
+    },
+    modalBackground: {
         position: 'absolute',
         backgroundColor: 'rgba(0, 0, 0, 0.5)', // Couleur de fond semi-transparente
         top: 0,
         bottom: 0,
         left: 0,
         right: 0,
-      },
+    },
 });
 const mapStateToProps = ({ AppointmentReducer }) => ({
     list: AppointmentReducer.list,

@@ -8,7 +8,7 @@ const CustomText = ({ children, fontSize, fontWeight, color, style, numberOfLine
     regularTextStyle: {
       fontSize: fontSize,
       fontWeight: fontWeight,
-      color: color || colors.black,
+      color: color || colors.gray,
       textAlign: 'left',
     },
   });

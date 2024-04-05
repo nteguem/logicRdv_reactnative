@@ -6,10 +6,12 @@ import PatientdetailsTwo from '../../components/Prepaiement/PatientdetailsTwo'
 import CustomText from '../../components/global/CustomText'
 import { colors } from '../../components/global/colors'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; 
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, connect } from 'react-redux';
 import { paiementApptRequest } from '../../redux/appointment/actions'
+import CustomAppButton from '../../components/global/CustomAppButton'
+import { CardField, useStripe } from '@stripe/stripe-react-native';
 
 const Paiement = (
     {
@@ -21,9 +23,13 @@ const Paiement = (
     const { tokentelecons } = route.params;
     const dispatch = useDispatch();
     const navigation = useNavigation();
-console.log(paiement)
-    const handleVideocall = () =>{
-        navigation.navigate("Video Call", {paiement} )
+    console.log(paiement)
+    const handleVideocall = () => {
+        navigation.navigate("Video Call", { paiement })
+    }
+
+    const handlePrepaiement = () => {
+        // navigation.navigate("Video Call", { paiement })
     }
 
     useEffect(() => {
@@ -40,11 +46,11 @@ console.log(paiement)
                                 {paiement?.etablissement?.nom}
                             </CustomText>
                             <CustomText fontSize={12} color={colors.white} style={{ fontStyle: 'italic' }}>
-                            {paiement?.etablissement?.address}
+                                {paiement?.etablissement?.address}
                             </CustomText>
                             <View style={{ flexDirection: "row", alignItems: "center" }}>
                                 <CustomText fontSize={12} color={colors.white}>
-                                {paiement?.etablissement?.tel}
+                                    {paiement?.etablissement?.tel}
                                 </CustomText>
                                 <View style={[styles.circle, { backgroundColor: colors.blue, marginLeft: 15, }]}>
                                     <Icon name="phone" size={18} color={colors.white} />
@@ -61,11 +67,49 @@ console.log(paiement)
                             paragraph1={paiement?.payment?.statuslabel}
                             paragraph2={paiement?.payment?.text}
                             textBottom={paiement?.payment?.history !== '' ? paiement?.payment?.history : null}
-                            iconComponent={paiement?.infos?.buttonstartteleconsdisabled === '1' ? (<MaterialIcons name="credit-card" size={18} color={colors.white} style={{ marginRight: 5 }} />) : (<MaterialIcons name="featured-video" size={18} color={colors.white} style={{ marginRight: 5 }} />)}
-                            buttonLabel={paiement?.infos?.buttonstartteleconsdisabled === '1' ? 'Prépaiement' : 'Lancer la Téléconsultation'}
-                            isTeleconsultation
-                            handleVideocall={handleVideocall}
                         />
+                        {paiement?.payment?.stripeClientSecret !== '' && (
+                            <CardField
+                                postalCodeEnabled={true}
+                                placeholders={{
+                                    number: 'XXXX XXXX XXXX XXXX',
+                                    expiration: 'MM/YY',
+                                    cvc: 'CVC',
+                                }}
+                                cardStyle={{
+                                    // backgroundColor: 'none',
+                                    textColor: '#000000',
+
+                                }}
+                                style={{
+                                    height: 50,
+                                }}
+                                onCardChange={(cardDetails) => {
+                                    console.log('cardDetails', cardDetails);
+                                }}
+                                onFocus={(focusedField) => {
+                                    console.log('focusField', focusedField);
+                                }}
+                            />
+                        )}
+
+                        {paiement?.appt?.buttoncancel === "1" && (
+                            <View style={{ width: '100%', marginTop: 15 }}>
+                                <CustomAppButton
+                                    onPress={ paiement?.payment?.stripeClientSecret !== '' ? handlePrepaiement : handleVideocall}
+                                    iconComponent={paiement?.infos?.buttonstartteleconsdisabled === '1' ? (<MaterialIcons name="credit-card" size={18} color={colors.white} style={{ marginRight: 5 }} />) : (<MaterialIcons name="featured-video" size={18} color={colors.white} style={{ marginRight: 5 }} />)}
+                                    title={paiement?.payment?.stripeClientSecret !== '' ? 'Prépaiement' : 'Lancer la Téléconsultation'}
+                                    alignSelf="center"
+                                    paddingVertical={15}
+                                    textColor={colors.white}
+                                    textFontSize={12}
+                                    borderRadius={10}
+                                    bkgroundColor={colors.blue}
+                                    width='100%'
+                                />
+                            </View>
+                        )}
+
                     </View>
                 </ScrollView>
             </ImageBackground>

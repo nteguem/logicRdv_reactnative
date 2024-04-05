@@ -235,7 +235,7 @@ const Doctor = ({
 
         {isLock && (
           <MaterialCommunityIcons
-            style={[styles.unique, { marginBottom: 16 }]}
+            style={[styles.unique, { marginBottom: 6 }]}
             name="account-lock"
             color={colors.red}
             size={20}
