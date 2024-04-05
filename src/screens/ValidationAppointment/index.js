@@ -187,26 +187,23 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
     }
   }
 
+  const mandatoryFields = [
+    { label: 'Date de naissance', mandatory: '1', name: 'client_birthday', value: thisDate },
+    { label: 'Numéro de sécurité social', mandatory: '1', name: 'client_nir', value: securityNumber },
+    { label: 'Motif du Rdv', mandatory: '1', name: 'note', value: reasonForAppointment }
+  ];
+
   const handleConfirmationAppointment = async (week, action) => {
-    // Vérifier si les champs obligatoires sont remplis
-    const mandatoryFields = [
-      { label: 'Date de naissance', mandatory: '1', name: 'client_birthday', value: thisDate },
-      { label: 'Numéro de sécurité social', mandatory: '1', name: 'client_nir', value: securityNumber },
-      { label: 'Motif du Rdv', mandatory: '1', name: 'note', value: reasonForAppointment }
-    ];
-    const filledMandatoryFields = mandatoryFields.filter((field) => field?.value.trim() !== '');
-    if (mandatoryFields.length === filledMandatoryFields.length) {
+    // Vérifier si tous les champs obligatoires sont remplis
+    const isAllFieldsFilled = mandatoryFields.every(field => field.value.trim() !== '');
+  
+    if (isAllFieldsFilled) {
       await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session));
       navigation.navigate('Confirmation rdv', { tokenappointment: tokenappointment, data });
-    } else {
-      showMessage({
-        message: 'Champs manquants',
-        description: 'Veuillez remplir tous les champs obligatoires.',
-        type: 'warning',
-        duration: 3500,
-      });
     }
   };
+
+  const isAllFieldsFilled = mandatoryFields.every(field => field.value.trim() !== '');
 
   return (
     <ContainerScreen isLoading={isLoadingAppointment}>
@@ -331,7 +328,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
                         label={input?.label}
                         value={input?.name === 'client_birthday' ? thisDate : input?.name === 'client_nir' ? securityNumber : reasonForAppointment}
                         onChangeText={input?.name === 'client_birthday' ? formatDateToString : input?.name === 'client_nir' ? handleSecurityNumberChange : handleReasonForAppointmentChange}
-                        onFocus={input?.name === 'client_birthday' ? showDatePicker : null} 
+                        onFocus={input?.name === 'client_birthday' ? showDatePicker : null}
                         placeholderTextColor="gray"
                         maxLength={input?.name === 'note' ? 40 : 10}
                         keyboardType={input?.name === 'note' ? 'default' : 'numeric'}
@@ -403,6 +400,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
               borderRadius={10}
               bkgroundColor={colors.blue}
               width='100%'
+              disabled={!isAllFieldsFilled}
             />
           </View>
           <DateTimePickerModal

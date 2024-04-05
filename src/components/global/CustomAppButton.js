@@ -42,10 +42,17 @@ const CustomAppButton = ({
       fontWeight: fontWeight,
       opacity: disabled ? 0.5 : 1
     },
+    icon: {
+      opacity: disabled ? 0.5 : 1
+    },
   });
   return (
       <TouchableOpacity onPress={onPress} style={styles.appButtonContainer} disabled={disabled}>
-        {iconComponent && iconComponent}
+        {iconComponent && (
+          <View style={styles.icon}> 
+            {iconComponent}
+          </View>
+        )}
         <CustomText
           fontSize={textFontSize}
           color={textColor}

@@ -10,7 +10,7 @@ import { useDispatch, connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { createAppointmentRequest } from '../../redux/appointment/actions'
 
-const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
+const DoctorDetails = ({ route, results, isLoading, doctorInfos, session }) => {
     const { civility, name, profession, adresse, zip, city, tel, proxy_ville_id, proxy_nom_id, tokenappointment } = route.params;
     const fullName = `${civility} ${name}`;
     const proxy_ville = `${zip} ${city}`;
@@ -28,7 +28,7 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos }) => {
 
     const handleMotifs = async () => {
         const tokenappointment = doctorInfos?.appointment?.token
-        await dispatch(createAppointmentRequest(tokenappointment, '', '', '', ''));
+        await dispatch(createAppointmentRequest(tokenappointment, '', '', '', session));
     };
 
     const CustomButtonComponent = (
@@ -134,7 +134,7 @@ const mapStateToProps = (state) => ({
     results: state.SearchReducer?.results,
     isLoading: state.SearchReducer?.isLoading,
     doctorInfos: state.SearchReducer?.doctorInfos,
-    // session: state.AppointmentReducer?.session,
+    session: state.AppointmentReducer?.session,
     // headerMessage: state.AppointmentReducer?.headerMessage,
     // type: state.AppointmentReducer?.type,
     // navigation: state.AppointmentReducer?.navigation,

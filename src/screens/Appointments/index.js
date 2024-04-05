@@ -4,13 +4,12 @@ import CustomAppButton from '../../components/global/CustomAppButton'
 import AppointmentDetails from '../../components/MyAppointment/Appointment_Details'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import { colors } from '../../components/global/colors'
-import dataAppointment from '../data/dataAppointment'
 import { useDispatch, connect } from 'react-redux';
 import CustomText from '../../components/global/CustomText'
 import { useNavigation } from '@react-navigation/native';
 import { cancelAppointmentRequest, createAppointmentRequest, listAppointmentsRequest, paiementApptRequest } from '../../redux/appointment/actions'
 
-const Appointments = ({ list, isLoading }) => {
+const Appointments = ({ list, isLoading, session }) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [apptToCancel, setApptToCancel] = useState(null);
     const navigation = useNavigation();
@@ -25,7 +24,7 @@ const Appointments = ({ list, isLoading }) => {
 
     const handleNewAppt = async (item) => {
         const tokenappointment = item?.cabinet?.token;
-        await dispatch(createAppointmentRequest(tokenappointment, '', '', '', ''));
+        await dispatch(createAppointmentRequest(tokenappointment, '', '', '', session));
     }
 
     const handleApptType = async (item) => {
@@ -231,6 +230,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({ AppointmentReducer }) => ({
     list: AppointmentReducer.list,
     isLoading: AppointmentReducer.isLoading,
+    session: AppointmentReducer.session
 });
 
 export default connect(mapStateToProps)(Appointments);
