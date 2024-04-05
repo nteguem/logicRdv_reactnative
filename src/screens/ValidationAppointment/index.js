@@ -15,7 +15,7 @@ import { cancelAppointmentRequest, createAppointmentRequest } from '../../redux/
 import AppointmentDetails from '../../components/MyAppointment/Appointment_Details'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { showMessage } from 'react-native-flash-message'
-import { CardField } from '@stripe/stripe-react-native';
+import { CardField} from '@stripe/stripe-react-native';
 
 const FloatingLabelInput = ({
   label,
@@ -193,14 +193,6 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
   ];
 
   const handleConfirmationAppointment = async (week, action) => {
-<<<<<<< HEAD
-    // Vérifier si tous les champs obligatoires sont remplis
-    const isAllFieldsFilled = mandatoryFields.every(field => field.value.trim() !== '');
-  
-    if (isAllFieldsFilled) {
-      await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session));
-      navigation.navigate('Confirmation rdv', { tokenappointment: tokenappointment, data });
-=======
     const mandatoryFields = [
       { label: 'Date de naissance', mandatory: '1', name: 'client_birthday', value: thisDate },
       { label: 'Numéro de sécurité social', mandatory: '1', name: 'client_nir', value: securityNumber },
@@ -208,7 +200,8 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
     ];
     const filledMandatoryFields = mandatoryFields.filter((field) => field?.value.trim() !== '');
     if (mandatoryFields.length === filledMandatoryFields.length) {
-      await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session,cardDetails));
+        await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session,cardDetails));
+
     } else {
       showMessage({
         message: 'Champs manquants',
@@ -216,7 +209,6 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
         type: 'warning',
         duration: 3500,
       });
->>>>>>> 61c3fd9c867b89e8c0023187d5f00b692da75664
     }
   };
 
