@@ -12,11 +12,12 @@ import { addPatientRequest, createAppointmentRequest, listPatientRequest, remove
 import CustomAppButton from '../../components/global/CustomAppButton'
 import { setModalVisible } from '../../redux/app/actions'
 
-const ListOfPatients = ({ route, listPatient, isLoading, session, user }) => {
+const ListOfPatients = ({ route, listPatient, isLoading, session, user, data }) => {
     const { tokenappointment } = route.params;
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [patientToDelete, setPatientToDelete] = useState(null);
-
+console.log('data././.', data)
+console.log('listPatient././.', listPatient)
     const dispatch = useDispatch();
 
     const truncateText = (text, maxLength) => {
@@ -33,7 +34,7 @@ const ListOfPatients = ({ route, listPatient, isLoading, session, user }) => {
 
     const handleAppt = async (patient) => {
         console.log(patient)
-        if (patient?.lockmessage !== "") {
+        if (patient.locked === "1") {
             await dispatch(setModalVisible(true, patient?.lockmessage));
         } else {
             // const action = patient?.onclick_action
@@ -103,7 +104,7 @@ const ListOfPatients = ({ route, listPatient, isLoading, session, user }) => {
                         }]}
                     >
                         <View style={styles.body}>
-                            <CustomText fontSize={12} fontWeight='bold'>Êtes-vous sûr de vouloir supprimer ce patient ?</CustomText>
+                            <CustomText fontSize={12} fontWeight='bold' color={colors.black}>Êtes-vous sûr de vouloir supprimer ce patient ?</CustomText>
                             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 8 }}>
                                 <CustomAppButton
                                     onPress={() => setShowDeleteModal(false)}
@@ -139,17 +140,19 @@ const ListOfPatients = ({ route, listPatient, isLoading, session, user }) => {
             </Modal>
 
             <ScrollView>
-                <ModalPatient
-                    nom={nom}
-                    prenom={prenom}
-                    email={email}
-                    telephone={telephone}
-                    handleNomChange={handleNomChange}
-                    handlePrenomChange={handlePrenomChange}
-                    handleEmailChange={handleEmailChange}
-                    handleTelephoneChange={handleTelephoneChange}
-                    isEdit={false}
-                    handleAddPatient={handleAddPatient} />
+                {listPatient.length < 10 && (
+                    <ModalPatient
+                        nom={nom}
+                        prenom={prenom}
+                        email={email}
+                        telephone={telephone}
+                        handleNomChange={handleNomChange}
+                        handlePrenomChange={handlePrenomChange}
+                        handleEmailChange={handleEmailChange}
+                        handleTelephoneChange={handleTelephoneChange}
+                        isEdit={false}
+                        handleAddPatient={handleAddPatient} />
+                )}
 
                 {listPatient.map((patient, index) => (
                     <TouchableOpacity key={index} onPress={() => handleAppt(patient)}>
@@ -163,7 +166,7 @@ const ListOfPatients = ({ route, listPatient, isLoading, session, user }) => {
                             colorContain={colors.black}
                             marginBottom={10}
                             isIcon
-                            isLock={patient.lockmessage !== ""}
+                            isLock={patient.locked === "1"}
                             isUpdate
                             isDelete={index > 0 && listPatient.length > 1}
                             isProfileIcon
@@ -283,6 +286,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ AppointmentReducer }) => ({
     listPatient: AppointmentReducer.listPatient,
+    data: AppointmentReducer.data,
     session: AppointmentReducer.session,
     isLoading: AppointmentReducer.isLoading,
 });

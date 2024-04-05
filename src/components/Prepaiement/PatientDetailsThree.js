@@ -27,10 +27,6 @@ const PatientDetailsThree = ({
   paragraph1,
   paragraph2,
   textBottom,
-  buttonLabel,
-  iconComponent,
-  isTeleconsultation = false,
-  handleVideocall
 }) => {
   return (
     <View>
@@ -48,7 +44,7 @@ const PatientDetailsThree = ({
           {textBottom}
         </CustomText>
       </View>
-      {isTeleconsultation && (
+      {/* {isTeleconsultation && (
         <View style={{ width: '100%', marginTop: 15 }}>
           <CustomAppButton
           onPress={handleVideocall}
@@ -63,7 +59,7 @@ const PatientDetailsThree = ({
             width='100%'
           />
         </View>
-      )}
+      )} */}
     </View>
 
   );
