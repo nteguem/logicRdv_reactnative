@@ -4,8 +4,9 @@ import SearchReducer from '../search/reducer';
 import AppointmentReducer from '../appointment/reducer';
 import NotificationReducer from '../notification/reducer';
 import AppReducer from '../app/reducer';
+import PaimentReducer from '../paiement/reducer';
 const reducerCombination = combineReducers({
-  AuthReducer,SearchReducer,AppointmentReducer,NotificationReducer,AppReducer
+  AuthReducer,SearchReducer,AppointmentReducer,NotificationReducer,AppReducer,PaimentReducer
 });
 
 export default reducerCombination;

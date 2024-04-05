@@ -4,6 +4,7 @@ import SearchSaga from '../search/saga'
 import AppointmentSaga from '../appointment/saga';
 import NotificationSaga from '../notification/saga';
 import AppSaga from '../app/saga';
+import PaiementSaga from '../paiement/saga';
 /**
 
  * @description combine sagas.
@@ -11,5 +12,5 @@ import AppSaga from '../app/saga';
  */
 
 export default function* Sagas() {
-  yield all([AuthSaga(),SearchSaga(),AppointmentSaga(),NotificationSaga(),AppSaga()]);
+  yield all([AuthSaga(),SearchSaga(),AppointmentSaga(),NotificationSaga(),AppSaga(),PaiementSaga()]);
 }

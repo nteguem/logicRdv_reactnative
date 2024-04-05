@@ -2,7 +2,6 @@ import { View, ScrollView, Modal } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import ValidationInfoRDV from '../../components/ValidationAppointment/ValidationInfoRDV'
-import ValidationPaymentForm from '../../components/ValidationAppointment/ValidationPaymentForm'
 import ValidationNoticeRDV from '../../components/ValidationAppointment/ValidationNoticeRDV'
 import CustomAppButton from '../../components/global/CustomAppButton'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -16,7 +15,7 @@ import { cancelAppointmentRequest, createAppointmentRequest } from '../../redux/
 import AppointmentDetails from '../../components/MyAppointment/Appointment_Details'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { showMessage } from 'react-native-flash-message'
-import { CardField, useStripe } from '@stripe/stripe-react-native';
+import { CardField } from '@stripe/stripe-react-native';
 
 const FloatingLabelInput = ({
   label,
@@ -115,6 +114,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
   const [reasonForAppointment, setReasonForAppointment] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [thisDate, setThisDate] = useState('');
+  const [cardDetails, setCardDetails] = useState(null);
 
   useEffect(() => {
     if (data && data.apptinput) {
@@ -178,7 +178,6 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
 
   const handleCancelAppt = async () => {
     if (apptToCancel) {
-      console.log(apptToCancel);
       const tokenappointment = apptToCancel?.token
       await dispatch(cancelAppointmentRequest({ tokenappointment: tokenappointment }));
       await dispatch(createAppointmentRequest(params.tokenappointment, params.week, params.data, params.action, params.session));
@@ -194,12 +193,30 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
   ];
 
   const handleConfirmationAppointment = async (week, action) => {
+<<<<<<< HEAD
     // Vérifier si tous les champs obligatoires sont remplis
     const isAllFieldsFilled = mandatoryFields.every(field => field.value.trim() !== '');
   
     if (isAllFieldsFilled) {
       await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session));
       navigation.navigate('Confirmation rdv', { tokenappointment: tokenappointment, data });
+=======
+    const mandatoryFields = [
+      { label: 'Date de naissance', mandatory: '1', name: 'client_birthday', value: thisDate },
+      { label: 'Numéro de sécurité social', mandatory: '1', name: 'client_nir', value: securityNumber },
+      { label: 'Motif du Rdv', mandatory: '1', name: 'note', value: reasonForAppointment }
+    ];
+    const filledMandatoryFields = mandatoryFields.filter((field) => field?.value.trim() !== '');
+    if (mandatoryFields.length === filledMandatoryFields.length) {
+      await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session,cardDetails));
+    } else {
+      showMessage({
+        message: 'Champs manquants',
+        description: 'Veuillez remplir tous les champs obligatoires.',
+        type: 'warning',
+        duration: 3500,
+      });
+>>>>>>> 61c3fd9c867b89e8c0023187d5f00b692da75664
     }
   };
 
@@ -345,28 +362,30 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
           </SafeAreaView>
 
           {data?.payment && Object.keys(data.payment).length > 0 && (
-            <CardField
-              postalCodeEnabled={true}
-              placeholders={{
-                number: 'XXXX XXXX XXXX XXXX',
-                expiration: 'MM/YY',
-                cvc: 'CVC',
-              }}
-              cardStyle={{
-                // backgroundColor: 'none',
-                textColor: '#000000',
-
-              }}
-              style={{
-                height: 50,
-              }}
-              onCardChange={(cardDetails) => {
-                console.log('cardDetails', cardDetails);
-              }}
-              onFocus={(focusedField) => {
-                console.log('focusField', focusedField);
-              }}
-            />
+                <CardField
+                postalCodeEnabled={false}
+                placeholders={{
+                  number: 'XXXX XXXX XXXX XXXX',
+                  expiration: 'MM/YY',
+                  cvc: 'CVC',
+                  color: '#AAAAAA'
+                }}
+                cardStyle={{
+                  backgroundColor: '#FFFFFF',
+                  textColor: '#000000',
+                  borderRadius: 5,
+                  padding: 10,
+                }}
+                style={{
+                  width: '100%',
+                  height: 100, 
+                  marginBottom:10,
+                }}
+          
+                onCardChange={(newCardDetails) => {
+                  setCardDetails(newCardDetails); 
+                }}
+              />
           )}
 
           {data?.payment && Object.keys(data.payment).length > 0 && (
