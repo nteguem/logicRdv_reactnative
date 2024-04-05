@@ -33,8 +33,7 @@ function confirmPaymentAPI(stripeClientSecret, paymentMethodId) {
 function* makePayment({payload}) {
   const { stripeClientSecret, cardDetails } = payload;
   try {
-    console.log("saga test :",typeof(cardDetails))
-    const paymentMethodResponse = yield call(createPaymentMethodAPI, JSON.parse(cardDetails));
+    const paymentMethodResponse = yield call(createPaymentMethodAPI,cardDetails);
     if (paymentMethodResponse.error) {
       console.log('Error creating payment method:', paymentMethodResponse.error);
       yield put({ type: MAKE_PAIEMENT_FAILURE, payload: paymentMethodResponse.error });
