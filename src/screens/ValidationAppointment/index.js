@@ -32,7 +32,6 @@ const FloatingLabelInput = ({
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const animatedIsFocused = new Animated.Value(value === '' ? 0 : 1);
-  const [isFilled, setIsFilled] = useState(Boolean(value));
 
   const handleFocus = () => {
     if (label === 'Date de naissance' && onFocusDate) {
@@ -42,12 +41,6 @@ const FloatingLabelInput = ({
     }
   };
   const handleBlur = () => setIsFocused(false);
-
-  useEffect(() => {
-    setIsFilled(Boolean(value)); // Mettre à jour isFilled à chaque changement de valeur
-  }, [value]);
-
-  const borderColor = required && !isFilled ? 'red' : '#aaa';
 
   Animated.timing(animatedIsFocused, {
     toValue: isFocused || value !== '' ? 1 : 0,
@@ -93,7 +86,7 @@ const FloatingLabelInput = ({
       <View>
         <TextInput
           ref={inputRef}
-          style={[styles.input, multiline && styles.multilineInput, { borderColor }]}
+          style={[styles.input, multiline && styles.multilineInput]}
           value={String(value)}
           onChangeText={onChangeText}
           onFocus={handleFocus}
@@ -119,7 +112,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
   const [showAppointmentList, setShowAppointmentList] = useState(false);
   const [securityNumber, setSecurityNumber] = useState('');
   const [reasonForAppointment, setReasonForAppointment] = useState('');
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(true);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [thisDate, setThisDate] = useState('');
   const [cardDetails, setCardDetails] = useState(null);
 
@@ -149,13 +142,6 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
     }
   }, [data]);
 
-  const handleFocusOnDate = () => {
-    showDatePicker(); // Affiche le sélecteur de date lorsqu'on clique sur le champ de date
-  };
-  
-  const handleBlurOnDate = () => {
-    hideDatePicker(); // Cache le sélecteur de date lorsqu'on quitte le champ de date
-  };
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
