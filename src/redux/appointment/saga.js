@@ -270,9 +270,7 @@ function* create({ payload }) {
         yield addDoctor(response.data.data[0].id, response.data.data[0].phone, userData?.tokenuser);
         break;
       case "apptstripeandautovalide":
-        console.log("optionaleParam::",optionalParam)
-        console.log("stripeClientSecret::",response.data.payment_intent.stripeClientSecret)
-       yield put(makePaiementRequest(response.data.payment_intent.stripeClientSecret,optionalParam));
+      yield put(makePaiementRequest(response.data.payment_intent.stripeClientSecret,optionalParam));
         break;
       default:
         break;

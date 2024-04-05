@@ -1,8 +1,8 @@
 
 import {
   MAKE_PAIEMENT_REQUEST,
-  MAKE_PAIEMENT_REQUEST_SUCCESS,
-  MAKE_PAIEMENT_REQUEST_FAILURE
+  MAKE_PAIEMENT_SUCCESS,
+  MAKE_PAIEMENT_FAILURE
 } from './types';
 
 const initialState = {
@@ -21,14 +21,14 @@ const PaimentReducer = (state = initialState, action) => {
         isPay:false,
         paiement:''
       };
-    case MAKE_PAIEMENT_REQUEST_SUCCESS:
+    case MAKE_PAIEMENT_SUCCESS:
       return {
         ...state,
         isLoading: false,
         paiement: action.payload,
         isPay:true
       };
-    case MAKE_PAIEMENT_REQUEST_FAILURE:
+    case MAKE_PAIEMENT_FAILURE:
       return {
         ...state,
         isLoading: false,

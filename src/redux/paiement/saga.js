@@ -7,8 +7,8 @@ import { showMessage } from 'react-native-flash-message';
 import { createPaymentMethod, confirmPayment } from '@stripe/stripe-react-native';
 import {
   MAKE_PAIEMENT_REQUEST,
-  MAKE_PAIEMENT_REQUEST_SUCCESS,
-  MAKE_PAIEMENT_REQUEST_FAILURE
+  MAKE_PAIEMENT_SUCCESS,
+  MAKE_PAIEMENT_FAILURE
 } from './types';
 import * as RootNavigation from '../../routes/RootNavigation';
 
@@ -33,8 +33,8 @@ function confirmPaymentAPI(stripeClientSecret, paymentMethodId) {
 function* makePayment({payload}) {
   const { stripeClientSecret, cardDetails } = payload;
   try {
-    const paymentMethodResponse = yield call(createPaymentMethodAPI, cardDetails.cardDetails);
-
+    console.log("saga test :",typeof(cardDetails))
+    const paymentMethodResponse = yield call(createPaymentMethodAPI, JSON.parse(cardDetails));
     if (paymentMethodResponse.error) {
       console.log('Error creating payment method:', paymentMethodResponse.error);
       yield put({ type: MAKE_PAIEMENT_FAILURE, payload: paymentMethodResponse.error });
@@ -52,9 +52,9 @@ function* makePayment({payload}) {
     } else if (paymentIntent.status === 'failed') {
       console.log('Payment failed', paymentIntent);
       yield put({ type: MAKE_PAIEMENT_FAILURE, payload: paymentIntent });
-    } else if (paymentIntent.status === 'requires_capture') {
+    } else if (paymentIntent.status === 'RequiresCapture') {
       console.log('requires_capture', paymentIntent);
-      yield put({ type: MAKE_PAIEMENT_REQUEST_SUCCESS, payload: paymentIntent });
+      yield put({ type: MAKE_PAIEMENT_SUCCESS, payload: paymentIntent });
     } else {
       console.log('Unknown payment status', paymentIntent);
       yield put({ type: MAKE_PAIEMENT_FAILURE, payload: paymentIntent });
