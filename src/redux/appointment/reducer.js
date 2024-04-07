@@ -52,6 +52,7 @@ const initialState = {
   params: {},
   message: '',
   paiement: [],
+  paiementIntent:""
 
 };
 
@@ -85,6 +86,7 @@ const AppointmentReducer = (state = initialState, action) => {
         error: '',
         message: '',
         type: '',
+        paiementIntent:""
       };
     case CREATE_APPOINTMENT_SUCCESS:
       return {
@@ -97,6 +99,7 @@ const AppointmentReducer = (state = initialState, action) => {
         message: action.payload.message,
         params: action.payload.params,
         type: action.payload.data.type,
+        paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
         session: action.payload.data.session,
       };
     case CREATE_APPOINTMENT_FAILURE:
@@ -110,6 +113,7 @@ const AppointmentReducer = (state = initialState, action) => {
         message: action.payload.message,
         params: action.payload.params,
         type: action.payload.data.type,
+        paiementIntent:"",
         session: action.payload.data.session,
       }
 

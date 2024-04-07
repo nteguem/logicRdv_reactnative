@@ -185,7 +185,6 @@ function* removePatient({ payload }) {
   try {
     const endpoint = 'patients/remove/';
     const { ...restPayload } = payload;
-    console.log("payload>>>", payload);
     const userData = yield getUserData();
     const body = { "tokenuser": userData.tokenuser, ...restPayload }
     const response = yield call(sendRequest, 'POST', endpoint, body);
@@ -270,7 +269,7 @@ function* create({ payload }) {
         yield addDoctor(response.data.data[0].id, response.data.data[0].phone, userData?.tokenuser);
         break;
       case "apptstripeandautovalide":
-      yield put(makePaiementRequest(response.data.payment_intent.stripeClientSecret,optionalParam));
+      yield put(makePaiementRequest(optionalParam));
         break;
       default:
         break;

@@ -2,8 +2,8 @@ import * as types from './types';
 
 
 
-export const makePaiementRequest = (stripeClientSecret, cardDetails) => ({
+export const makePaiementRequest = (cardDetails) => ({
   type: types.MAKE_PAIEMENT_REQUEST,
-  payload: { stripeClientSecret, cardDetails },
+  payload:  cardDetails ,
 });
 
