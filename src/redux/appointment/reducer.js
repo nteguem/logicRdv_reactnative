@@ -67,7 +67,7 @@ const AppointmentReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        list: action.payload
+        list: state.list?.list ? [...state.list, ...action.payload] : action.payload
       };
     case LIST_APPOINTMENT_FAILURE:
       return {

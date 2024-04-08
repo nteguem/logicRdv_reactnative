@@ -25,13 +25,14 @@ const NotificationReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
+        list:[],
         error: null
       }; 
     case LIST_NOTIFICATION_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        list: action.payload
+        list: action.payload.list
       };
     case SUBSCRIBE_NOTIFICATION_SUCCESS:
       return {
