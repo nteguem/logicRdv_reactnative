@@ -22,6 +22,7 @@ export const request = async (method, url, data, headers = {}) => {
     });
 
     if (!response.ok) {
+      console.log("response not ok resquest api ",response)
       const errorBody = await response.json();
       let description = errorBody?.message || 'Erreur lors de la requête';
       showMessage({

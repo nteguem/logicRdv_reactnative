@@ -46,10 +46,10 @@ function* manageNotifications({ payload }) {
         duration: 3500,
       });
     }
-    const successType = response.data.total == 1 ? SUBSCRIBE_NOTIFICATION_SUCCESS : UNSUBSCRIBE_NOTIFICATION_SUCCESS;
-    if (successType === "SUBSCRIBE_NOTIFICATION_SUCCESS")
+
+    if (response?.message === "Notification Activée")
     {
-     yield WonderPush.subscribeToNotifications(true);
+     yield WonderPush.subscribeToNotifications();
      yield  setIsSubscribeNotification(true);
      showMessage({
       message: 'Notifications activées',
@@ -69,7 +69,7 @@ function* manageNotifications({ payload }) {
         duration: 3500,
       });
     }
-    yield put({ type: successType, payload: response.data });
+    // yield put({ type: successType, payload: response.data });
   } catch (error) {
     const failureType = payload === true ? SUBSCRIBE_NOTIFICATION_FAILURE : UNSUBSCRIBE_NOTIFICATION_FAILURE;
     yield put({ type: failureType, payload: error });

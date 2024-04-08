@@ -5,18 +5,16 @@ import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import Item from '../../components/Notifications/Item';
 import { listNotificationsRequest } from '../../redux/notification/actions';
 
-const Notifications = ({ isSubscribed, list, isLoading, listNotificationsRequest }) => {
+const Notifications = ({ list, isLoading }) => {
   useEffect(() => {
     listNotificationsRequest();
-  }, [listNotificationsRequest]);
+  }, []);
 
-  const listnotification = list.list;
  
-
   return (
     <ContainerScreen isLoading={isLoading}>
       <FlatList
-        data={isSubscribed ? listnotification : []}
+        data={list}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <Item
@@ -35,7 +33,6 @@ const Notifications = ({ isSubscribed, list, isLoading, listNotificationsRequest
 const mapStateToProps = (state) => ({
   list: state.NotificationReducer.list,
   isLoading: state.NotificationReducer.isLoading,
-  isSubscribed: state.NotificationReducer.isSubscribed
 });
 
 const mapDispatchToProps = {

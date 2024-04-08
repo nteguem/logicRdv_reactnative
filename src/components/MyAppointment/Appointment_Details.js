@@ -1,47 +1,3 @@
-/*
-This `AppointmentDetails` component is designed to display details of a medical appointment, including the date, time, doctor, appointment type, patient information, and consultation address.
-It also provides options for actions such as canceling the appointment and scheduling a new appointment.
-
-Props:
-- `date`: Date of the appointment.
-- `consultationMethod`: Consultation method (e.g., teleconsultation).
-- `time`: Appointment time.
-- `doctor`: Doctor's name.
-- `appointmentType`: Type of appointment.
-- `patientName`: Patient's name.
-- `patientPhone`: Patient's phone number.
-- `patientEmail`: Patient's email address.
-- `addressName`: Name of the consultation address.
-- `addressLine1`: First line of the consultation address.
-- `addressLine2`: Second line of the consultation address.
-- `addressPhone`: Phone number of the consultation address.
-- `mode`: Mode of appointment viewing or action (e.g., prepayment, cancellation).
-
-Behavior:
-- Displays appointment details in separate compartments.
-- Colors and content of compartments vary based on the specified mode.
-- Allows for actions such as canceling the appointment or scheduling a new one based on the mode.
-
-Typical Usage:
-<AppointmentDetails
-  date="2024-02-21"
-  consultationMethod="Teleconsultation"
-  time="14:00 - 15:00"
-  doctor="Dr. John Doe"
-  appointmentType="General Consultation"
-  patientName="John Doe"
-  patientPhone="1234567890"
-  patientEmail="john.doe@example.com"
-  addressName="ABC Medical Clinic"
-  addressLine1="123 Health Street"
-  addressLine2="Paris, 75000"
-  addressPhone="0987654321"
-  mode="rdvExist"
-/>
-
-Note: Make sure to provide necessary data for all required props to correctly display appointment details.
-*/
-
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import CustomText from '../global/CustomText';
@@ -290,4 +246,3 @@ const styles = StyleSheet.create({
 });
 
 export default AppointmentDetails;
-//export default React.memo(AppointmentDetails);

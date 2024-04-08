@@ -15,33 +15,28 @@ import * as RootNavigation from '../../routes/RootNavigation';
 
 
 
-function createPaymentMethodAPI(cardDetails) {
-  return createPaymentMethod({
-    paymentMethodType: 'Card',
-    card: cardDetails,
-  });
-}
+// function* createPaymentMethodAPI(cardDetails) {
+//   return createPaymentMethod({
+//     paymentMethodType: 'Card',
+//     card: cardDetails,
+//   });
+// }
 
 
-function confirmPaymentAPI(stripeClientSecret, paymentMethodId) {
-  return confirmPayment(stripeClientSecret, {
-    paymentMethodType: 'Card',
-    paymentMethodId,
-  });
-}
+// function* confirmPaymentAPI(stripeClientSecret, paymentMethodId) {
+//   return confirmPayment(stripeClientSecret, {
+//     paymentMethodType: 'Card',
+//     paymentMethodId,
+//   });
+// }
 
 function* makePayment({payload}) {
-  const { stripeClientSecret, cardDetails } = payload;
+  const { paiementIntent } = yield select(state => state.AppointmentReducer);
   try {
-    console.log("saga test :",typeof(cardDetails))
-    const paymentMethodResponse = yield call(createPaymentMethodAPI, JSON.parse(cardDetails));
-    if (paymentMethodResponse.error) {
-      console.log('Error creating payment method:', paymentMethodResponse.error);
-      yield put({ type: MAKE_PAIEMENT_FAILURE, payload: paymentMethodResponse.error });
-      return;
-    }
-
-    const { paymentIntent, error } = yield call(confirmPaymentAPI, stripeClientSecret, paymentMethodResponse.paymentMethod.id);
+    const { paymentIntent, error } = yield confirmPayment(paiementIntent, { paymentMethodType: 'Card',
+    paymentMethodData: {
+      paymentMethodId:payload,
+    }});
 
     if (error) {
       console.error('Erreur lors du paiement:', error);

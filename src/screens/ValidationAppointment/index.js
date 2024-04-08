@@ -15,7 +15,7 @@ import { cancelAppointmentRequest, createAppointmentRequest } from '../../redux/
 import AppointmentDetails from '../../components/MyAppointment/Appointment_Details'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { showMessage } from 'react-native-flash-message'
-import { CardField } from '@stripe/stripe-react-native';
+import { CardField,createPaymentMethod, confirmPayment,} from '@stripe/stripe-react-native';
 
 const FloatingLabelInput = ({
   label,
@@ -105,7 +105,7 @@ const FloatingLabelInput = ({
   );
 };
 
-const ValidationAppointment = ({ route, session, data, isLoadingAppointment, params }) => {
+const ValidationAppointment = ({ route, session, data, isLoadingAppointment, params,paiementIntent }) => {
   const { tokenappointment } = route.params;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [apptToCancel, setApptToCancel] = useState(null);
@@ -115,6 +115,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [thisDate, setThisDate] = useState('');
   const [cardDetails, setCardDetails] = useState(null);
+  const [paymentMethodId, setPaymentMethodId] = useState(null);
 
   useEffect(() => {
     if (data && data.apptinput) {
@@ -132,7 +133,30 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
         setThisDate(thisDateInput.value);
       }
     }
+ 
   }, [data]);
+
+  useEffect(() => {
+    if (cardDetails?.complete) {
+      createPaymentMethod({ paymentMethodType: 'Card', card: cardDetails })
+        .then(paymentMethodResponse => {
+          if (paymentMethodResponse.error) {
+            console.log('Error creating payment method:', paymentMethodResponse.error);
+            dispatch({ type: MAKE_PAIEMENT_FAILURE, payload: paymentMethodResponse.error });
+            return;
+          }
+          console.log("paymentMethodResponse",paymentMethodResponse)
+          const paymentId = paymentMethodResponse.paymentMethod.id;
+          setPaymentMethodId(paymentId)
+        })
+        .catch(error => {
+          console.error('Error catch  creating payment method:', error);
+          dispatch({ type: MAKE_PAIEMENT_FAILURE, payload: error });
+        });
+    }
+  }, [cardDetails]);
+  
+ 
 
   useEffect(() => {
     if (data?.apptsinprogress?.appts.length > 0) {
@@ -201,6 +225,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
       navigation.navigate('Confirmation rdv', { tokenappointment: tokenappointment, data });
     }
   };
+
 
   const isAllFieldsFilled = mandatoryFields.every(field => field.value.trim() !== '');
   const isCardComplete = cardDetails?.complete ?? false;
@@ -576,6 +601,7 @@ const mapStateToProps = (state) => ({
   session: state.AppointmentReducer?.session,
   isLoadingAppointment: state.AppointmentReducer?.isLoading,
   params: state.AppointmentReducer?.params,
+  paiementIntent:state.AppointmentReducer?.paiementIntent
 });
 
 export default connect(mapStateToProps)(ValidationAppointment);
