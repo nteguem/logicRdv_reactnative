@@ -25,7 +25,7 @@ const Appointments = ({ list, isLoading, session }) => {
 
     const handleNewAppt = async (item) => {
         const tokenappointment = item?.cabinet?.token;
-        await dispatch(createAppointmentRequest(tokenappointment, '', '', '', session));
+        await dispatch(createAppointmentRequest(tokenappointment, '', '', 'begin', session));
     }
 
     const handleApptType = async (item) => {

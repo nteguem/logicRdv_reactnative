@@ -217,12 +217,22 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
   ];
 
   const handleConfirmationAppointment = async (week, action) => {
-    // Vérifier si tous les champs obligatoires sont remplis
-    const isAllFieldsFilled = mandatoryFields.every(field => field.value.trim() !== '');
-  
-    if (isAllFieldsFilled) {
-      await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session));
-      navigation.navigate('Confirmation rdv', { tokenappointment: tokenappointment, data });
+    const mandatoryFields = [
+      { label: 'Date de naissance', mandatory: '1', name: 'client_birthday', value: thisDate },
+      { label: 'Numéro de sécurité social', mandatory: '1', name: 'client_nir', value: securityNumber },
+      { label: 'Motif du Rdv', mandatory: '1', name: 'note', value: reasonForAppointment }
+    ];
+    const filledMandatoryFields = mandatoryFields.filter((field) => field?.value.trim() !== '');
+    if (mandatoryFields.length === filledMandatoryFields.length) {
+        await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session,paymentMethodId));
+
+    } else {
+      showMessage({
+        message: 'Champs manquants',
+        description: 'Veuillez remplir tous les champs obligatoires.',
+        type: 'warning',
+        duration: 3500,
+      });
     }
   };
 
