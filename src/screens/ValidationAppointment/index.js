@@ -142,7 +142,6 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
         .then(paymentMethodResponse => {
           if (paymentMethodResponse.error) {
             console.log('Error creating payment method:', paymentMethodResponse.error);
-            dispatch({ type: MAKE_PAIEMENT_FAILURE, payload: paymentMethodResponse.error });
             return;
           }
           console.log("paymentMethodResponse",paymentMethodResponse)
@@ -151,7 +150,6 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
         })
         .catch(error => {
           console.error('Error catch  creating payment method:', error);
-          dispatch({ type: MAKE_PAIEMENT_FAILURE, payload: error });
         });
     }
   }, [cardDetails]);
