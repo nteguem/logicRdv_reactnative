@@ -232,6 +232,7 @@ function* create({ payload }) {
         break;
 
       case "apptpatients":
+        console.log("response.data.data", response.data.data)
         yield RootNavigation.navigate('Liste des patients', { tokenappointment: response.params.tokenappointment });
         break;
 
@@ -246,8 +247,12 @@ function* create({ payload }) {
         break;
 
       case "apptlocked":
-        yield put(setModalVisible(false, ""));
-        yield put(setModalVisible(true, response.data.headermessage));
+        console.log("response.data.data.label", response.data.data[0].label)
+        if(response.data.data[0].label === "Je confirme être patient") {
+          yield RootNavigation.navigate('Confirmation patient', { tokenappointment: response.params.tokenappointment });
+        } else {
+          yield put(setModalVisible(false, ""));
+        }
         break;
 
       case "apptconfirm":

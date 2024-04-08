@@ -193,34 +193,17 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
   ];
 
   const handleConfirmationAppointment = async (week, action) => {
-<<<<<<< HEAD
     // Vérifier si tous les champs obligatoires sont remplis
     const isAllFieldsFilled = mandatoryFields.every(field => field.value.trim() !== '');
   
     if (isAllFieldsFilled) {
       await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session));
       navigation.navigate('Confirmation rdv', { tokenappointment: tokenappointment, data });
-=======
-    const mandatoryFields = [
-      { label: 'Date de naissance', mandatory: '1', name: 'client_birthday', value: thisDate },
-      { label: 'Numéro de sécurité social', mandatory: '1', name: 'client_nir', value: securityNumber },
-      { label: 'Motif du Rdv', mandatory: '1', name: 'note', value: reasonForAppointment }
-    ];
-    const filledMandatoryFields = mandatoryFields.filter((field) => field?.value.trim() !== '');
-    if (mandatoryFields.length === filledMandatoryFields.length) {
-      await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session,cardDetails));
-    } else {
-      showMessage({
-        message: 'Champs manquants',
-        description: 'Veuillez remplir tous les champs obligatoires.',
-        type: 'warning',
-        duration: 3500,
-      });
->>>>>>> 61c3fd9c867b89e8c0023187d5f00b692da75664
     }
   };
 
   const isAllFieldsFilled = mandatoryFields.every(field => field.value.trim() !== '');
+  const isCardComplete = cardDetails?.complete ?? false;
 
   return (
     <ContainerScreen isLoading={isLoadingAppointment}>
@@ -362,30 +345,77 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
           </SafeAreaView>
 
           {data?.payment && Object.keys(data.payment).length > 0 && (
+                <View style={styles.cardPaiement}>
+                {/* Première ligne pour le numéro de carte */}
                 <CardField
-                postalCodeEnabled={false}
-                placeholders={{
-                  number: 'XXXX XXXX XXXX XXXX',
-                  expiration: 'MM/YY',
-                  cvc: 'CVC',
-                  color: '#AAAAAA'
-                }}
-                cardStyle={{
-                  backgroundColor: '#FFFFFF',
-                  textColor: '#000000',
-                  borderRadius: 5,
-                  padding: 10,
-                }}
-                style={{
-                  width: '100%',
-                  height: 100, 
-                  marginBottom:10,
-                }}
-          
-                onCardChange={(newCardDetails) => {
-                  setCardDetails(newCardDetails); 
-                }}
-              />
+                  postalCodeEnabled={false}
+                  expiry
+                  placeholders={{
+                    number: 'XXXX XXXX XXXX XXXX',
+                  }}
+                  cardStyle={{
+                    textColor: '#000000',
+                    borderRadius: 12
+                  }}
+                  style={{
+                    height: 50, // Hauteur de la première ligne
+                  }}
+                  onCardChange={(cardDetails) => {
+                    console.log('cardDetails', cardDetails);
+                  }}
+                  onFocus={(focusedField) => {
+                    console.log('focusField', focusedField);
+                  }}
+                />
+                {/* Deuxième ligne pour la date d'expiration et le CVV */}
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
+                  {/* Champ de la date d'expiration */}
+                  <View style={{ width: '48%' }}>
+                    <CardField
+                      postalCodeEnabled={false}
+                      placeholders={{
+                        expiration: 'MM/YY',
+                      }}
+                      cardStyle={{
+                        textColor: '#000000',
+                        borderRadius: 12
+                      }}
+                      style={{
+                        height: 50, // Hauteur de la deuxième ligne
+                      }}
+                      onCardChange={(cardDetails) => {
+                        console.log('cardDetails', cardDetails);
+                      }}
+                      onFocus={(focusedField) => {
+                        console.log('focusField', focusedField);
+                      }}
+                    />
+                  </View>
+                  {/* Champ du CVV */}
+                  <View style={{ width: '48%' }}>
+                    <CardField
+                      postalCodeEnabled={false}
+                      placeholders={{
+                        cvc: 'CVV',
+                      }}
+                      cardStyle={{
+                        textColor: '#000000',
+                        borderRadius: 12
+                      }}
+                      style={{
+                        height: 50, // Hauteur de la deuxième ligne
+                      }}
+                      onCardChange={(cardDetails) => {
+                        console.log('cardDetails', cardDetails);
+                      }}
+                      onFocus={(focusedField) => {
+                        console.log('focusField', focusedField);
+                      }}
+                    />
+                  </View>
+                </View>
+              </View>
+              
           )}
 
           {data?.payment && Object.keys(data.payment).length > 0 && (
@@ -419,7 +449,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
               borderRadius={10}
               bkgroundColor={colors.blue}
               width='100%'
-              disabled={!isAllFieldsFilled}
+              disabled={!isAllFieldsFilled || !isCardComplete}
             />
           </View>
           <DateTimePickerModal

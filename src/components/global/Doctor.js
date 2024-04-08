@@ -96,7 +96,7 @@ const Doctor = ({
   }, [user]);
 
   const handleEditPatient = async (patient) => {
-    console.log(patient.token )
+    console.log(patient.token)
     setNom(patient.nom || '');
     setPrenom(patient.prenom || '');
     setEmail(patient.email || '');
@@ -162,9 +162,11 @@ const Doctor = ({
             {isIcon && (
               <Icon name="phone-alt" size={16} color={colors.blue} marginRight={5} />
             )}
-            <CustomText fontSize={13} color={colorContain} fontWeight={fontWeight}>
-              {texte2}
-            </CustomText>
+            <View style={{ width: 200 }}>
+              <CustomText fontSize={13} color={colorContain} fontWeight={fontWeight}>
+                {texte2}
+              </CustomText>
+            </View>
           </View>
 
           {texte3 !== "" && (
