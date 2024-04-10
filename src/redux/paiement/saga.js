@@ -45,7 +45,7 @@ function* makePayment({payload}) {
     }
      else if (paymentIntent.status === 'RequiresCapture') {
       console.log('requires_capture', paymentIntent);
-      yield put(createAppointmentRequest(params.tokenappointment, data[0].onclick_week, data[0].onclick_data, data[0].onclick_action, session));
+      yield put(createAppointmentRequest(data.appointment, data.apptbuttonvalidation.onclick_week, data.apptbuttonvalidation.onclick_data, data.apptbuttonvalidation.onclick_action, session));
       yield put({ type: MAKE_PAIEMENT_SUCCESS, payload: paymentIntent });
     } else { 
       console.log('Payment failed', paymentIntent);
