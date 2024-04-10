@@ -2,7 +2,6 @@ import { View, ScrollView, Modal } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import ValidationInfoRDV from '../../components/ValidationAppointment/ValidationInfoRDV'
-import ValidationPaymentForm from '../../components/ValidationAppointment/ValidationPaymentForm'
 import ValidationNoticeRDV from '../../components/ValidationAppointment/ValidationNoticeRDV'
 import CustomAppButton from '../../components/global/CustomAppButton'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -28,12 +27,19 @@ const FloatingLabelInput = ({
   numberOfLines,
   showCrossIcon = false,
   required,
+  onFocusDate,
   ...rest
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const animatedIsFocused = new Animated.Value(value === '' ? 0 : 1);
 
-  const handleFocus = () => setIsFocused(true);
+  const handleFocus = () => {
+    if (label === 'Date de naissance' && onFocusDate) {
+      onFocusDate(); // Si le champ de la date est focus, appeler onFocusDate
+    } else {
+      setIsFocused(true); // Sinon, utiliser la logique d'origine
+    }
+  };
   const handleBlur = () => setIsFocused(false);
 
   Animated.timing(animatedIsFocused, {
@@ -44,7 +50,7 @@ const FloatingLabelInput = ({
 
   const labelStyle = {
     position: 'absolute',
-    left: 20,
+    left: 40,
     top: animatedIsFocused.interpolate({
       inputRange: [0, 1],
       outputRange: [15, -10],
@@ -67,7 +73,7 @@ const FloatingLabelInput = ({
   const inputRef = useRef(null);
 
   const clearText = () => {
-    onChangeText(''); 
+    onChangeText('');
   };
 
   return (
@@ -108,6 +114,8 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
   const [reasonForAppointment, setReasonForAppointment] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [thisDate, setThisDate] = useState('');
+  const [cardDetails, setCardDetails] = useState(null);
+  const [paymentMethodId, setPaymentMethodId] = useState(null);
 
   useEffect(() => {
     if (data && data.apptinput) {
@@ -159,10 +167,10 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
+
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
-
 
   const formatDateToString = (date) => {
     const day = date.getDate();
@@ -198,21 +206,25 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
     if (apptToCancel) {
       const tokenappointment = apptToCancel?.token
       await dispatch(cancelAppointmentRequest({ tokenappointment: tokenappointment }));
+      await dispatch(createAppointmentRequest(params.tokenappointment, params.week, params.data, params.action, params.session));
       setApptToCancel(null);
       setShowDeleteModal(false);
     }
   }
 
+  const mandatoryFields = [
+    { label: 'Date de naissance', mandatory: '1', name: 'client_birthday', value: thisDate },
+    { label: 'Numéro de sécurité social', mandatory: '1', name: 'client_nir', value: securityNumber },
+    { label: 'Motif du Rdv', mandatory: '1', name: 'note', value: reasonForAppointment }
+  ];
+
   const handleConfirmationAppointment = async (week, action) => {
-    // Vérifier si les champs obligatoires sont remplis
     const mandatoryFields = [
       { label: 'Date de naissance', mandatory: '1', name: 'client_birthday', value: thisDate },
       { label: 'Numéro de sécurité social', mandatory: '1', name: 'client_nir', value: securityNumber },
       { label: 'Motif du Rdv', mandatory: '1', name: 'note', value: reasonForAppointment }
     ];
     const filledMandatoryFields = mandatoryFields.filter((field) => field?.value.trim() !== '');
-    console.log('mandatoryFields', mandatoryFields);
-    console.log('filledMandatoryFields', filledMandatoryFields);
     if (mandatoryFields.length === filledMandatoryFields.length) {
       await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session, paymentMethodId));
 
@@ -285,7 +297,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
       {showAppointmentList ? (
         <ScrollView>
           <CustomText fontSize={10} color={colors.black} style={{ marginVertical: 12 }}>
-            {data?.apptsinprogress.message}
+            {data?.apptsinprogress?.message}
           </CustomText>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
             <CustomAppButton
@@ -352,8 +364,8 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
                         key={index}
                         label={input?.label}
                         value={input?.name === 'client_birthday' ? thisDate : input?.name === 'client_nir' ? securityNumber : reasonForAppointment}
-                        onChangeText={input?.name === 'client_birthday' ?  cleardate: input?.name === 'client_nir' ? handleSecurityNumberChange : handleReasonForAppointmentChange}
-                        onFocus={input?.name === 'client_birthday' ? showDatePicker : null} 
+                        onChangeText={input?.name === 'client_birthday' ? cleardate: input?.name === 'client_nir' ? handleSecurityNumberChange : handleReasonForAppointmentChange}
+                        onFocus={input?.name === 'client_birthday' ? showDatePicker : null}
                         placeholderTextColor="gray"
                         maxLength={input?.name === 'note' ? 40 : 10}
                         keyboardType={input?.name === 'note' ? 'default' : 'numeric'}
@@ -470,12 +482,14 @@ const styles = StyleSheet.create({
   },
   container: {
     position: 'relative',
+    marginVertical: 10
   },
   input: {
-    marginLeft: 12,
-    marginRight: 12,
+    marginLeft: 24,
+    marginRight: 24,
     borderWidth: 1,
-    padding: 10,
+    paddingLeft: 15,
+    paddingTop: 15,
     color: colors.black,
     fontSize: 12,
     borderRadius: 6,
@@ -494,9 +508,9 @@ const styles = StyleSheet.create({
   },
   icon: {
     position: 'absolute',
-    marginRight: 10,
-    right: 10,
-    top: '20%',
+    marginRight: 15,
+    right: 20,
+    top: '30%',
   },
   titleRDV: {
     flexDirection: 'row',
@@ -507,47 +521,47 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   centeredView: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    backgroundColor: 'white',
+    padding: 10,
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
     },
-    modalView: {
-      backgroundColor: 'white',
-      padding: 10,
-      shadowColor: colors.black,
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5,
-      width: "80%",
-    },
-    compartment: {
-      marginTop: -10,
-      marginHorizontal: -10
-    },
-    body: {
-      flexDirection: 'column',
-      marginVertical: 16,
-      gap: 12
-    },
-    containButton: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      alignItems: 'center',
-      gap: 8,
-      marginTop: 14
-    },
-    modalBackground: {
-      position: 'absolute',
-      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Couleur de fond semi-transparente
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    width: "80%",
+  },
+  compartment: {
+    marginTop: -10,
+    marginHorizontal: -10
+  },
+  body: {
+    flexDirection: 'column',
+    marginVertical: 16,
+    gap: 12
+  },
+  containButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    gap: 8,
+    marginTop: 14
+  },
+  modalBackground: {
+    position: 'absolute',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Couleur de fond semi-transparente
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
 });
 
 const mapStateToProps = (state) => ({
