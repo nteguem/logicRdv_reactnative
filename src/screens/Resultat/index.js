@@ -7,17 +7,25 @@ import { colors } from '../../components/global/colors';
 import { useRoute } from '@react-navigation/native';
 import { useDispatch, connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { infosDoctorRequest } from '../../redux/search/actions';
+import { infosDoctorRequest,resultRequest } from '../../redux/search/actions';
 
 const SearchResult = ({ isLoading, isSearch = true }) => {
   const { params } = useRoute();
-  const { location, profession, searchall, name, results, city, proxy_nom_id } = params;
+  const { location, profession, searchall, name, results, city, proxy_nom_id,ville_id } = params;
   const result = searchall || results;
   const isEmptySearch = !result || result.length === 0;
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   useEffect(() => {
+    dispatch(resultRequest({
+      "proxy_ville": location,
+      "proxy_nom": profession,
+      "proxy_ville_id": "",
+      "proxy_nom_id": ville_id,
+      "proxy_search": "",
+      "proxy_page": "1"
+    }));
     dispatch(infosDoctorRequest({ "id": proxy_nom_id }));
   }, []);
 
@@ -122,9 +130,9 @@ const SearchResult = ({ isLoading, isSearch = true }) => {
       </View>
       {isEmptySearch ? (
         <View style={{ height: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Image source={require('../../assets/images/favicon.jpg')} style={{ width: 25, height: 25, borderRadius: 5 }} />
-        <CustomText color={colors.blue}>Aucune donnée disponible</CustomText>
-      </View>
+          <Image source={require('../../assets/images/favicon.jpg')} style={{ width: 25, height: 25, borderRadius: 5 }} />
+          <CustomText color={colors.blue}>Aucune donnée disponible</CustomText>
+        </View>
       ) : renderContent()}
     </ContainerScreen>
   );

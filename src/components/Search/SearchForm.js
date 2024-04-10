@@ -44,10 +44,10 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
             }));
             
             console.log('====================================');
-            console.log("ceci est le result envoier", results, location, profession);
+            console.log("ceci est le result envoier", results, location, profession,);
             console.log('====================================');
             if (results && results.length > 0) {
-                navigation.navigate("Résultats", { location, profession, results });
+                navigation.navigate("Résultats", { location, profession, results,ville_id });
             }
         } catch (error) {
             console.log("error", error);

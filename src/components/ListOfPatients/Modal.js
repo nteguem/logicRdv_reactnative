@@ -67,7 +67,7 @@ const ModalPatient = ({
                         <View style={styles.body}>
                             <View style={{ marginHorizontal: 5 }}>
                                 <ScrollView>
-                                    <View style={{ height: '83%', justifyContent: 'center', marginLeft: 15 }}>
+                                    <View style={{ justifyContent: 'center', marginLeft: 15 }}>
                                         <View style={styles.containInput}>
                                             <CustomText fontSize={17} fontWeight='bold' color={colors.gray300}>
                                                 Nom du patient
@@ -127,7 +127,7 @@ const ModalPatient = ({
                                             title='Annuler'
                                             alignSelf="baseline"
                                             paddingVertical={10}
-                                            paddingHorizontal={30}
+                                            paddingHorizontal={55}
                                             textColor={colors.white}
                                             textFontSize={15}
                                             borderWidth={1}
@@ -148,7 +148,7 @@ const ModalPatient = ({
                                             title='Valider'
                                             alignSelf="baseline"
                                             paddingVertical={10}
-                                            paddingHorizontal={30}
+                                            paddingHorizontal={55}
                                             textColor={colors.white}
                                             textFontSize={15}
                                             borderWidth={1}
@@ -208,7 +208,6 @@ const styles = StyleSheet.create({
     },
     modalView: {
         backgroundColor: 'white',
-        padding: 10,
         shadowColor: colors.black,
         shadowOffset: {
             width: 0,
@@ -217,17 +216,15 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        height: '76%',
         width: "90%",
     },
     compartment: {
         marginTop: -10,
-        marginHorizontal: -10
     },
     body: {
         flexDirection: 'column',
         marginVertical: 16,
-        gap: 12
+        gap: 12,
     },
     containInput: {
         flexDirection: 'column',
@@ -235,10 +232,10 @@ const styles = StyleSheet.create({
     },
     containButton: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
         alignItems: 'center',
         gap: 8,
-        marginTop: 14
+        marginTop: 14,
     },
     input: {
         marginVertical: 10,

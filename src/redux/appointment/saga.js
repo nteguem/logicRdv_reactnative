@@ -3,7 +3,7 @@ import { takeLatest, call, put, select } from 'redux-saga/effects';
 import { sendRequest } from '../../utils/api';
 import { getUserData } from "../../utils/helpers";
 import { setModalVisible } from '../app/actions';
-import {makePaiementRequest} from '../paiement/actions';
+import { makePaiementRequest } from '../paiement/actions';
 import { createAppointmentRequest } from './actions';
 import { showMessage } from 'react-native-flash-message';
 import {
@@ -57,7 +57,7 @@ function* list({ payload }) {
 
 function* listDoctor() {
   try {
-    const endpoint = 'account/doctors/'; 
+    const endpoint = 'account/doctors/';
     const userData = yield getUserData();
     const body = { "tokenuser": userData.tokenuser }
     const response = yield call(sendRequest, 'POST', endpoint, body);
@@ -246,11 +246,11 @@ function* create({ payload }) {
         break;
 
       case "apptlocked":
-        console.log("response.data.data.label", response.data.data[0].label)
-        if(response.data.data[0].label === "Je confirme être patient") {
+        yield put(setModalVisible(false, ""));
+        if (response?.data?.data[0]?.label === "Je confirme être patient") {
           yield RootNavigation.navigate('Confirmation patient', { tokenappointment: response.params.tokenappointment });
         } else {
-          yield put(setModalVisible(false, ""));
+          yield put(setModalVisible(true, response.data.headermessage));
         }
         break;
 
@@ -274,7 +274,7 @@ function* create({ payload }) {
         yield addDoctor(response.data.data[0].id, response.data.data[0].phone, userData?.tokenuser);
         break;
       case "apptstripeandautovalide":
-      yield put(makePaiementRequest(optionalParam));
+        yield put(makePaiementRequest(optionalParam));
         break;
       default:
         break;
