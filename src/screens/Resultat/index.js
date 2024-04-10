@@ -29,11 +29,11 @@ const SearchResult = ({ isLoading, isSearch = true }) => {
   const renderContent = () => {
     const tas = result.length
 
-    if (tas === 0){
-      return(
-        <View style={styles.centered}>
-          <Image source={require('../../assets/images/Logo.png')} style={styles.image} />
-          <CustomText fontSize={12} color={colors.blue100} fontWeight='bold'>Aucunes données pour le moment.</CustomText>
+    if (tas === 0) {
+      return (
+        <View style={{ height: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Image source={require('../../assets/images/favicon.jpg')} style={{ width: 25, height: 25, borderRadius: 5 }} />
+          <CustomText color={colors.blue}>Aucune donnée disponible</CustomText>
         </View>
       )
     }
@@ -121,10 +121,10 @@ const SearchResult = ({ isLoading, isSearch = true }) => {
         <CustomText fontSize={14} color={colors.black} fontWeight="bold">{location || city}, {profession || name} </CustomText>
       </View>
       {isEmptySearch ? (
-        <View style={styles.centered}>
-          <Image source={require('../../assets/images/Logo.png')} style={styles.image} />
-          <CustomText fontSize={12} color={colors.blue100} fontWeight='bold'>Aucunes données pour le moment.</CustomText>
-        </View>
+        <View style={{ height: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Image source={require('../../assets/images/favicon.jpg')} style={{ width: 25, height: 25, borderRadius: 5 }} />
+        <CustomText color={colors.blue}>Aucune donnée disponible</CustomText>
+      </View>
       ) : renderContent()}
     </ContainerScreen>
   );
@@ -135,11 +135,6 @@ const styles = StyleSheet.create({
     marginHorizontal: -10,
     paddingHorizontal: 10,
     paddingVertical: 10
-  },
-  centered: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center', 
   },
   image: {
     objectFit: 'contain',

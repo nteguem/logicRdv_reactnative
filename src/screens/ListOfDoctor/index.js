@@ -5,12 +5,11 @@ import Doctor from '../../components/global/Doctor';
 import { colors } from '../../components/global/colors';
 import { useDispatch, connect } from 'react-redux';
 import { createAppointmentRequest, listDoctorRequest, removeDoctorRequest } from '../../redux/appointment/actions';
-import { Modal, ScrollView, StyleSheet, View } from 'react-native';
-import { showMessage } from 'react-native-flash-message';
+import { Image, Modal, ScrollView, StyleSheet, View } from 'react-native';
 import CustomText from '../../components/global/CustomText';
 import CustomAppButton from '../../components/global/CustomAppButton';
 
-const DoctorListScreen = ({ listDoctor, isLoading, doctorDeletedMessage }) => {
+const ListOfDoctor = ({ listDoctor, isLoading, session }) => {
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [doctorToDelete, setDoctorToDelete] = useState(null);
@@ -24,7 +23,7 @@ const DoctorListScreen = ({ listDoctor, isLoading, doctorDeletedMessage }) => {
 
   const handleMotifs = async (doctor) => {
     const tokenappointment = doctor.appointment.token
-    await dispatch(createAppointmentRequest(tokenappointment, '', '', '', ''));
+    await dispatch(createAppointmentRequest(tokenappointment, '', '', 'begin', session));
   };
 
   const handleDeleteDoctor = async () => {
@@ -88,34 +87,41 @@ const DoctorListScreen = ({ listDoctor, isLoading, doctorDeletedMessage }) => {
         </View>
       </Modal>
 
-      <ScrollView>
-        {listDoctor.map((doctor, index) => (
-          <Doctor
-            key={index}
-            handleChange={() => handleMotifs(doctor)}
-            texte2={doctor.category}
-            texte4={doctor.address}
-            texte3={`${doctor.zip} ${doctor.city}`}
-            texte1={doctor.civility ? `${doctor.civility} ${doctor.nom}` : doctor.nom}
-            texte5={doctor.tel}
-            colorTitle={colors.yellow}
-            colorContain={colors.blue}
-            fontWeight={'bold'}
-            isPhoneIcons
-            isProfileIcon
-            isDelete={listDoctor.length > 1}
-            isAppointment
-            isRightIcons
-            lat={doctor.lat}
-            lng={doctor.lng}
-            handleDelete={() => {
-              setDoctorToDelete(doctor);
-              setShowDeleteModal(true);
-            }}
-          />
-        ))}
-      </ScrollView>
-    </ContainerScreen>
+      {listDoctor.length > 0 ? (
+        <ScrollView>
+          {listDoctor.map((doctor, index) => (
+            <Doctor
+              key={index}
+              handleChange={() => handleMotifs(doctor)}
+              texte2={doctor.category}
+              texte4={doctor.address}
+              texte3={`${doctor.zip} ${doctor.city}`}
+              texte1={doctor.civility ? `${doctor.civility} ${doctor.nom}` : doctor.nom}
+              texte5={doctor.tel}
+              colorTitle={colors.yellow}
+              colorContain={colors.blue}
+              fontWeight={'bold'}
+              isPhoneIcons
+              isProfileIcon
+              isDelete={listDoctor.length > 1}
+              isAppointment
+              isRightIcons
+              lat={doctor.lat}
+              lng={doctor.lng}
+              handleDelete={() => {
+                setDoctorToDelete(doctor);
+                setShowDeleteModal(true);
+              }}
+            />
+          ))}
+        </ScrollView>
+      ) : (
+        <View style={{ height: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Image source={require('../../assets/images/favicon.jpg')} style={{ width: 25, height: 25, borderRadius: 5 }} />
+          <CustomText color={colors.blue}>Aucune donnée disponible</CustomText>
+        </View>
+      )}
+    </ContainerScreen >
   )
 }
 
@@ -167,8 +173,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ AppointmentReducer }) => ({
   listDoctor: AppointmentReducer.listDoctor,
-  doctorDeletedMessage: AppointmentReducer.doctorDeletedMessage,
+  session: AppointmentReducer.session,
   isLoading: AppointmentReducer.isLoading,
 });
 
-export default connect(mapStateToProps)(DoctorListScreen);
+export default connect(mapStateToProps)(ListOfDoctor);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
-import { Modal, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Image, Modal, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import CustomText from '../../components/global/CustomText'
 import { colors } from '../../components/global/colors'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -8,19 +8,27 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import ModalPatient from '../../components/ListOfPatients/Modal'
 import Doctor from '../../components/global/Doctor'
 import { useDispatch, connect } from 'react-redux';
-import { addPatientRequest, createAppointmentRequest, listPatientRequest, removePatientRequest } from '../../redux/appointment/actions'
-import CustomAppButton from '../../components/global/CustomAppButton'
-import { setModalVisible } from '../../redux/app/actions'
+import { addPatientRequest, clearAppointmentData, clearPatientList, createAppointmentRequest, listPatientRequest, removePatientRequest } from '../../redux/appointment/actions'
+
+import ModalDelete from './ModalDelete'
+import ModalConfirm from './ModalConfirm'
 
 const ListOfPatients = ({ route, listPatient, isLoading, session, user, data }) => {
     const { tokenappointment } = route.params;
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [patientToDelete, setPatientToDelete] = useState(null);
-console.log('data././.', data)
-console.log('listPatient././.', listPatient)
+
+    const patients = data.length > 0 ? data : listPatient;
+    console.log("patients::>>", patients)
+
     const dispatch = useDispatch();
 
     const truncateText = (text, maxLength) => {
+        if (!text) {
+            return '';
+        }
+
         if (text.length <= maxLength) {
             return text;
         } else {
@@ -33,14 +41,20 @@ console.log('listPatient././.', listPatient)
     }, [tokenappointment]);
 
     const handleAppt = async (patient) => {
-        console.log(patient)
-        if (patient.locked === "1") {
-            await dispatch(setModalVisible(true, patient?.lockmessage));
+        if (data.length > 0) {
+            if (patient.locked === "1") {
+                setPatientToDelete(patient);
+                setShowConfirmModal(true);
+            } else {
+                const action = patient?.onclick_action;
+                const data = patient?.onclick_data;
+                const week = patient?.onclick_week;
+                await dispatch(createAppointmentRequest(tokenappointment, week, data, action, session));
+                await dispatch(clearPatientList());
+                await dispatch(clearAppointmentData());
+            }
         } else {
-            // const action = patient?.onclick_action
-            // const data = patient?.onclick_data
-            // const week = patient?.onclick_week
-            // await dispatch(createAppointmentRequest(tokenappointment, "", "", "", session,));
+            await dispatch(clearAppointmentData());
         }
     }
 
@@ -89,99 +103,77 @@ console.log('listPatient././.', listPatient)
 
     return (
         <ContainerScreen isLoading={isLoading}>
-            <Modal
-                animationType="slide"
-                transparent={true}
+            <ModalDelete
                 visible={showDeleteModal}
-                onRequestClose={() => setShowDeleteModal(false)}
-            >
-                <View style={styles.modalBackground}></View>
-                <View style={styles.centeredView}>
-                    <View
-                        style={[styles.modalView,
-                        {
-                            borderRadius: 8
-                        }]}
-                    >
-                        <View style={styles.body}>
-                            <CustomText fontSize={12} fontWeight='bold' color={colors.black}>Êtes-vous sûr de vouloir supprimer ce patient ?</CustomText>
-                            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 8 }}>
-                                <CustomAppButton
-                                    onPress={() => setShowDeleteModal(false)}
-                                    title="Annuler"
-                                    alignSelf="baseline"
-                                    paddingVertical={16}
-                                    paddingHorizontal={40}
-                                    textColor={colors.white}
-                                    textFontSize={12}
-                                    borderRadius={5}
-                                    bkgroundColor={colors.blue}
-                                    userIcon
-                                    display='none'
+                onCancel={() => setShowDeleteModal(false)}
+                onConfirm={handleRemovePatient}
+                message="Êtes-vous sûr de vouloir supprimer ce patient ?"
+            />
+            <ModalConfirm
+                visible={showConfirmModal}
+                onCancel={() => setShowConfirmModal(false)}
+                onConfirm={async () => { // Si l'utilisateur confirme, dispatch et effectuez les actions nécessaires
+                    setShowConfirmModal(false); // Fermez la modal de confirmation
+                    const action = patientToDelete?.onclick_action;
+                    const data = patientToDelete?.onclick_data;
+                    const week = patientToDelete?.onclick_week;
+                    await dispatch(createAppointmentRequest(tokenappointment, week, data, action, session));
+                }}
+                message={patientToDelete?.lockmessage || ''}
+            />
+            {patients.length > 0 ? (
+                <ScrollView>
+                    {listPatient && (
+                        <>
+                            {listPatient.length < 10 && (
+                                <ModalPatient
+                                    nom={nom}
+                                    prenom={prenom}
+                                    email={email}
+                                    telephone={telephone}
+                                    handleNomChange={handleNomChange}
+                                    handlePrenomChange={handlePrenomChange}
+                                    handleEmailChange={handleEmailChange}
+                                    handleTelephoneChange={handleTelephoneChange}
+                                    isEdit={false}
+                                    handleAddPatient={handleAddPatient}
                                 />
-                                <CustomAppButton
-                                    onPress={() => handleRemovePatient(patientToDelete)}
-                                    title="Confirmer"
-                                    alignSelf="baseline"
-                                    paddingVertical={16}
-                                    paddingHorizontal={30}
-                                    textColor={colors.white}
-                                    textFontSize={12}
-                                    borderRadius={5}
-                                    bkgroundColor={colors.red}
-                                    userIcon
-                                    display='none'
-                                />
-                            </View>
+                            )}
+                        </>
+                    )}
 
-                        </View>
-                    </View>
+                    {patients.map((patient, index) => (
+                        <TouchableOpacity key={index} onPress={() => handleAppt(patient)}>
+                            <Doctor
+                                key={index}
+                                texte1={`${patient.nom} ${patient.prenom}`}
+                                texte2={patient.phone}
+                                texte3={patient.dob}
+                                texte4={truncateText(patient.email, 25)}
+                                colorTitle={colors.black}
+                                colorContain={colors.black}
+                                marginBottom={10}
+                                isIcon
+                                isLock={patient.locked === "1"}
+                                isUpdate
+                                isDelete={index > 0 && patients.length > 1}
+                                isProfileIcon
+                                user={patient}
+                                tokenappointment={tokenappointment}
+                                handleDelete={() => {
+                                    setPatientToDelete(patient);
+                                    setShowDeleteModal(true);
+                                }}
+                            />
+                        </TouchableOpacity>
+                    ))}
+                </ScrollView>
+            ) : (
+                <View style={{ height: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Image source={require('../../assets/images/favicon.jpg')} style={{ width: 25, height: 25, borderRadius: 5 }} />
+                    <CustomText color={colors.blue}>Aucune donnée disponible</CustomText>
                 </View>
-            </Modal>
-
-            <ScrollView>
-                {listPatient.length < 10 && (
-                    <ModalPatient
-                        nom={nom}
-                        prenom={prenom}
-                        email={email}
-                        telephone={telephone}
-                        handleNomChange={handleNomChange}
-                        handlePrenomChange={handlePrenomChange}
-                        handleEmailChange={handleEmailChange}
-                        handleTelephoneChange={handleTelephoneChange}
-                        isEdit={false}
-                        handleAddPatient={handleAddPatient} />
-                )}
-
-                {listPatient.map((patient, index) => (
-                    <TouchableOpacity key={index} onPress={() => handleAppt(patient)}>
-                        <Doctor
-                            key={index}
-                            texte1={`${patient.nom} ${patient.prenom}`}
-                            texte2={patient.phone}
-                            texte3={patient.dob}
-                            texte4={truncateText(patient.email, 25)}
-                            colorTitle={colors.black}
-                            colorContain={colors.black}
-                            marginBottom={10}
-                            isIcon
-                            isLock={patient.locked === "1"}
-                            isUpdate
-                            isDelete={index > 0 && listPatient.length > 1}
-                            isProfileIcon
-                            user={patient}
-                            tokenappointment={tokenappointment}
-                            handleDelete={() => {
-                                setPatientToDelete(patient);
-                                setShowDeleteModal(true);
-                            }}
-                        />
-                    </TouchableOpacity>
-                ))}
-
-            </ScrollView>
-
+            )}
         </ContainerScreen>
     )
 }

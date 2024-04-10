@@ -49,3 +49,11 @@ export const paiementApptRequest = (tokentelecons) => ({
   type: types.PAIEMENT_APPOINTMENT_REQUEST,
   payload: { tokentelecons },
 });
+
+export const clearAppointmentData = () => ({
+  type: types.CLEAR_APPOINTMENT_DATA,
+});
+
+export const clearPatientList = () => ({
+  type: types.CLEAR_PATIENT_LIST,
+});

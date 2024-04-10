@@ -5,16 +5,16 @@ import CustomText from '../../components/global/CustomText'
 import CustomAppButton from '../../components/global/CustomAppButton'
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, connect } from 'react-redux';
-import { createAppointmentRequest, listAppointmentsRequest } from '../../redux/appointment/actions';
+import { createAppointmentRequest, listPatientRequest } from '../../redux/appointment/actions';
 
-const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, data, headerMessage, session }) => {
+const PatientConfirmation = ({ route, isLoadingAppointment, data, headerMessage, session }) => {
   const { tokenappointment } = route.params;
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  
-  const handleBackToHome = () => {
-    navigation.navigate('Mes rendez-vous');
-    dispatch(listAppointmentsRequest({ "id": 1 }));
+
+  const handleBackToListOfPatient = () => {
+    dispatch(listPatientRequest(tokenappointment));
+    navigation.navigate('Liste des patients');
   };
 
   const handleBackToAppointment = async (week, data, action) => {
@@ -36,31 +36,30 @@ const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, data, head
                 fontSize={12}
                 fontWeight={500}
               >
-                {headerMessage}
+                Le praticien est mon médecin traitant et je confirme ne pas être un nouveau patient
 
               </CustomText>
             </View >
             <View style={styles.button}>
-              <CustomAppButton
-                onPress={() => handleBackToAppointment(data[0]?.onclick_week, data[0]?.onclick_data, data[0]?.onclick_action)}
-                title={data[0]?.label}
+            <CustomAppButton
+                onPress={handleBackToListOfPatient}
+                title="Non"
                 bkgroundColor={colors.blue}
                 textColor={colors.white}
-                paddingHorizontal={35}
+                paddingHorizontal={45}
                 paddingVertical={10}
                 borderRadius={8}
                 textFontSize={12}
               />
               <CustomAppButton
-                onPress={handleBackToHome}
-                title="Quitter"
+                onPress={() => handleBackToAppointment(data[0]?.onclick_week, data[0]?.onclick_data, data[0]?.onclick_action)}
+                title="Je confirme"
                 bkgroundColor={colors.blue}
                 textColor={colors.white}
-                paddingHorizontal={10}
+                paddingHorizontal={45}
                 paddingVertical={10}
                 borderRadius={8}
                 textFontSize={12}
-
               />
             </View>
           </View>
@@ -99,7 +98,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 10,
     paddingVertical: 6,
-    gap: 12
+    gap: 12,
   },
 })
 const mapStateToProps = (state) => ({
@@ -110,4 +109,4 @@ const mapStateToProps = (state) => ({
   isLoadingAppointment: state.AppointmentReducer?.isLoading,
 });
 
-export default connect(mapStateToProps)(ConfirmationAppointmentScreen);
+export default connect(mapStateToProps)(PatientConfirmation);
