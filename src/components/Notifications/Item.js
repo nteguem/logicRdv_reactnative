@@ -4,8 +4,8 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { colors } from '../global/colors';
 import CustomText from '../global/CustomText';
 
-const Item = (props) => { // Utilisation de props pour recevoir les propriétés du composant
-  const { date, username, message, nameIcon } = props; //  message-reply-text  "notifications"
+const Item = (props) => {
+  const { date, username, message, nameIcon } = props; 
   const isNotification = () => {
     if (nameIcon === "Notification") {
       return true;

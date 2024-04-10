@@ -16,6 +16,8 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
     const [profession, setProfession] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
     const [ville_id, setVille_id] = useState("")
+    const [dispatchComplete, setDispatchComplete] = useState(false);
+
     const handleLocationChange = (text) => {
         setLocation(text);
     };
@@ -31,28 +33,27 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
         setVille_id(idcity);
     };
 
-
     const handleSearch = async () => {
         try {
-            await dispatch(resultRequest({
-                "proxy_ville": location,
-                "proxy_nom": profession,
-                "proxy_ville_id": "",
-                "proxy_nom_id": ville_id,
-                "proxy_search": "",
-                "proxy_page": "1"
-            }));
-            
-            console.log('====================================');
-            console.log("ceci est le result envoier", results, location, profession,);
-            console.log('====================================');
-            if (results && results.length > 0) {
-                navigation.navigate("Résultats", { location, profession, results,ville_id });
-            }
+          await dispatch(
+            resultRequest({
+              proxy_ville: location,
+              proxy_nom: profession,
+              proxy_ville_id: '',
+              proxy_nom_id: ville_id,
+              proxy_search: '',
+              proxy_page: '1',
+            })
+          );
+          setDispatchComplete(true);
         } catch (error) {
-            console.log("error", error);
+          console.log('error', error);
         }
-    };
+      };
+    
+      const navigateToResults = () => {
+        navigation.navigate('Résultats', { location, profession, results });
+      };
 
     return (
         <View>
@@ -96,27 +97,33 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
                     />
                 </View>
             </View>
-            {(location !== '' && profession !== '') && (
-                <View style={{marginBottom:15}}>
-                    <CustomAppButton
-                        iconComponent={<Ionicons name="search" size={18} color={colors.white} style={{ marginHorizontal: 15 }} />}
-                        title='Rechercher'
-                        alignSelf="baseline"
-                        paddingVertical={12}
-                        textColor={colors.white}
-                        textFontSize={15}
-                        fontWeight='bold'
-                        borderWidth={1}
-                        borderRadius={10}
-                        borderColor={colors.white}
-                        bkgroundColor={colors.blue}
-                        width='100%'
-                        onPress={handleSearch}
-                        
-                        
+            {location !== '' && profession !== '' && (
+                <View style={{ marginBottom: 15 }}>
+                <CustomAppButton
+                    iconComponent={
+                    <Ionicons
+                        name="search"
+                        size={18}
+                        color={colors.white}
+                        style={{ marginHorizontal: 15 }}
                     />
+                    }
+                    title="Rechercher"
+                    alignSelf="baseline"
+                    paddingVertical={12}
+                    textColor={colors.white}
+                    textFontSize={15}
+                    fontWeight="bold"
+                    borderWidth={1}
+                    borderRadius={10}
+                    borderColor={colors.white}
+                    bkgroundColor={colors.blue}
+                    width="100%"
+                    onPress={handleSearch}
+                />
                 </View>
             )}
+      {dispatchComplete && results && results.length > 0 && navigateToResults()}
         </View>
     )
 }

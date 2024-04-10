@@ -80,7 +80,8 @@ const AppointmentReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        list: state.list?.list ? [...state.list, ...action.payload] : action.payload
+        // list: state.list?.list ? [...state.list, ...action.payload] : action.payload
+         list: action.payload
       };
     case LIST_APPOINTMENT_FAILURE:
       return {
@@ -114,7 +115,6 @@ const AppointmentReducer = (state = initialState, action) => {
             message: action.payload.message,
             params: action.payload.params,
             type: action.payload.data.type,
-            paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
             session: action.payload.data.session,
           };
         case "apptcreneaux":
@@ -128,7 +128,6 @@ const AppointmentReducer = (state = initialState, action) => {
             message: action.payload.message,
             params: action.payload.params,
             type: action.payload.data.type,
-            paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
             session: action.payload.data.session,
           };
         case "apptnothing":
@@ -142,7 +141,6 @@ const AppointmentReducer = (state = initialState, action) => {
             message: action.payload.message,
             params: action.payload.params,
             type: action.payload.data.type,
-            paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
             session: action.payload.data.session,
           };
 
@@ -157,7 +155,6 @@ const AppointmentReducer = (state = initialState, action) => {
             message: action.payload.message,
             params: action.payload.params,
             type: action.payload.data.type,
-            paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
             session: action.payload.data.session,
           };
 
@@ -172,7 +169,6 @@ const AppointmentReducer = (state = initialState, action) => {
             message: action.payload.message,
             params: action.payload.params,
             type: action.payload.data.type,
-            paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
             session: action.payload.data.session,
           };
 
@@ -187,7 +183,6 @@ const AppointmentReducer = (state = initialState, action) => {
             message: action.payload.message,
             params: action.payload.params,
             type: action.payload.data.type,
-            paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
             session: action.payload.data.session,
           };
 

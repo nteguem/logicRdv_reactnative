@@ -172,12 +172,6 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
     setDatePickerVisibility(false);
   };
 
-  const handleConfirm = (date) => {
-    console.warn("A date has been picked: ", date);
-    setThisDate(formatDateToString(date));
-    hideDatePicker();
-  };
-
   const formatDateToString = (date) => {
     const day = date.getDate();
     const month = date.getMonth() + 1;
@@ -185,6 +179,17 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
     const formattedDay = day < 10 ? `0${day}` : day;
     const formattedMonth = month < 10 ? `0${month}` : month;
     return `${formattedDay}/${formattedMonth}/${year}`;
+  };
+
+  const cleardate = () =>{
+    setThisDate("")
+  }
+
+  
+  const handleConfirm = (date) => {
+    console.warn("A date has been picked: ", date);
+    setThisDate(formatDateToString(date));
+    hideDatePicker();
   };
 
   const dispatch = useDispatch();
@@ -223,14 +228,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
     if (mandatoryFields.length === filledMandatoryFields.length) {
       await dispatch(createAppointmentRequest(tokenappointment, week, dataConfirm.apptbuttonvalidation.onclick_data, action, session, paymentMethodId));
 
-    } else {
-      showMessage({
-        message: 'Champs manquants',
-        description: 'Veuillez remplir tous les champs obligatoires.',
-        type: 'warning',
-        duration: 3500,
-      });
-    }
+    } 
   };
 
 
@@ -359,7 +357,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
                         key={index}
                         label={input?.label}
                         value={input?.name === 'client_birthday' ? thisDate : input?.name === 'client_nir' ? securityNumber : reasonForAppointment}
-                        onChangeText={input?.name === 'client_birthday' ? formatDateToString : input?.name === 'client_nir' ? handleSecurityNumberChange : handleReasonForAppointmentChange}
+                        onChangeText={input?.name === 'client_birthday' ? cleardate: input?.name === 'client_nir' ? handleSecurityNumberChange : handleReasonForAppointmentChange}
                         onFocus={input?.name === 'client_birthday' ? showDatePicker : null}
                         placeholderTextColor="gray"
                         maxLength={input?.name === 'note' ? 40 : 10}
@@ -437,7 +435,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
               borderRadius={10}
               bkgroundColor={colors.blue}
               width='100%'
-              disabled={!isAllFieldsFilled && !cardDetails?.complete}
+              disabled={!isAllFieldsFilled || (cardDetails && (!cardDetails?.complete))}
             />
           </View>
           <DateTimePickerModal
