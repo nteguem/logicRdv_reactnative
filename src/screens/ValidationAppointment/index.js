@@ -382,15 +382,18 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
                 postalCodeEnabled={false}
                 expiry
                 placeholders={{
-                  number: 'XXXX',
+                  number: '**** **** **** ****',
                 }}
                 cardStyle={{
+                  placeholderColor:"grey",
                   textColor: '#000000',
                   borderRadius: 12,
-                  placeholderColor: 'red'
+                  fontSize: 12
                 }}
                 style={{
-                  height: 50, 
+                  height: 70, 
+                  marginBottom: 16,
+                  marginTop: 4,
                 }}
                 onCardChange={(newCardDetails) => {
                   setCardDetails(newCardDetails);
