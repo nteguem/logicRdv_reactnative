@@ -2,6 +2,7 @@ import { View, ScrollView, Modal } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import ValidationInfoRDV from '../../components/ValidationAppointment/ValidationInfoRDV'
+import ValidationPaymentForm from '../../components/ValidationAppointment/ValidationPaymentForm'
 import ValidationNoticeRDV from '../../components/ValidationAppointment/ValidationNoticeRDV'
 import CustomAppButton from '../../components/global/CustomAppButton'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -15,7 +16,6 @@ import { cancelAppointmentRequest, createAppointmentRequest } from '../../redux/
 import AppointmentDetails from '../../components/MyAppointment/Appointment_Details'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { showMessage } from 'react-native-flash-message'
-import { CardField,createPaymentMethod, confirmPayment,} from '@stripe/stripe-react-native';
 
 const FloatingLabelInput = ({
   label,
@@ -27,19 +27,12 @@ const FloatingLabelInput = ({
   numberOfLines,
   showCrossIcon = false,
   required,
-  onFocusDate,
   ...rest
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const animatedIsFocused = new Animated.Value(value === '' ? 0 : 1);
 
-  const handleFocus = () => {
-    if (label === 'Date de naissance' && onFocusDate) {
-      onFocusDate(); // Si le champ de la date est focus, appeler onFocusDate
-    } else {
-      setIsFocused(true); // Sinon, utiliser la logique d'origine
-    }
-  };
+  const handleFocus = () => setIsFocused(true);
   const handleBlur = () => setIsFocused(false);
 
   Animated.timing(animatedIsFocused, {
@@ -50,7 +43,7 @@ const FloatingLabelInput = ({
 
   const labelStyle = {
     position: 'absolute',
-    left: 40,
+    left: 20,
     top: animatedIsFocused.interpolate({
       inputRange: [0, 1],
       outputRange: [15, -10],
@@ -73,7 +66,7 @@ const FloatingLabelInput = ({
   const inputRef = useRef(null);
 
   const clearText = () => {
-    onChangeText('');
+    onChangeText(''); 
   };
 
   return (
@@ -105,7 +98,7 @@ const FloatingLabelInput = ({
   );
 };
 
-const ValidationAppointment = ({ route, session, data, isLoadingAppointment, params,paiementIntent }) => {
+const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) => {
   const { tokenappointment } = route.params;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [apptToCancel, setApptToCancel] = useState(null);
@@ -114,8 +107,6 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
   const [reasonForAppointment, setReasonForAppointment] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [thisDate, setThisDate] = useState('');
-  const [cardDetails, setCardDetails] = useState(null);
-  const [paymentMethodId, setPaymentMethodId] = useState(null);
 
   useEffect(() => {
     if (data && data.apptinput) {
@@ -133,30 +124,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
         setThisDate(thisDateInput.value);
       }
     }
- 
   }, [data]);
-
-  useEffect(() => {
-    if (cardDetails?.complete) {
-      createPaymentMethod({ paymentMethodType: 'Card', card: cardDetails })
-        .then(paymentMethodResponse => {
-          if (paymentMethodResponse.error) {
-            console.log('Error creating payment method:', paymentMethodResponse.error);
-            dispatch({ type: MAKE_PAIEMENT_FAILURE, payload: paymentMethodResponse.error });
-            return;
-          }
-          console.log("paymentMethodResponse",paymentMethodResponse)
-          const paymentId = paymentMethodResponse.paymentMethod.id;
-          setPaymentMethodId(paymentId)
-        })
-        .catch(error => {
-          console.error('Error catch  creating payment method:', error);
-          dispatch({ type: MAKE_PAIEMENT_FAILURE, payload: error });
-        });
-    }
-  }, [cardDetails]);
-  
- 
 
   useEffect(() => {
     if (data?.apptsinprogress?.appts.length > 0) {
@@ -169,16 +137,10 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
-
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
 
-  const handleConfirm = (date) => {
-    console.warn("A date has been picked: ", date);
-    setThisDate(formatDateToString(date));
-    hideDatePicker();
-  };
 
   const formatDateToString = (date) => {
     const day = date.getDate();
@@ -187,6 +149,17 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
     const formattedDay = day < 10 ? `0${day}` : day;
     const formattedMonth = month < 10 ? `0${month}` : month;
     return `${formattedDay}/${formattedMonth}/${year}`;
+  };
+
+  const cleardate = () =>{
+    setThisDate("")
+  }
+
+  
+  const handleConfirm = (date) => {
+    console.warn("A date has been picked: ", date);
+    setThisDate(formatDateToString(date));
+    hideDatePicker();
   };
 
   const dispatch = useDispatch();
@@ -204,28 +177,24 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
     if (apptToCancel) {
       const tokenappointment = apptToCancel?.token
       await dispatch(cancelAppointmentRequest({ tokenappointment: tokenappointment }));
-      await dispatch(createAppointmentRequest(params.tokenappointment, params.week, params.data, params.action, params.session));
       setApptToCancel(null);
       setShowDeleteModal(false);
     }
   }
 
-  const mandatoryFields = [
-    { label: 'Date de naissance', mandatory: '1', name: 'client_birthday', value: thisDate },
-    { label: 'Numéro de sécurité social', mandatory: '1', name: 'client_nir', value: securityNumber },
-    { label: 'Motif du Rdv', mandatory: '1', name: 'note', value: reasonForAppointment }
-  ];
-
   const handleConfirmationAppointment = async (week, action) => {
+    // Vérifier si les champs obligatoires sont remplis
     const mandatoryFields = [
       { label: 'Date de naissance', mandatory: '1', name: 'client_birthday', value: thisDate },
       { label: 'Numéro de sécurité social', mandatory: '1', name: 'client_nir', value: securityNumber },
       { label: 'Motif du Rdv', mandatory: '1', name: 'note', value: reasonForAppointment }
     ];
     const filledMandatoryFields = mandatoryFields.filter((field) => field?.value.trim() !== '');
+    console.log('mandatoryFields', mandatoryFields);
+    console.log('filledMandatoryFields', filledMandatoryFields);
     if (mandatoryFields.length === filledMandatoryFields.length) {
-        await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session,paymentMethodId));
-
+      await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session));
+      navigation.navigate('Confirmation rdv', { tokenappointment: tokenappointment, data });
     } else {
       showMessage({
         message: 'Champs manquants',
@@ -235,9 +204,6 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
       });
     }
   };
-
-
-  const isAllFieldsFilled = mandatoryFields.every(field => field.value.trim() !== '');
 
   return (
     <ContainerScreen isLoading={isLoadingAppointment}>
@@ -294,7 +260,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
       {showAppointmentList ? (
         <ScrollView>
           <CustomText fontSize={10} color={colors.black} style={{ marginVertical: 12 }}>
-            {data?.apptsinprogress?.message}
+            {data?.apptsinprogress.message}
           </CustomText>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
             <CustomAppButton
@@ -361,8 +327,8 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
                         key={index}
                         label={input?.label}
                         value={input?.name === 'client_birthday' ? thisDate : input?.name === 'client_nir' ? securityNumber : reasonForAppointment}
-                        onChangeText={input?.name === 'client_birthday' ? formatDateToString : input?.name === 'client_nir' ? handleSecurityNumberChange : handleReasonForAppointmentChange}
-                        onFocus={input?.name === 'client_birthday' ? showDatePicker : null}
+                        onChangeText={input?.name === 'client_birthday' ?  cleardate: input?.name === 'client_nir' ? handleSecurityNumberChange : handleReasonForAppointmentChange}
+                        onFocus={input?.name === 'client_birthday' ? showDatePicker : null} 
                         placeholderTextColor="gray"
                         maxLength={input?.name === 'note' ? 40 : 10}
                         keyboardType={input?.name === 'note' ? 'default' : 'numeric'}
@@ -379,30 +345,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
           </SafeAreaView>
 
           {data?.payment && Object.keys(data.payment).length > 0 && (
-                <CardField
-                postalCodeEnabled={false}
-                placeholders={{
-                  number: 'XXXX XXXX XXXX XXXX',
-                  expiration: 'MM/YY',
-                  cvc: 'CVC',
-                  color: '#AAAAAA'
-                }}
-                cardStyle={{
-                  backgroundColor: '#FFFFFF',
-                  textColor: '#000000',
-                  borderRadius: 5,
-                  padding: 10,
-                }}
-                style={{
-                  width: '100%',
-                  height: 100, 
-                  marginBottom:10,
-                }}
-          
-                onCardChange={(newCardDetails) => {
-                  setCardDetails(newCardDetails); 
-                }}
-              />
+            <ValidationPaymentForm />
           )}
 
           {data?.payment && Object.keys(data.payment).length > 0 && (
@@ -436,7 +379,6 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
               borderRadius={10}
               bkgroundColor={colors.blue}
               width='100%'
-              disabled={!isAllFieldsFilled}
             />
           </View>
           <DateTimePickerModal
@@ -476,14 +418,12 @@ const styles = StyleSheet.create({
   },
   container: {
     position: 'relative',
-    marginVertical: 10
   },
   input: {
-    marginLeft: 24,
-    marginRight: 24,
+    marginLeft: 12,
+    marginRight: 12,
     borderWidth: 1,
-    paddingLeft: 15,
-    paddingTop: 15,
+    padding: 10,
     color: colors.black,
     fontSize: 12,
     borderRadius: 6,
@@ -502,9 +442,9 @@ const styles = StyleSheet.create({
   },
   icon: {
     position: 'absolute',
-    marginRight: 15,
-    right: 20,
-    top: '30%',
+    marginRight: 10,
+    right: 10,
+    top: '20%',
   },
   titleRDV: {
     flexDirection: 'row',
@@ -515,55 +455,53 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalView: {
-    backgroundColor: 'white',
-    padding: 10,
-    shadowColor: colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 2,
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    width: "80%",
-  },
-  compartment: {
-    marginTop: -10,
-    marginHorizontal: -10
-  },
-  body: {
-    flexDirection: 'column',
-    marginVertical: 16,
-    gap: 12
-  },
-  containButton: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    gap: 8,
-    marginTop: 14
-  },
-  modalBackground: {
-    position: 'absolute',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Couleur de fond semi-transparente
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
+    modalView: {
+      backgroundColor: 'white',
+      padding: 10,
+      shadowColor: colors.black,
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+      width: "80%",
+    },
+    compartment: {
+      marginTop: -10,
+      marginHorizontal: -10
+    },
+    body: {
+      flexDirection: 'column',
+      marginVertical: 16,
+      gap: 12
+    },
+    containButton: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      gap: 8,
+      marginTop: 14
+    },
+    modalBackground: {
+      position: 'absolute',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Couleur de fond semi-transparente
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+    },
 });
 
 const mapStateToProps = (state) => ({
   data: state.AppointmentReducer?.data,
   session: state.AppointmentReducer?.session,
   isLoadingAppointment: state.AppointmentReducer?.isLoading,
-  params: state.AppointmentReducer?.params,
-  paiementIntent:state.AppointmentReducer?.paiementIntent
 });
 
 export default connect(mapStateToProps)(ValidationAppointment);
