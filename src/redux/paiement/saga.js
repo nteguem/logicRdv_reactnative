@@ -44,11 +44,9 @@ function* makePayment({payload}) {
       yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
     }
      else if (paymentIntent.status === 'RequiresCapture') {
-      console.log('requires_capture', paymentIntent);
       yield put(createAppointmentRequest(params.tokenappointment, dataPayment.apptbuttonvalidation.onclick_week, dataPayment.apptbuttonvalidation.onclick_data, dataPayment.apptbuttonvalidation.onclick_action, session));
       yield put({ type: MAKE_PAIEMENT_SUCCESS, payload: paymentIntent });
     } else { 
-      console.log('Payment failed', paymentIntent);
       yield put(setModalVisible(true, "Désolé, le paiement a échoué. Veuillez réessayer."));
       yield put(cancelAppointmentRequest({ tokenappointment: dataPayment.appointment }));
       yield put({ type: MAKE_PAIEMENT_FAILURE, payload: paymentIntent });
@@ -57,7 +55,6 @@ function* makePayment({payload}) {
     yield put(setModalVisible(true, "Désolé, le paiement a échoué. Veuillez réessayer."));
     yield put(cancelAppointmentRequest({ tokenappointment: dataPayment.appointment }));
     yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
-    console.error('Erreur catch lors du paiement:', error);
   }
 }
 
