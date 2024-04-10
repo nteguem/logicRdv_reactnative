@@ -380,13 +380,10 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
                 <CardField
                 postalCodeEnabled={false}
                 placeholders={{
-                  number: 'XXXX XXXX XXXX XXXX',
-                  expiration: 'MM/YY',
-                  cvc: 'CVC',
-                  color: '#AAAAAA'
+                  number: '**** **** **** ****',
                 }}
                 cardStyle={{
-                  backgroundColor: '#FFFFFF',
+                  placeholderColor:"grey",
                   textColor: '#000000',
                   borderRadius: 5,
                   padding: 10,
