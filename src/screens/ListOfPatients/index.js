@@ -13,13 +13,13 @@ import { addPatientRequest, clearAppointmentData, clearPatientList, createAppoin
 import ModalDelete from './ModalDelete'
 import ModalConfirm from './ModalConfirm'
 
-const ListOfPatients = ({ route, listPatient, isLoading, session, user, data }) => {
+const ListOfPatients = ({ route, listPatient, isLoading, session, user, dataPatients }) => {
     const { tokenappointment } = route.params;
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [patientToDelete, setPatientToDelete] = useState(null);
 
-    const patients = data.length > 0 ? data : listPatient;
+    const patients = dataPatients.length > 0 ? dataPatients : listPatient;
     console.log("patients::>>", patients)
 
     const dispatch = useDispatch();
@@ -41,7 +41,7 @@ const ListOfPatients = ({ route, listPatient, isLoading, session, user, data }) 
     }, [tokenappointment]);
 
     const handleAppt = async (patient) => {
-        if (data.length > 0) {
+        if (dataPatients.length > 0) {
             if (patient.locked === "1") {
                 setPatientToDelete(patient);
                 setShowConfirmModal(true);
@@ -123,7 +123,7 @@ const ListOfPatients = ({ route, listPatient, isLoading, session, user, data }) 
             />
             {patients.length > 0 ? (
                 <ScrollView>
-                    {listPatient && (
+                    {dataPatients.length < 0 && (
                         <>
                             {listPatient.length < 10 && (
                                 <ModalPatient
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ AppointmentReducer }) => ({
     listPatient: AppointmentReducer.listPatient,
-    data: AppointmentReducer.data,
+    dataPatients: AppointmentReducer.dataPatients,
     session: AppointmentReducer.session,
     isLoading: AppointmentReducer.isLoading,
 });

@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch, connect } from 'react-redux';
 import { createAppointmentRequest, listAppointmentsRequest } from '../../redux/appointment/actions';
 
-const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, data, headerMessage, session }) => {
+const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, dataValided, headerMessage, session }) => {
   const { tokenappointment } = route.params;
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -42,11 +42,11 @@ const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, data, head
             </View >
             <View style={styles.button}>
               <CustomAppButton
-                onPress={() => handleBackToAppointment(data[0]?.onclick_week, data[0]?.onclick_data, data[0]?.onclick_action)}
-                title={data[0]?.label}
+                onPress={() => handleBackToAppointment(dataValided[0]?.onclick_week, dataValided[0]?.onclick_data, dataValided[0]?.onclick_action)}
+                title={dataValided[0]?.label}
                 bkgroundColor={colors.blue}
                 textColor={colors.white}
-                paddingHorizontal={35}
+                paddingHorizontal={40}
                 paddingVertical={10}
                 borderRadius={8}
                 textFontSize={12}
@@ -56,7 +56,7 @@ const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, data, head
                 title="Quitter"
                 bkgroundColor={colors.blue}
                 textColor={colors.white}
-                paddingHorizontal={10}
+                paddingHorizontal={45}
                 paddingVertical={10}
                 borderRadius={8}
                 textFontSize={12}
@@ -96,14 +96,15 @@ const styles = StyleSheet.create({
   },
   button: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     paddingHorizontal: 10,
     paddingVertical: 6,
-    gap: 12
+    gap: 12,
+    marginTop: 12
   },
 })
 const mapStateToProps = (state) => ({
-  data: state.AppointmentReducer?.data,
+  dataValided: state.AppointmentReducer?.dataValided,
   headerMessage: state.AppointmentReducer?.headerMessage,
   navigationAppointment: state.AppointmentReducer?.navigation,
   session: state.AppointmentReducer?.session,

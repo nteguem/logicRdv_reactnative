@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch, connect } from 'react-redux';
 import { createAppointmentRequest, listPatientRequest } from '../../redux/appointment/actions';
 
-const PatientConfirmation = ({ route, isLoadingAppointment, data, headerMessage, session }) => {
+const PatientConfirmation = ({ route, isLoadingAppointment, dataLocked, session }) => {
   const { tokenappointment } = route.params;
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -52,7 +52,7 @@ const PatientConfirmation = ({ route, isLoadingAppointment, data, headerMessage,
                 textFontSize={12}
               />
               <CustomAppButton
-                onPress={() => handleBackToAppointment(data[0]?.onclick_week, data[0]?.onclick_data, data[0]?.onclick_action)}
+                onPress={() => handleBackToAppointment(dataLocked[0]?.onclick_week, dataLocked[0]?.onclick_data, dataLocked[0]?.onclick_action)}
                 title="Je confirme"
                 bkgroundColor={colors.blue}
                 textColor={colors.white}
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   },
 })
 const mapStateToProps = (state) => ({
-  data: state.AppointmentReducer?.data,
+  dataLocked: state.AppointmentReducer?.dataLocked,
   headerMessage: state.AppointmentReducer?.headerMessage,
   navigationAppointment: state.AppointmentReducer?.navigation,
   session: state.AppointmentReducer?.session,

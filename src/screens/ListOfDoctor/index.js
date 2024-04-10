@@ -14,7 +14,6 @@ const ListOfDoctor = ({ listDoctor, isLoading, session }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [doctorToDelete, setDoctorToDelete] = useState(null);
 
-  const navigation = useNavigation();
   const dispatch = useDispatch();
 
   useEffect(() => {

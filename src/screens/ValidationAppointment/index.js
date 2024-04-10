@@ -105,7 +105,7 @@ const FloatingLabelInput = ({
   );
 };
 
-const ValidationAppointment = ({ route, session, data, isLoadingAppointment, params, paiementIntent }) => {
+const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointment, params, paiementIntent }) => {
   const { tokenappointment } = route.params;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [apptToCancel, setApptToCancel] = useState(null);
@@ -118,10 +118,10 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
   const [paymentMethodId, setPaymentMethodId] = useState(null);
 
   useEffect(() => {
-    if (data && data.apptinput) {
-      const securityNumberInput = data.apptinput.find(input => input.name === 'client_nir');
-      const reasonForAppointmentInput = data.apptinput.find(input => input.name === 'note');
-      const thisDateInput = data.apptinput.find(input => input.name === 'client_birthday');
+    if (dataConfirm && dataConfirm.apptinput) {
+      const securityNumberInput = dataConfirm.apptinput.find(input => input.name === 'client_nir');
+      const reasonForAppointmentInput = dataConfirm.apptinput.find(input => input.name === 'note');
+      const thisDateInput = dataConfirm.apptinput.find(input => input.name === 'client_birthday');
 
       if (securityNumberInput) {
         setSecurityNumber(securityNumberInput.value);
@@ -134,7 +134,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
       }
     }
 
-  }, [data]);
+  }, [dataConfirm]);
 
   useEffect(() => {
     if (cardDetails?.complete) {
@@ -157,12 +157,12 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
 
 
   useEffect(() => {
-    if (data?.apptsinprogress?.appts.length > 0) {
+    if (dataConfirm?.apptsinprogress?.appts.length > 0) {
       setShowAppointmentList(true);
     } else {
       setShowAppointmentList(false);
     }
-  }, [data]);
+  }, [dataConfirm]);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -221,7 +221,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
     ];
     const filledMandatoryFields = mandatoryFields.filter((field) => field?.value.trim() !== '');
     if (mandatoryFields.length === filledMandatoryFields.length) {
-      await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session, paymentMethodId));
+      await dispatch(createAppointmentRequest(tokenappointment, week, dataConfirm.apptbuttonvalidation.onclick_data, action, session, paymentMethodId));
 
     } else {
       showMessage({
@@ -292,7 +292,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
       {showAppointmentList ? (
         <ScrollView>
           <CustomText fontSize={10} color={colors.black} style={{ marginVertical: 12 }}>
-            {data?.apptsinprogress?.message}
+            {dataConfirm?.apptsinprogress?.message}
           </CustomText>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
             <CustomAppButton
@@ -310,7 +310,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
               display='none'
             />
           </View>
-          {data?.apptsinprogress?.appts.map((appt, index) => (
+          {dataConfirm?.apptsinprogress?.appts.map((appt, index) => (
             <AppointmentDetails
               key={index}
               date={appt?.date}
@@ -332,11 +332,11 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
       ) : (
         <ScrollView>
           <ValidationInfoRDV
-            title={data?.messagenbperson}
-            date={data?.appttovalid?.date}
-            doctor={data?.appttovalid?.doctor}
-            place={data?.appttovalid?.description}
-            patient={data?.appttovalid?.patient}
+            title={dataConfirm?.messagenbperson}
+            date={dataConfirm?.appttovalid?.date}
+            doctor={dataConfirm?.appttovalid?.doctor}
+            place={dataConfirm?.appttovalid?.description}
+            patient={dataConfirm?.appttovalid?.patient}
           />
 
           <SafeAreaView>
@@ -352,8 +352,8 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
               </View>
 
               <View style={styles.compartment}>
-                {data?.apptinput &&
-                  data?.apptinput.map((input, index) => {
+                {dataConfirm?.apptinput &&
+                  dataConfirm?.apptinput.map((input, index) => {
                     return (
                       <FloatingLabelInput
                         key={index}
@@ -376,7 +376,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
             </View>
           </SafeAreaView>
 
-          {data?.payment && Object.keys(data.payment).length > 0 && (
+          {dataConfirm?.payment && Object.keys(dataConfirm.payment).length > 0 && (
             <View style={styles.cardPaiement}>
               <CardField
                 postalCodeEnabled={false}
@@ -406,30 +406,30 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
 
           )}
 
-          {data?.payment && Object.keys(data.payment).length > 0 && (
+          {dataConfirm?.payment && Object.keys(dataConfirm.payment).length > 0 && (
             <ValidationNoticeRDV
-              container={`${data.payment.amountlabel}: ${data.payment.amount}`}
+              container={`${dataConfirm.payment.amountlabel}: ${dataConfirm.payment.amount}`}
               fontWeight='bold'
             />
           )}
 
           <View style={{ marginVertical: 12 }}>
             <ValidationNoticeRDV
-              container={data?.messageglobalinternet}
+              container={dataConfirm?.messageglobalinternet}
             />
           </View>
 
-          {data?.payment && Object.keys(data.payment).length > 0 && (
+          {dataConfirm?.payment && Object.keys(dataConfirm.payment).length > 0 && (
             <ValidationNoticeRDV
-              container={data?.payment?.infos}
+              container={dataConfirm?.payment?.infos}
             />
           )}
 
           <View style={{ width: '100%', marginVertical: 10 }}>
             <CustomAppButton
-              onPress={() => handleConfirmationAppointment(data.apptbuttonvalidation.onclick_week, data.apptbuttonvalidation.onclick_action)}
+              onPress={() => handleConfirmationAppointment(dataConfirm.apptbuttonvalidation.onclick_week, dataConfirm.apptbuttonvalidation.onclick_action)}
               iconComponent={<MaterialIcons name="save" size={18} color={colors.white} style={{ marginRight: 5 }} />}
-              title={data?.apptbuttonvalidation?.label}
+              title={dataConfirm?.apptbuttonvalidation?.label}
               alignSelf="center"
               paddingVertical={15}
               textColor={colors.white}
@@ -437,7 +437,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment, par
               borderRadius={10}
               bkgroundColor={colors.blue}
               width='100%'
-              disabled={!isAllFieldsFilled || !cardDetails?.complete}
+              disabled={!isAllFieldsFilled && !cardDetails?.complete}
             />
           </View>
           <DateTimePickerModal
@@ -560,7 +560,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  data: state.AppointmentReducer?.data,
+  dataConfirm: state.AppointmentReducer?.dataConfirm,
   session: state.AppointmentReducer?.session,
   isLoadingAppointment: state.AppointmentReducer?.isLoading,
   params: state.AppointmentReducer?.params,

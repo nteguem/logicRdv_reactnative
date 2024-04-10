@@ -24,15 +24,13 @@ const ConditionOfUse = () => {
                             {'\n'}LOGICRDV conservera les données de l’utilisateur jusqu’à que ce dernier n’en décide autrement. Chaque utilisateur peut à n’importe quel moment demander l’accès à ses données, LOGICRDV s’engage alors à les communiquer en moins d’un mois.
                         </CustomText>
                         <View style={{ paddingTop: 10 }}>
-                            <View style={{ alignItems: 'center' }}>
-                                <CustomText style={{ fontSize: 12, textAlign: 'justify', color: colors.black, }}>
-                                    TYPE DE DONNÉES COLLECTÉES {'\n'}
-                                    - Adresse email, mot de passe{'\n'}
-                                    - Nom, Prénom, date de naissance{'\n'}
-                                    - Numéro de Téléphone{'\n'}
-                                    - Médecin traitant, rendez-vous pris, motif{'\n'}
-                                </CustomText>
-                            </View>
+                            <CustomText style={{ fontSize: 12, textAlign: 'justify', color: colors.black, }}>
+                                TYPE DE DONNÉES COLLECTÉES {'\n'}
+                                - Adresse email, mot de passe{'\n'}
+                                - Nom, Prénom, date de naissance{'\n'}
+                                - Numéro de Téléphone{'\n'}
+                                - Médecin traitant, rendez-vous pris, motif{'\n'}
+                            </CustomText>
                             <SectionTitle title="1. Les données que nous recueillons" />
                             <SectionContent content="Le but premier de la collecte de données personnelles (nom, prénom, adresse, email, numéros de téléphone) est de pouvoir vous identifier afin de vous proposer un service efficace, personnalisé et surtout sécurisé. Pour chaque champ d'information, nous nous efforçons d'indiquer si il doit être obligatoirement renseigné ou si il s'agit d'une information facultative. Vous avez toujours la possibilité de ne pas nous transmettre une information en choisissant de ne pas utiliser le service ou la fonction pour laquelle cette information est exigée. Les informations fournies peuvent être utilisées dans le but de rendre la navigation plus agréable pour l'utilisateur et d'améliorer nos prestations. Ces informations peuvent être utilisées pour l'audit, les statistiques, la recherche et l'analyse afin d'assurer la maintenance, la protection, l'amélioration et la promotion de nos services. Nous pouvons constituer un dossier personnel vous concernant, contenant les correspondances que vous nous envoyez, comme vos lettres ou emails, ou toute correspondance émanant d'autres utilisateurs ou de tiers à propos de vos activités sur notre site ou de vos contributions sur notre site." />
                             <SectionTitle title="2. La diffusion de vos données" />
@@ -54,7 +52,7 @@ const ConditionOfUse = () => {
 }
 
 const SectionTitle = ({ title }) => (
-    <CustomText style={{ fontWeight: 'bold', fontSize: 12, color: colors.black, paddingTop: 16, textAlign:'center' }}>{`\n${title}`}</CustomText>
+    <CustomText style={{ fontWeight: 'bold', fontSize: 12, color: colors.black, paddingTop: 16 }}>{`\n${title}`}</CustomText>
 );
 
 const SectionContent = ({ content }) => (

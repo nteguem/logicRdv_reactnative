@@ -135,10 +135,6 @@ const mapStateToProps = (state) => ({
     isLoading: state.SearchReducer?.isLoading,
     doctorInfos: state.SearchReducer?.doctorInfos,
     session: state.AppointmentReducer?.session,
-    // headerMessage: state.AppointmentReducer?.headerMessage,
-    // type: state.AppointmentReducer?.type,
-    // navigation: state.AppointmentReducer?.navigation,
-    // isLoadingAppointment: state.AppointmentReducer?.isLoading,
 });
 
 export default connect(mapStateToProps)(DoctorDetails);

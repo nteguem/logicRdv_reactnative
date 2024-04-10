@@ -44,6 +44,17 @@ const initialState = {
   step: 0,
   navigation: [],
   data: [],
+  dataMotifs: [],
+  dataCreneaux: [],
+  dataPatients: [],
+  dataNothing: [],
+  dataPatients: [],
+  dataConnect: [],
+  dataLocked: [],
+  dataConfirm: [],
+  dataValided: [],
+  dataDoctorAdd: [],
+  dataPayment: [],
   patient: [],
   headerMessage: '',
   type: '',
@@ -54,7 +65,7 @@ const initialState = {
   params: {},
   message: '',
   paiement: [],
-  paiementIntent:""
+  paiementIntent: ""
 
 };
 
@@ -88,22 +99,159 @@ const AppointmentReducer = (state = initialState, action) => {
         error: '',
         message: '',
         type: '',
-        paiementIntent:""
+        paiementIntent: ""
       };
     case CREATE_APPOINTMENT_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        navigation: action.payload.data.navigation,
-        data: action.payload.data.data,
-        headerMessage: action.payload.data.headermessage,
-        error: action.payload.error,
-        message: action.payload.message,
-        params: action.payload.params,
-        type: action.payload.data.type,
-        paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
-        session: action.payload.data.session,
-      };
+      switch (action.payload.data.type) {
+        case "appttype":
+          return {
+            ...state,
+            isLoading: false,
+            navigation: action.payload.data.navigation,
+            dataMotifs: action.payload.data.data,
+            headerMessage: action.payload.data.headermessage,
+            error: action.payload.error,
+            message: action.payload.message,
+            params: action.payload.params,
+            type: action.payload.data.type,
+            paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
+            session: action.payload.data.session,
+          };
+        case "apptcreneaux":
+          return {
+            ...state,
+            isLoading: false,
+            navigation: action.payload.data.navigation,
+            dataCreneaux: action.payload.data.data,
+            headerMessage: action.payload.data.headermessage,
+            error: action.payload.error,
+            message: action.payload.message,
+            params: action.payload.params,
+            type: action.payload.data.type,
+            paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
+            session: action.payload.data.session,
+          };
+        case "apptnothing":
+          return {
+            ...state,
+            isLoading: false,
+            navigation: action.payload.data.navigation,
+            dataNothing: action.payload.data.data,
+            headerMessage: action.payload.data.headermessage,
+            error: action.payload.error,
+            message: action.payload.message,
+            params: action.payload.params,
+            type: action.payload.data.type,
+            paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
+            session: action.payload.data.session,
+          };
+
+        case "apptpatients":
+          return {
+            ...state,
+            isLoading: false,
+            navigation: action.payload.data.navigation,
+            dataPatients: action.payload.data.data,
+            headerMessage: action.payload.data.headermessage,
+            error: action.payload.error,
+            message: action.payload.message,
+            params: action.payload.params,
+            type: action.payload.data.type,
+            paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
+            session: action.payload.data.session,
+          };
+
+        case "apptconnect":
+          return {
+            ...state,
+            isLoading: false,
+            navigation: action.payload.data.navigation,
+            dataConnect: action.payload.data.data,
+            headerMessage: action.payload.data.headermessage,
+            error: action.payload.error,
+            message: action.payload.message,
+            params: action.payload.params,
+            type: action.payload.data.type,
+            paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
+            session: action.payload.data.session,
+          };
+
+        case "apptlocked":
+          return {
+            ...state,
+            isLoading: false,
+            navigation: action.payload.data.navigation,
+            dataLocked: action.payload.data.data,
+            headerMessage: action.payload.data.headermessage,
+            error: action.payload.error,
+            message: action.payload.message,
+            params: action.payload.params,
+            type: action.payload.data.type,
+            paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
+            session: action.payload.data.session,
+          };
+
+        case "apptconfirm":
+          return {
+            ...state,
+            isLoading: false,
+            navigation: action.payload.data.navigation,
+            dataConfirm: action.payload.data.data,
+            headerMessage: action.payload.data.headermessage,
+            error: action.payload.error,
+            message: action.payload.message,
+            params: action.payload.params,
+            type: action.payload.data.type,
+            paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
+            session: action.payload.data.session,
+          };
+
+        case "apptvalided":
+          return {
+            ...state,
+            isLoading: false,
+            navigation: action.payload.data.navigation,
+            dataValided: action.payload.data.data,
+            headerMessage: action.payload.data.headermessage,
+            error: action.payload.error,
+            message: action.payload.message,
+            params: action.payload.params,
+            type: action.payload.data.type,
+            paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
+            session: action.payload.data.session,
+          };
+        case "apptdoctoradd":
+          return {
+            ...state,
+            isLoading: false,
+            navigation: action.payload.data.navigation,
+            dataDoctorAdd: action.payload.data.data,
+            headerMessage: action.payload.data.headermessage,
+            error: action.payload.error,
+            message: action.payload.message,
+            params: action.payload.params,
+            type: action.payload.data.type,
+            paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
+            session: action.payload.data.session,
+          };
+        case "apptstripeandautovalide":
+          return {
+            ...state,
+            isLoading: false,
+            navigation: action.payload.data.navigation,
+            dataPayment: action.payload.data.data,
+            headerMessage: action.payload.data.headermessage,
+            error: action.payload.error,
+            message: action.payload.message,
+            params: action.payload.params,
+            type: action.payload.data.type,
+            paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
+            session: action.payload.data.session,
+          };
+        default:
+          break;
+      }
+
     case CREATE_APPOINTMENT_FAILURE:
       return {
         ...state,
@@ -115,7 +263,7 @@ const AppointmentReducer = (state = initialState, action) => {
         message: action.payload.message,
         params: action.payload.params,
         type: action.payload.data.type,
-        paiementIntent:"",
+        paiementIntent: "",
         session: action.payload.data.session,
       }
 
@@ -272,16 +420,16 @@ const AppointmentReducer = (state = initialState, action) => {
         isLoading: false,
         paiement: []
       };
-      case CLEAR_APPOINTMENT_DATA:
+    case CLEAR_APPOINTMENT_DATA:
       return {
         ...state,
-        data: [], 
+        data: [],
       };
 
     case CLEAR_PATIENT_LIST:
       return {
         ...state,
-        listPatient: [], 
+        listPatient: [],
       };
 
     default:
