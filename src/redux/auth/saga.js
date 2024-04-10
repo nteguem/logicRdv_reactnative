@@ -39,6 +39,7 @@ function* login({payload}) {
          yield put(createAppointmentRequest(params.tokenappointment, params.week, params.data, params.action, session));
       }
     }     
+    console.log("log auth",response)
     yield put({ type: STEP_REQUEST, payload: response.data });
   } catch (error) {
     yield put({ type: LOGIN_FAILURE , payload: error});
