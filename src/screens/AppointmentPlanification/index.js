@@ -13,7 +13,6 @@ import { setModalVisible } from '../../redux/app/actions';
 const DateAppointment = ({ route, session, isLoadingAppointment, data, navigationAppointment }) => {
   const { title, tokenappointment } = route.params;
   const dispatch = useDispatch();
-  const navigation = useNavigation();
 
   const handleButtonWeekPress = async (week, data, action) => {
     await dispatch(createAppointmentRequest(tokenappointment, week, data, action, session));

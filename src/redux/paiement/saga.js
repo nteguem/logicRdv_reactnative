@@ -2,7 +2,7 @@
 import { takeLatest, call, put, select } from 'redux-saga/effects';
 import { sendRequest } from '../../utils/api';
 import { setModalVisible } from '../app/actions';
-import { createAppointmentRequest } from './actions';
+import { cancelAppointmentRequest,createAppointmentRequest } from '../appointment/actions';
 import { showMessage } from 'react-native-flash-message';
 import { createPaymentMethod, confirmPayment } from '@stripe/stripe-react-native';
 import {
@@ -31,7 +31,7 @@ import * as RootNavigation from '../../routes/RootNavigation';
 // }
 
 function* makePayment({payload}) {
-  const { paiementIntent } = yield select(state => state.AppointmentReducer);
+  const { paiementIntent,data,session,params } = yield select(state => state.AppointmentReducer);
   try {
     const { paymentIntent, error } = yield confirmPayment(paiementIntent, { paymentMethodType: 'Card',
     paymentMethodData: {
@@ -40,21 +40,20 @@ function* makePayment({payload}) {
 
     if (error) {
       console.error('Erreur lors du paiement:', error);
+      yield put(cancelAppointmentRequest({ tokenappointment: params.tokenappointment }));
       yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
-    } else if (paymentIntent.status === 'succeeded') {
-      console.log('Payment succeeded', paymentIntent);
-      yield put({ type: MAKE_PAIEMENT_FAILURE, payload: paymentIntent });
-    } else if (paymentIntent.status === 'failed') {
-      console.log('Payment failed', paymentIntent);
-      yield put({ type: MAKE_PAIEMENT_FAILURE, payload: paymentIntent });
-    } else if (paymentIntent.status === 'RequiresCapture') {
+    }
+     else if (paymentIntent.status === 'RequiresCapture') {
       console.log('requires_capture', paymentIntent);
+      yield put(createAppointmentRequest(params.tokenappointment, data[0].onclick_week, data[0].onclick_data, data[0].onclick_action, session));
       yield put({ type: MAKE_PAIEMENT_SUCCESS, payload: paymentIntent });
-    } else {
-      console.log('Unknown payment status', paymentIntent);
+    } else { 
+      console.log('Payment failed', paymentIntent);
+      yield put(cancelAppointmentRequest({ tokenappointment: params.tokenappointment }));
       yield put({ type: MAKE_PAIEMENT_FAILURE, payload: paymentIntent });
     }
   } catch (error) {
+    yield put(cancelAppointmentRequest({ tokenappointment: params.tokenappointment }));
     yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
     console.error('Erreur catch lors du paiement:', error);
   }

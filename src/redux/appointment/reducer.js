@@ -32,6 +32,8 @@ import {
   REMOVE_PATIENT_REQUEST,
   REMOVE_PATIENT_SUCCESS,
   REMOVE_PATIENT_FAILURE,
+  CLEAR_APPOINTMENT_DATA,
+  CLEAR_PATIENT_LIST,
 } from './types';
 
 const initialState = {
@@ -269,6 +271,17 @@ const AppointmentReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         paiement: []
+      };
+      case CLEAR_APPOINTMENT_DATA:
+      return {
+        ...state,
+        data: [], 
+      };
+
+    case CLEAR_PATIENT_LIST:
+      return {
+        ...state,
+        listPatient: [], 
       };
 
     default:

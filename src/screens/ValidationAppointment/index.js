@@ -16,6 +16,7 @@ import { cancelAppointmentRequest, createAppointmentRequest } from '../../redux/
 import AppointmentDetails from '../../components/MyAppointment/Appointment_Details'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { showMessage } from 'react-native-flash-message'
+import { CardField, createPaymentMethod, confirmPayment, } from '@stripe/stripe-react-native';
 
 const FloatingLabelInput = ({
   label,
@@ -98,7 +99,7 @@ const FloatingLabelInput = ({
   );
 };
 
-const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) => {
+const ValidationAppointment = ({ route, session, data, isLoadingAppointment, params, paiementIntent }) => {
   const { tokenappointment } = route.params;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [apptToCancel, setApptToCancel] = useState(null);
@@ -124,7 +125,28 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
         setThisDate(thisDateInput.value);
       }
     }
+
   }, [data]);
+
+  useEffect(() => {
+    if (cardDetails?.complete) {
+      createPaymentMethod({ paymentMethodType: 'Card', card: cardDetails })
+        .then(paymentMethodResponse => {
+          if (paymentMethodResponse.error) {
+            console.log('Error creating payment method:', paymentMethodResponse.error);
+            return;
+          }
+          console.log("paymentMethodResponse", paymentMethodResponse)
+          const paymentId = paymentMethodResponse.paymentMethod.id;
+          setPaymentMethodId(paymentId)
+        })
+        .catch(error => {
+          console.error('Error catch  creating payment method:', error);
+        });
+    }
+  }, [cardDetails]);
+
+
 
   useEffect(() => {
     if (data?.apptsinprogress?.appts.length > 0) {
@@ -163,7 +185,6 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
   };
 
   const dispatch = useDispatch();
-  const navigation = useNavigation();
 
   const handleSecurityNumberChange = text => {
     setSecurityNumber(text);
@@ -193,8 +214,8 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
     console.log('mandatoryFields', mandatoryFields);
     console.log('filledMandatoryFields', filledMandatoryFields);
     if (mandatoryFields.length === filledMandatoryFields.length) {
-      await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session));
-      navigation.navigate('Confirmation rdv', { tokenappointment: tokenappointment, data });
+      await dispatch(createAppointmentRequest(tokenappointment, week, data.apptbuttonvalidation.onclick_data, action, session, paymentMethodId));
+
     } else {
       showMessage({
         message: 'Champs manquants',
@@ -204,6 +225,10 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
       });
     }
   };
+
+
+  const isAllFieldsFilled = mandatoryFields.every(field => field.value.trim() !== '');
+  const isCardComplete = cardDetails?.complete ?? false;
 
   return (
     <ContainerScreen isLoading={isLoadingAppointment}>
@@ -345,7 +370,33 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
           </SafeAreaView>
 
           {data?.payment && Object.keys(data.payment).length > 0 && (
-            <ValidationPaymentForm />
+            <View style={styles.cardPaiement}>
+              <CardField
+                postalCodeEnabled={false}
+                expiry
+                placeholders={{
+                  number: '**** **** **** ****',
+                }}
+                cardStyle={{
+                  placeholderColor:"grey",
+                  textColor: '#000000',
+                  borderRadius: 12,
+                  fontSize: 12
+                }}
+                style={{
+                  height: 70, 
+                  marginBottom: 16,
+                  marginTop: 4,
+                }}
+                onCardChange={(newCardDetails) => {
+                  setCardDetails(newCardDetails);
+                }}
+                // onFocus={(focusedField) => {
+                //   console.log('focusField', focusedField);
+                // }}
+              />
+            </View>
+
           )}
 
           {data?.payment && Object.keys(data.payment).length > 0 && (
@@ -379,6 +430,7 @@ const ValidationAppointment = ({ route, session, data, isLoadingAppointment }) =
               borderRadius={10}
               bkgroundColor={colors.blue}
               width='100%'
+              disabled={!isAllFieldsFilled || !cardDetails?.complete}
             />
           </View>
           <DateTimePickerModal
@@ -502,6 +554,8 @@ const mapStateToProps = (state) => ({
   data: state.AppointmentReducer?.data,
   session: state.AppointmentReducer?.session,
   isLoadingAppointment: state.AppointmentReducer?.isLoading,
+  params: state.AppointmentReducer?.params,
+  paiementIntent: state.AppointmentReducer?.paiementIntent
 });
 
 export default connect(mapStateToProps)(ValidationAppointment);
