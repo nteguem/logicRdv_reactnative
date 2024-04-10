@@ -45,15 +45,6 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
               proxy_page: '1',
             })
           );
-    
-          console.log('====================================');
-          console.log(
-            'ceci est le result envoier',
-            results,
-            location,
-            profession
-          );
-          console.log('====================================');
           setDispatchComplete(true);
         } catch (error) {
           console.log('error', error);
