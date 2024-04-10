@@ -31,7 +31,7 @@ import * as RootNavigation from '../../routes/RootNavigation';
 // }
 
 function* makePayment({payload}) {
-  const { paiementIntent,data,session,params } = yield select(state => state.AppointmentReducer);
+  const { paiementIntent,dataPayment,session,params } = yield select(state => state.AppointmentReducer);
   try {
     const { paymentIntent, error } = yield confirmPayment(paiementIntent, { paymentMethodType: 'Card',
     paymentMethodData: {
@@ -39,21 +39,23 @@ function* makePayment({payload}) {
     }});
 
     if (error) {
-      console.error('Erreur lors du paiement:', error);
-      yield put(cancelAppointmentRequest({ tokenappointment: params.tokenappointment }));
+      yield put(setModalVisible(true, error.localizedMessage));
+      yield put(cancelAppointmentRequest({ tokenappointment: dataPayment.appointment }));
       yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
     }
      else if (paymentIntent.status === 'RequiresCapture') {
       console.log('requires_capture', paymentIntent);
-      yield put(createAppointmentRequest(data.appointment, data.apptbuttonvalidation.onclick_week, data.apptbuttonvalidation.onclick_data, data.apptbuttonvalidation.onclick_action, session));
+      yield put(createAppointmentRequest(params.tokenappointment, dataPayment.apptbuttonvalidation.onclick_week, dataPayment.apptbuttonvalidation.onclick_data, dataPayment.apptbuttonvalidation.onclick_action, session));
       yield put({ type: MAKE_PAIEMENT_SUCCESS, payload: paymentIntent });
     } else { 
       console.log('Payment failed', paymentIntent);
-      yield put(cancelAppointmentRequest({ tokenappointment: params.tokenappointment }));
+      yield put(setModalVisible(true, "Désolé, le paiement a échoué. Veuillez réessayer."));
+      yield put(cancelAppointmentRequest({ tokenappointment: dataPayment.appointment }));
       yield put({ type: MAKE_PAIEMENT_FAILURE, payload: paymentIntent });
     }
   } catch (error) {
-    yield put(cancelAppointmentRequest({ tokenappointment: params.tokenappointment }));
+    yield put(setModalVisible(true, "Désolé, le paiement a échoué. Veuillez réessayer."));
+    yield put(cancelAppointmentRequest({ tokenappointment: dataPayment.appointment }));
     yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
     console.error('Erreur catch lors du paiement:', error);
   }
