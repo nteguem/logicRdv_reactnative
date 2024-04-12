@@ -81,9 +81,7 @@ const DrawerContent = ({ navigation, isAuth,userData }) => {
       return (
         <View style={styles.containerHeader}>
           <View style={styles.header}>
-            <View style={styles.circleUserAuth}>
-              <Icon name="user-circle" size={55} color={colors.gray100} />
-            </View>
+          <Image source={require('../assets/images/user.png')} style={styles.circleUserAuth} />
             <TouchableOpacity onPress={handleExitApp} >
               <CustomText fontSize={14} fontWeight={'700'} color={colors.white} style={styles.drawerItem}>
                 Quitter
@@ -290,15 +288,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   circleUserAuth: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.white,
-    borderRadius: 999,
     width: 60,
     height: 60,
-    borderWidth: 1,
-    borderColor: colors.white,
     marginLeft: 10,
   },
   containeImage: {

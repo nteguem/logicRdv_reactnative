@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Image, StyleSheet, View } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { colors } from '../global/colors';
 import CustomText from '../global/CustomText';
@@ -10,9 +10,7 @@ const Profil = ({
 }) => {
     return (
         <View style={styles.container}>
-            <View style={styles.circleUser}>
-                <Icon name="user-circle" size={90} color={colors.gray100} />
-            </View>
+            <Image source={require('../../assets/images/user.png')} style={styles.circleUser} />
             <View style={styles.containerID} >
                 <CustomText fontSize={15} fontWeight='bold' color={colors.blue100}>{username}</CustomText>
                 <CustomText fontSize={12} color={colors.blue100}>{email}</CustomText>
@@ -30,15 +28,8 @@ const styles = StyleSheet.create({
         marginVertical: 25
     },
     circleUser: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: colors.white,
-        borderRadius: 999,
         width: 95,
         height: 95,
-        borderWidth: 1,
-        borderColor: colors.white,
     },
     containerID: {
         flexDirection: 'column',

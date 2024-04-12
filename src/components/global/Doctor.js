@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Alert, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import { colors } from './colors';
 import CustomAppButton from './CustomAppButton';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -112,9 +112,7 @@ const Doctor = ({
       <View style={[styles.leftColumn, { marginLeft: isUpdate || isDetail ? 0 : 0, alignItems: isSearch ? 'center' : 'center' }]}>
         <View style={styles.usericon}>
           {isProfileIcon && (
-            <View style={styles.circleUser}>
-              <Icon1 name="user-circle" size={50} color={colors.gray} />
-            </View>
+            <Image source={require('../../assets/images/user.png')} style={styles.circleUser} />
           )}
         </View>
         <View >
@@ -354,15 +352,8 @@ const styles = StyleSheet.create({
     marginLeft: 5
   },
   circleUser: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.white,
-    borderRadius: 999,
     width: 65,
     height: 65,
-    borderWidth: 1,
-    borderColor: colors.gray,
   },
   divider: {
     borderLeftWidth: 1,

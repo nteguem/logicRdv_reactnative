@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import CustomText from '../global/CustomText';
 import { colors } from '../global/colors'
 import CustomAppButton from '../global/CustomAppButton';
@@ -57,9 +57,7 @@ const AppointmentDetails = (
       <View style={[styles.compartment, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginRight: 10 }]}>
         <View style={[styles.compartmentContainer, { flexDirection: 'row', alignItems: 'center', }]}>
           {userIcon && (
-            <View style={styles.circleUser}>
-              <Icon name="user-circle" size={50} color={colors.gray100} />
-            </View>
+            <Image source={require('../../assets/images/user.png')} style={styles.circleUser} />
           )}
           <View>
             <CustomText fontSize={userIcon ? 12 : 15} fontWeight='bold' color={colors.black}>{doctor}</CustomText>
@@ -90,9 +88,7 @@ const AppointmentDetails = (
           <View style={styles.compartment}>
             <View style={styles.compartmentContainer}>
               <View style={[styles.detailsContainer, { marginBottom: 10 }]}>
-                <View style={styles.circleUser}>
-                  <Icon name="user-circle" size={50} color={colors.gray100} />
-                </View>
+              <Image source={require('../../assets/images/user.png')} style={styles.circleUser} />
                 <CustomText fontSize={15} color={colors.black} fontWeight='bold'>{patientName}</CustomText>
               </View>
               <View style={[styles.detailsContainer, { marginBottom: 10 }]}>
@@ -233,17 +229,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   circleUser: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.white,
-    borderRadius: 999,
-    width: 55,
-    height: 55,
-    borderWidth: 1,
-    borderColor: colors.gray100,
-    marginRight: 5,
-    elevation: 3
+    width: 65,
+    height: 65,
   }
 });
 
