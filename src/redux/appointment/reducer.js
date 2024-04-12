@@ -43,7 +43,6 @@ const initialState = {
   listPatient: [],
   step: 0,
   navigation: [],
-  data: [],
   dataMotifs: [],
   dataCreneaux: [],
   dataPatients: [],
@@ -81,7 +80,7 @@ const AppointmentReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         // list: state.list?.list ? [...state.list, ...action.payload] : action.payload
-         list: action.payload
+        list: action.payload
       };
     case LIST_APPOINTMENT_FAILURE:
       return {
@@ -95,7 +94,17 @@ const AppointmentReducer = (state = initialState, action) => {
         ...state,
         isLoading: true,
         navigation: [],
-        data: [],
+        dataMotifs: [],
+        dataCreneaux: [],
+        dataPatients: [],
+        dataNothing: [],
+        dataPatients: [],
+        dataConnect: [],
+        dataLocked: [],
+        dataConfirm: [],
+        dataValided: [],
+        dataDoctorAdd: [],
+        dataPayment: [],
         headerMessage: '',
         error: '',
         message: '',
@@ -252,7 +261,17 @@ const AppointmentReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         navigation: action.payload.data.navigation,
-        data: action.payload.data.data,
+        dataMotifs: action.payload.data.data,
+        dataCreneaux: action.payload.data.data,
+        dataPatients: action.payload.data.data,
+        dataNothing: action.payload.data.data,
+        dataPatients: action.payload.data.data,
+        dataConnect: action.payload.data.data,
+        dataLocked: action.payload.data.data,
+        dataConfirm: action.payload.data.data,
+        dataValided: action.payload.data.data,
+        dataDoctorAdd: action.payload.data.data,
+        dataPayment: action.payload.data.data,
         headerMessage: action.payload.data.headermessage,
         error: action.payload.error,
         message: action.payload.message,
@@ -418,7 +437,17 @@ const AppointmentReducer = (state = initialState, action) => {
     case CLEAR_APPOINTMENT_DATA:
       return {
         ...state,
-        data: [],
+        dataMotifs: [],
+        dataCreneaux: [],
+        dataPatients: [],
+        dataNothing: [],
+        dataPatients: [],
+        dataConnect: [],
+        dataLocked: [],
+        dataConfirm: [],
+        dataValided: [],
+        dataDoctorAdd: [],
+        dataPayment: [],
       };
 
     case CLEAR_PATIENT_LIST:

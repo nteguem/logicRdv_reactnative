@@ -10,8 +10,9 @@ import CustomAppButton from '../../components/global/CustomAppButton';
 import { createAppointmentRequest } from '../../redux/appointment/actions';
 import { setModalVisible } from '../../redux/app/actions';
 
-const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, navigationAppointment }) => {
-  const { title, tokenappointment } = route.params;
+const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, navigationAppointment, params }) => {
+  const { title } = route.params;
+  const tokenappointment = params.tokenappointment;
   const dispatch = useDispatch();
 
   const handleButtonWeekPress = async (week, data, action) => {
@@ -105,6 +106,7 @@ const mapStateToProps = (state) => ({
   dataCreneaux: state.AppointmentReducer?.dataCreneaux,
   session: state.AppointmentReducer?.session,
   isLoadingAppointment: state.AppointmentReducer?.isLoading,
+  params: state.AppointmentReducer?.params,
 });
 
 export default connect(mapStateToProps)(DateAppointment);
