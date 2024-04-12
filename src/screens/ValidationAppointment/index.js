@@ -14,7 +14,6 @@ import CustomText from '../../components/global/CustomText'
 import { cancelAppointmentRequest, createAppointmentRequest } from '../../redux/appointment/actions'
 import AppointmentDetails from '../../components/MyAppointment/Appointment_Details'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { showMessage } from 'react-native-flash-message'
 import { CardField, createPaymentMethod, confirmPayment, } from '@stripe/stripe-react-native';
 
 const FloatingLabelInput = ({
@@ -181,11 +180,11 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
     return `${formattedDay}/${formattedMonth}/${year}`;
   };
 
-  const cleardate = () =>{
+  const cleardate = () => {
     setThisDate("")
   }
 
-  
+
   const handleConfirm = (date) => {
     console.warn("A date has been picked: ", date);
     setThisDate(formatDateToString(date));
@@ -214,26 +213,28 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
 
   const mandatoryFields = [
     { label: 'Date de naissance', mandatory: '1', name: 'client_birthday', value: thisDate },
-    { label: 'Numéro de sécurité social', mandatory: '1', name: 'client_nir', value: securityNumber },
+    { label: 'Numéro de sécurité social', mandatory: '0', name: 'client_nir', value: securityNumber },
     { label: 'Motif du Rdv', mandatory: '1', name: 'note', value: reasonForAppointment }
   ];
 
-  const handleConfirmationAppointment = async (week, action) => {
-    const mandatoryFields = [
-      { label: 'Date de naissance', mandatory: '1', name: 'client_birthday', value: thisDate },
-      { label: 'Numéro de sécurité social', mandatory: '1', name: 'client_nir', value: securityNumber },
-      { label: 'Motif du Rdv', mandatory: '1', name: 'note', value: reasonForAppointment }
-    ];
+  const handleConfirmationAppointment = async (week, data, action) => {
+    const replacedData = data
+      .replace('#BIRTHDAY#', thisDate)
+      .replace('#NIR#', securityNumber)
+      .replace('#NOTE#', reasonForAppointment);
+
     const filledMandatoryFields = mandatoryFields.filter((field) => field?.value.trim() !== '');
     if (mandatoryFields.length === filledMandatoryFields.length) {
-      await dispatch(createAppointmentRequest(tokenappointment, week, dataConfirm.apptbuttonvalidation.onclick_data, action, session, paymentMethodId));
+      await dispatch(createAppointmentRequest(tokenappointment, week, replacedData, action, session, paymentMethodId));
 
-    } 
+    }
   };
 
+  const areAllMandatoryFieldsFilled = mandatoryFields
+    .filter(field => field.mandatory === "1")
+    .every(field => field.value.trim() !== '');
 
-  const isAllFieldsFilled = mandatoryFields.every(field => field.value.trim() !== '');
-  const isCardComplete = cardDetails?.complete ?? false;
+  const isCardDetailsComplete = !!cardDetails ? !!cardDetails.complete : true;;
 
   return (
     <ContainerScreen isLoading={isLoadingAppointment}>
@@ -252,7 +253,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
             }]}
           >
             <View style={styles.body}>
-              <CustomText fontSize={12} fontWeight='bold'>Êtes-vous sûr de vouloir annuler ce rendez-vous ?</CustomText>
+              <CustomText fontSize={12} fontWeight='bold' color={colors.black}>Êtes-vous sûr de vouloir annuler ce rendez-vous ?</CustomText>
               <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 8 }}>
                 <CustomAppButton
                   onPress={() => setShowDeleteModal(false)}
@@ -352,12 +353,13 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
               <View style={styles.compartment}>
                 {dataConfirm?.apptinput &&
                   dataConfirm?.apptinput.map((input, index) => {
+                    console.log(dataConfirm?.apptinput)
                     return (
                       <FloatingLabelInput
                         key={index}
                         label={input?.label}
-                        value={input?.name === 'client_birthday' ? thisDate : input?.name === 'client_nir' ? securityNumber : reasonForAppointment}
-                        onChangeText={input?.name === 'client_birthday' ? cleardate: input?.name === 'client_nir' ? handleSecurityNumberChange : handleReasonForAppointmentChange}
+                        value={input?.name === 'client_birthday' ? thisDate : input?.name === 'client_nir' ? securityNumber : input?.name === 'note' ? reasonForAppointment : input?.value}
+                        onChangeText={input?.name === 'client_birthday' ? cleardate : input?.name === 'client_nir' ? handleSecurityNumberChange : handleReasonForAppointmentChange}
                         onFocus={input?.name === 'client_birthday' ? showDatePicker : null}
                         placeholderTextColor="gray"
                         maxLength={input?.name === 'note' ? 40 : 10}
@@ -365,7 +367,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
                         numberOfLines={input?.name === 'note' ? 6 : 1}
                         multiline={input?.name === 'note'}
                         showCrossIcon={input?.name !== 'client_birthday'}
-                        required={input?.mandatory === '1'}
+                        required={input?.mandatory === "1"}
                       />
                     );
                   })}
@@ -383,22 +385,22 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
                   number: '**** **** **** ****',
                 }}
                 cardStyle={{
-                  placeholderColor:"grey",
+                  placeholderColor: "grey",
                   textColor: '#000000',
                   borderRadius: 12,
                   fontSize: 12
                 }}
                 style={{
-                  height: 70, 
+                  height: 70,
                   marginBottom: 16,
                   marginTop: 4,
                 }}
                 onCardChange={(newCardDetails) => {
                   setCardDetails(newCardDetails);
                 }}
-                // onFocus={(focusedField) => {
-                //   console.log('focusField', focusedField);
-                // }}
+              // onFocus={(focusedField) => {
+              //   console.log('focusField', focusedField);
+              // }}
               />
             </View>
 
@@ -425,7 +427,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
 
           <View style={{ width: '100%', marginVertical: 10 }}>
             <CustomAppButton
-              onPress={() => handleConfirmationAppointment(dataConfirm.apptbuttonvalidation.onclick_week, dataConfirm.apptbuttonvalidation.onclick_action)}
+              onPress={() => handleConfirmationAppointment(dataConfirm.apptbuttonvalidation.onclick_week, dataConfirm.apptbuttonvalidation.onclick_data, dataConfirm.apptbuttonvalidation.onclick_action)}
               iconComponent={<MaterialIcons name="save" size={18} color={colors.white} style={{ marginRight: 5 }} />}
               title={dataConfirm?.apptbuttonvalidation?.label}
               alignSelf="center"
@@ -435,7 +437,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
               borderRadius={10}
               bkgroundColor={colors.blue}
               width='100%'
-              disabled={!isAllFieldsFilled || (cardDetails && (!cardDetails?.complete))}
+              disabled={!areAllMandatoryFieldsFilled || !isCardDetailsComplete}
             />
           </View>
           <DateTimePickerModal
@@ -529,7 +531,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    width: "80%",
   },
   compartment: {
     marginTop: -10,

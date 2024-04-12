@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { resultRequest, searchRequest } from '../../redux/search/actions'
 
-const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
+const SearchForm = ({ borderWidth, borderRadius, borderColor, results, searchInfo }) => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const [location, setLocation] = useState('');
@@ -21,7 +21,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
     const handleLocationChange = (text) => {
         setLocation(text);
     };
-    
+
     const handleProfessionChange = (text) => {
         if (!selectedItem || !selectedItem.civility) {
             setProfession(text);
@@ -34,26 +34,18 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
     };
 
     const handleSearch = async () => {
-        try {
-          await dispatch(
+        await dispatch(
             resultRequest({
-              proxy_ville: location,
-              proxy_nom: profession,
-              proxy_ville_id: '',
-              proxy_nom_id: ville_id,
-              proxy_search: '',
-              proxy_page: '1',
+                proxy_ville: location,
+                proxy_nom: profession,
+                proxy_ville_id: "",
+                proxy_nom_id: ville_id,
+                proxy_search: '',
+                proxy_page: '1',
             })
-          );
-          setDispatchComplete(true);
-        } catch (error) {
-          console.log('error', error);
-        }
-      };
-    
-      const navigateToResults = () => {
-        navigation.navigate('Résultats', { location, profession, results });
-      };
+        );
+        navigation.navigate('Résultats', { isSearchAround: false, location, profession, ville_id });
+    };
 
     return (
         <View>
@@ -72,7 +64,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
                             borderRadius={borderRadius}
                             borderColor={borderColor}
                             onIdChange={handleIdChange}
-                            clearInputText={()=>setLocation('')}
+                            clearInputText={() => setLocation('')}
                         />
                     </View>
                     <View style={{ width: '20%' }}>
@@ -93,37 +85,36 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results }) => {
                         borderRadius={borderRadius}
                         borderColor={borderColor}
                         onIdChange={handleIdChange}
-                        clearInputText={()=>setProfession('')}
+                        clearInputText={() => setProfession('')}
                     />
                 </View>
             </View>
             {location !== '' && profession !== '' && (
                 <View style={{ marginBottom: 15 }}>
-                <CustomAppButton
-                    iconComponent={
-                    <Ionicons
-                        name="search"
-                        size={18}
-                        color={colors.white}
-                        style={{ marginHorizontal: 15 }}
+                    <CustomAppButton
+                        iconComponent={
+                            <Ionicons
+                                name="search"
+                                size={18}
+                                color={colors.white}
+                                style={{ marginHorizontal: 15 }}
+                            />
+                        }
+                        title="Rechercher"
+                        alignSelf="baseline"
+                        paddingVertical={12}
+                        textColor={colors.white}
+                        textFontSize={15}
+                        fontWeight="bold"
+                        borderWidth={1}
+                        borderRadius={10}
+                        borderColor={colors.white}
+                        bkgroundColor={colors.blue}
+                        width="100%"
+                        onPress={handleSearch}
                     />
-                    }
-                    title="Rechercher"
-                    alignSelf="baseline"
-                    paddingVertical={12}
-                    textColor={colors.white}
-                    textFontSize={15}
-                    fontWeight="bold"
-                    borderWidth={1}
-                    borderRadius={10}
-                    borderColor={colors.white}
-                    bkgroundColor={colors.blue}
-                    width="100%"
-                    onPress={handleSearch}
-                />
                 </View>
             )}
-      {dispatchComplete && results && results.length > 0 && navigateToResults()}
         </View>
     )
 }
@@ -159,5 +150,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ SearchReducer }) => ({
     results: SearchReducer?.results,
+    searchInfo: SearchReducer?.searchInfo
 });
-export default connect(mapStateToProps)( SearchForm);
+export default connect(mapStateToProps)(SearchForm);

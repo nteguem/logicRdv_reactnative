@@ -10,25 +10,39 @@ import { useDispatch, connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { createAppointmentRequest } from '../../redux/appointment/actions'
 
-const DoctorDetails = ({ route, results, isLoading, doctorInfos, session }) => {
-    const { civility, name, profession, adresse, zip, city, tel, proxy_ville_id, proxy_nom_id, tokenappointment } = route.params;
-    const fullName = `${civility} ${name}`;
-    const proxy_ville = `${zip} ${city}`;
+const DoctorDetails = ({ route, isLoading, doctorInfos, session }) => {
+    const { result } = route.params;
+    const fullName = `${result?.civility} ${result?.nom}`;
+    const proxy_ville = `${result?.zip} ${result?.city}`;
+    const id = result?.id;
     const dispatch = useDispatch();
     const navigation = useNavigation();
+    console.log("result", result)
+    useEffect(() => {
+        const cleanup = () => {
+            dispatch({ type: 'CLEAR_INFO_DOCTOR_RESULTS' }); // Action à dispatcher pour vider les résultats
+        };
+
+        // Appel de la fonction de nettoyage lorsque le composant est démonté
+        return cleanup;
+    }, []);
 
     useEffect(() => {
-        dispatch(infosDoctorRequest({ "id": proxy_nom_id }));
-    }, [proxy_nom_id]);
+        dispatch(infosDoctorRequest({ "id": id }));
+    }, [id]);
 
     const handleSearchChange = async () => {
-        await dispatch(resultRequest({ "proxy_ville": proxy_ville, "proxy_nom": profession, "proxy_ville_id": proxy_ville_id, "proxy_nom_id": proxy_nom_id, "proxy_search": "", "proxy_page": "1" }));
-        navigation.navigate('Résultats', { civility, name, results, city })
+        const proxy_ville = `${result.zip} ${result.city}` ;
+        const proxy_nom = result.category ;
+        const proxy_ville_id = result.id_city ;
+        const proxy_nom_id = result.id ;
+        await dispatch(resultRequest({ "proxy_ville": proxy_ville, "proxy_nom": proxy_nom, "proxy_ville_id": proxy_ville_id, "proxy_nom_id": proxy_nom_id, "proxy_search": "", "proxy_page": "1" }));
+        navigation.navigate('Résultats', { item: result, isSearchAround: true });
     };
 
     const handleMotifs = async () => {
         const tokenappointment = doctorInfos?.appointment?.token
-        await dispatch(createAppointmentRequest(tokenappointment, '', '', '', session));
+        await dispatch(createAppointmentRequest(tokenappointment, '', '', 'begin', session));
     };
 
     const CustomButtonComponent = (
@@ -58,10 +72,10 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos, session }) => {
 
                 <Doctor
                     texte1={fullName}
-                    texte2={profession}
-                    texte3={adresse}
+                    texte2={result?.category}
+                    texte3={result?.address}
                     texte4={proxy_ville}
-                    texte5={tel}
+                    texte5={result?.phone}
                     colorTitle={colors.yellow}
                     colorContain={colors.blue}
                     fontWeight={'bold'}
@@ -108,7 +122,7 @@ const DoctorDetails = ({ route, results, isLoading, doctorInfos, session }) => {
                 <View style={[styles.card, { marginTop: 10 }]}>
                     <CustomText fontSize={15} fontWeight='bold' color={colors.black}>Specialité</CustomText>
                     <CustomText fontSize={15} fontWeight='bold' color={colors.blue100} style={{ backgroundColor: colors.blue400, borderRadius: 10, padding: 15 }}>
-                        {profession}
+                        {result?.category}
                     </CustomText>
                 </View>
                 <View style={{ width: '100%', marginBottom: 10 }}>

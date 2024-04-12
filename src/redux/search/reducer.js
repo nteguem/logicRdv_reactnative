@@ -13,6 +13,7 @@ import {
 const initialState = {
   isLoading: false,
   results:[],
+  searchInfo: null,
   error:null,
   doctorInfos:null
   
@@ -51,6 +52,7 @@ const SearchReducer = (state = initialState, action) => {
           ...state,
           isLoading: false,
           results:action.payload.list,
+          searchInfo: action.payload.search,
         };
       case RESULT_FAILURE:
         return {
@@ -68,7 +70,7 @@ const SearchReducer = (state = initialState, action) => {
           return {
             ...state,
             isLoading: false,
-            doctorInfos:action.payload,
+            doctorInfos:action.payload.data,
           };
         case INFO_DOCTOR_FAILURE:
           return {

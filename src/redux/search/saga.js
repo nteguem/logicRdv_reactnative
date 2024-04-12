@@ -29,6 +29,7 @@ function* result({ payload }) {
   try {
     const endpoint = 'search/list/';
     const response = yield call(sendRequest, 'POST', endpoint, data);
+    console.log("response:::::::", response)
     yield put({ type: RESULT_SUCCESS, payload: response.data });
     
   } catch (error) {
@@ -41,7 +42,7 @@ function* infoDoctor({ payload }) {
   try {
     const endpoint = 'search/profil/';
     const response = yield call(sendRequest, 'POST', endpoint, payload.data);
-    yield put({ type: INFO_DOCTOR_SUCCESS, payload: response.data });
+    yield put({ type: INFO_DOCTOR_SUCCESS, payload: response });
   } catch (error) {
     console.error('error', error);
     yield put({ type: INFO_DOCTOR_FAILURE, payload: error });

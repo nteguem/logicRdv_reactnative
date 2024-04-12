@@ -62,18 +62,7 @@ const ModalView = ({
             onIdChange(item.id); 
         } else {
             
-            navigation.navigate('Détail du médécin', {
-                civility: item.civility,
-                name: item.nom,
-                profession: item.category,
-                adresse: item.address,
-                zip: item.zip,
-                city: item.city,
-                tel: item.tel,
-                proxy_ville_id: item.id_city,
-                proxy_nom_id: item.id,
-                tokenappointment: item.appointment.token,
-            })
+            navigation.navigate('Détail du médécin', {result: item})
         }
         setModalVisible(false);
         setSelectedItem(item);

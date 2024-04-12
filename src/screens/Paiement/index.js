@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import { ScrollView, ImageBackground, StyleSheet, View } from 'react-native'
 import PatientDetailsThree from '../../components/Prepaiement/PatientDetailsThree'
@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch, connect } from 'react-redux';
 import { paiementApptRequest } from '../../redux/appointment/actions'
 import CustomAppButton from '../../components/global/CustomAppButton'
-import { CardField, useStripe } from '@stripe/stripe-react-native';
+import { CardField, createPaymentMethod, confirmPayment, } from '@stripe/stripe-react-native';
 
 const Paiement = (
     {
@@ -23,7 +23,27 @@ const Paiement = (
     const { tokentelecons } = route.params;
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    console.log(paiement)
+    const [cardDetails, setCardDetails] = useState(null);
+    const [paymentMethodId, setPaymentMethodId] = useState(null);
+
+    useEffect(() => {
+        if (cardDetails?.complete) {
+            createPaymentMethod({ paymentMethodType: 'Card', card: cardDetails })
+                .then(paymentMethodResponse => {
+                    if (paymentMethodResponse.error) {
+                        console.log('Error creating payment method:', paymentMethodResponse.error);
+                        return;
+                    }
+                    console.log("paymentMethodResponse", paymentMethodResponse)
+                    const paymentId = paymentMethodResponse.paymentMethod.id;
+                    setPaymentMethodId(paymentId)
+                })
+                .catch(error => {
+                    console.error('Error catch  creating payment method:', error);
+                });
+        }
+    }, [cardDetails]);
+
     const handleVideocall = () => {
         navigation.navigate("Video Call", { paiement })
     }
@@ -70,33 +90,35 @@ const Paiement = (
                         />
                         {paiement?.payment?.stripeClientSecret !== '' && (
                             <CardField
-                                postalCodeEnabled={true}
+                                postalCodeEnabled={false}
+                                expiry
                                 placeholders={{
-                                    number: 'XXXX XXXX XXXX XXXX',
-                                    expiration: 'MM/YY',
-                                    cvc: 'CVC',
+                                    number: '**** **** **** ****',
                                 }}
                                 cardStyle={{
-                                    // backgroundColor: 'none',
+                                    placeholderColor: "grey",
                                     textColor: '#000000',
-
+                                    borderRadius: 12,
+                                    fontSize: 12
                                 }}
                                 style={{
-                                    height: 50,
+                                    height: 70,
+                                    marginBottom: 16,
+                                    marginTop: 4,
                                 }}
-                                onCardChange={(cardDetails) => {
-                                    console.log('cardDetails', cardDetails);
+                                onCardChange={(newCardDetails) => {
+                                    setCardDetails(newCardDetails);
                                 }}
-                                onFocus={(focusedField) => {
-                                    console.log('focusField', focusedField);
-                                }}
+                            // onFocus={(focusedField) => {
+                            //   console.log('focusField', focusedField);
+                            // }}
                             />
                         )}
 
                         {paiement?.appt?.buttoncancel === "1" && (
                             <View style={{ width: '100%', marginTop: 15 }}>
                                 <CustomAppButton
-                                    onPress={ paiement?.payment?.stripeClientSecret !== '' ? handlePrepaiement : handleVideocall}
+                                    onPress={paiement?.payment?.stripeClientSecret !== '' ? handlePrepaiement : handleVideocall}
                                     iconComponent={paiement?.infos?.buttonstartteleconsdisabled === '1' ? (<MaterialIcons name="credit-card" size={18} color={colors.white} style={{ marginRight: 5 }} />) : (<MaterialIcons name="featured-video" size={18} color={colors.white} style={{ marginRight: 5 }} />)}
                                     title={paiement?.payment?.stripeClientSecret !== '' ? 'Prépaiement' : 'Lancer la Téléconsultation'}
                                     alignSelf="center"
