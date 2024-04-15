@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import Appointment_Disponibility from '../../components/AppointmentPlanification/Appointment_Disponibility';
 import CustomText from '../../components/global/CustomText';
@@ -13,19 +12,20 @@ import { setModalVisible } from '../../redux/app/actions';
 const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, navigationAppointment, params }) => {
   const { title } = route.params;
   const tokenappointment = params.tokenappointment;
+  const [appointmentTitle, setAppointmentTitle] = useState(title);
   const dispatch = useDispatch();
 
   const handleButtonWeekPress = async (week, data, action) => {
     await dispatch(createAppointmentRequest(tokenappointment, week, data, action, session));
   };
 
-  const handleValidation = async (creneau) => {
-    if (creneau.onclick_message == "") {
-      const { onclick_week, onclick_data, onclick_action } = creneau;
+  const handleValidation = async (item) => {
+    if (item.onclick_message == "") {
+      const { onclick_week, onclick_data, onclick_action } = item;
       await dispatch(createAppointmentRequest(tokenappointment, onclick_week, onclick_data, onclick_action, session));
     }
     else {
-      dispatch(setModalVisible(true, creneau.onclick_message))
+      dispatch(setModalVisible(true, item.onclick_message))
     }
   };
 
@@ -37,7 +37,7 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
             Date et heure pour:
           </CustomText>
           <CustomText fontSize={12} fontWeight={'bold'} color={colors.blue}>
-            {title}
+            {appointmentTitle}
           </CustomText>
         </View>
         <ScrollView>
@@ -59,7 +59,10 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
       <View style={[styles.buttonContainer, { justifyContent: navigationAppointment.nextweek && navigationAppointment.prevweek ? 'space-between' : 'flex-end' }]}>
         {navigationAppointment.prevweek && (
           <CustomAppButton
-            onPress={() => handleButtonWeekPress(navigationAppointment.prevweek?.onclick_week, navigationAppointment.prevweek?.onclick_data, navigationAppointment.prevweek?.onclick_action)}
+            onPress={() => {
+              handleButtonWeekPress(navigationAppointment.prevweek?.onclick_week, navigationAppointment.prevweek?.onclick_data, navigationAppointment.prevweek?.onclick_action);
+              setAppointmentTitle(navigationAppointment.prevweek?.title);
+            }}
             title='sem.préc'
             alignSelf="baseline"
             paddingVertical={16}
@@ -70,7 +73,10 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
         )}
         {navigationAppointment.nextweek && navigationAppointment.nextweek?.onclick_week && (
           <CustomAppButton
-            onPress={() => handleButtonWeekPress(navigationAppointment.nextweek?.onclick_week, navigationAppointment.nextweek?.onclick_data, navigationAppointment.nextweek?.onclick_action)}
+            onPress={() => {
+              handleButtonWeekPress(navigationAppointment.nextweek?.onclick_week, navigationAppointment.nextweek?.onclick_data, navigationAppointment.nextweek?.onclick_action);
+              setAppointmentTitle(navigationAppointment.nextweek?.title); // Mise à jour du titre lorsque vous cliquez sur le bouton "sem.suiv"
+            }}
             title='sem.suiv'
             alignSelf="baseline"
             paddingVertical={16}

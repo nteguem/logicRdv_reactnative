@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import CustomText from '../../components/global/CustomText'
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
@@ -9,7 +9,8 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch, connect } from 'react-redux';
 import { loginStyles } from './styles';
 import { loginRequest } from '../../redux/auth/actions'
-const Login = ({ route,session, headerError, headerMessage, inputFields, buttons,isLoading }) => {
+
+const Login = ({ route, session, headerError, headerMessage, inputFields, buttons, isLoading }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -20,7 +21,7 @@ const Login = ({ route,session, headerError, headerMessage, inputFields, buttons
   const { type } = route.params;
 
   useEffect(() => {
-    dispatch(loginRequest('','','',type));
+    dispatch(loginRequest('', '', '', type));
   }, []);
 
   const handleInputChange = (text, type) => {
@@ -34,16 +35,21 @@ const Login = ({ route,session, headerError, headerMessage, inputFields, buttons
       case 'code':
         setCode(text);
         break;
-        setEmail("");
-        setPassword("");
-        setCode("");
       default:
         break;
     }
-  }
+  };
+
   const handleButtonPress = (action) => {
-    const inputData = password !== '' ? password : code !== '' ? code : email;
-    dispatch(loginRequest(inputData, action, session,type));
+    let inputData = '';
+    if (action === 'previous') {
+      inputData = email;
+      setPassword('');
+      setCode('');
+    } else {
+      inputData = password !== '' ? password : code !== '' ? code : email;
+    }
+    dispatch(loginRequest(inputData, action, session, type));
   };
 
   const handleSignUp = () => {
@@ -55,7 +61,7 @@ const Login = ({ route,session, headerError, headerMessage, inputFields, buttons
       <ScrollView>
         <View>
           <View style={loginStyles.card}>
-            <CustomText fontSize={12} fontWeight='bold' color={colors.black} style={{ textAlign: 'center' }}>
+            <CustomText fontSize={12} fontWeight='bold' color={headerError != "" ? colors.red : colors.black} style={{ textAlign: 'center' }}>
               {headerError != "" ?
                 headerError
                 :
@@ -82,7 +88,7 @@ const Login = ({ route,session, headerError, headerMessage, inputFields, buttons
                     />
                     {input.name === 'password' && (
                       <TouchableOpacity >
-                        <Icon name={showPassword ? "eye" : "eye-off"} size={24} color={colors.gray100} style={loginStyles.icon} onPress={() => setShowPassword(!showPassword)}/>
+                        <Icon name={showPassword ? "eye" : "eye-off"} size={24} color={colors.gray100} style={loginStyles.icon} onPress={() => setShowPassword(!showPassword)} />
                       </TouchableOpacity>
                     )}
                   </View>
@@ -141,7 +147,7 @@ const mapStateToProps = ({ AuthReducer }) => ({
   headerError: AuthReducer.headerError,
   inputFields: AuthReducer.inputFields,
   buttons: AuthReducer.buttons,
-  isLoading:AuthReducer.isLoading
+  isLoading: AuthReducer.isLoading
 });
 
 export default connect(mapStateToProps)(Login);
