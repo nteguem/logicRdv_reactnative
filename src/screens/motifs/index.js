@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import Motif from '../../components/Motif/Motif';
 import { useDispatch, connect } from 'react-redux';
-import { TouchableOpacity,Text, View, Image } from 'react-native';
-import { createAppointmentRequest } from '../../redux/appointment/actions';
+import { TouchableOpacity, View, Image } from 'react-native';
+import { clearAppointmentData, createAppointmentRequest } from '../../redux/appointment/actions';
 import CustomText from '../../components/global/CustomText';
 import { colors } from '../../components/global/colors';
 
@@ -14,6 +14,7 @@ const Motifs = ({ isLoadingAppointment, dataMotifs, session, params }) => {
  const dispatch = useDispatch();
   const handleCreneaux = async(motif) => {
     await dispatch(createAppointmentRequest(tokenappointment, motif?.onclick_week, motif?.onclick_data, motif?.onclick_action, session,motif?.description));
+    await dispatch(clearAppointmentData());
   };
 
   return (

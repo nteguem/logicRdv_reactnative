@@ -99,12 +99,7 @@ const AppointmentReducer = (state = initialState, action) => {
         dataPatients: [],
         dataNothing: [],
         dataPatients: [],
-        dataConnect: [],
         dataLocked: [],
-        dataConfirm: [],
-        dataValided: [],
-        dataDoctorAdd: [],
-        dataPayment: [],
         headerMessage: '',
         error: '',
         message: '',
@@ -442,12 +437,8 @@ const AppointmentReducer = (state = initialState, action) => {
         dataPatients: [],
         dataNothing: [],
         dataPatients: [],
-        dataConnect: [],
         dataLocked: [],
-        dataConfirm: [],
-        dataValided: [],
         dataDoctorAdd: [],
-        dataPayment: [],
       };
 
     case CLEAR_PATIENT_LIST:

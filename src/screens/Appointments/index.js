@@ -7,13 +7,17 @@ import { colors } from '../../components/global/colors'
 import { useDispatch, connect } from 'react-redux';
 import CustomText from '../../components/global/CustomText'
 import { useNavigation } from '@react-navigation/native';
-import { cancelAppointmentRequest, createAppointmentRequest, listAppointmentsRequest, paiementApptRequest } from '../../redux/appointment/actions'
+import { cancelAppointmentRequest, clearAppointmentData, createAppointmentRequest, listAppointmentsRequest, paiementApptRequest } from '../../redux/appointment/actions'
 
 const Appointments = ({ list, isLoading, session }) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [apptToCancel, setApptToCancel] = useState(null);
     const navigation = useNavigation();
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(clearAppointmentData());
+    }, []);
 
     useEffect(() => {
         dispatch(listAppointmentsRequest({ "id": 1 }));

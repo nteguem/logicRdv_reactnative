@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
@@ -6,7 +6,7 @@ import Appointment_Disponibility from '../../components/AppointmentPlanification
 import CustomText from '../../components/global/CustomText';
 import { colors } from '../../components/global/colors';
 import CustomAppButton from '../../components/global/CustomAppButton';
-import { createAppointmentRequest } from '../../redux/appointment/actions';
+import { clearAppointmentData, createAppointmentRequest } from '../../redux/appointment/actions';
 import { setModalVisible } from '../../redux/app/actions';
 
 const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, navigationAppointment, params }) => {
@@ -17,12 +17,14 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
 
   const handleButtonWeekPress = async (week, data, action) => {
     await dispatch(createAppointmentRequest(tokenappointment, week, data, action, session));
+    await dispatch(clearAppointmentData());
   };
 
   const handleValidation = async (item) => {
     if (item.onclick_message == "") {
       const { onclick_week, onclick_data, onclick_action } = item;
       await dispatch(createAppointmentRequest(tokenappointment, onclick_week, onclick_data, onclick_action, session));
+      await dispatch(clearAppointmentData());
     }
     else {
       dispatch(setModalVisible(true, item.onclick_message))

@@ -12,6 +12,7 @@ import { useDispatch, connect } from 'react-redux';
 import { paiementApptRequest } from '../../redux/appointment/actions'
 import CustomAppButton from '../../components/global/CustomAppButton'
 import { CardField, createPaymentMethod, confirmPayment, } from '@stripe/stripe-react-native';
+import { makePaiementRequest } from '../../redux/paiement/actions'
 
 const Paiement = (
     {
@@ -25,31 +26,33 @@ const Paiement = (
     const navigation = useNavigation();
     const [cardDetails, setCardDetails] = useState(null);
     const [paymentMethodId, setPaymentMethodId] = useState(null);
-
-    useEffect(() => {
-        if (cardDetails?.complete) {
-            createPaymentMethod({ paymentMethodType: 'Card', card: cardDetails })
-                .then(paymentMethodResponse => {
-                    if (paymentMethodResponse.error) {
-                        console.log('Error creating payment method:', paymentMethodResponse.error);
-                        return;
-                    }
-                    console.log("paymentMethodResponse", paymentMethodResponse)
-                    const paymentId = paymentMethodResponse.paymentMethod.id;
-                    setPaymentMethodId(paymentId)
-                })
-                .catch(error => {
-                    console.error('Error catch  creating payment method:', error);
-                });
+console.log(paiement)
+useEffect(() => {
+  if (cardDetails?.complete) {
+    createPaymentMethod({ paymentMethodType: 'Card', card: cardDetails })
+      .then(paymentMethodResponse => {
+        if (paymentMethodResponse.error) {
+          console.log('Error creating payment method:', paymentMethodResponse.error);
+          return;
         }
-    }, [cardDetails]);
+        console.log("paymentMethodResponse", paymentMethodResponse)
+        const paymentId = paymentMethodResponse.paymentMethod.id;
+        setPaymentMethodId(paymentId)
+      })
+      .catch(error => {
+        console.error('Error catch  creating payment method:', error);
+      });
+  }
+}, [cardDetails]);
 
     const handleVideocall = () => {
         navigation.navigate("Video Call", { paiement })
     }
 
     const handlePrepaiement = () => {
-        // navigation.navigate("Video Call", { paiement })
+        const paiementIntent = paiement?.payment?.stripeClientSecret
+        dispatch(makePaiementRequest(paymentMethodId, paiementIntent, false))
+        dispatch(paiementApptRequest(tokentelecons));
     }
 
     useEffect(() => {

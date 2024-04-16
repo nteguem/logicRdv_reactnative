@@ -234,8 +234,6 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
     .filter(field => field.mandatory === "1")
     .every(field => field.value.trim() !== '');
 
-  const isCardDetailsComplete = !!cardDetails ? !!cardDetails.complete : true;;
-
   return (
     <ContainerScreen isLoading={isLoadingAppointment}>
       <Modal
@@ -437,7 +435,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
               borderRadius={10}
               bkgroundColor={colors.blue}
               width='100%'
-              disabled={!areAllMandatoryFieldsFilled || !isCardDetailsComplete}
+              disabled={!areAllMandatoryFieldsFilled }
             />
           </View>
           <DateTimePickerModal

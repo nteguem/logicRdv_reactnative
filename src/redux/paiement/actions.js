@@ -2,8 +2,8 @@ import * as types from './types';
 
 
 
-export const makePaiementRequest = (cardDetails) => ({
+export const makePaiementRequest = (paymentMethodId,paymentIntent, isConfirmation) => ({
   type: types.MAKE_PAIEMENT_REQUEST,
-  payload:  cardDetails ,
+  payload:  {paymentMethodId, paymentIntent, isConfirmation}
 });
 

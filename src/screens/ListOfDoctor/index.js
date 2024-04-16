@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import Doctor from '../../components/global/Doctor';
 import { colors } from '../../components/global/colors';
 import { useDispatch, connect } from 'react-redux';
-import { createAppointmentRequest, listDoctorRequest, removeDoctorRequest } from '../../redux/appointment/actions';
+import { clearAppointmentData, createAppointmentRequest, listDoctorRequest, removeDoctorRequest } from '../../redux/appointment/actions';
 import { Image, Modal, ScrollView, StyleSheet, View } from 'react-native';
 import CustomText from '../../components/global/CustomText';
 import CustomAppButton from '../../components/global/CustomAppButton';
@@ -24,6 +24,7 @@ const ListOfDoctor = ({ listDoctor, isLoading, session }) => {
     console.log(doctor);
     const tokenappointment = doctor.appointment.token
     await dispatch(createAppointmentRequest(tokenappointment, '', '', 'begin', session));
+    await dispatch(clearAppointmentData());
   };
 
   const handleDeleteDoctor = async () => {
