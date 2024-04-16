@@ -31,9 +31,8 @@ import * as RootNavigation from '../../routes/RootNavigation';
 // }
 
 function* makePayment({ payload }) {
-  
+
   const { dataPayment, session, params } = yield select(state => state.AppointmentReducer);
-  console.log("dataPayment:", dataPayment)
   try {
     const { paymentIntent, error } = yield confirmPayment(payload.paymentIntent, {
       paymentMethodType: 'Card',
@@ -43,8 +42,14 @@ function* makePayment({ payload }) {
     });
 
     if (error) {
-      yield put(setModalVisible(true, error.localizedMessage));
-      yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
+      if (payload.isConfirmation) {
+        yield put(setModalVisible(true, error.localizedMessage));
+        yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
+        yield put(createAppointmentRequest(params.tokenappointment, dataPayment.apptbuttonvalidation.onclick_week, dataPayment.apptbuttonvalidation.onclick_data, dataPayment.apptbuttonvalidation.onclick_action, session));
+      } else {
+        yield put(setModalVisible(true, error.localizedMessage));
+        yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
+      }
     }
     else if (paymentIntent.status === 'RequiresCapture') {
       if (payload.isConfirmation) {
@@ -52,7 +57,6 @@ function* makePayment({ payload }) {
         yield put({ type: MAKE_PAIEMENT_SUCCESS, payload: paymentIntent });
       } else {
         yield put({ type: MAKE_PAIEMENT_SUCCESS, payload: paymentIntent });
-        // yield put(paiementApptRequest(tokentelecons))
       }
     } else {
       yield put(setModalVisible(true, "Désolé, le paiement a échoué. Veuillez réessayer."));
