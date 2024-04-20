@@ -84,7 +84,7 @@ const Login = ({ route, session, headerError, headerMessage, inputFields, button
                       } onChangeText={(text) => handleInputChange(text, input.name)}
                       keyboardType={input.name === 'email' ? 'email-address' : input.name === 'code' ? 'numeric' : 'default'}
                       autoCapitalize={input.name === 'email' ? 'none' : 'sentences'}
-                      secureTextEntry={input.name === 'password' ? !showPassword : showPassword}
+                      secureTextEntry={input.name === 'password' ? !showPassword : false}
                     />
                     {input.name === 'password' && (
                       <TouchableOpacity >
