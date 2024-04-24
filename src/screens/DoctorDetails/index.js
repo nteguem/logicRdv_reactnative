@@ -20,10 +20,9 @@ const DoctorDetails = ({ route, isLoading, doctorInfos, session }) => {
     console.log("result", result)
     useEffect(() => {
         const cleanup = () => {
-            dispatch({ type: 'CLEAR_INFO_DOCTOR_RESULTS' }); // Action à dispatcher pour vider les résultats
+            dispatch({ type: 'CLEAR_INFO_DOCTOR_RESULTS' });  
         };
 
-        // Appel de la fonction de nettoyage lorsque le composant est démonté
         return cleanup;
     }, []);
 
