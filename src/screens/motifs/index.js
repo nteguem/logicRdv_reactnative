@@ -10,11 +10,11 @@ import { colors } from '../../components/global/colors';
 
 const Motifs = ({ isLoadingAppointment, dataMotifs, session, params }) => {
   const tokenappointment = params.tokenappointment;
+  console.log("dataMotifs:::", dataMotifs)
 
  const dispatch = useDispatch();
   const handleCreneaux = async(motif) => {
     await dispatch(createAppointmentRequest(tokenappointment, motif?.onclick_week, motif?.onclick_data, motif?.onclick_action, session,motif?.description));
-    await dispatch(clearAppointmentData());
   };
 
   return (

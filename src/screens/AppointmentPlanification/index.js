@@ -17,14 +17,12 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
 
   const handleButtonWeekPress = async (week, data, action) => {
     await dispatch(createAppointmentRequest(tokenappointment, week, data, action, session));
-    await dispatch(clearAppointmentData());
   };
 
   const handleValidation = async (item) => {
     if (item.onclick_message == "") {
       const { onclick_week, onclick_data, onclick_action } = item;
       await dispatch(createAppointmentRequest(tokenappointment, onclick_week, onclick_data, onclick_action, session));
-      await dispatch(clearAppointmentData());
     }
     else {
       dispatch(setModalVisible(true, item.onclick_message))

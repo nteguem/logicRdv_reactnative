@@ -8,7 +8,7 @@ import CustomAppButton from '../../components/global/CustomAppButton'
 import { infosDoctorRequest, resultRequest } from '../../redux/search/actions'
 import { useDispatch, connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { createAppointmentRequest } from '../../redux/appointment/actions'
+import { clearAppointmentData, createAppointmentRequest } from '../../redux/appointment/actions'
 
 const DoctorDetails = ({ route, isLoading, doctorInfos, session }) => {
     const { result } = route.params;
@@ -18,6 +18,11 @@ const DoctorDetails = ({ route, isLoading, doctorInfos, session }) => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     console.log("result", result)
+
+    useEffect(() => {
+        dispatch(clearAppointmentData());
+    }, []);
+
     useEffect(() => {
         const cleanup = () => {
             dispatch({ type: 'CLEAR_INFO_DOCTOR_RESULTS' }); // Action à dispatcher pour vider les résultats
@@ -43,6 +48,8 @@ const DoctorDetails = ({ route, isLoading, doctorInfos, session }) => {
     const handleMotifs = async () => {
         const tokenappointment = doctorInfos?.appointment?.token
         await dispatch(createAppointmentRequest(tokenappointment, '', '', 'begin', session));
+        await dispatch(clearAppointmentData());
+
     };
 
     const CustomButtonComponent = (

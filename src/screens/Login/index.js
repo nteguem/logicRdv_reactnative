@@ -81,7 +81,8 @@ const Login = ({ route, session, headerError, headerMessage, inputFields, button
                           input.name === 'email' && input.value === '' ? email :
                             input.name === 'code' && input.value === '' ? code :
                               input.value
-                      } onChangeText={(text) => handleInputChange(text, input.name)}
+                      }
+                      onChangeText={(text) => handleInputChange(text, input.name)}
                       keyboardType={input.name === 'email' ? 'email-address' : input.name === 'code' ? 'numeric' : 'default'}
                       autoCapitalize={input.name === 'email' ? 'none' : 'sentences'}
                       secureTextEntry={input.name === 'password' ? !showPassword : false}

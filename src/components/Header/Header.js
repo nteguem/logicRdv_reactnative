@@ -7,7 +7,7 @@ import { HeaderIcons } from "../../utils/helpers";
 import { useDispatch, connect } from 'react-redux';
 import * as RootNavigation from "../../routes/RootNavigation";
 import { loginRequest } from '../../redux/auth/actions';
-import { createAppointmentRequest } from '../../redux/appointment/actions';
+import { clearAppointmentData, createAppointmentRequest } from '../../redux/appointment/actions';
 const Header = ({ backgroundColor, sessionAuth, navigationAppointment, sessionAppointment, params, isLoggedIn }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -20,12 +20,13 @@ const Header = ({ backgroundColor, sessionAuth, navigationAppointment, sessionAp
   const handleGoBack = () => {
     switch (route.name) {
       case "Se connecter":
-        const JsonSession = JSON.parse(sessionAuth);
-        if (JsonSession.step === 1) {
-          navigation.navigate("Home");
-        } else {
-          dispatch(loginRequest(JsonSession?.email, "previous", sessionAuth));
-        }
+        // const JsonSession = JSON.parse(sessionAuth);
+        // if (JsonSession.step === 1) {
+        //   navigation.navigate("Home");
+        // } else {
+        //   dispatch(loginRequest(JsonSession?.email, "previous", sessionAuth));
+        // }
+        navigation.navigate("Home");
         break;
       case "Inscription rapide":
         navigation.navigate("Home");

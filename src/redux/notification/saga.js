@@ -21,7 +21,9 @@ function* list() {
     const endpoint = 'notification/list/';
     const userData = yield getUserData();
     const installationkey = yield getInstallationId()
+    console.log("installationkey::", installationkey)
     const body = userData?.tokenuser ? { "tokenuser": userData?.tokenuser, "installationkey": installationkey } : { "installationkey": installationkey };
+    console.log("body::", body)
     const response = yield call(sendRequest, 'POST', endpoint, body);
     yield put({ type: LIST_NOTIFICATION_SUCCESS, payload: response.data });
   } catch (error) {

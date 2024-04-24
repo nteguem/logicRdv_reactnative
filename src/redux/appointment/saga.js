@@ -40,6 +40,7 @@ import {
   CANCEL_APPOINTMENT_REQUEST,
   CANCEL_APPOINTMENT_FAILURE,
   CLEAR_APPOINTMENT_DATA,
+  CLEAR_APPOINTMENT_DATA_SUCCESS,
 } from './types';
 import * as RootNavigation from '../../routes/RootNavigation';
 
@@ -323,7 +324,7 @@ function* paiementAppt({ payload }) {
 
 function* clearAppointmentData() {
   try {
-    yield put({ type: 'CLEAR_APPOINTMENT_DATA_SUCCESS' });
+    yield put({ type: CLEAR_APPOINTMENT_DATA_SUCCESS });
   } catch (error) {
     console.error('Erreur lors du nettoyage des données de rendez-vous:', error);
   }

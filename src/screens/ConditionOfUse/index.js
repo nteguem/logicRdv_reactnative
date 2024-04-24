@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import { ScrollView, View } from 'react-native'
 import CustomText from '../../components/global/CustomText'
 import { colors } from '../../components/global/colors'
+import { clearAppointmentData } from '../../redux/appointment/actions'
+import { useDispatch } from 'react-redux'
 
 const ConditionOfUse = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(clearAppointmentData());
+    }, []);
     return (
         <ContainerScreen>
             <ScrollView>

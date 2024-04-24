@@ -109,6 +109,8 @@ const AppointmentReducer = (state = initialState, action) => {
     case CREATE_APPOINTMENT_SUCCESS:
       switch (action.payload.data.type) {
         case "appttype":
+          console.log("dataMotifs:>", action.payload.data.type)
+          console.log("dataMotifs:>>>>", action.payload.data.data)
           return {
             ...state,
             isLoading: false,
@@ -252,6 +254,7 @@ const AppointmentReducer = (state = initialState, action) => {
       }
 
     case CREATE_APPOINTMENT_FAILURE:
+      console.log("dataMotifs:>>><", action.payload.data.data)
       return {
         ...state,
         isLoading: false,
@@ -432,13 +435,19 @@ const AppointmentReducer = (state = initialState, action) => {
     case CLEAR_APPOINTMENT_DATA:
       return {
         ...state,
+        isLoading: true,
+        navigation: [],
         dataMotifs: [],
         dataCreneaux: [],
         dataPatients: [],
         dataNothing: [],
         dataPatients: [],
         dataLocked: [],
-        dataDoctorAdd: [],
+        headerMessage: '',
+        error: '',
+        message: '',
+        type: '',
+        paiementIntent: ""
       };
 
     case CLEAR_PATIENT_LIST:

@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import FontAwesome from 'react-native-vector-icons/FontAwesome6';
 import { showMessage } from 'react-native-flash-message';
 import { listNotificationsRequest,manageNotificationRequest } from '../redux/notification/actions';
-import { clearAppointmentData } from '../redux/appointment/actions';
+import { clearAppointmentData, createAppointmentRequest } from '../redux/appointment/actions';
 
 const DrawerContent = ({ navigation, isAuth,userData }) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -63,6 +63,7 @@ const DrawerContent = ({ navigation, isAuth,userData }) => {
       await removeUserData();
       navigation.closeDrawer();
       dispatch(setLoggedIn(false,null));
+      // dispatch(createAppointmentRequest('', '', '', 'begin', ''));
       dispatch(clearAppointmentData());
     } catch (error) {
       console.error('Erreur lors de la déconnexion :', error);
