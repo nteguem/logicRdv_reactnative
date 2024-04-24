@@ -39,6 +39,8 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white,
         marginVertical:3,
         paddingHorizontal:10,
+        paddingBottom:10,
+        borderRadius: 5
     },
     entete:{
         flexDirection: 'row',

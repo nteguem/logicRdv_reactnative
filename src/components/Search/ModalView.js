@@ -76,6 +76,12 @@ const ModalView = ({
     }, []);
 
     const clearText = () => {
+        setInput('');
+        dispatch(searchRequest({ "kind": "", "proxy_istelecons": "", "term": "" }));
+        dispatch(searchRequest({ "kind": "", "cp": "", "proxy_istelecons": "", "term": "" }));
+    };
+
+    const clearTextInput = () => {
         setSelectedItem(null)
         setValue('')
         setInput('');
@@ -289,8 +295,8 @@ const ModalView = ({
                                 value={selectedItem && !selectedItem.civility ? (isCity ? selectedItem.clientinfos : selectedItem.nom) : ''}
                                 onChangeText={onChange}
                             />
-                            {selectedItem && (!selectedItem.civility && input) ? (
-                                <Icon name="close" size={24} color={colors.red} style={styles.icon} onPress={clearText} />
+                            {selectedItem && !selectedItem.civility  ? (
+                                <Icon name="close" size={24} color={colors.red} style={styles.icon} onPress={clearTextInput} />
                             ) : null}
                         </Pressable>
                     )}

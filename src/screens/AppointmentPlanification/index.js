@@ -61,7 +61,6 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
           <CustomAppButton
             onPress={() => {
               handleButtonWeekPress(navigationAppointment.prevweek?.onclick_week, navigationAppointment.prevweek?.onclick_data, navigationAppointment.prevweek?.onclick_action);
-              setAppointmentTitle(navigationAppointment.prevweek?.title);
             }}
             title='sem.préc'
             alignSelf="baseline"
@@ -75,7 +74,6 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
           <CustomAppButton
             onPress={() => {
               handleButtonWeekPress(navigationAppointment.nextweek?.onclick_week, navigationAppointment.nextweek?.onclick_data, navigationAppointment.nextweek?.onclick_action);
-              setAppointmentTitle(navigationAppointment.nextweek?.title); // Mise à jour du titre lorsque vous cliquez sur le bouton "sem.suiv"
             }}
             title='sem.suiv'
             alignSelf="baseline"
