@@ -109,8 +109,6 @@ const AppointmentReducer = (state = initialState, action) => {
     case CREATE_APPOINTMENT_SUCCESS:
       switch (action.payload.data.type) {
         case "appttype":
-          console.log("dataMotifs:>", action.payload.data.type)
-          console.log("dataMotifs:>>>>", action.payload.data.data)
           return {
             ...state,
             isLoading: false,
