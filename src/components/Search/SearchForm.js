@@ -115,7 +115,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results, searchInf
                     />
                 </View>
             )}
-        </View>
+        </View> 
     )
 }
 
