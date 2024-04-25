@@ -46,6 +46,7 @@ const DrawerContent = ({ navigation, isAuth,userData }) => {
   const handleExitApp = () => {
     if (Platform.OS === 'android') {
       BackHandler.exitApp();
+      navigation.closeDrawer();
     } else if (Platform.OS === 'ios') {
       if (AppState.exitApp) {
         AppState.exitApp();
@@ -63,7 +64,6 @@ const DrawerContent = ({ navigation, isAuth,userData }) => {
       await removeUserData();
       navigation.closeDrawer();
       dispatch(setLoggedIn(false,null));
-      // dispatch(createAppointmentRequest('', '', '', 'begin', ''));
       dispatch(clearAppointmentData());
     } catch (error) {
       console.error('Erreur lors de la déconnexion :', error);

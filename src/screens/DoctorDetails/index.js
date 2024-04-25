@@ -46,7 +46,7 @@ const DoctorDetails = ({ route, isLoading, doctorInfos, session }) => {
 
     const handleMotifs = async () => {
         const tokenappointment = doctorInfos?.appointment?.token
-        await dispatch(createAppointmentRequest(tokenappointment, '', '', 'begin', session));
+        await dispatch(createAppointmentRequest(tokenappointment));
         await dispatch(clearAppointmentData());
 
     };

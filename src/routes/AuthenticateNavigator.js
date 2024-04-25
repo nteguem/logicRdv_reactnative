@@ -20,6 +20,7 @@ import Notifications from '../screens/Notification';
 import SearchResult from '../screens/Resultat';
 import VideoCall from '../screens/Video_Call';
 import PatientConfirmation from '../screens/PatientConfirmation';
+import Home from '../screens/Home';
 
 
 const Stack = createStackNavigator();
@@ -48,6 +49,7 @@ const AuthenticatedNavigator = () => {
       <Stack.Screen name="Notifications" options={pageOption} component={Notifications} initialParams={{ left: HeaderIcons.GO_BACK, right: HeaderIcons.ACCOUNT }} />
       <Stack.Screen name="Conditions Générales d'utilisation" options={pageOption} component={ConditionOfUse} initialParams={{ left: HeaderIcons.GO_BACK }} />
       <Stack.Screen name="Video Call" options={pageOption} component={VideoCall} initialParams={{ left: HeaderIcons.GO_BACK }} />
+      <Stack.Screen name="Home" options={pageOption} component={Home} initialParams={{ right: HeaderIcons.MENU }} />
 
     </Stack.Navigator>
   );

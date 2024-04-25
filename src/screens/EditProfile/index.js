@@ -9,6 +9,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome6';
 import Profil from '../../components/Settings/Profil';
 import { getUserData } from '../../utils/helpers';
+import { connect, useDispatch } from 'react-redux';
+import { informationAccount, unsubscribeAccount } from '../../redux/setting/actions';
+import { useNavigation } from '@react-navigation/native';
 
 const EditProfile = () => {
     const [firstName, setFirstName] = useState('');
@@ -24,6 +27,11 @@ const EditProfile = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [userData, setUserData] = useState("");
     const [isLoading, setIsLoading] = useState(true);
+    const [isEditing, setIsEditing] = useState(false);
+
+    const dispatch = useDispatch();
+    const navigation = useNavigation();
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,46 +48,81 @@ const EditProfile = () => {
 
     const onChangeFirstName = (text) => {
         setFirstName(text);
+        setUserData(prevData => ({ ...prevData, nom: text }));
     };
-
+    
+    const onChangeLastName = (text) => {
+        setLastName(text);
+        setUserData(prevData => ({ ...prevData, prenom: text }));
+    };
+    
     const onChangePhoneNumber = (text) => {
         setPhoneNumber(text);
-        setShowSearchIcon(text.length > 0); // Afficher l'icône si du texte est saisi
+        setUserData(prevData => ({ ...prevData, mobile: text }));
     };
-
+    
     const onChangeEmail = (text) => {
         setEmail(text);
+        setUserData(prevData => ({ ...prevData, email: text }));
     };
-
+    
     const onChangeAdress = (text) => {
         setAdress(text);
+        setUserData(prevData => ({ ...prevData, adresse: text }));
     };
-
+    
     const onChangeCity = (text) => {
         setCity(text);
+        setUserData(prevData => ({ ...prevData, ville: text }));
     };
-
-
+    
     const onChangeCodePostal = (text) => {
         setCodePostal(text);
+        setUserData(prevData => ({ ...prevData, codepostal: text }));
     };
-
+    
     const onChangeConfirmPassword = (text) => {
         setConfirmPassword(text);
+        setUserData(prevData => ({ ...prevData, password_conf: text }));
     };
-
+    
     const onChangePassword = (text) => {
         setPassword(text);
+        setUserData(prevData => ({ ...prevData, password: text }));
+    };    
+
+    const handleEdit = async () => {
+        setIsEditing(true); 
+
+        await dispatch(informationAccount({
+            "compte_nom": firstName,
+            "compte_prenom": LastName,
+            "compte_email": email,
+            "compte_mobile": phoneNumber,
+            "compte_adresse": adress,
+            "compte_codepostal": codePostal,
+            "compte_ville": city,
+            "compte_password": password,
+            "compte_password_conf": confirmPassword,
+        }));
+
+        setIsEditing(false); 
+        console.log("userData::", userData);
     };
 
+    const handleUnsubscribe = async () => {
+        await dispatch(unsubscribeAccount());
+        navigation.navigate('Home');
+    }
+
     return (
-        <ContainerScreen isLoading={isLoading}>
+        <ContainerScreen isLoading={isLoading || isEditing}> 
             <ScrollView>
                 <Profil username={`${userData?.nom} ${userData?.prenom}`} email={userData?.email} />
                 <View style={styles.container} >
                     <View>
                         <CustomText fontSize={12} color={colors.blue100}>
-                           Nom
+                            Nom
                         </CustomText>
                         <TextInput
                             style={styles.input}
@@ -98,7 +141,7 @@ const EditProfile = () => {
                             placeholder={userData?.prenom}
                             placeholderTextColor={colors.gray}
                             value={LastName}
-                            onChangeText={onChangeFirstName}
+                            onChangeText={onChangeLastName}
                         />
                     </View>
 
@@ -204,6 +247,7 @@ const EditProfile = () => {
 
                     <View style={styles.containerButton}>
                         <CustomAppButton
+                            onPress={handleEdit}
                             iconComponent={<FontAwesome name="user-pen" size={20} color={colors.white} style={{ marginHorizontal: 15 }} />}
                             title='Modifier'
                             alignSelf="center"
@@ -217,6 +261,7 @@ const EditProfile = () => {
                             marginHorizontal={18}
                         />
                         <CustomAppButton
+                        onPress={handleUnsubscribe}
                             iconComponent={<MaterialIcons name="delete" size={25} color={colors.white} style={{ marginHorizontal: 15 }} />}
                             title='Se désinscrire'
                             alignSelf="center"
@@ -273,5 +318,8 @@ const styles = StyleSheet.create({
         transform: [{ translateY: -10 }]
     }
 });
+const mapStateToProps = ({ SettingReducer }) => ({
+    isLoading: SettingReducer.isLoading,
+});
 
-export default EditProfile
+export default connect(mapStateToProps)(EditProfile);
