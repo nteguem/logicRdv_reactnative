@@ -16,10 +16,6 @@ const Appointments = ({ list, isLoading, session }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(clearAppointmentData());
-    }, []);
-
-    useEffect(() => {
         dispatch(listAppointmentsRequest({ "id": 1 }));
     }, []);
 

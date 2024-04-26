@@ -1,6 +1,6 @@
 import { takeLatest, call, put, select } from 'redux-saga/effects';
 import { sendRequest } from '../../utils/api';
-import { getUserData,getInstallationId,setIsSubscribeNotification } from "../../utils/helpers";
+import { getUserData,getInstallationId,setIsSubscribeNotification, setUserData } from "../../utils/helpers";
 import WonderPush from 'react-native-wonderpush';
 import { showMessage } from 'react-native-flash-message';
 import {
@@ -17,6 +17,7 @@ function* edit(payload) {
   try {
     const endpoint = 'account/setinfos/';
     const userData = yield getUserData();
+    console.log('userdata', userData)
     const { ...restPayload } = payload;
     const body = { "tokenuser": userData?.tokenuser, ...restPayload.payload }
     console.log("body::", body)
@@ -25,7 +26,7 @@ function* edit(payload) {
     if(response.httpstatut == 200)
     {
       yield put({ type: INFORMATION_ACCOUNT_SUCCESS, payload: response });
-      yield getUserData();
+      // yield setUserData(body);
       showMessage({
         message: 'Mise à jour du profil',
         description: response.message,
@@ -49,7 +50,6 @@ function* unsubscribeAccount(payload) {
     if(response.httpstatut == 200)
     {
       yield put({ type: UNSUBSCRIBE_ACCOUNT_SUCCESS, payload: response });
-      yield getUserData();
       showMessage({
         message: 'Désinscription',
         description: response.message,

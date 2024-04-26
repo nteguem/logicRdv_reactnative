@@ -23,8 +23,7 @@ const ListOfDoctor = ({ listDoctor, isLoading, session }) => {
   const handleMotifs = async (doctor) => {
     console.log("doctor:::", doctor);
     const tokenappointment = doctor.appointment.token
-    await dispatch(clearAppointmentData());
-    await dispatch(createAppointmentRequest(tokenappointment));
+    await dispatch(createAppointmentRequest(tokenappointment, '', '', 'begin'));
   };
 
   const handleDeleteDoctor = async () => {

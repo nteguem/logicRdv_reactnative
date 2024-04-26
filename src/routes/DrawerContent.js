@@ -75,6 +75,7 @@ const DrawerContent = ({ navigation, isAuth,userData }) => {
       });
     }
     finally {
+      dispatch(clearAppointmentData());
       setLoading(false);
     }
   };

@@ -39,8 +39,6 @@ import {
   CANCEL_APPOINTMENT_SUCCESS,
   CANCEL_APPOINTMENT_REQUEST,
   CANCEL_APPOINTMENT_FAILURE,
-  CLEAR_APPOINTMENT_DATA,
-  CLEAR_APPOINTMENT_DATA_SUCCESS,
 } from './types';
 import * as RootNavigation from '../../routes/RootNavigation';
 
@@ -322,14 +320,6 @@ function* paiementAppt({ payload }) {
   }
 }
 
-function* clearAppointmentData() {
-  try {
-    yield put({ type: CLEAR_APPOINTMENT_DATA_SUCCESS });
-  } catch (error) {
-    console.error('Erreur lors du nettoyage des données de rendez-vous:', error);
-  }
-}
-
 function* AppointmentSaga() {
   yield takeLatest(LIST_APPOINTMENT_REQUEST, list);
   yield takeLatest(LIST_DOCTOR_REQUEST, listDoctor);
@@ -341,7 +331,6 @@ function* AppointmentSaga() {
   yield takeLatest(CREATE_APPOINTMENT_REQUEST, create);
   yield takeLatest(CANCEL_APPOINTMENT_REQUEST, cancelAppt);
   yield takeLatest(PAIEMENT_APPOINTMENT_REQUEST, paiementAppt);
-  yield takeLatest(CLEAR_APPOINTMENT_DATA, clearAppointmentData);
 }
 
 export default AppointmentSaga;

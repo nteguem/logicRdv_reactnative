@@ -11,7 +11,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import ModalPatient from '../ListOfPatients/Modal';
 import { Linking } from 'react-native';
 import Share from 'react-native-share';
-import SvgUri from 'react-native-svg-uri';
+import Whatsapp from "../../assets/images/whatsapp.svg";
+import Waze from "../../assets/images/waze.svg";
+import Maps from "../../assets/images/google-maps.svg";
 import { useDispatch, connect } from 'react-redux';
 import { editPatientRequest } from '../../redux/appointment/actions';
 
@@ -261,31 +263,19 @@ const Doctor = ({
 
         {isRightIcons && (
           <TouchableOpacity onPress={shareOnWhatsApp}>
-            <SvgUri
-              width="24"
-              height="24"
-              source={require('../../assets/images/whatsapp.svg')}
-            />
+            <Whatsapp width={24} height={24} />
           </TouchableOpacity>
         )}
 
         {isRightIcons && (
           <TouchableOpacity onPress={openLocationInWaze}>
-            <SvgUri
-              width="24"
-              height="24"
-              source={require('../../assets/images/waze.svg')}
-            />
+            <Waze width={24} height={24} />
           </TouchableOpacity>
         )}
 
         {isRightIcons && (
           <TouchableOpacity onPress={openDoctorLocationInMaps}>
-            <SvgUri
-              width="24"
-              height="24"
-              source={require('../../assets/images/google-maps.svg')}
-            />
+            <Maps width={24} height={24} />
           </TouchableOpacity>
         )}
 

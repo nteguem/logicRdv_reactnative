@@ -6,7 +6,7 @@ import Appointment_Disponibility from '../../components/AppointmentPlanification
 import CustomText from '../../components/global/CustomText';
 import { colors } from '../../components/global/colors';
 import CustomAppButton from '../../components/global/CustomAppButton';
-import { clearAppointmentData, createAppointmentRequest } from '../../redux/appointment/actions';
+import { createAppointmentRequest } from '../../redux/appointment/actions';
 import { setModalVisible } from '../../redux/app/actions';
 
 const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, navigationAppointment, params }) => {
@@ -14,6 +14,8 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
   const tokenappointment = params.tokenappointment;
   const [appointmentTitle, setAppointmentTitle] = useState(title);
   const dispatch = useDispatch();
+
+  console.log('title', title)
 
   const handleButtonWeekPress = async (week, data, action) => {
     await dispatch(createAppointmentRequest(tokenappointment, week, data, action, session));

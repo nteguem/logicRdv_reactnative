@@ -433,19 +433,11 @@ const AppointmentReducer = (state = initialState, action) => {
     case CLEAR_APPOINTMENT_DATA:
       return {
         ...state,
-        isLoading: true,
+        isLoading: false,
         navigation: [],
         dataMotifs: [],
         dataCreneaux: [],
-        dataPatients: [],
-        dataNothing: [],
-        dataPatients: [],
-        dataLocked: [],
-        headerMessage: '',
-        error: '',
-        message: '',
-        type: '',
-        paiementIntent: ""
+        session: '',
       };
 
     case CLEAR_PATIENT_LIST:

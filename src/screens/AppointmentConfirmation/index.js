@@ -5,7 +5,7 @@ import CustomText from '../../components/global/CustomText'
 import CustomAppButton from '../../components/global/CustomAppButton'
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, connect } from 'react-redux';
-import { clearAppointmentData, createAppointmentRequest, listAppointmentsRequest } from '../../redux/appointment/actions';
+import { createAppointmentRequest, listAppointmentsRequest } from '../../redux/appointment/actions';
 
 const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, dataValided, headerMessage, session }) => {
   const { tokenappointment } = route.params;
@@ -15,7 +15,6 @@ const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, dataValide
   const handleBackToHome = async () => {
     navigation.navigate('Mes rendez-vous');
     await dispatch(listAppointmentsRequest({ "id": 1 }));
-    await dispatch(clearAppointmentData());
   };
 
   const handleBackToAppointment = async (week, data, action) => {

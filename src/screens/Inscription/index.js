@@ -145,7 +145,7 @@ const Inscription = ({ etablissements, cgu, isLoading }) => {
                             />
                         </View>
                         {etablissements.length > 0 && (
-                            <View>
+                            <View style={{width: '100%'}}>
                                 <View style={registerStyles.dropdownContainer}>
                                     <Picker
                                         selectedValue={selectedFormation}
