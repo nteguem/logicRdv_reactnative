@@ -1,6 +1,6 @@
 import { takeLatest, call, put, select } from 'redux-saga/effects';
 import { sendRequest } from '../../utils/api';
-import { getUserData,getInstallationId,setIsSubscribeNotification } from "../../utils/helpers";
+import { getUserData, getInstallationId, setIsSubscribeNotification } from "../../utils/helpers";
 import WonderPush from 'react-native-wonderpush';
 import { showMessage } from 'react-native-flash-message';
 import {
@@ -37,10 +37,9 @@ function* manageNotifications({ payload }) {
     const endpoint = payload === true ? 'notification/subscribe/' : 'notification/unsubscribe/';
     const userData = yield getUserData();
     const installationkey = yield getInstallationId();
-    const body = {"tokenuser":userData?.tokenuser,"installationkey":installationkey}
+    const body = { "tokenuser": userData?.tokenuser, "installationkey": installationkey }
     const response = yield call(sendRequest, 'POST', endpoint, body);
-    if(response.httpstatut == 404)
-    {
+    if (response.httpstatut == 404) {
       showMessage({
         message: 'Souscrire aux notifications',
         description: `Pour recevoir des notifications, veuillez activer les notifications dans les paramètres de l'application.`,
@@ -49,28 +48,28 @@ function* manageNotifications({ payload }) {
       });
     }
 
-    if (response?.message === "Notification Activée")
-    {
-     yield WonderPush.subscribeToNotifications();
-     yield  setIsSubscribeNotification(true);
-     showMessage({
-      message: 'Notifications activées',
-      description: `Vous recevrez désormais des notifications.`,
-      type: 'success',
-      duration: 3500,
-    });
-    }
-    else
-    {
+    if (response?.message === "Notification Activée") {
+      yield WonderPush.subscribeToNotifications();
+      yield setIsSubscribeNotification(true);
+      showMessage({
+        message: 'Notifications activées',
+        description: `Vous recevrez désormais des notifications.`,
+        type: 'success',
+        duration: 3500,
+      });
+      yield put({ type: LIST_NOTIFICATION_REQUEST }); // Dispatch de l'action LIST_NOTIFICATION_REQUEST
+    } else {
       yield WonderPush.unsubscribeFromNotifications();
-      yield  setIsSubscribeNotification(false);
+      yield setIsSubscribeNotification(false);
       showMessage({
         message: 'Notifications désactivées',
         description: `Vous ne recevrez plus de notifications.`,
         type: 'info',
         duration: 3500,
       });
+      yield put({ type: LIST_NOTIFICATION_REQUEST });
     }
+    
     // yield put({ type: successType, payload: response.data });
   } catch (error) {
     const failureType = payload === true ? SUBSCRIBE_NOTIFICATION_FAILURE : UNSUBSCRIBE_NOTIFICATION_FAILURE;

@@ -22,7 +22,7 @@
   - container: Layout styles for the main container, providing padding, border radius, background color, and alignment.
 */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Switch, TouchableOpacity, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -31,12 +31,12 @@ import { colors } from '../global/colors';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { listNotificationsRequest, manageNotificationRequest } from '../../redux/notification/actions';
+import { isSubscribedNotification, setIsSubscribeNotification } from '../../utils/helpers';
 
 const ProfileOptions = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   const handleAccountParams = () => {
     navigation.navigate('Modification du profil');
@@ -50,11 +50,21 @@ const ProfileOptions = () => {
     navigation.navigate("Notifications");
   };
 
+  useEffect(() => {
+    const getSubscriptionStatus = async () => {
+      const subscriptionStatus = await isSubscribedNotification();
+      setIsSubscribed(subscriptionStatus === 'true'); 
+    };
+    getSubscriptionStatus();
+  }, []);
+
+
   const toggleNotification = async (value, callback) => {
-  
+
     try {
+      await setIsSubscribeNotification(value.toString());
       await setIsSubscribed(value);
-  
+
       if (callback) {
         callback(value);
       }
@@ -65,13 +75,13 @@ const ProfileOptions = () => {
         dispatch(manageNotificationRequest(false));
       }
 
-     
+
     } catch (error) {
       console.error('Erreur lors du basculement des notifications:', error);
       throw error;
     }
   };
-  
+
 
   const options = [
     { icon: <Ionicons name="settings-sharp" size={18} style={styles.icon} />, text: "Paramètres du compte", onPress: handleAccountParams },
@@ -101,7 +111,7 @@ const ProfileOptions = () => {
           <CustomText
             fontSize={12}
             fontWeight={'bold'}
-            color={colors.blue100}   
+            color={colors.blue100}
             style={{ marginLeft: 3 }}>
             Notifications
           </CustomText>

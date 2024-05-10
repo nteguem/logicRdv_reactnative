@@ -52,7 +52,6 @@ const ListOfPatients = ({ route, listPatient, isLoading, session, user, dataPati
                 const week = patient?.onclick_week;
                 await dispatch(createAppointmentRequest(tokenappointment, week, data, action, session));
                 await dispatch(clearPatientList());
-                await dispatch(clearAppointmentData());
             }
         } else {
             await dispatch(clearAppointmentData());

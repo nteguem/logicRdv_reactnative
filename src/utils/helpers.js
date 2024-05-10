@@ -79,6 +79,29 @@ export const setIsSubscribeNotification = async (value) => {
   }
 }
 
+export const getNotification = async () => {
+  try {
+    const notificationActivate = await AsyncStorage.getItem('notifications');
+    if (notificationActivate) {
+      return notificationActivate;
+    } else {
+      console.log('Aucune notifications trouvée.');
+      return null;
+    }
+  } catch (error) {
+    console.error('Erreur lors de la récupération des notifications:', error);
+    return null;
+  }
+}
+
+export const setNotification = async (value) => {
+  try {
+    await AsyncStorage.setItem('notifications', value.toString());
+  } catch (error) {
+    console.error('Erreur lors de la sauvegarde des notifications:', error);
+  }
+}
+
 export const setUserData = async (userData) => {
   try {
     await AsyncStorage.setItem('userData', JSON.stringify(userData));

@@ -45,14 +45,16 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
         <ScrollView>
           {dataCreneaux.length > 0 ?
             dataCreneaux.map((item, index) => (
-              <Appointment_Disponibility
-                key={index}
-                label={item?.label}
-                label2={item?.label2}
-                creneaux={item?.creneaux}
-                message={item?.message}
-                handleValidationAppointment={handleValidation}
-              />
+              <View style={{ display: 'flex', justifyContent: 'flex-start' }} key={index}>
+                <Appointment_Disponibility
+
+                  label={item?.label}
+                  label2={item?.label2}
+                  creneaux={item?.creneaux}
+                  message={item?.message}
+                  handleValidationAppointment={handleValidation}
+                />
+              </View>
             )) :
             <Text>Aucun créneau disponible</Text>
           }
