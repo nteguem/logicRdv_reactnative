@@ -175,7 +175,7 @@ const Doctor = ({
                 <MaterialCommunityIcons name="calendar-blank" size={18} color={colors.blue} marginRight={5} />
               )}
               <View style={{ width: isSearch ? 200 : 'auto' }}>
-                <CustomText fontSize={11} color={colorContain}>
+                <CustomText fontSize={12} color={colorContain}>
                   {texte3}
                 </CustomText>
               </View>
@@ -186,14 +186,14 @@ const Doctor = ({
             {isIcon && (
               <Icon1 name="envelope" size={16} color={colors.blue} marginRight={5} />
             )}
-            <CustomText fontSize={11} color={colorContain}>
+            <CustomText fontSize={12} color={colorContain}>
               {texte4}
             </CustomText>
           </View>
 
           <View style={[styles.detailsContainer, { marginBottom: 5 }]}>
             {texte6 && (
-              <CustomText fontSize={11} color={colorContain}>
+              <CustomText fontSize={12} color={colorContain}>
                 {texte6}
               </CustomText>
             )}
@@ -202,7 +202,7 @@ const Doctor = ({
           <View style={styles.item}>
             {texte5 && (
               <>
-                <CustomText fontSize={11} color={colorContain} fontWeight={'bold'}>
+                <CustomText fontSize={14} color={colorContain} fontWeight={'bold'}>
                   {texte5}
                 </CustomText>
                 {

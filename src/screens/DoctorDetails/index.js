@@ -80,7 +80,7 @@ const DoctorDetails = ({ route, isLoading, doctorInfos, session }) => {
                     texte2={result?.category}
                     texte3={result?.address}
                     texte4={proxy_ville}
-                    texte5={result?.phone}
+                    texte5={result?.tel}
                     colorTitle={colors.yellow}
                     colorContain={colors.blue}
                     fontWeight={'bold'}

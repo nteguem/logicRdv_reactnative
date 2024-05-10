@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
     borderColor: colors.black,
-    marginHorizontal: 4,
     textAlign: "center",
+    marginRight:3,
     paddingVertical: 2,
     paddingHorizontal: 10,
     justifyContent: "center",

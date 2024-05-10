@@ -77,10 +77,10 @@ const Login = ({ route, session, headerError, headerMessage, inputFields, button
                       placeholder={input.label}
                       placeholderTextColor={colors.gray}
                       value={
+                        input.name === 'email' && input.value === '' ? email :
                         input.name === 'password' && input.value === '' ? password :
-                          input.name === 'email' && input.value === '' ? email :
-                            input.name === 'code' && input.value === '' ? code :
-                              input.value
+                        input.name === 'code' && input.value === '' ? code :
+                        input.value
                       }
                       onChangeText={(text) => handleInputChange(text, input.name)}
                       keyboardType={input.name === 'email' ? 'email-address' : input.name === 'code' ? 'numeric' : 'default'}

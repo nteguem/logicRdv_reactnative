@@ -63,10 +63,13 @@ const styles = StyleSheet.create({
   day: {
     flexDirection: 'row',
     justifyContent: "space-between",
-    marginVertical: 3,
+    marginVertical: 2,
   },
   leftnow: {
-    width: 70
+    width: 60,
+    alignItems: "center",
+    marginRight:4,
+
   },
   fullWidth: {
     width: '90%',

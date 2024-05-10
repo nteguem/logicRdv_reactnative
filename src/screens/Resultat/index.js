@@ -67,7 +67,6 @@ const SearchResult = ({ route, isLoading, results }) => {
               isSearch={true}
               isRightIcons={true}
               isPhoneIcons={true}
-              isDelete={true}
               lat={result.lat}
               lng={result.lng}
               texte1={`${result.civility} ${result.nom}`}

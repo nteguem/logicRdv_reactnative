@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Alert, Modal, StyleSheet, Text, Pressable, View, TextInput, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { Keyboard, Modal, StyleSheet, Text, Pressable, View, TextInput, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import CustomText from '../global/CustomText';
 import { colors } from '../global/colors';
 import CustomAppButton from '../global/CustomAppButton';
@@ -31,11 +31,14 @@ const ModalView = ({
     const [selectedItem, setSelectedItem] = useState(null);
     const dispatch = useDispatch();
     const navigation = useNavigation();
+    const inputRef = useRef(null);
 
     useEffect(() => {
         if (modalVisible) {
+            Keyboard.isVisible();
             setInput('');
             setValue('');
+            
         }
     }, [modalVisible]);
 
@@ -93,7 +96,7 @@ const ModalView = ({
     const handleTextInputClick = () => {
         dispatch(searchRequest({ "kind": "", "proxy_istelecons": "", "term": "" }));
         dispatch(searchRequest({ "kind": "", "cp": "", "proxy_istelecons": "", "term": "" }));
-        setModalVisible(true); // Afficher la modal
+        setModalVisible(true);
     };
 
     return (
@@ -136,6 +139,7 @@ const ModalView = ({
                                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: -18 }}>
                                         <View style={{ width: '78%' }}>
                                             <TextInput
+                                                autoFocus
                                                 value={input}
                                                 onChangeText={handleInputChange}
                                                 style={styles.inputProfession}
@@ -170,6 +174,8 @@ const ModalView = ({
                                                     Addresse
                                                 </CustomText>
                                                 <TextInput
+                                                    autoFocus={true}  
+                                                    keyboardType='default'
                                                     style={styles.inputModal}
                                                     value={address}
                                                     onChangeText={setAddress}
@@ -245,16 +251,16 @@ const ModalView = ({
                                                 {results?.map((result, index) => (
                                                     <TouchableOpacity key={index} onPress={() => handleSelectItem(result)}>
                                                         <View >
-                                                            <CustomText fontSize={12} fontWeight={'bold'} color={colors.black} style={{ marginLeft: 12 }}>
+                                                            <CustomText fontSize={16}  color={colors.black} style={{ marginLeft: 12 }}>
                                                                 {isCity ? result.clientinfos : result.civility ? `${result.civility} ${result.nom}` : result.nom}
                                                             </CustomText>
                                                             {result.address && (
-                                                                <CustomText fontSize={12} fontWeight={'bold'} color={colors.gray} style={{ marginLeft: 12 }}>
+                                                                <CustomText fontSize={16} fontWeight={'bold'} color={colors.gray} style={{ marginLeft: 12 }}>
                                                                     {result.address}
                                                                 </CustomText>
                                                             )}
                                                             {result.zip && (
-                                                                <CustomText fontSize={12} fontWeight={'bold'} color={colors.black} style={{ marginLeft: 12 }}>
+                                                                <CustomText fontSize={16}  color={colors.black} style={{ marginLeft: 12 }}>
                                                                     {result.zip}
                                                                 </CustomText>
                                                             )}
@@ -398,7 +404,7 @@ const styles = StyleSheet.create({
     },
     modalBackground: {
         position: 'absolute',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Couleur de fond semi-transparente
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', 
         top: 0,
         bottom: 0,
         left: 0,
