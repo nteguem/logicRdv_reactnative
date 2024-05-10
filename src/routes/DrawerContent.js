@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { colors } from '../components/global/colors';
 import { useDispatch } from 'react-redux';
 import { setLoggedIn } from '../redux/auth/actions';
-import { removeUserData } from '../utils/helpers';
+import { isSubscribedNotification, removeUserData, setIsSubscribeNotification } from '../utils/helpers';
 import CustomText from '../components/global/CustomText';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -20,9 +20,19 @@ const DrawerContent = ({ navigation, isAuth,userData }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    const getSubscriptionStatus = async () => {
+      const subscriptionStatus = await isSubscribedNotification();
+      setIsSubscribed(subscriptionStatus === 'true'); // Convertit la chaîne en booléen
+    };
+    getSubscriptionStatus();
+  }, []);
+
+
   const toggleNotification = async (value, callback) => {
   
     try {
+      await setIsSubscribeNotification(value.toString());
       await setIsSubscribed(value);
   
       if (callback) {
