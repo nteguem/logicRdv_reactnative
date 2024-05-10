@@ -50,7 +50,6 @@ const DrawerContent = ({ navigation, isAuth,userData }) => {
       console.error('Erreur lors du basculement des notifications:', error);
       throw error;
     }
-    navigation.closeDrawer();
   };
   
 
