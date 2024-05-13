@@ -15,6 +15,7 @@ const Notifications = ({ list, isLoading }) => {
 
   return (
     <ContainerScreen isLoading={isLoading}>
+
       {list?.length === 0 ? (
         <View style={{ height: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <Image source={require('../../assets/images/favicon.jpg')} style={{ width: 25, height: 25, borderRadius: 5 }} />

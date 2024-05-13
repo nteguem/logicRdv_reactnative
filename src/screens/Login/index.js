@@ -61,7 +61,7 @@ const Login = ({ route, session, headerError, headerMessage, inputFields, button
       <ScrollView>
         <View>
           <View style={loginStyles.card}>
-            <CustomText fontSize={14} fontWeight='bold' color={headerError != "" ? colors.red : colors.black} style={{ textAlign: 'center' }}>
+            <CustomText fontSize={15} fontWeight='bold' color={headerError != "" ? colors.red : colors.black} style={{ textAlign: 'center' }}>
               {headerError != "" ?
                 headerError
                 :

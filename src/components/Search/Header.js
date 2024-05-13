@@ -15,10 +15,10 @@ const Header = ({
             </View>
             {isHome ? (
                 <>
-                    <CustomText fontSize={15} fontWeight='bold' color={colors.gray300} style={{ textAlign: 'center', marginTop: -20 }}>
+                    <CustomText fontSize={20} fontWeight='bold' color={colors.gray300} style={{ textAlign: 'center', marginTop: -20 }}>
                         Rechercher votre praticien
                     </CustomText>
-                    <CustomText fontSize={14} color={colors.gray300} style={{ textAlign: 'center', marginVertical: 14 }}>
+                    <CustomText fontSize={16} color={colors.gray300} style={{ textAlign: 'center', marginVertical: 14 }}>
                         Trouvez des praticien pret de chez vous et contactez-les en un instant
                     </CustomText></>
             ) : (
