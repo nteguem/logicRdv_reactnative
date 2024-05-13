@@ -24,7 +24,7 @@ const ValidationNoticeRDV = ({container, fontWeight}) => {
   return (
     <View style={styles.card}>
       <View style={styles.compartment}>
-        <CustomText fontSize={12} color={colors.black} fontWeight={fontWeight}>
+        <CustomText fontSize={14} color={colors.black} fontWeight={fontWeight}>
           {container}
         </CustomText>
       </View>

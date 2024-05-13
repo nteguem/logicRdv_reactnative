@@ -106,7 +106,7 @@ const DrawerContent = ({ navigation, isAuth,userData }) => {
             <CustomText fontSize={14} fontWeight={'700'} color={colors.white} style={styles.drawerItem}>
             {`${userData?.nom} ${userData?.prenom}`}
             </CustomText>
-            <CustomText fontSize={12} fontWeight={'700'} color={colors.white} style={{ paddingHorizontal: 10, }}>
+            <CustomText fontSize={14} fontWeight={'700'} color={colors.white} style={{ paddingHorizontal: 10, }}>
               {userData?.email}
             </CustomText>
           </View>

@@ -34,13 +34,13 @@ const PatientDetailsThree = ({
         <CustomText fontSize={15} fontWeight={'bold'} color={colors.black}>
           {motif}
         </CustomText>
-        <CustomText fontSize={12} color={colors.black} style={{ paddingTop: 10 }}>
+        <CustomText fontSize={14} color={colors.black} style={{ paddingTop: 10 }}>
           {paragraph1}
         </CustomText>
-        <CustomText fontSize={12} color={colors.black} style={{ paddingTop: 10 }}>
+        <CustomText fontSize={14} color={colors.black} style={{ paddingTop: 10 }}>
           {paragraph2}
         </CustomText>
-        <CustomText fontSize={12} color={colors.black} style={{ paddingTop: 25 }}>
+        <CustomText fontSize={14} color={colors.black} style={{ paddingTop: 25 }}>
           {textBottom}
         </CustomText>
       </View>

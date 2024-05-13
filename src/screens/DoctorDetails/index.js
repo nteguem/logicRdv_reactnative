@@ -116,7 +116,7 @@ const DoctorDetails = ({ route, isLoading, doctorInfos, session }) => {
                                         <CustomText fontSize={15} fontWeight='bold' color={colors.black} style={{ backgroundColor: colors.blue400, borderRadius: 10, padding: 15 }}>
                                             {doctor.title}
                                         </CustomText>
-                                        <CustomText fontSize={12} color={colors.black} style={{ marginTop: 15 }}>{doctor.description}</CustomText>
+                                        <CustomText fontSize={14} color={colors.black} style={{ marginTop: 15 }}>{doctor.description}</CustomText>
                                     </>
                                 )}
                             </View>

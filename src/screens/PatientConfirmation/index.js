@@ -33,7 +33,7 @@ const PatientConfirmation = ({ route, isLoadingAppointment, dataLocked, session 
             <View style={styles.message}>
               <CustomText
                 color={colors.black}
-                fontSize={12}
+               fontSize={14} 
                 fontWeight={500}
               >
                 Le praticien est mon médecin traitant et je confirme ne pas être un nouveau patient

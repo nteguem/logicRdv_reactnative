@@ -21,7 +21,7 @@ const ModalConfirm = ({ visible, onCancel, onConfirm, message }) => {
                     }]}
                 >
                     <View style={styles.body}>
-                        <CustomText fontSize={12} fontWeight='bold' color={colors.black}>
+                        <CustomText fontSize={14} fontWeight='bold' color={colors.black}>
                             {message}
                         </CustomText>
                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 8 }}>

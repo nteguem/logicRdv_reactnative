@@ -19,15 +19,15 @@ const Item = (props) => {
       <View style={styles.entete} >
         <View style={styles.element}>
           <Icon color={colors.blue} name= {isNotification() ? "notifications" : "message"} size={18} />
-          <CustomText fontSize={12} color={colors.black}>{username}</CustomText>
+          <CustomText fontSize={14} color={colors.black}>{username}</CustomText>
         </View>
         <View style={styles.element}>
           <Icon color={colors.blue} name="calendar-today" size={18} />
-          <CustomText fontSize={12} color={colors.black}>{date}</CustomText>
+          <CustomText fontSize={14} color={colors.black}>{date}</CustomText>
         </View>
       </View>
       <View>
-        <CustomText fontSize={12} color={colors.black}>{message}</CustomText>
+        <CustomText fontSize={14} color={colors.black}>{message}</CustomText>
       </View>
     </View>
   )

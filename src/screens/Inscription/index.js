@@ -123,16 +123,16 @@ const Inscription = ({ etablissements, cgu, isLoading }) => {
             <ScrollView>
                 <View>
                     <View style={registerStyles.card}>
-                        <CustomText fontSize={12} fontWeight='bold' color={colors.black}>J'ai déja un compte LogicRdv</CustomText>
+                        <CustomText fontSize={14} fontWeight='bold' color={colors.black}>J'ai déja un compte LogicRdv</CustomText>
                         <TouchableOpacity onPress={handleSignIn}>
-                            <CustomText fontSize={12} fontWeight='bold' color={colors.blue}>SE CONNECTER</CustomText>
+                            <CustomText fontSize={14} fontWeight='bold' color={colors.blue}>SE CONNECTER</CustomText>
                         </TouchableOpacity>
                     </View>
                 </View>
                 <View>
                     <View style={registerStyles.card}>
                         <CustomText fontSize={15} fontWeight='bold' color={colors.black}>Inscription</CustomText>
-                        <CustomText fontSize={12} color={colors.black}>Saisissez les informations demandées</CustomText>
+                        <CustomText fontSize={14} color={colors.black}>Saisissez les informations demandées</CustomText>
                         <View style={{ width: '100%' }} >
                             <TextInput
                                 style={[registerStyles.input, { marginLeft: -6, marginRight: -6 }]}
@@ -239,9 +239,9 @@ const Inscription = ({ etablissements, cgu, isLoading }) => {
                                         style={registerStyles.checkbox}
                                         tintColors={{ true: colors.blue, false: colors.black }}
                                     />
-                                    <CustomText fontSize={12} color={colors.black} fontWeight={'bold'}>J'ai lu et accepté </CustomText>
+                                    <CustomText fontSize={14} color={colors.black} fontWeight={'bold'}>J'ai lu et accepté </CustomText>
                                     <TouchableOpacity onPress={handleConditionOfUse}>
-                                        <CustomText fontSize={12} color={colors.orange} fontWeight={'bold'}>les conditions d'utilisation </CustomText>
+                                        <CustomText fontSize={14} color={colors.orange} fontWeight={'bold'}>les conditions d'utilisation </CustomText>
                                     </TouchableOpacity>
                                 </View>
                             </View>

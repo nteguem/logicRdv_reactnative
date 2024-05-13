@@ -61,7 +61,7 @@ const Login = ({ route, session, headerError, headerMessage, inputFields, button
       <ScrollView>
         <View>
           <View style={loginStyles.card}>
-            <CustomText fontSize={12} fontWeight='bold' color={headerError != "" ? colors.red : colors.black} style={{ textAlign: 'center' }}>
+            <CustomText fontSize={15} fontWeight='bold' color={headerError != "" ? colors.red : colors.black} style={{ textAlign: 'center' }}>
               {headerError != "" ?
                 headerError
                 :
@@ -122,7 +122,7 @@ const Login = ({ route, session, headerError, headerMessage, inputFields, button
             <CustomText
               children="Nouveau sur LogicRdv?"
               color={colors.black}
-              fontSize={12}
+             fontSize={14} 
               fontWeight='bold'
 
             />

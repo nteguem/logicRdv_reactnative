@@ -251,7 +251,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
             }]}
           >
             <View style={styles.body}>
-              <CustomText fontSize={12} fontWeight='bold' color={colors.black}>Êtes-vous sûr de vouloir annuler ce rendez-vous ?</CustomText>
+              <CustomText fontSize={14} fontWeight='bold' color={colors.black}>Êtes-vous sûr de vouloir annuler ce rendez-vous ?</CustomText>
               <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 8 }}>
                 <CustomAppButton
                   onPress={() => setShowDeleteModal(false)}

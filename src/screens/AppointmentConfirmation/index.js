@@ -33,7 +33,7 @@ const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, dataValide
             <View style={styles.message}>
               <CustomText
                 color={colors.black}
-                fontSize={12}
+               fontSize={14} 
                 fontWeight={500}
               >
                 {headerMessage}

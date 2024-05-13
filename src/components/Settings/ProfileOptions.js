@@ -96,7 +96,7 @@ const ProfileOptions = () => {
           <View style={styles.container}>
             {option.icon}
             <CustomText
-              fontSize={12}
+             fontSize={14} 
               fontWeight={'bold'}
               color={colors.blue100}
               style={{ marginLeft: 3 }}>
@@ -109,7 +109,7 @@ const ProfileOptions = () => {
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {isSubscribed ? <MaterialIcons name="notifications-on" size={18} style={styles.icon} /> : <MaterialIcons name="notifications-off" size={18} style={styles.icon} />}
           <CustomText
-            fontSize={12}
+           fontSize={14} 
             fontWeight={'bold'}
             color={colors.blue100}
             style={{ marginLeft: 3 }}>

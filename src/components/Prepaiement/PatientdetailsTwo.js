@@ -49,13 +49,13 @@ const PatientdetailsTwo = ({
       <View style={styles.row2}>
         <View style={styles.row22}>
           <FontAwesome5 name="user-md" color={colors.white} size={25} marginRight={5}/>
-          <CustomText fontSize={12} color={Colors.white} style={styles.textStyle}>
+          <CustomText fontSize={14} color={Colors.white} style={styles.textStyle}>
             {doctorName}
           </CustomText>
         </View>
         <View style={styles.row22}>
           <FontAwesome name="user-circle" color={colors.white} size={25} marginRight={5}/>
-          <CustomText fontSize={12} color={Colors.white} style={[styles.textStyle]}>
+          <CustomText fontSize={14} color={Colors.white} style={[styles.textStyle]}>
             {patientName}
           </CustomText>
         </View>

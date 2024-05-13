@@ -35,10 +35,10 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
     <View style={styles.container}>
       <ContainerScreen isLoading={isLoadingAppointment}>
         <View style={styles.title}>
-          <CustomText fontSize={12} fontWeight={'bold'} color={colors.black}>
+          <CustomText fontSize={14} fontWeight={'bold'} color={colors.black}>
             Date et heure pour:
           </CustomText>
-          <CustomText fontSize={12} fontWeight={'bold'} color={colors.blue}>
+          <CustomText fontSize={14} fontWeight={'bold'} color={colors.blue}>
             {appointmentTitle}
           </CustomText>
         </View>
