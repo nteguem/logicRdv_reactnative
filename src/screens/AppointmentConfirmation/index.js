@@ -33,7 +33,7 @@ const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, dataValide
             <View style={styles.message}>
               <CustomText
                 color={colors.black}
-                fontSize={12}
+                fontSize={14}
                 fontWeight={500}
               >
                 {headerMessage}
@@ -49,7 +49,7 @@ const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, dataValide
                 paddingHorizontal={40}
                 paddingVertical={10}
                 borderRadius={8}
-                textFontSize={12}
+                textfontSize={14}
               />
               <CustomAppButton
                 onPress={handleBackToHome}
@@ -59,7 +59,7 @@ const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, dataValide
                 paddingHorizontal={45}
                 paddingVertical={10}
                 borderRadius={8}
-                textFontSize={12}
+                textfontSize={14}
 
               />
             </View>

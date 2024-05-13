@@ -9,7 +9,8 @@ import CustomAppButton from '../../components/global/CustomAppButton';
 import { createAppointmentRequest } from '../../redux/appointment/actions';
 import { setModalVisible } from '../../redux/app/actions';
 
-const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, navigationAppointment, params }) => {
+const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, navigationAppointment, params, navigation }) => {
+  console.log('parametre:::', params)
   const { title } = route.params;
   const tokenappointment = params.tokenappointment;
   const [appointmentTitle, setAppointmentTitle] = useState(title);
@@ -35,10 +36,10 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
     <View style={styles.container}>
       <ContainerScreen isLoading={isLoadingAppointment}>
         <View style={styles.title}>
-          <CustomText fontSize={12} fontWeight={'bold'} color={colors.black}>
+          <CustomText fontSize={14} fontWeight={'bold'} color={colors.black}>
             Date et heure pour:
           </CustomText>
-          <CustomText fontSize={12} fontWeight={'bold'} color={colors.blue}>
+          <CustomText fontSize={14} fontWeight={'bold'} color={colors.blue}>
             {appointmentTitle}
           </CustomText>
         </View>
@@ -70,7 +71,7 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
             alignSelf="baseline"
             paddingVertical={16}
             textColor={colors.white}
-            textFontSize={10}
+            textfontSize={12}
             bkgroundColor='transparent'
           />
         )}
@@ -83,7 +84,7 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
             alignSelf="baseline"
             paddingVertical={16}
             textColor={colors.white}
-            textFontSize={10}
+            textfontSize={12}
             bkgroundColor='transparent'
           />
         )}

@@ -61,7 +61,7 @@ const Login = ({ route, session, headerError, headerMessage, inputFields, button
       <ScrollView>
         <View>
           <View style={loginStyles.card}>
-            <CustomText fontSize={12} fontWeight='bold' color={headerError != "" ? colors.red : colors.black} style={{ textAlign: 'center' }}>
+            <CustomText fontSize={14} fontWeight='bold' color={headerError != "" ? colors.red : colors.black} style={{ textAlign: 'center' }}>
               {headerError != "" ?
                 headerError
                 :
@@ -107,7 +107,7 @@ const Login = ({ route, session, headerError, headerMessage, inputFields, button
                     alignSelf="baseline"
                     paddingVertical={16}
                     textColor={colors.white}
-                    textFontSize={12}
+                    textfontSize={14}
                     borderRadius={10}
                     bkgroundColor={colors.blue}
                     width='100%'
@@ -122,14 +122,14 @@ const Login = ({ route, session, headerError, headerMessage, inputFields, button
             <CustomText
               children="Nouveau sur LogicRdv?"
               color={colors.black}
-              fontSize={12}
+              fontSize={14}
               fontWeight='bold'
 
             />
             <CustomAppButton
               title="INSCRIPTION RAPIDE"
               onPress={handleSignUp}
-              textFontSize={12}
+              textfontSize={14}
               textColor={colors.blue}
               bkgroundColor='transparent'
               fontWeight='bold'

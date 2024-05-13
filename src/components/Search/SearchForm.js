@@ -50,7 +50,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results, searchInf
     return (
         <View>
             <View>
-                <CustomText fontSize={12} color={colors.gray300} fontWeight='bold'>
+                <CustomText fontSize={14} color={colors.gray300} fontWeight='bold'>
                     Où ? Autour de ?
                 </CustomText>
                 <View style={styles.containeInput}>
@@ -73,7 +73,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results, searchInf
                 </View>
             </View>
             <View style={{ marginTop: 10 }}>
-                <CustomText fontSize={12} color={colors.gray300} fontWeight='bold'>
+                <CustomText fontSize={14} color={colors.gray300} fontWeight='bold'>
                     Qui ? Spécialité ? Téléphone ?
                 </CustomText>
                 <View style={styles.containeInput}>

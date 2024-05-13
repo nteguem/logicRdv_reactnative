@@ -87,7 +87,7 @@ const SearchResult = ({ route, isLoading, results }) => {
   return (
     <ContainerScreen isLoading={isLoading}>
       <View style={styles.header}>
-        <CustomText fontSize={12} color={colors.gray200}>Résultat de la recherche pour:</CustomText>
+        <CustomText fontSize={14} color={colors.gray200}>Résultat de la recherche pour:</CustomText>
         <CustomText fontSize={14} color={colors.black} fontWeight="bold">{isSearchAround ? `${item.city} ${item.nom}` : proxy_ville}, {proxy_nom} </CustomText>
       </View>
       {results.length === 0 ? (

@@ -181,7 +181,7 @@ const VideoCall = ( {route} ) => {
               style={{ color: colors.gray }}
               name='lock-outline'
             />
-            <CustomText fontSize={12} style={{ color: colors.gray }}> Chiffré de bout en bout</CustomText>
+            <CustomText fontSize={14} style={{ color: colors.gray }}> Chiffré de bout en bout</CustomText>
           </View>
           <View style={styles.fullView}>
             <OTSession

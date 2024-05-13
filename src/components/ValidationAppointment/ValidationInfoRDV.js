@@ -54,7 +54,7 @@ const ValidationInfoRDV = ({ title, date, doctor, place, patient }) => {
             color={colors.blue}
             marginRight={5}
           />
-          <CustomText fontSize={12} color={colors.black}>
+          <CustomText fontSize={14} color={colors.black}>
             {date}
           </CustomText>
         </View>
@@ -65,7 +65,7 @@ const ValidationInfoRDV = ({ title, date, doctor, place, patient }) => {
             color={colors.blue}
             marginRight={5}
           />
-          <CustomText fontSize={12} color={colors.black}>
+          <CustomText fontSize={14} color={colors.black}>
             {doctor}
           </CustomText>
         </View>
@@ -76,7 +76,7 @@ const ValidationInfoRDV = ({ title, date, doctor, place, patient }) => {
             color={colors.blue}
             marginRight={5}
           />
-          <CustomText fontSize={12} color={colors.black}>
+          <CustomText fontSize={14} color={colors.black}>
             {place}
           </CustomText>
         </View>
@@ -87,7 +87,7 @@ const ValidationInfoRDV = ({ title, date, doctor, place, patient }) => {
             color={colors.blue}
             marginRight={5}
           />
-          <CustomText fontSize={12} color={colors.black} style={{ flex: 1 }} numberOfLines={1}>
+          <CustomText fontSize={14} color={colors.black} style={{ flex: 1 }} numberOfLines={1}>
             {patient}
           </CustomText>
         </View>

@@ -27,10 +27,10 @@ const Appointment_Disponibility = ({ label, label2, creneaux, message, handleVal
     <View style={styles.container}>
       <View style={styles.day}>
         <View style={styles.leftnow} >
-          <CustomText fontSize={12} fontWeight={700} style={{ color: colors.black }}>
+          <CustomText fontSize={14} fontWeight={700} style={{ color: colors.black }}>
             {label}
           </CustomText>
-          <CustomText fontSize={12} fontWeight={700} style={{ color: colors.blue }}>
+          <CustomText fontSize={14} fontWeight={700} style={{ color: colors.blue }}>
             {label2}
           </CustomText>
         </View  >
@@ -46,7 +46,7 @@ const Appointment_Disponibility = ({ label, label2, creneaux, message, handleVal
         </ScrollView>
         {creneaux?.length === 0 && (
           <View style={[styles.fullWidth, { padding: 15, backgroundColor: colors.blue400 }]}>
-            <CustomText fontSize={10} color={colors.gray500} style={{ marginRight: 35, textAlign: "center" }}>
+            <CustomText fontSize={12} color={colors.gray500} style={{ marginRight: 35, textAlign: "center" }}>
               {message}
             </CustomText>
           </View>

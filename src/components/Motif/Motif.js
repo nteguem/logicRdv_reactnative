@@ -16,8 +16,8 @@ const Motif = ({
                     <View style={[styles.circle, { backgroundColor: color, marginTop: 6 }]} />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: "85%" }}>
                         <View style={styles.compartmentContainer}>
-                            <CustomText fontSize={12} fontWeight={'bold'} color={colors.black}>{description}</CustomText>
-                            <CustomText fontSize={10} color={colors.black}>{labelplace}</CustomText>
+                            <CustomText fontSize={14} fontWeight={'bold'} color={colors.black}>{description}</CustomText>
+                            <CustomText fontSize={12} color={colors.black}>{labelplace}</CustomText>
                         </View>
                         <Icon name="chevron-right" size={18} color={colors.gray100} />
                     </View>

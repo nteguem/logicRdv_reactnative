@@ -13,7 +13,7 @@ const Profil = ({
             <Image source={require('../../assets/images/user.png')} style={styles.circleUser} />
             <View style={styles.containerID} >
                 <CustomText fontSize={15} fontWeight='bold' color={colors.blue100}>{username}</CustomText>
-                <CustomText fontSize={12} color={colors.blue100}>{email}</CustomText>
+                <CustomText fontSize={14} color={colors.blue100}>{email}</CustomText>
             </View>
         </View>
     )

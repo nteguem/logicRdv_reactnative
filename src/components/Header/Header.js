@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, BackHandler } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -8,10 +8,20 @@ import { useDispatch, connect } from 'react-redux';
 import * as RootNavigation from "../../routes/RootNavigation";
 import { loginRequest } from '../../redux/auth/actions';
 import { clearAppointmentData, createAppointmentRequest } from '../../redux/appointment/actions';
-const Header = ({ backgroundColor, sessionAuth, navigationAppointment, sessionAppointment, params, isLoggedIn }) => {
+const Header = ({ backgroundColor, sessionAuth, navigationAppointment, sessionAppointment, params, isLoggedIn, }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const route = useRoute();
+  const { isAppt, tokenappointment, title } = route.params;
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleGoBack
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   const handleSearchIconPress = () => {
     navigation.navigate("Recherche d'un praticien");
@@ -20,16 +30,21 @@ const Header = ({ backgroundColor, sessionAuth, navigationAppointment, sessionAp
   const handleGoBack = () => {
     switch (route.name) {
       case "Se connecter":
-        // const JsonSession = JSON.parse(sessionAuth);
-        // if (JsonSession.step === 1) {
-        //   navigation.navigate("Home");
-        // } else {
-        //   dispatch(loginRequest(JsonSession?.email, "previous", sessionAuth));
-        // }
-        navigation.navigate("Home");
+        if (isAppt) {
+          console.log('params::', params)
+          // dispatch(createAppointmentRequest(params.tokenappointment, params.week, params.data, params.action, params.session));
+          navigation.navigate("Jour et Heure du Rdv");
+        } else {
+          navigation.navigate("Home");
+        }
+        // RootNavigation.goBack();
         break;
       case "Inscription rapide":
-        navigation.navigate("Home");
+        if (isAppt) {
+          navigation.navigate("Jour et Heure du Rdv", { tokenappointment, title });
+        } else {
+          navigation.navigate("Home");
+        }
         break;
       case "Motif du Rendez-vous":
         if (isLoggedIn) {
@@ -46,8 +61,9 @@ const Header = ({ backgroundColor, sessionAuth, navigationAppointment, sessionAp
         }
         break;
     }
+    return true;
   };
-  
+
 
 
 

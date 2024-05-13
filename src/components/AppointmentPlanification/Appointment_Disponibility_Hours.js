@@ -26,10 +26,10 @@ const Appointment_Disponibility_Hours = ({ time, doctor }) => {
   return (
     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         <View style={styles.container}>
-          <CustomText fontSize={10} style={styles.time}>
+          <CustomText fontSize={12} style={styles.time}>
             {time}
           </CustomText>
-          <CustomText fontSize={10} style={styles.doctor}>{doctor}</CustomText>
+          <CustomText fontSize={12} style={styles.doctor}>{doctor}</CustomText>
         </View>
     </ScrollView>
   );

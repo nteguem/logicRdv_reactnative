@@ -43,12 +43,12 @@ const AppointmentDetails = (
         <View style={styles.timeDetailsContainer}>
           <View style={styles.detailsContainer}>
             <MaterialCommunityIcons name="calendar-blank" size={16} color={colors.white} marginRight={5} style={{ transform: [{ rotate: '-45deg' }] }} />
-            <CustomText fontSize={10} color={colors.white}>{date}</CustomText>
+            <CustomText fontSize={12} color={colors.white}>{date}</CustomText>
           </View>
           {isDisplay && (
             <View style={styles.detailsContainer}>
               <MaterialCommunityIcons name="clock-outline" size={16} color={colors.white} marginRight={5} />
-              <CustomText fontSize={10} color={colors.white}>{time}</CustomText>
+              <CustomText fontSize={12} color={colors.white}>{time}</CustomText>
             </View>
           )}
         </View>
@@ -93,11 +93,11 @@ const AppointmentDetails = (
               </View>
               <View style={[styles.detailsContainer, { marginBottom: 10 }]}>
                 <Icon name="phone" size={18} color={colors.black} marginRight={5} />
-                <CustomText fontSize={12} color={colors.black}>{patientPhone}</CustomText>
+                <CustomText fontSize={14} color={colors.black}>{patientPhone}</CustomText>
               </View>
               <View style={[styles.detailsContainer]}>
                 <Icon name="envelope" size={18} color={colors.black} marginRight={5} />
-                <CustomText fontSize={12} color={colors.black}>{patientEmail}</CustomText>
+                <CustomText fontSize={14} color={colors.black}>{patientEmail}</CustomText>
               </View>
             </View>
           </View>
@@ -105,10 +105,10 @@ const AppointmentDetails = (
           <View style={styles.compartment}>
             <View style={styles.compartmentContainer}>
               <CustomText fontSize={15} color={colors.black} fontWeight='bold' >{addressName}</CustomText>
-              <CustomText fontSize={12} color={colors.black} style={{ fontStyle: 'italic' }} >{addressLine1}</CustomText>
-              <CustomText fontSize={12} color={colors.black} style={{ fontStyle: 'italic' }} >{addressLine2}</CustomText>
+              <CustomText fontSize={14} color={colors.black} style={{ fontStyle: 'italic' }} >{addressLine1}</CustomText>
+              <CustomText fontSize={14} color={colors.black} style={{ fontStyle: 'italic' }} >{addressLine2}</CustomText>
               <View style={styles.detailsContainer}>
-                <CustomText fontSize={12} color={colors.black}>{addressPhone}</CustomText>
+                <CustomText fontSize={14} color={colors.black}>{addressPhone}</CustomText>
                 <View style={[styles.circle, { backgroundColor: colors.blue, marginLeft: 10, }]}>
                   <Icon name="phone" size={20} color={colors.white} onPress={handlePhoneCall} />
                 </View>
@@ -129,7 +129,7 @@ const AppointmentDetails = (
                     paddingHorizontal={35}
                     paddingVertical={8}
                     borderRadius={6}
-                    textFontSize={12}
+                    textfontSize={14}
                     fontWeight='bold'
                   />
                 </View>
@@ -146,7 +146,7 @@ const AppointmentDetails = (
                 bkgroundColor='transparent'
                 alignSelf='center'
                 textColor={colors.blue}
-                textFontSize={12}
+                textfontSize={14}
                 fontWeight='bold'
               />
             </View>

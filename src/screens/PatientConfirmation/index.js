@@ -33,7 +33,7 @@ const PatientConfirmation = ({ route, isLoadingAppointment, dataLocked, session 
             <View style={styles.message}>
               <CustomText
                 color={colors.black}
-                fontSize={12}
+                fontSize={14}
                 fontWeight={500}
               >
                 Le praticien est mon médecin traitant et je confirme ne pas être un nouveau patient
@@ -49,7 +49,7 @@ const PatientConfirmation = ({ route, isLoadingAppointment, dataLocked, session 
                 paddingHorizontal={45}
                 paddingVertical={10}
                 borderRadius={8}
-                textFontSize={12}
+                textfontSize={14}
               />
               <CustomAppButton
                 onPress={() => handleBackToAppointment(dataLocked[0]?.onclick_week, dataLocked[0]?.onclick_data, dataLocked[0]?.onclick_action)}
@@ -59,7 +59,7 @@ const PatientConfirmation = ({ route, isLoadingAppointment, dataLocked, session 
                 paddingHorizontal={45}
                 paddingVertical={10}
                 borderRadius={8}
-                textFontSize={12}
+                textfontSize={14}
               />
             </View>
           </View>

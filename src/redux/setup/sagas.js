@@ -6,6 +6,7 @@ import NotificationSaga from '../notification/saga';
 import AppSaga from '../app/saga';
 import PaiementSaga from '../paiement/saga';
 import SettingSaga from '../setting/saga';
+import MessageSaga from '../document/saga';
 /**
 
  * @description combine sagas.
@@ -13,5 +14,14 @@ import SettingSaga from '../setting/saga';
  */
 
 export default function* Sagas() {
-  yield all([AuthSaga(),SearchSaga(),AppointmentSaga(),NotificationSaga(),AppSaga(),PaiementSaga(),SettingSaga()]);
+  yield all([
+    AuthSaga(),
+    SearchSaga(),
+    AppointmentSaga(),
+    NotificationSaga(),
+    AppSaga(),
+    PaiementSaga(),
+    SettingSaga(),
+    MessageSaga()
+  ]);
 }

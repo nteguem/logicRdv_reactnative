@@ -69,7 +69,7 @@ function* manageNotifications({ payload }) {
       });
       yield put({ type: LIST_NOTIFICATION_REQUEST });
     }
-    
+    yield put({ type: LIST_NOTIFICATION_REQUEST });
     // yield put({ type: successType, payload: response.data });
   } catch (error) {
     const failureType = payload === true ? SUBSCRIBE_NOTIFICATION_FAILURE : UNSUBSCRIBE_NOTIFICATION_FAILURE;

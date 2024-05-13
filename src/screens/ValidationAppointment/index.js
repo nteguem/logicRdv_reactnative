@@ -251,7 +251,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
             }]}
           >
             <View style={styles.body}>
-              <CustomText fontSize={12} fontWeight='bold' color={colors.black}>Êtes-vous sûr de vouloir annuler ce rendez-vous ?</CustomText>
+              <CustomText fontSize={14} fontWeight='bold' color={colors.black}>Êtes-vous sûr de vouloir annuler ce rendez-vous ?</CustomText>
               <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 8 }}>
                 <CustomAppButton
                   onPress={() => setShowDeleteModal(false)}
@@ -260,7 +260,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
                   paddingVertical={16}
                   paddingHorizontal={40}
                   textColor={colors.white}
-                  textFontSize={12}
+                  textfontSize={14}
                   borderRadius={5}
                   bkgroundColor={colors.blue}
                   userIcon
@@ -273,7 +273,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
                   paddingVertical={16}
                   paddingHorizontal={30}
                   textColor={colors.white}
-                  textFontSize={12}
+                  textfontSize={14}
                   borderRadius={5}
                   bkgroundColor={colors.red}
                   userIcon
@@ -288,7 +288,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
 
       {showAppointmentList ? (
         <ScrollView>
-          <CustomText fontSize={10} color={colors.black} style={{ marginVertical: 12 }}>
+          <CustomText fontSize={12} color={colors.black} style={{ marginVertical: 12 }}>
             {dataConfirm?.apptsinprogress?.message}
           </CustomText>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
@@ -299,7 +299,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
               paddingVertical={16}
               paddingHorizontal={20}
               textColor={colors.white}
-              textFontSize={10}
+              textfontSize={12}
               borderRadius={10}
               bkgroundColor={colors.blue}
               fontWeight='bold'
@@ -431,7 +431,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
               alignSelf="center"
               paddingVertical={15}
               textColor={colors.white}
-              textFontSize={10}
+              textfontSize={12}
               borderRadius={10}
               bkgroundColor={colors.blue}
               width='100%'

@@ -68,11 +68,11 @@ const Paiement = (
               <CustomText fontSize={15} color={colors.white} fontWeight={'bold'} style={{ marginBottom: 18 }}>
                 {paiement?.etablissement?.nom}
               </CustomText>
-              <CustomText fontSize={12} color={colors.white} style={{ fontStyle: 'italic' }}>
+              <CustomText fontSize={14} color={colors.white} style={{ fontStyle: 'italic' }}>
                 {paiement?.etablissement?.address}
               </CustomText>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <CustomText fontSize={12} color={colors.white}>
+                <CustomText fontSize={14} color={colors.white}>
                   {paiement?.etablissement?.tel}
                 </CustomText>
                 <View style={[styles.circle, { backgroundColor: colors.blue, marginLeft: 15, }]}>
@@ -127,7 +127,7 @@ const Paiement = (
                   alignSelf="center"
                   paddingVertical={15}
                   textColor={colors.white}
-                  textFontSize={12}
+                  textfontSize={14}
                   borderRadius={10}
                   bkgroundColor={colors.blue}
                   width='100%'

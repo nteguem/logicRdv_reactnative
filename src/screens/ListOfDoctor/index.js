@@ -52,7 +52,7 @@ const ListOfDoctor = ({ listDoctor, isLoading, session }) => {
             }]}
           >
             <View style={styles.body}>
-              <CustomText fontSize={12} fontWeight='bold' color={colors.black}>Êtes-vous sûr de vouloir supprimer ce praticien ?</CustomText>
+              <CustomText fontSize={14} fontWeight='bold' color={colors.black}>Êtes-vous sûr de vouloir supprimer ce praticien ?</CustomText>
               <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 8 }}>
                 <CustomAppButton
                   onPress={() => setShowDeleteModal(false)}
@@ -61,7 +61,7 @@ const ListOfDoctor = ({ listDoctor, isLoading, session }) => {
                   paddingVertical={16}
                   paddingHorizontal={40}
                   textColor={colors.white}
-                  textFontSize={12}
+                  textfontSize={14}
                   borderRadius={5}
                   bkgroundColor={colors.blue}
                   userIcon
@@ -74,7 +74,7 @@ const ListOfDoctor = ({ listDoctor, isLoading, session }) => {
                   paddingVertical={16}
                   paddingHorizontal={30}
                   textColor={colors.white}
-                  textFontSize={12}
+                  textfontSize={14}
                   borderRadius={5}
                   bkgroundColor={colors.red}
                   userIcon

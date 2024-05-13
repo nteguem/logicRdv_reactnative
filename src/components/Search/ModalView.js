@@ -163,7 +163,7 @@ const ModalView = ({
                                     <ScrollView>
                                         <View style={{ height: '80%', justifyContent: 'center', marginHorizontal: 25 }}>
                                             <View style={styles.containInput}>
-                                                <CustomText fontSize={12} fontWeight='bold' color={colors.gray300}>
+                                                <CustomText fontSize={14} fontWeight='bold' color={colors.gray300}>
                                                     Addresse
                                                 </CustomText>
                                                 <TextInput
@@ -177,7 +177,7 @@ const ModalView = ({
                                                 />
                                             </View>
                                             <View style={styles.containInput}>
-                                                <CustomText fontSize={12} fontWeight='bold' color={colors.gray300}>
+                                                <CustomText fontSize={14} fontWeight='bold' color={colors.gray300}>
                                                     Code postal
                                                 </CustomText>
                                                 <TextInput
@@ -190,7 +190,7 @@ const ModalView = ({
                                             </View>
 
                                             <View style={styles.containInput}>
-                                                <CustomText fontSize={12} fontWeight='bold' color={colors.gray300}>
+                                                <CustomText fontSize={14} fontWeight='bold' color={colors.gray300}>
                                                     Ville
                                                 </CustomText>
                                                 <TextInput

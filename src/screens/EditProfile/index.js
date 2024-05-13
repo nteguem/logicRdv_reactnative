@@ -121,7 +121,7 @@ const EditProfile = () => {
                 <Profil username={`${userData?.nom} ${userData?.prenom}`} email={userData?.email} />
                 <View style={styles.container} >
                     <View>
-                        <CustomText fontSize={12} color={colors.blue100}>
+                        <CustomText fontSize={14} color={colors.blue100}>
                             Nom
                         </CustomText>
                         <TextInput
@@ -133,7 +133,7 @@ const EditProfile = () => {
                         />
                     </View>
                     <View>
-                        <CustomText fontSize={12} color={colors.blue100}>
+                        <CustomText fontSize={14} color={colors.blue100}>
                             Prénom
                         </CustomText>
                         <TextInput
@@ -146,7 +146,7 @@ const EditProfile = () => {
                     </View>
 
                     <View>
-                        <CustomText fontSize={12} color={colors.blue100}>
+                        <CustomText fontSize={14} color={colors.blue100}>
                             Numéro de téléphone
                         </CustomText>
                         <TextInput
@@ -160,7 +160,7 @@ const EditProfile = () => {
                     </View>
 
                     <View>
-                        <CustomText fontSize={12} color={colors.blue100}>
+                        <CustomText fontSize={14} color={colors.blue100}>
                             Email
                         </CustomText>
                         <TextInput
@@ -173,7 +173,7 @@ const EditProfile = () => {
                     </View>
 
                     <View>
-                        <CustomText fontSize={12} color={colors.blue100}>
+                        <CustomText fontSize={14} color={colors.blue100}>
                             Adresse
                         </CustomText>
                         <TextInput
@@ -186,7 +186,7 @@ const EditProfile = () => {
                     </View>
 
                     <View>
-                        <CustomText fontSize={12} color={colors.blue100}>
+                        <CustomText fontSize={14} color={colors.blue100}>
                             Ville
                         </CustomText>
                         <TextInput
@@ -199,7 +199,7 @@ const EditProfile = () => {
                     </View>
 
                     <View>
-                        <CustomText fontSize={12} color={colors.blue100}>
+                        <CustomText fontSize={14} color={colors.blue100}>
                             Code postal
                         </CustomText>
                         <TextInput
@@ -213,7 +213,7 @@ const EditProfile = () => {
                     </View>
 
                     <View>
-                        <CustomText fontSize={12} color={colors.blue100}>
+                        <CustomText fontSize={14} color={colors.blue100}>
                             Mot de passe
                         </CustomText>
                         <TextInput
@@ -229,7 +229,7 @@ const EditProfile = () => {
                         </TouchableOpacity>
                     </View>
                     <View>
-                        <CustomText fontSize={12} color={colors.blue100}>
+                        <CustomText fontSize={14} color={colors.blue100}>
                             Confirmation mot de passe
                         </CustomText>
                         <TextInput
@@ -254,7 +254,7 @@ const EditProfile = () => {
                             paddingVertical={15}
                             paddingHorizontal={105}
                             textColor={colors.white}
-                            textFontSize={12}
+                            textfontSize={14}
                             fontWeight='bold'
                             borderRadius={10}
                             bkgroundColor={colors.blue}
@@ -268,7 +268,7 @@ const EditProfile = () => {
                             paddingVertical={15}
                             paddingHorizontal={103}
                             textColor={colors.white}
-                            textFontSize={12}
+                            textfontSize={14}
                             fontWeight='bold'
                             borderRadius={10}
                             bkgroundColor={colors.red}

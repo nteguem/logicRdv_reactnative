@@ -21,7 +21,7 @@ const ModalDelete = ({ visible, onCancel, onConfirm, message }) => {
                     }]}
                 >
                     <View style={styles.body}>
-                        <CustomText fontSize={12} fontWeight='bold' color={colors.black}>
+                        <CustomText fontSize={14} fontWeight='bold' color={colors.black}>
                             {message}
                         </CustomText>
                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 8 }}>
@@ -32,7 +32,7 @@ const ModalDelete = ({ visible, onCancel, onConfirm, message }) => {
                                 paddingVertical={16}
                                 paddingHorizontal={40}
                                 textColor={colors.white}
-                                textFontSize={12}
+                                textfontSize={14}
                                 borderRadius={5}
                                 bkgroundColor={colors.blue}
                                 userIcon
@@ -45,7 +45,7 @@ const ModalDelete = ({ visible, onCancel, onConfirm, message }) => {
                                 paddingVertical={16}
                                 paddingHorizontal={30}
                                 textColor={colors.white}
-                                textFontSize={12}
+                                textfontSize={14}
                                 borderRadius={5}
                                 bkgroundColor={colors.red}
                                 userIcon

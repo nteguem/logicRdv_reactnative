@@ -236,7 +236,7 @@ function* create({ payload }) {
         break;
 
       case "apptconnect":
-        yield RootNavigation.navigate('Se connecter', { type: response.data.type });
+        yield RootNavigation.navigate('Se connecter', { type: response.data.type, isAppt: true });
         showMessage({
           message: 'Se connecter',
           description: response.data.headermessage,
