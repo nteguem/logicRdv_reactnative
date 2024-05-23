@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text,ActivityIndicator, ScrollView, StyleSheet, Image, RefreshControl } from 'react-native';
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import CustomText from '../../components/global/CustomText';
 import Doctor from '../../components/global/Doctor';
@@ -7,33 +7,99 @@ import { colors } from '../../components/global/colors';
 import { useRoute } from '@react-navigation/native';
 import { useDispatch, connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { infosDoctorRequest, resultRequest } from '../../redux/search/actions';
+import { resultRequest } from '../../redux/search/actions';
 
-const SearchResult = ({ route, isLoading, results }) => {
-  const { location, profession, item, isSearchAround } = route.params;
+const SearchResult = ({ route, isLoading, results, page, maxpage, isPaginating }) => {
+  console.log("SearchResult props:", { isLoading, isPaginating , page, maxpage, results });
+  const { location, profession, item, isSearchAround, ville_id } = route.params;
   const proxy_ville = isSearchAround ? `${item.zip} ${item.city}` : location;
   const proxy_nom = isSearchAround ? item.category : profession;
 
-  useEffect(() => {
-    const cleanup = () => {
-      dispatch({ type: 'CLEAR_RESULTS' }); // Action à dispatcher pour vider les résultats
-    };
-
-    // Appel de la fonction de nettoyage lorsque le composant est démonté
-    return cleanup;
-  }, []);
-  
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const [refreshing, setRefreshing] = useState(false);
 
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch({ type: 'CLEAR_RESULTS' });
+  //   };
+  // }, [dispatch]);
+
+  // useEffect(() => {
+  //   if (page === 1) {
+  //     dispatch(resultRequest({
+  //       proxy_ville: proxy_ville,
+  //       proxy_nom: proxy_nom,
+  //       proxy_ville_id: "",
+  //       proxy_nom_id: ville_id,
+  //       proxy_search: '',
+  //       proxy_page: page,
+  //     }));
+  //   }
+  // }, [dispatch, proxy_ville, proxy_nom, ville_id, page]);
+
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(resultRequest({
+      proxy_ville: proxy_ville,
+      proxy_nom: proxy_nom,
+      proxy_ville_id: "",
+      proxy_nom_id: ville_id,
+      proxy_search: '',
+      proxy_page: 1,
+    }));
+
+    setRefreshing(false)
+  };
+
+  const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+    const paddingToBottom = 20;
+    return layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom;
+  };
+
+  const handleScroll = ({ nativeEvent }) => {
+    if (isCloseToBottom(nativeEvent) && !isLoading && !isPaginating && page < maxpage) {
+      dispatch(resultRequest({
+        proxy_ville: proxy_ville,
+        proxy_nom: proxy_nom,
+        proxy_ville_id: "",
+        proxy_nom_id: ville_id,
+        proxy_search: '',
+        proxy_page: parseInt(page) + 1,
+      }));
+    }
+  };
+  
   const handleDoctorPress = (result) => {
-    console.log("result::::", result)
-    navigation.navigate('Détail du médécin', {result});
+    console.log("handleDoctorPress props:", { result });
+    navigation.navigate('Détail du médécin', { result });
+  };
+
+  const renderFooter = () => {
+    if (!isPaginating) return null;
+    return (
+      <View style={styles.pagination}>
+        <ActivityIndicator size="large" color={colors.blue} />
+      </View>
+    );
   };
 
   const renderContent = () => {
     return isSearchAround ? (
-      <ScrollView>
+      <ScrollView 
+        style={{ marginBottom: 15 }}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={[colors.blue]}
+            progressBackgroundColor={colors.white}
+          />
+      }>
         {results.map((result, index) => (
           <Doctor
             key={index}
@@ -52,13 +118,24 @@ const SearchResult = ({ route, isLoading, results }) => {
             isPhoneIcons
             isProfileIcon
             isRightIcons
-            isDelete
             isSearch
           />
         ))}
+        {renderFooter()}
       </ScrollView>
     ) : (
-      <ScrollView>
+      <ScrollView 
+        style={{ marginBottom: 15 }}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={[colors.blue]}
+            progressBackgroundColor={colors.white}
+          />
+        }>
         {results.map((result, index) => (
           result.nom !== "Affiner ma recherche ..." && (
             <Doctor
@@ -80,6 +157,7 @@ const SearchResult = ({ route, isLoading, results }) => {
             />
           )
         ))}
+        {renderFooter()}
       </ScrollView>
     )
   }
@@ -118,12 +196,19 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
     borderRadius: 5
+  },
+  pagination: {
+    paddingVertical: 20,
   }
 });
 
 const mapStateToProps = ({ SearchReducer }) => ({
   isLoading: SearchReducer?.isLoading,
   results: SearchReducer?.results,
+  page: SearchReducer.page,
+  maxpage: SearchReducer.maxpage,
+  isPaginating: SearchReducer.isPaginating,
+
 });
 
 export default connect(mapStateToProps)(SearchResult);

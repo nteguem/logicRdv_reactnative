@@ -12,11 +12,13 @@ import {
 
 const initialState = {
   isLoading: false,
-  results:[],
+  isPaginating: false,
+  results: [],
   searchInfo: null,
-  error:null,
-  doctorInfos:null
-  
+  error: null,
+  doctorInfos: null,
+  page: 1,
+  maxpage: 1
 };
 
 const SearchReducer = (state = initialState, action) => {
@@ -27,12 +29,17 @@ const SearchReducer = (state = initialState, action) => {
         ...state,
         results:[],
         isLoading: true,
+        page: 1, 
+        maxpage: 1,
       };
     case SEARCH_SUCCESS:
       return {
         ...state,
         isLoading: false,
         results:action.payload.list,
+        page: 1,
+        maxpage: action.payload.maxpage,
+        searchInfo: action.payload.search,
       };
     case SEARCH_FAILURE:
       return {
@@ -44,20 +51,24 @@ const SearchReducer = (state = initialState, action) => {
       case RESULT_REQUEST:
         return {
           ...state,
-          isLoading: true,
-          results:[],
+          isLoading: state.page === 1,
+          isPaginating: state.page !== 1,
         };
       case RESULT_SUCCESS:
         return {
           ...state,
           isLoading: false,
-          results:action.payload.list,
+          isPaginating: false,
+          results: state.page === 1 ? action.payload.list : [...state.results, ...action.payload.list],
+          page: action.payload.pagination.current,
+          maxpage: action.payload.pagination.maxpage,
           searchInfo: action.payload.search,
         };
       case RESULT_FAILURE:
         return {
           ...state,
           isLoading: false,
+          isPaginating: false,
           results:[],
           error:action.payload
         };

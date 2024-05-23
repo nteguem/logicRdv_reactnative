@@ -8,6 +8,7 @@ import CustomText from '../../components/global/CustomText';
 import { colors } from '../../components/global/colors';
 
 const Notifications = ({ list, isLoading }) => {
+  console.log("list is ::::", list); 
   useEffect(() => {
     listNotificationsRequest();
   }, []);

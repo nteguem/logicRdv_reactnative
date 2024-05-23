@@ -65,7 +65,7 @@ const initialState = {
   params: {},
   message: '',
   paiement: [],
-  paiementIntent: "",
+  paiementIntent: "", 
   maxpage: 1
 };
 

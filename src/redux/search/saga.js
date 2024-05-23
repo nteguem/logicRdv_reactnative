@@ -29,7 +29,7 @@ function* result({ payload }) {
   try {
     const endpoint = 'search/list/';
     const response = yield call(sendRequest, 'POST', endpoint, data);
-    console.log("response:::::::", response)
+    console.log("response result", response)
     yield put({ type: RESULT_SUCCESS, payload: response.data });
     
   } catch (error) {
