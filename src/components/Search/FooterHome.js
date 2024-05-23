@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import CustomAppButton from '../global/CustomAppButton';
 import CustomText from '../global/CustomText';
 import { colors } from '../global/colors';
-import { loginRequest } from '../../redux/auth/actions';
 
 const FooterHome = () => {
 

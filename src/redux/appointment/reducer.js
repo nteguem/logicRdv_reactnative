@@ -39,6 +39,7 @@ import {
 const initialState = {
   isLoading: false,
   list: [],
+  page: 1,
   listDoctor: [],
   listPatient: [],
   step: 0,
@@ -64,8 +65,8 @@ const initialState = {
   params: {},
   message: '',
   paiement: [],
-  paiementIntent: ""
-
+  paiementIntent: "",
+  maxpage: 1
 };
 
 const AppointmentReducer = (state = initialState, action) => {
@@ -79,8 +80,10 @@ const AppointmentReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        // list: state.list?.list ? [...state.list, ...action.payload] : action.payload
-        list: action.payload
+        list: state.page === 1 ? action.payload.list : [...state.list, ...action.payload.list],
+        // list: state.page === 1 ? action.payload.list : state.list.concat(action.payload.list),
+        page: action.payload.page,
+        maxpage: action.payload.maxpage
       };
     case LIST_APPOINTMENT_FAILURE:
       return {

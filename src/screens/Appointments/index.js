@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Image, Modal, ScrollView, StyleSheet, View } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { ActivityIndicator, Image, Modal, RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
 import CustomAppButton from '../../components/global/CustomAppButton'
 import AppointmentDetails from '../../components/MyAppointment/Appointment_Details'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
@@ -7,17 +7,19 @@ import { colors } from '../../components/global/colors'
 import { useDispatch, connect } from 'react-redux';
 import CustomText from '../../components/global/CustomText'
 import { useNavigation } from '@react-navigation/native';
-import { cancelAppointmentRequest, clearAppointmentData, createAppointmentRequest, listAppointmentsRequest, paiementApptRequest } from '../../redux/appointment/actions'
+import { cancelAppointmentRequest, createAppointmentRequest, listAppointmentsRequest, paiementApptRequest } from '../../redux/appointment/actions'
 
-const Appointments = ({ list, isLoading, session }) => {
+const Appointments = ({ list, isLoading, session, page, maxpage }) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [apptToCancel, setApptToCancel] = useState(null);
+    const [refreshing, setRefreshing] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
     const navigation = useNavigation();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(listAppointmentsRequest({ "id": 1 }));
-    }, []);
+        dispatch(listAppointmentsRequest({ page }));
+    }, [page, dispatch]);
 
     const handleAppointment = () => {
         navigation.navigate('Fixez rendez-vous');
@@ -39,14 +41,40 @@ const Appointments = ({ list, isLoading, session }) => {
             console.log(apptToCancel);
             const tokenappointment = apptToCancel?.appointment?.token
             await dispatch(cancelAppointmentRequest({ tokenappointment: tokenappointment }));
-            await dispatch(listAppointmentsRequest({ "id": 1 }));
+            await dispatch(listAppointmentsRequest({ pagination: page }));
             setApptToCancel(null);
             setShowDeleteModal(false);
         }
     }
 
+    const onRefresh = () => {
+        // Fonction pour rafraîchir la liste
+        setRefreshing(true);
+        dispatch(listAppointmentsRequest({ page: 1 }));
+        setRefreshing(false);
+    };
+
+    const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+        const paddingToBottom = 20;
+        console.log('okkk::', layoutMeasurement.height + contentOffset.y, 'yoo:::', contentSize.height - paddingToBottom )
+        return layoutMeasurement.height + contentOffset.y >=
+            contentSize.height - paddingToBottom;
+    };
+
+    const handleScroll = ({ nativeEvent }) => {
+        if (isCloseToBottom(nativeEvent) && !isLoading && page < maxpage) {
+            setCurrentPage(page + 1)
+            dispatch(listAppointmentsRequest({ page: page + 1 }));
+        }
+    };
+
+    const handleEndReached = () => {
+        alert('okkk')
+        dispatch(listAppointmentsRequest({ page: page + 1 }));
+    };
+
     return (
-        <ContainerScreen isLoading={isLoading}>
+        <ContainerScreen isLoading={currentPage === 1 && isLoading}>
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -96,7 +124,7 @@ const Appointments = ({ list, isLoading, session }) => {
                     </View>
                 </View>
             </Modal>
-            {list?.list?.length === 0 ? (
+            {list?.length === 0 ? (
                 <>
                     <View style={styles.containerButton}>
                         <CustomAppButton
@@ -119,9 +147,21 @@ const Appointments = ({ list, isLoading, session }) => {
                 </>
 
             ) : (
-                <ScrollView style={{ marginBottom: 15 }}>
+                <ScrollView style={{ marginBottom: 15 }}
+                    onScroll={handleScroll}
+                    // scrollEventThrottle={400}
+                    // onEndReached={handleEndReached}
+                    // onEndReachedThreshold={1}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                            colors={[colors.blue]}
+                            progressBackgroundColor={colors.white}
+                        />
+                    }>
                     <View style={styles.containerButton}>
-                    <CustomAppButton
+                        <CustomAppButton
                             onPress={handleAppointment}
                             title="PRENDRE UN RENDEZ-VOUS RAPIDE"
                             alignSelf="baseline"
@@ -135,7 +175,7 @@ const Appointments = ({ list, isLoading, session }) => {
                         />
                     </View>
                     <CustomText fontSize={15} color={colors.black} fontWeight='bold'>Mes Rendez-vous</CustomText>
-                    {list?.list?.map((item, index) => (
+                    {list?.map((item, index) => (
                         <AppointmentDetails
                             key={index}
                             date={item?.appointment?.date}
@@ -180,6 +220,7 @@ const Appointments = ({ list, isLoading, session }) => {
                             }}
                         />
                     ))}
+                    {currentPage<maxpage && <ActivityIndicator size='large' color={colors.blue} />}
                 </ScrollView >
             )}
         </ContainerScreen >
@@ -243,7 +284,10 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({ AppointmentReducer }) => ({
     list: AppointmentReducer.list,
     isLoading: AppointmentReducer.isLoading,
-    session: AppointmentReducer.session
+    session: AppointmentReducer.session,
+    error: AppointmentReducer.error,
+    page: AppointmentReducer.page,
+    maxpage: AppointmentReducer.maxpage
 });
 
 export default connect(mapStateToProps)(Appointments);

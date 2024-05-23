@@ -43,15 +43,16 @@ import {
 import * as RootNavigation from '../../routes/RootNavigation';
 
 function* list({ payload }) {
+  console.log(payload)
   try {
     const endpoint = 'account/appointments/';
     const userData = yield getUserData();
-    const body = { "tokenuser": userData.tokenuser, "page": payload.data.id }
+    const body = { "tokenuser": userData.tokenuser, "page": payload.data.page };
     const response = yield call(sendRequest, 'POST', endpoint, body);
-    yield put({ type: LIST_APPOINTMENT_SUCCESS, payload: response.data });
+    yield put({ type: LIST_APPOINTMENT_SUCCESS, payload: { list: response.data.list, page: payload.data.page, maxpage: response.data.pagination.maxpage } });
   } catch (error) {
     console.error('error', error);
-    yield put({ type: LIST_APPOINTMENT_FAILURE, payload: error });
+    yield put({ type: LIST_APPOINTMENT_FAILURE, payload: { message: error.message } });
   }
 }
 
