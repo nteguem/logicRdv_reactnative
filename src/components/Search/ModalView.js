@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Keyboard, Modal, StyleSheet, Text, Pressable, View, TextInput, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { Keyboard, Modal, StyleSheet, Text, Pressable,KeyboardAvoidingView, View, TextInput, ScrollView, ActivityIndicator } from 'react-native';
 import CustomText from '../global/CustomText';
 import { colors } from '../global/colors';
 import CustomAppButton from '../global/CustomAppButton';
@@ -8,6 +8,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { useDispatch, connect } from 'react-redux';
 import { searchRequest, resultRequest,infosDoctorRequest } from '../../redux/search/actions';
 import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const ModalView = ({
     isLocation = false,
@@ -30,6 +31,7 @@ const ModalView = ({
     const [value, setValue] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
     const dispatch = useDispatch();
+    const [isDisabled, setIsDisabled] = useState(false);
     const navigation = useNavigation();
     const inputRef = useRef(null);
 
@@ -52,25 +54,28 @@ const ModalView = ({
         }
     };
 
-    const handleSelectItem = (item) => {
+    const handleSelectItem = async (item) => {
+        if (isDisabled) return;
+        setIsDisabled(true);
+        
         if (isCity) {
             setValue(item.clientinfos);
             onChange(item.clientinfos);
-            setCity(item.id)
+            setCity(item.id);
             onIdChange(item.id);
-        }
-       else if (!item.civility) {
+        } else if (!item.civility) {
             setValue(item.nom);
             onChange(item.nom);
             onIdChange(item.id); 
         } else {
-            
-            navigation.navigate('Détail du médécin', {result: item})
+            await navigation.navigate('Détail du médécin', { result: item });
         }
+    
         setModalVisible(false);
         setSelectedItem(item);
+        setIsDisabled(false);
     };
-
+    
     const clearText = () => {
         setInput('');
         dispatch(searchRequest({ "kind": "", "proxy_istelecons": "", "term": "" }));
@@ -93,14 +98,23 @@ const ModalView = ({
     };
 
     return (
-        <View style={styles.centeredView}>
+        <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.centeredView}>
             <Modal
                 animationType="none"
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
                     setModalVisible(!modalVisible);
-                }}>
+                }}
+                onShow={() => {
+                    setTimeout(() => {
+                        inputRef.current?.blur();
+                        inputRef.current?.focus();
+                    }, 100);
+                }}
+                >
                 <View style={styles.modalBackground}></View>
                 <View style={styles.centeredView}>
                     <View
@@ -133,6 +147,7 @@ const ModalView = ({
                                         <View style={{ width: '78%' }}>
                                             <TextInput
                                                 autoFocus
+                                                ref={inputRef}
                                                 value={input}
                                                 onChangeText={handleInputChange}
                                                 style={styles.inputProfession}
@@ -239,24 +254,37 @@ const ModalView = ({
                                             <ActivityIndicator size="large" color={colors.blue} />
                                         </View>
                                     ) : (
-                                        <View style={{ height: '98%', marginHorizontal: -35 }}>
-                                            <ScrollView>
+                                       
+                                       <View style={{ height: '98%', marginHorizontal: -35 }}>
+                                            <ScrollView  keyboardShouldPersistTaps="handled">
                                                 {results?.map((result, index) => (
-                                                    <TouchableOpacity key={index} onPress={() => handleSelectItem(result)}>
+                                                    <TouchableOpacity key={index} onPress={() => handleSelectItem(result)} disabled={isDisabled}>
                                                         <View >
-                                                            <CustomText fontSize={16}  color={colors.black} style={{ marginLeft: 12 }}>
+                                                            <CustomText fontSize={14} fontWeight={"bold"} color={colors.black} style={{ marginLeft: 12 }}>
                                                                 {isCity ? result.clientinfos : result.civility ? `${result.civility} ${result.nom}` : result.nom}
                                                             </CustomText>
+                                                            {result.category && (
+                                                                <CustomText fontSize={14}  color={colors.black} style={{ marginLeft: 12 }}>
+                                                                    {result.category}
+                                                                </CustomText>
+                                                            )}
                                                             {result.address && (
-                                                                <CustomText fontSize={16} fontWeight={'bold'} color={colors.gray} style={{ marginLeft: 12 }}>
+                                                                <CustomText fontSize={14} fontWeight={'bold'} color={colors.gray} style={{ marginLeft: 12 }}>
                                                                     {result.address}
                                                                 </CustomText>
                                                             )}
-                                                            {result.zip && (
-                                                                <CustomText fontSize={16}  color={colors.black} style={{ marginLeft: 12 }}>
-                                                                    {result.zip}
+                                                            {result.zip && result.city && (
+                                                                <CustomText fontSize={14}  color={colors.black} style={{ marginLeft: 12 }}>
+                                                                    {result.zip},{result.city}
                                                                 </CustomText>
                                                             )}
+                                                            {result.tel && (
+                                                                <CustomText fontSize={16}  color={colors.black} style={{ marginLeft: 12 }}>
+                                                                    {result.tel}
+                                                                </CustomText>
+                                                            )}
+                                                            
+                                                            
                                                             <View style={styles.divider} />
                                                         </View>
                                                     </TouchableOpacity>
@@ -308,7 +336,7 @@ const ModalView = ({
                 )}
             </View>
 
-        </View>
+        </KeyboardAvoidingView>
     );
 };
 

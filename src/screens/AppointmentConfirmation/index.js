@@ -30,6 +30,9 @@ const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, dataValide
       ) : (
         <View style={styles.container}>
           <View style={styles.content} >
+          <View style={{alignItems:"center", justifyContent:"center"}}>
+            <CustomText color={colors.blue} fontSize={16} fontWeight={"bold"}>Prise de RDV effectuée</CustomText>
+          </View>
             <View style={styles.message}>
               <CustomText
                 color={colors.black}

@@ -46,7 +46,11 @@ const ListOfPatients = ({ route, listPatient, isLoading, session, user, dataPati
             if (patient.locked === "1" && patient.lockmessage !== "Vous ne pouvez pas prendre RDV par internet dans l'immédiat. Votre inscription est valide mais la prise de rdv par internet est suspendue. Pour prendre Rdv, veuillez contacter le secrétariat au 0146650660") {
                 setPatientToDelete(patient);
                 setShowConfirmModal(true);
-            } else {
+            }  else if (patient.locked === "1" && patient.lockmessage !== "Vous ne pouvez pas prendre RDV par internet dans l'immédiat. Votre praticien ne prend pas de nouveau patient pour le moment. Votre inscription est valide mais vos coordonnées n'ont pas été reconnues. Si ce praticien est votre médecin traitant merci de le confirmer en appuyant sur le bouton suivant afin de débloquer la prise de rdv. Si besoin, pour de plus amples informations, veuillez contacter le secrétariat au 0176310099.")  {
+                setPatientToDelete(patient);
+                setShowConfirmModal(true);
+            }
+            else{
                 const action = patient?.onclick_action;
                 const data = patient?.onclick_data;
                 const week = patient?.onclick_week;
@@ -137,6 +141,7 @@ const ListOfPatients = ({ route, listPatient, isLoading, session, user, dataPati
                                     handleTelephoneChange={handleTelephoneChange}
                                     isEdit={false}
                                     handleAddPatient={handleAddPatient}
+                                    
                                 />
                             )}
                         </>

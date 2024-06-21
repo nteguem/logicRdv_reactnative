@@ -105,6 +105,7 @@ const ListOfDoctor = ({ listDoctor, isLoading, session }) => {
               isProfileIcon
               isDelete={listDoctor.length > 1}
               isAppointment
+              isAllDoc
               isRightIcons
               lat={doctor.lat}
               lng={doctor.lng}

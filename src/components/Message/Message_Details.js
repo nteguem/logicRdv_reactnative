@@ -8,6 +8,7 @@ import { Alert, Linking, } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ModalView from '../Search/ModalView';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const MessageDetails = (
     {
@@ -31,8 +32,34 @@ const MessageDetails = (
     };
 
     // Fonction pour télécharger le fichier
+    // const handleFileDownload = (fileUrl) => {
+    //     Linking.openURL(fileUrl); // Ouvre l'URL dans le navigateur par défaut pour téléchargement
+    // };
+
     const handleFileDownload = (fileUrl) => {
-        Linking.openURL(fileUrl); // Ouvre l'URL dans le navigateur par défaut pour téléchargement
+        const { config, fs } = RNFetchBlob;
+        let DownloadDir = fs.dirs.DownloadDir; 
+
+        let fileName = extractFileNameFromURL(fileUrl);
+        let options = {
+            fileCache: true,
+            addAndroidDownloads: {
+                useDownloadManager: true,
+                notification: true,
+                path: `${DownloadDir}/${fileName}`, // Path where the file will be downloaded
+                description: 'Téléchargement du fichier.'
+            }
+        };
+
+        config(options)
+            .fetch('GET', fileUrl)
+            .then((res) => {
+                Alert.alert('Téléchargement', 'Fichier téléchargé avec succès.', [{ text: 'OK' }]);
+            })
+            .catch((error) => {
+                Alert.alert('Erreur', 'Échec du téléchargement.', [{ text: 'OK' }]);
+                console.error(error);
+            });
     };
 
     return (
@@ -49,7 +76,7 @@ const MessageDetails = (
                 {file && (
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <CustomText fontSize={14} color={colors.black} fontWeight='bold'>Fichier</CustomText>
-                        <TouchableOpacity onPress={() => handleFileDownload(file1)}>
+                        <TouchableOpacity onPress={() => handleFileDownload(file)}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <MaterialCommunityIcons name="file" size={16} color={colors.blue} marginRight={5} />
                                 <CustomText fontSize={14} color={colors.blue}>{truncateFileName(extractFileNameFromURL(file), 22)}</CustomText>

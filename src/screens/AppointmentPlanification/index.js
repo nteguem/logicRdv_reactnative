@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useCallback } from 'react';
 import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
@@ -10,14 +10,21 @@ import { createAppointmentRequest } from '../../redux/appointment/actions';
 import { setModalVisible } from '../../redux/app/actions';
 
 const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, navigationAppointment, params, navigation }) => {
-  console.log('parametre:::', params)
-  const { title } = route.params;
-  const tokenappointment = params.tokenappointment;
+  console.log('parametre34567:::', route.params);
+  const { isAppt, tokenappointment, title } = route.params;
   const [appointmentTitle, setAppointmentTitle] = useState(title);
   const dispatch = useDispatch();
 
-  console.log('title', title)
 
+  const loadDataCreneaux = useCallback(() => {
+    // dispatch(fetchDataCreneauxAction());
+    console.log('Loading dataCreneaux');
+  }, [dispatch]);
+  useEffect(
+    useCallback(() => {
+      loadDataCreneaux();
+    }, [loadDataCreneaux])
+  );
   const handleButtonWeekPress = async (week, data, action) => {
     await dispatch(createAppointmentRequest(tokenappointment, week, data, action, session));
   };
@@ -57,7 +64,7 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
                 />
               </View>
             )) :
-            <Text>Aucun créneau disponible</Text>
+            <CustomText color={colors.black}>Aucun créneau disponible</CustomText>
           }
         </ScrollView>
       </ContainerScreen>

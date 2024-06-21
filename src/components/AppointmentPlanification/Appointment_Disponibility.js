@@ -30,7 +30,7 @@ const Appointment_Disponibility = ({ label, label2, creneaux, message, handleVal
           <CustomText fontSize={14} fontWeight={700} style={{ color: colors.black }}>
             {label}
           </CustomText>
-          <CustomText fontSize={14} fontWeight={700} style={{ color: colors.blue }}>
+          <CustomText fontSize={12} fontWeight={700} style={{ color: colors.blue }}>
             {label2}
           </CustomText>
         </View  >
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     marginVertical: 2,
   },
   leftnow: {
-    width: 60,
+    width: 74,
     alignItems: "center",
     marginRight:4,
 

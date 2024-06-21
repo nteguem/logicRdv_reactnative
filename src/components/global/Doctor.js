@@ -112,18 +112,18 @@ const Doctor = ({
     <View style={styles.Container}>
       {/* les donnee de gauche ie juste l'icon de photo */}
       <View style={[styles.leftColumn, { marginLeft: isUpdate || isDetail ? 0 : 0, alignItems: isSearch ? 'center' : 'center' }]}>
-        <View style={styles.usericon}>
+        <View style={[styles.usericon, {marginLeft: isAppointment ? -60 : 0,}]}>
           {isProfileIcon && (
             <Image source={require('../../assets/images/user.png')} style={styles.circleUser} />
           )}
         </View>
         <View >
           {isAppointment && (
-            <View style={{ marginTop: 60 }}>
+            <View style={{ marginTop: 35 }}>
               <CustomAppButton
                 onPress={handleChange}
                 title="Prendre RDV"
-                paddingVertical={12}
+                paddingVertical={8}
                 paddingHorizontal={12}
                 textColor="white"
                 borderRadius={13}
@@ -151,49 +151,49 @@ const Doctor = ({
       </View>
 
       <View style={{ marginLeft: isAppointment ? 0 : isSearch ? 0 : isDetail ? 0 : 0, marginRight: isSearch ? 0 : 'none', flexWrap: 'wrap', }}>
-        <View style={{ marginLeft: isUpdate || isAppointment || isDetail || isSearch ? 0 : 0 }}>
+        <View style={{ marginLeft: isUpdate || isAppointment || isDetail || isSearch ? 0 : 0, marginLeft: isAppointment? -80: 0 }}>
           <View style={{ width: isIcon ? '90%' : 200 }}>
             <CustomText fontSize={15} color={colorTitle} fontWeight={'bold'} style={{ marginBottom: marginBottom }}>
               {texte1}
             </CustomText>
           </View>
 
-          <View style={[styles.detailsContainer, { marginBottom: 5 }]}>
+          <View style={[styles.detailsContainer]}>
             {isIcon && (
               <Icon name="phone-alt" size={16} color={colors.blue} marginRight={5} />
             )}
             <View style={{ width: 200 }}>
-              <CustomText fontSize={13} color={colorContain} fontWeight={fontWeight}>
+              <CustomText fontSize={14} color={colorContain} fontWeight={"bold"}>
                 {texte2}
               </CustomText>
             </View>
           </View>
 
           {texte3 !== "" && (
-            <View style={[styles.detailsContainer, { marginBottom: 5 }]}>
+            <View style={[styles.detailsContainer]}>
               {isIcon && (
                 <MaterialCommunityIcons name="calendar-blank" size={18} color={colors.blue} marginRight={5} />
               )}
               <View style={{ width: isSearch ? 200 : 'auto' }}>
-                <CustomText fontSize={14} color={colorContain}>
-                  {texte3}
+                <CustomText fontSize={12} color={colorContain}>
+                  {texte4}
                 </CustomText>
               </View>
             </View>
           )}
 
-          <View style={[styles.detailsContainer, { marginBottom: 5 }]}>
+          <View style={[styles.detailsContainer]}>
             {isIcon && (
               <Icon1 name="envelope" size={16} color={colors.blue} marginRight={5} />
             )}
-            <CustomText fontSize={14} color={colorContain}>
-              {texte4}
+            <CustomText fontSize={12} color={colorContain}>
+              {texte3}
             </CustomText>
           </View>
 
-          <View style={[styles.detailsContainer, { marginBottom: 5 }]}>
+          <View style={[styles.detailsContainer]}>
             {texte6 && (
-              <CustomText fontSize={14} color={colorContain}>
+              <CustomText fontSize={12} color={colorContain}>
                 {texte6}
               </CustomText>
             )}
@@ -221,8 +221,10 @@ const Doctor = ({
       {isUpdate && (
         <View style={[styles.divider, { marginRight: 10 }]} />
       )}
+      {/**paddingTop:20,
+    marginBottom:20, */}
 
-      <View style={[styles.rightColumn, { marginLeft: isUpdate ? -20 : 0 }]}>
+      <View style={[styles.rightColumn, { paddingTop: isSearch ? 20 : 0 , marginLeft: isUpdate ? -20 : 0, marginBottom: isSearch ? 20 : 0 }]}>
 
         {isArrowIcon && (
           <AntDesign
@@ -309,7 +311,8 @@ const styles = StyleSheet.create({
   rightColumn: {
     flexDirection: 'column',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    
   },
   item: {
     flexDirection: 'row',
