@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Keyboard, Modal, StyleSheet, Text, Pressable,KeyboardAvoidingView, View, TextInput, ScrollView, ActivityIndicator } from 'react-native';
+import { Keyboard, Modal, StyleSheet, Text, Pressable,KeyboardAvoidingView,TouchableOpacity, View, TextInput, ScrollView, ActivityIndicator } from 'react-native';
 import CustomText from '../global/CustomText';
 import { colors } from '../global/colors';
 import CustomAppButton from '../global/CustomAppButton';
@@ -8,7 +8,6 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { useDispatch, connect } from 'react-redux';
 import { searchRequest, resultRequest,infosDoctorRequest } from '../../redux/search/actions';
 import { useNavigation } from '@react-navigation/native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const ModalView = ({
     isLocation = false,

@@ -152,13 +152,14 @@ const ListOfPatients = ({ route, listPatient, isLoading, session, user, dataPati
                             <Doctor
                                 key={index}
                                 texte1={`${patient.nom} ${patient.prenom}`}
-                                texte2={patient.phone}
+                                texte2= {truncateText(patient.email, 25)}
                                 texte3={patient.dob}
-                                texte4={truncateText(patient.email, 25)}
+                                texte4= {patient.phone}
                                 colorTitle={colors.black}
                                 colorContain={colors.black}
                                 marginBottom={10}
                                 isIcon
+                                urlphoto={patient.photo}
                                 isLock={patient.locked === "1"}
                                 isUpdate
                                 isDelete={index > 0 && patients.length > 1}

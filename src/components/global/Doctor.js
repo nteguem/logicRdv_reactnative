@@ -44,7 +44,8 @@ const Doctor = ({
   lat,
   lng,
   user,
-  tokenappointment
+  tokenappointment,
+  urlphoto,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -114,7 +115,7 @@ const Doctor = ({
       <View style={[styles.leftColumn, { marginLeft: isUpdate || isDetail ? 0 : 0, alignItems: isSearch ? 'center' : 'center' }]}>
         <View style={[styles.usericon, {marginLeft: isAppointment ? -60 : 0,}]}>
           {isProfileIcon && (
-            <Image source={require('../../assets/images/user.png')} style={styles.circleUser} />
+            <Image source = { urlphoto ? {uri:urlphoto} : require('../../assets/images/user.png')} style={styles.circleUser} />
           )}
         </View>
         <View >
@@ -153,17 +154,17 @@ const Doctor = ({
       <View style={{ marginLeft: isAppointment ? 0 : isSearch ? 0 : isDetail ? 0 : 0, marginRight: isSearch ? 0 : 'none', flexWrap: 'wrap', }}>
         <View style={{ marginLeft: isUpdate || isAppointment || isDetail || isSearch ? 0 : 0, marginLeft: isAppointment? -80: 0 }}>
           <View style={{ width: isIcon ? '90%' : 200 }}>
-            <CustomText fontSize={15} color={colorTitle} fontWeight={'bold'} style={{ marginBottom: marginBottom }}>
+            <CustomText fontSize={15} color={colorTitle} fontWeight={'bold'} style={{ marginBottom: marginBottom }} numberOfLines={1} ellipsizeMode="tail">
               {texte1}
             </CustomText>
           </View>
 
           <View style={[styles.detailsContainer]}>
             {isIcon && (
-              <Icon name="phone-alt" size={16} color={colors.blue} marginRight={5} />
-            )}
+                <Icon1 name="envelope" size={16} color={colors.blue} marginRight={5} />
+              )}
             <View style={{ width: 200 }}>
-              <CustomText fontSize={14} color={colorContain} fontWeight={"bold"}>
+              <CustomText fontSize={14} color={colorContain} fontWeight={"bold"} numberOfLines={1} ellipsizeMode="tail">
                 {texte2}
               </CustomText>
             </View>
@@ -172,10 +173,11 @@ const Doctor = ({
           {texte3 !== "" && (
             <View style={[styles.detailsContainer]}>
               {isIcon && (
-                <MaterialCommunityIcons name="calendar-blank" size={18} color={colors.blue} marginRight={5} />
+                <Icon name="phone-alt" size={16} color={colors.blue} marginRight={5} />
               )}
+              
               <View style={{ width: isSearch ? 200 : 'auto' }}>
-                <CustomText fontSize={12} color={colorContain}>
+                <CustomText fontSize={12} color={colorContain} numberOfLines={1} ellipsizeMode="tail">
                   {texte4}
                 </CustomText>
               </View>
@@ -183,17 +185,18 @@ const Doctor = ({
           )}
 
           <View style={[styles.detailsContainer]}>
+            
             {isIcon && (
-              <Icon1 name="envelope" size={16} color={colors.blue} marginRight={5} />
+                <MaterialCommunityIcons name="calendar-blank" size={18} color={colors.blue} marginRight={5} />
             )}
-            <CustomText fontSize={12} color={colorContain}>
+            <CustomText fontSize={12} color={colorContain} numberOfLines={1} ellipsizeMode="tail">
               {texte3}
             </CustomText>
           </View>
 
           <View style={[styles.detailsContainer]}>
             {texte6 && (
-              <CustomText fontSize={12} color={colorContain}>
+              <CustomText fontSize={12} color={colorContain} numberOfLines={1} ellipsizeMode="tail" >
                 {texte6}
               </CustomText>
             )}
@@ -202,7 +205,7 @@ const Doctor = ({
           <View style={styles.item}>
             {texte5 && (
               <>
-                <CustomText fontSize={14} color={colorContain} fontWeight={'bold'}>
+                <CustomText fontSize={14} color={colorContain} fontWeight={'bold'} numberOfLines={1} ellipsizeMode="tail">
                   {texte5}
                 </CustomText>
                 {
@@ -238,6 +241,7 @@ const Doctor = ({
         )}
 
         {isLock && (
+          
           <MaterialCommunityIcons
             style={[styles.unique, { marginBottom: 6 }]}
             name="account-lock"
@@ -281,9 +285,13 @@ const Doctor = ({
           </TouchableOpacity>
         )}
 
+        
         {isDelete && (
-          <Icon2 name="delete" color={colors.red} size={25} onPress={handleDelete} />
-        )}
+          <View style={{height:25, width:25, borderRadius:50, backgroundColor:colors.red, alignContent:"center", justifyContent:"center", paddingHorizontal:2 }}>
+            <Icon2 name="delete" color={colors.white} size={20}  onPress={handleDelete} />
+          </View>
+           
+          )}
 
 
       </View>
@@ -347,6 +355,7 @@ const styles = StyleSheet.create({
   circleUser: {
     width: 65,
     height: 65,
+    borderRadius:40
   },
   divider: {
     borderLeftWidth: 1,
