@@ -40,30 +40,30 @@ const PatientdetailsTwo = ({
 }) => {
   return (
     <View style={styles.parentStyle}>
+      <View style={styles.row3}>
+        <CustomText fontSize={15} color={colors.black}>
+          {dateTime}
+        </CustomText>
+      </View>
       <View style={styles.row1}>
-        <Fontisto name="first-aid-alt" color={colors.white} size={18} />
-        <CustomText fontSize={15} fontWeight={'bold'} color={colors.white} style={styles.textStyle}>
+        <Fontisto name="first-aid-alt" color={colors.blue} size={18} />
+        <CustomText fontSize={16} fontWeight={'bold'} color={colors.blue} style={styles.textStyle}>
           {detailsTitle}
         </CustomText>
       </View>
       <View style={styles.row2}>
         <View style={styles.row22}>
-          <FontAwesome5 name="user-md" color={colors.white} size={25} marginRight={5}/>
-          <CustomText fontSize={14} color={Colors.white} style={styles.textStyle}>
+          <FontAwesome5 name="user-md" color={colors.blue} size={25} marginRight={5}/>
+          <CustomText fontSize={14} color={Colors.black} style={styles.textStyle}>
             {doctorName}
           </CustomText>
         </View>
         <View style={styles.row22}>
-          <FontAwesome name="user-circle" color={colors.white} size={25} marginRight={5}/>
-          <CustomText fontSize={14} color={Colors.white} style={[styles.textStyle]}>
+          <FontAwesome name="user-circle" color={colors.gray} size={25} marginRight={5}/>
+          <CustomText fontSize={14} color={Colors.black} style={[styles.textStyle]}>
             {patientName}
           </CustomText>
         </View>
-      </View>
-      <View style={styles.row3}>
-        <CustomText fontSize={15} color={colors.white}>
-          {dateTime}
-        </CustomText>
       </View>
     </View>
   );
@@ -73,30 +73,34 @@ const styles = StyleSheet.create({
   parentStyle: {
     padding: 20,
     borderRadius: 10,
-    backgroundColor: '#007FA9',
+    // backgroundColor: '#007FA9',
+    elevation: 5,
+    borderColor: "#00B35C",
+    borderWidth: 1,
+    backgroundColor: '#FFF',
+    
   },
   row1: {
-    alignItems: 'center',
+    // alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    backgroundColor: '#8BB1B8',
-    borderRadius: 20,
-    alignSelf: 'center',
+    // justifyContent: "space-between",
+    // paddingHorizontal: 20,
+    // paddingVertical: 10,
+    // backgroundColor: '#8BB1B8',
+    // borderRadius: 20,
+    // alignSelf: 'center',
+    
   },
   row2: {
     alignItems: 'flex-start',
     flexDirection: 'column',
     justifyContent: 'center',
-    paddingTop: 15,
     paddingBottom: 15,
   },
   row22: {
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 3,
   },
   row3: {
     alignItems: 'center',
@@ -104,11 +108,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 10,
     paddingVertical: 10,
-    backgroundColor: '#69CFF7',
+    // backgroundColor: '#69CFF7',
     borderRadius: 20,
   },
   textStyle: {
-    marginLeft: 10,
+    marginLeft:10,
   },
 });
 
