@@ -99,7 +99,9 @@ const ModalView = ({
     return (
         <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.centeredView}>
+        style={styles.centeredView}
+        keyboardShouldPersistTaps="always">
+        
             <Modal
                 animationType="none"
                 transparent={true}
@@ -254,10 +256,10 @@ const ModalView = ({
                                         </View>
                                     ) : (
                                        
-                                       <View style={{ height: '98%', marginHorizontal: -35 }}>
-                                            <ScrollView  keyboardShouldPersistTaps="handled">
+                                       <View style={{ height: '98%', marginHorizontal: -35 }} >
+                                            <ScrollView  keyboardShouldPersistTaps="always">
                                                 {results?.map((result, index) => (
-                                                    <TouchableOpacity key={index} onPress={() => handleSelectItem(result)} disabled={isDisabled}>
+                                                    <TouchableOpacity   key={index} onPress={() => handleSelectItem(result)} disabled={isDisabled}>
                                                         <View >
                                                             <CustomText fontSize={14} fontWeight={"bold"} color={colors.black} style={{ marginLeft: 12 }}>
                                                                 {isCity ? result.clientinfos : result.civility ? `${result.civility} ${result.nom}` : result.nom}
