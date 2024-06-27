@@ -42,14 +42,14 @@ function* makePayment({ payload }) {
     });
 
     if (error) {
-      if (payload.isConfirmation) {
-        yield put(setModalVisible(true, error.localizedMessage));
-        yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
+      // if (payload.isConfirmation) {
         yield put(createAppointmentRequest(params.tokenappointment, dataPayment.apptbuttonvalidation.onclick_week, dataPayment.apptbuttonvalidation.onclick_data, dataPayment.apptbuttonvalidation.onclick_action, session));
-      } else {
         yield put(setModalVisible(true, error.localizedMessage));
         yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
-      }
+      // } else {
+      //   yield put(setModalVisible(true, error.localizedMessage));
+      //   yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
+      // }
     }
     else if (paymentIntent.status === 'RequiresCapture') {
       if (payload.isConfirmation) {

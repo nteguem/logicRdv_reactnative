@@ -186,7 +186,7 @@ const Doctor = ({
 
           <View style={[styles.detailsContainer]}>
             
-            {isIcon && (
+            {isIcon && texte3 !== "" && (
                 <MaterialCommunityIcons name="calendar-blank" size={18} color={colors.blue} marginRight={5} />
             )}
             <CustomText fontSize={12} color={colorContain} numberOfLines={1} ellipsizeMode="tail">
