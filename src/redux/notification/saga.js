@@ -15,30 +15,32 @@ import {
   LIST_NOTIFICATION_FAILURE
 } from './types';
 
-
-function* list() {
+function* list({ page }) {
   try {
     const endpoint = 'notification/list/';
     const userData = yield getUserData();
-    const installationkey = yield getInstallationId()
-    console.log("installationkey::", installationkey)
-    const body = userData?.tokenuser ? { "tokenuser": userData?.tokenuser, "installationkey": installationkey } : { "installationkey": installationkey };
-    console.log("body::", body)
+    const installationkey = yield getInstallationId();
+    console.log("installationkey::", installationkey);
+    const body = userData?.tokenuser ? { "tokenuser": userData?.tokenuser, "installationkey": installationkey, "page": page } : { "installationkey": installationkey, "page": page };
+    console.log("body::", body);
     const response = yield call(sendRequest, 'POST', endpoint, body);
+    console.log("liste des notifications API response:", response);
     yield put({ type: LIST_NOTIFICATION_SUCCESS, payload: response.data });
   } catch (error) {
+    console.log("liste des notifications API error:", error);
     yield put({ type: LIST_NOTIFICATION_FAILURE, payload: error });
   }
 }
-
 
 function* manageNotifications({ payload }) {
   try {
     const endpoint = payload === true ? 'notification/subscribe/' : 'notification/unsubscribe/';
     const userData = yield getUserData();
     const installationkey = yield getInstallationId();
-    const body = { "tokenuser": userData?.tokenuser, "installationkey": installationkey }
+    const body = { "tokenuser": userData?.tokenuser, "installationkey": installationkey };
     const response = yield call(sendRequest, 'POST', endpoint, body);
+    console.log(`manageNotifications API response for ${payload ? 'subscribe' : 'unsubscribe'}:`, response);
+
     if (response.httpstatut == 404) {
       showMessage({
         message: 'Souscrire aux notifications',
@@ -57,7 +59,6 @@ function* manageNotifications({ payload }) {
         type: 'success',
         duration: 3500,
       });
-      yield put({ type: LIST_NOTIFICATION_REQUEST }); // Dispatch de l'action LIST_NOTIFICATION_REQUEST
     } else {
       yield WonderPush.unsubscribeFromNotifications();
       yield setIsSubscribeNotification(false);
@@ -67,17 +68,15 @@ function* manageNotifications({ payload }) {
         type: 'info',
         duration: 3500,
       });
-      yield put({ type: LIST_NOTIFICATION_REQUEST });
     }
-    yield put({ type: LIST_NOTIFICATION_REQUEST });
-    // yield put({ type: successType, payload: response.data });
+
+    yield put({ type: LIST_NOTIFICATION_REQUEST, page: 1 }); // Revenir à la première page après une modification de l'abonnement
   } catch (error) {
+    console.log(`manageNotifications API error for ${payload ? 'subscribe' : 'unsubscribe'}:`, error);
     const failureType = payload === true ? SUBSCRIBE_NOTIFICATION_FAILURE : UNSUBSCRIBE_NOTIFICATION_FAILURE;
     yield put({ type: failureType, payload: error });
   }
 }
-
-
 
 function* NotificationSaga() {
   yield takeLatest(SUBSCRIBE_NOTIFICATION_REQUEST, manageNotifications);

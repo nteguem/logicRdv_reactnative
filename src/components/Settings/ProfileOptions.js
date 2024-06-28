@@ -68,6 +68,7 @@ const ProfileOptions = () => {
       if (callback) {
         callback(value);
       }
+      console.log("all value of notification ", dispatch(listNotificationsRequest()));
       if (value) {
         dispatch(listNotificationsRequest());
         dispatch(manageNotificationRequest(true));

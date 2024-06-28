@@ -8,7 +8,7 @@ const Profil = ({
     username,
     email
 }) => {
-    return (
+    return (  
         <View style={styles.container}>
             <Image source={require('../../assets/images/user.png')} style={styles.circleUser} />
             <View style={styles.containerID} >

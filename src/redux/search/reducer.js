@@ -1,4 +1,4 @@
-import {
+ import {
   SEARCH_REQUEST,
   SEARCH_SUCCESS,
   SEARCH_FAILURE,

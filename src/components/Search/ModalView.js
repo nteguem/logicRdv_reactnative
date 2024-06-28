@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Keyboard, Modal, StyleSheet, Text, Pressable,KeyboardAvoidingView,TouchableOpacity, View, TextInput, ScrollView, ActivityIndicator } from 'react-native';
+import { TouchableWithoutFeedback , Keyboard, Modal, StyleSheet, Text, Pressable,KeyboardAvoidingView,TouchableOpacity, View, TextInput, ScrollView, ActivityIndicator } from 'react-native';
 import CustomText from '../global/CustomText';
 import { colors } from '../global/colors';
 import CustomAppButton from '../global/CustomAppButton';
@@ -100,7 +100,7 @@ const ModalView = ({
         <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.centeredView}
-        keyboardShouldPersistTaps="always">
+       keyboardShouldPersistTaps="always"> 
         
             <Modal
                 animationType="none"
@@ -176,7 +176,7 @@ const ModalView = ({
                         <View style={styles.body}>
                             {isLocation ? (
                                 <View style={{ marginHorizontal: -45 }}>
-                                    <ScrollView>
+                                    <ScrollView keyboardShouldPersistTaps={'handled'}>
                                         <View style={{ height: '80%', justifyContent: 'center', marginHorizontal: 25 }}>
                                             <View style={styles.containInput}>
                                                 <CustomText fontSize={14} fontWeight='bold' color={colors.gray300}>
@@ -255,43 +255,47 @@ const ModalView = ({
                                             <ActivityIndicator size="large" color={colors.blue} />
                                         </View>
                                     ) : (
-                                       
-                                       <View style={{ height: '98%', marginHorizontal: -35 }} >
-                                            <ScrollView  keyboardShouldPersistTaps="always">
-                                                {results?.map((result, index) => (
-                                                    <TouchableOpacity   key={index} onPress={() => handleSelectItem(result)} disabled={isDisabled}>
-                                                        <View >
-                                                            <CustomText fontSize={14} fontWeight={"bold"} color={colors.black} style={{ marginLeft: 12 }}>
-                                                                {isCity ? result.clientinfos : result.civility ? `${result.civility} ${result.nom}` : result.nom}
-                                                            </CustomText>
-                                                            {result.category && (
-                                                                <CustomText fontSize={14}  color={colors.black} style={{ marginLeft: 12 }}>
-                                                                    {result.category}
+                                        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+                                        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                                            
+                                            <View style={{ height: '98%', marginHorizontal: -35 }} >
+                                                <ScrollView  keyboardShouldPersistTaps={'handled'}>
+                                                    {results?.map((result, index) => (
+                                                        <TouchableOpacity activeOpacity={2}  key={index} onPress={() => handleSelectItem(result)} disabled={isDisabled}>
+                                                            <View >
+                                                                <CustomText fontSize={14} fontWeight={"bold"} color={colors.black} style={{ marginLeft: 12 }}>
+                                                                    {isCity ? result.clientinfos : result.civility ? `${result.civility} ${result.nom}` : result.nom}
                                                                 </CustomText>
-                                                            )}
-                                                            {result.address && (
-                                                                <CustomText fontSize={14} fontWeight={'bold'} color={colors.gray} style={{ marginLeft: 12 }}>
-                                                                    {result.address}
-                                                                </CustomText>
-                                                            )}
-                                                            {result.zip && result.city && (
-                                                                <CustomText fontSize={14}  color={colors.black} style={{ marginLeft: 12 }}>
-                                                                    {result.zip},{result.city}
-                                                                </CustomText>
-                                                            )}
-                                                            {result.tel && (
-                                                                <CustomText fontSize={16}  color={colors.black} style={{ marginLeft: 12 }}>
-                                                                    {result.tel}
-                                                                </CustomText>
-                                                            )}
-                                                            
-                                                            
-                                                            <View style={styles.divider} />
-                                                        </View>
-                                                    </TouchableOpacity>
-                                                ))}
-                                            </ScrollView>
-                                        </View>
+                                                                {result.category && (
+                                                                    <CustomText fontSize={14}  color={colors.black} style={{ marginLeft: 12 }}>
+                                                                        {result.category}
+                                                                    </CustomText>
+                                                                )}
+                                                                {result.address && (
+                                                                    <CustomText fontSize={14} fontWeight={'bold'} color={colors.gray} style={{ marginLeft: 12 }}>
+                                                                        {result.address}
+                                                                    </CustomText>
+                                                                )}
+                                                                {result.zip && result.city && (
+                                                                    <CustomText fontSize={14}  color={colors.black} style={{ marginLeft: 12 }}>
+                                                                        {result.zip},{result.city}
+                                                                    </CustomText>
+                                                                )}
+                                                                {result.tel && (
+                                                                    <CustomText fontSize={16}  color={colors.black} style={{ marginLeft: 12 }}>
+                                                                        {result.tel}
+                                                                    </CustomText>
+                                                                )}
+                                                                
+                                                                
+                                                                <View style={styles.divider} />
+                                                            </View>
+                                                        </TouchableOpacity>
+                                                    ))}
+                                                </ScrollView>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                        </KeyboardAvoidingView>
                                     )}
                                 </View>
 
