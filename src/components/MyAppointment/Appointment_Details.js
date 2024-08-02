@@ -32,7 +32,8 @@ const AppointmentDetails = (
     handleCancelAppt,
     handleNewAppt,
     handleApptType,
-    isNew
+    isNew,
+    urlphoto
   }) => {
 
   const handlePhoneCall = () => {
@@ -58,7 +59,7 @@ const AppointmentDetails = (
       <View style={[styles.compartment, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginRight: 10 }]}>
         <View style={[styles.compartmentContainer, { flexDirection: 'row', alignItems: 'center', }]}>
           {userIcon && (
-            <Image source={require('../../assets/images/user.png')} style={styles.circleUser} />
+            <Image source={urlphoto ? {uri:urlphoto} :require('../../assets/images/user.png')} style={styles.circleUser} />
           )}
           <View>
             <CustomText fontSize={userIcon ? 12 : 15} fontWeight='bold' color={colors.black}>{doctor}</CustomText>
@@ -89,7 +90,7 @@ const AppointmentDetails = (
           <View style={styles.compartment}>
             <View style={styles.compartmentContainer}>
               <View style={[styles.detailsContainer, { marginBottom: 10 }]}>
-              <Image source={require('../../assets/images/user.png')} style={styles.circleUser} />
+              <Image source={urlphoto ? {uri:urlphoto} :require('../../assets/images/user.png')} style={styles.circleUser} />
                 <CustomText fontSize={15} color={colors.black} fontWeight='bold'>{patientName}</CustomText>
               </View>
               <View style={[styles.detailsContainer, { marginBottom: 10 }]}>
@@ -229,10 +230,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  circleUser: {
+ circleUser: {
     width: 65,
     height: 65,
-  }
+    borderRadius:40
+  },
 });
 
 export default AppointmentDetails;

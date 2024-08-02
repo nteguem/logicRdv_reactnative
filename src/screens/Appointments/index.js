@@ -35,7 +35,7 @@ const Appointments = ({ list, isLoading, session, page, maxpage }) => {
         await dispatch(paiementApptRequest(tokentelecons));
         navigation.navigate('Paiement', { tokentelecons });
     }
-
+    console.log(list);
     const handleCancelAppt = async () => {
         if (apptToCancel) {
             console.log(apptToCancel);
@@ -189,6 +189,7 @@ const Appointments = ({ list, isLoading, session, page, maxpage }) => {
                             addressLine1={item?.cabinet?.city}
                             addressLine2={item?.cabinet?.address}
                             addressPhone={item?.cabinet?.phone}
+                            urlphoto={item?.patient?.photo}
                             buttonlabeltelecons={
                                 item?.appointment?.past === '0' ? item?.appointment?.buttonlabeltelecons : ''
                             }

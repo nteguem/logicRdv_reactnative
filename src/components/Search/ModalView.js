@@ -154,6 +154,7 @@ const ModalView = ({
                                                 style={styles.inputProfession}
                                                 placeholder={isCity ? 'Code postal, Ville' : 'Nom, Spécialité, Téléphone'}
                                                 placeholderTextColor={colors.gray100}
+                                                blurOnSubmit={true}
                                             />
                                             {input !== '' && (
                                                 <Icon name="close" size={24} color={colors.red} style={styles.icon} onPress={clearText} />
@@ -255,13 +256,11 @@ const ModalView = ({
                                             <ActivityIndicator size="large" color={colors.blue} />
                                         </View>
                                     ) : (
-                                        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-                                        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                                            
+                                    
                                             <View style={{ height: '98%', marginHorizontal: -35 }} >
                                                 <ScrollView  keyboardShouldPersistTaps={'handled'}>
                                                     {results?.map((result, index) => (
-                                                        <TouchableOpacity activeOpacity={2}  key={index} onPress={() => handleSelectItem(result)} disabled={isDisabled}>
+                                                        <TouchableOpacity activeOpacity={0.5}  key={index} onPress={() => handleSelectItem(result)} disabled={isDisabled}>
                                                             <View >
                                                                 <CustomText fontSize={14} fontWeight={"bold"} color={colors.black} style={{ marginLeft: 12 }}>
                                                                     {isCity ? result.clientinfos : result.civility ? `${result.civility} ${result.nom}` : result.nom}
@@ -294,8 +293,6 @@ const ModalView = ({
                                                     ))}
                                                 </ScrollView>
                                             </View>
-                                        </TouchableWithoutFeedback>
-                                        </KeyboardAvoidingView>
                                     )}
                                 </View>
 
