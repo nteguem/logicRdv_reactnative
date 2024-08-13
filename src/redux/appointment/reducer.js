@@ -109,7 +109,7 @@ const AppointmentReducer = (state = initialState, action) => {
         type: '',
         paiementIntent: ""
       };
-    case CREATE_APPOINTMENT_SUCCESS:  
+    case CREATE_APPOINTMENT_SUCCESS:
       switch (action.payload.data.type) {
         case "appttype":
           return {

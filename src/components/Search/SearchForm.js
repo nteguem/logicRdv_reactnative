@@ -48,13 +48,13 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results, searchInf
     };
 
     return (
-        <View>
-            <View>
+        <View keyboardShouldPersistTaps='always'>
+            <View keyboardShouldPersistTaps='always'>
                 <CustomText fontSize={14} color={colors.gray300} fontWeight='bold'>
                     Où ? Autour de ?
                 </CustomText>
-                <View style={styles.containeInput}>
-                    <View style={{ width: '80%' }}>
+                <View style={styles.containeInput} keyboardShouldPersistTaps='always'>
+                    <View style={{ width: '80%' }} keyboardShouldPersistTaps='always'>
                         <ModalView
                             isCity
                             onChange={handleLocationChange}
@@ -67,16 +67,16 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results, searchInf
                             clearInputText={() => setLocation('')}
                         />
                     </View>
-                    <View style={{ width: '20%' }}>
+                    <View style={{ width: '20%' }} keyboardShouldPersistTaps='always'>
                         <ModalView isLocation />
                     </View>
                 </View>
             </View>
-            <View style={{ marginTop: 10 }}>
+            <View style={{ marginTop: 10 }} keyboardShouldPersistTaps='always'>
                 <CustomText fontSize={14} color={colors.gray300} fontWeight='bold'>
                     Qui ? Spécialité ? Téléphone ?
                 </CustomText>
-                <View style={styles.containeInput}>
+                <View style={styles.containeInput} keyboardShouldPersistTaps='always'>
                     <ModalView
                         onChange={handleProfessionChange}
                         placeholder='Nom, Spécialité, Téléphone'

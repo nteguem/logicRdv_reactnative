@@ -69,9 +69,14 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     borderRadius: 10,
-    backgroundColor: '#00B35C',
+    // backgroundColor: '#00B35C',
+    backgroundColor:"#FFF",
     padding: 15,
     color: 'black',
+    elevation: 5,
+    borderColor: "#00B35C",
+    borderWidth: 1,
+    backgroundColor: '#FFF',
   },
 });
 

@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:logicRdv_reactnative.xcodeproj">
+      location = "group:/Users/macbook/Downloads/logicRdv_reactnative/ios/e.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

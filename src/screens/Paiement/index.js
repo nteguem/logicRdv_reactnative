@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
-import { ScrollView, ImageBackground, StyleSheet, View } from 'react-native'
+import { ScrollView, ImageBackground, StyleSheet, View,Linking } from 'react-native'
 import PatientDetailsThree from '../../components/Prepaiement/PatientDetailsThree'
 import PatientdetailsTwo from '../../components/Prepaiement/PatientdetailsTwo'
 import CustomText from '../../components/global/CustomText'
@@ -27,6 +27,21 @@ const Paiement = (
   const [cardDetails, setCardDetails] = useState(null);
   const [paymentMethodId, setPaymentMethodId] = useState(null);
   console.log(paiement)
+  
+  const makePhoneCall = (phoneNumber) => {
+    let phoneNumberString = `tel:${phoneNumber}`;
+
+    Linking.canOpenURL(phoneNumberString)
+      .then((supported) => {
+        if (!supported) {
+          Alert.alert('Phone number is not available');
+        } else {
+          return Linking.openURL(phoneNumberString);
+        }
+      })
+      .catch((err) => console.error('An error occurred', err));
+  };
+  
   useEffect(() => {
     if (cardDetails?.complete) {
       createPaymentMethod({ paymentMethodType: 'Card', card: cardDetails })
@@ -65,18 +80,21 @@ const Paiement = (
         <ScrollView >
           <View style={styles.screenContainer}>
             <View style={styles.container}>
-              <CustomText fontSize={15} color={colors.white} fontWeight={'bold'} style={{ marginBottom: 18 }}>
+              <CustomText fontSize={18} color={colors.black} fontWeight={'bold'} >
                 {paiement?.etablissement?.nom}
               </CustomText>
-              <CustomText fontSize={14} color={colors.white} style={{ fontStyle: 'italic' }}>
+              <CustomText fontSize={16} color={colors.black} style={{ fontStyle: 'italic' }}>
+                {paiement?.etablissement?.zip}
+              </CustomText>
+              <CustomText fontSize={16} color={colors.black} style={{ fontStyle: 'italic' }}>
                 {paiement?.etablissement?.address}
               </CustomText>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <CustomText fontSize={14} color={colors.white}>
+                <CustomText fontSize={16} color={colors.black}>
                   {paiement?.etablissement?.tel}
                 </CustomText>
                 <View style={[styles.circle, { backgroundColor: colors.blue, marginLeft: 15, }]}>
-                  <Icon name="phone" size={18} color={colors.white} />
+                  <Icon name="phone" onPress={() => makePhoneCall(paiement?.etablissement?.tel)} size={18} color={colors.white} />
                 </View>
               </View>
             </View>
@@ -160,7 +178,10 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     borderRadius: 10,
-    backgroundColor: '#9548e0',
+    backgroundColor: '#FFF',
+    elevation: 5,
+    borderColor: "#00B35C",
+    borderWidth: 1,
     padding: 15,
     paddingVertical: 35,
   },

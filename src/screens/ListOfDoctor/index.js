@@ -19,7 +19,7 @@ const ListOfDoctor = ({ listDoctor, isLoading, session }) => {
   useEffect(() => {
     dispatch(listDoctorRequest());
   }, []);
-  console.log("lit doctor::::", listDoctor);
+
   const handleMotifs = async (doctor) => {
     console.log("doctor:::", doctor);
     const tokenappointment = doctor.appointment.token
@@ -103,7 +103,9 @@ const ListOfDoctor = ({ listDoctor, isLoading, session }) => {
               fontWeight={'bold'}
               isPhoneIcons
               isProfileIcon
+              isDelete={listDoctor.length > 1}
               isAppointment
+              isAllDoc
               isRightIcons
               lat={doctor.lat}
               lng={doctor.lng}
@@ -122,7 +124,7 @@ const ListOfDoctor = ({ listDoctor, isLoading, session }) => {
       )}
     </ContainerScreen >
   )
-} 
+}
 
 const styles = StyleSheet.create({
   centeredView: {

@@ -54,7 +54,7 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-target 'logicRdv_reactnative' do
+target 'logicRdv' do
   config = use_native_modules!
 
   use_react_native!(
@@ -70,7 +70,7 @@ target 'logicRdv_reactnative' do
 
 pod 'RNPermissions', :path => '../node_modules/react-native-permissions'
 
-  target 'logicRdv_reactnativeTests' do
+  target 'logicRdvTests' do
     inherit! :complete
     # Pods for testing
   end

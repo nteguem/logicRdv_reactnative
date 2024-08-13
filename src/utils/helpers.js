@@ -33,7 +33,6 @@ export const getUserData = async () => {
   }
 };
 
-
 export const getInstallationId = async () => {
   try {
     const installationIdString = await AsyncStorage.getItem('installationId');
@@ -48,16 +47,23 @@ export const getInstallationId = async () => {
     return null;
   }
 }
-
 export const setInstallationId = async (installationId) => {
-  try {
-    if(installationId) {
+  if (installationId !== null && installationId !== undefined) {
+    try {
       await AsyncStorage.setItem('installationId', JSON.stringify(installationId));
-    } 
-  } catch (error) {
-    console.error('Erreur lors de la sauvegarde de installationId:', error);
+    } catch (error) {
+      console.error('Erreur lors de la sauvegarde de installationId:', error);
+    }
+  } else {
+    try {
+      await AsyncStorage.removeItem('installationId');
+      console.log('installationId supprimé de AsyncStorage.');
+    } catch (error) {
+      console.error('Erreur lors de la suppression de installationId:', error);
+    }
   }
-}
+};
+
 
 export const isSubscribedNotification = async () => {
   try {
@@ -173,5 +179,5 @@ export const initializeApp = async () => {
   } catch (error) {
     console.error("Erreur lors de l'initialisation de l'application:", error);
     throw error;
-  } 
-};
+  }
+}; 

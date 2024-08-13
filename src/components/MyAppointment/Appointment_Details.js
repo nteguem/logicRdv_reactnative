@@ -31,7 +31,8 @@ const AppointmentDetails = (
     isDisplay,
     handleCancelAppt,
     handleNewAppt,
-    handleApptType
+    handleApptType,
+    isNew
   }) => {
 
   const handlePhoneCall = () => {
@@ -39,7 +40,7 @@ const AppointmentDetails = (
   }
   return (
     <View style={styles.card}>
-      <View style={[styles.compartment, styles.firstCompartment, { backgroundColor: firstCompartmentBackgroundColor }]}>
+      <View style={[styles.compartment, styles.firstCompartment, { backgroundColor: firstCompartmentBackgroundColor, alignItems: isNew ? "center" : null }]}>
         <View style={styles.timeDetailsContainer}>
           <View style={styles.detailsContainer}>
             <MaterialCommunityIcons name="calendar-blank" size={16} color={colors.white} marginRight={5} style={{ transform: [{ rotate: '-45deg' }] }} />

@@ -11,7 +11,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import ModalPatient from '../ListOfPatients/Modal';
 import { Linking } from 'react-native';
 import Share from 'react-native-share';
-import SvgUri from 'react-native-svg-uri';
+import Whatsapp from "../../assets/images/whatsapp.svg";
+import Waze from "../../assets/images/waze.svg";
+import Maps from "../../assets/images/google-maps.svg";
 import { useDispatch, connect } from 'react-redux';
 import { editPatientRequest } from '../../redux/appointment/actions';
 
@@ -42,7 +44,8 @@ const Doctor = ({
   lat,
   lng,
   user,
-  tokenappointment
+  tokenappointment,
+  urlphoto,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -110,23 +113,23 @@ const Doctor = ({
     <View style={styles.Container}>
       {/* les donnee de gauche ie juste l'icon de photo */}
       <View style={[styles.leftColumn, { marginLeft: isUpdate || isDetail ? 0 : 0, alignItems: isSearch ? 'center' : 'center' }]}>
-        <View style={styles.usericon}>
+        <View style={[styles.usericon, {marginLeft: isAppointment ? -60 : 0,}]}>
           {isProfileIcon && (
-            <Image source={require('../../assets/images/user.png')} style={styles.circleUser} />
+            <Image source = { urlphoto ? {uri:urlphoto} : require('../../assets/images/user.png')} style={styles.circleUser} />
           )}
         </View>
         <View >
           {isAppointment && (
-            <View style={{ marginTop: 60 }}>
+            <View style={{ marginTop: 35 }}>
               <CustomAppButton
                 onPress={handleChange}
                 title="Prendre RDV"
-                paddingVertical={12}
+                paddingVertical={8}
                 paddingHorizontal={12}
                 textColor="white"
                 borderRadius={13}
                 bkgroundColor={colors.blue}
-                textFontSize={12}
+                textfontSize={14}
                 fontWeight='bold'
               />
             </View>
@@ -141,57 +144,59 @@ const Doctor = ({
                 textColor="white"
                 borderRadius={13}
                 bkgroundColor={colors.blue}
-                textFontSize={12}
+                textfontSize={14}
               />
             </View>
           )}
         </View>
       </View>
 
-      <View style={{ marginLeft: isAppointment ? 0 : isSearch ? 0 : isDetail ? 0 : 0, marginRight: isSearch ? 0 : 0, flexWrap: 'wrap', }}>
-        <View style={{ marginLeft: isUpdate || isAppointment || isDetail || isSearch ? 0 : 0 }}>
+      <View style={{ marginLeft: isAppointment ? 0 : isSearch ? 0 : isDetail ? 0 : 0, marginRight: isSearch ? 0 : 'none', flexWrap: 'wrap', }}>
+        <View style={{ marginLeft: isUpdate || isAppointment || isDetail || isSearch ? 0 : 0, marginLeft: isAppointment? -80: 0 }}>
           <View style={{ width: isIcon ? '90%' : 200 }}>
-            <CustomText fontSize={15} color={colorTitle} fontWeight={'bold'} style={{ marginBottom: marginBottom }}>
+            <CustomText fontSize={15} color={colorTitle} fontWeight={'bold'} style={{ marginBottom: marginBottom }} numberOfLines={1} ellipsizeMode="tail">
               {texte1}
             </CustomText>
           </View>
 
-          <View style={[styles.detailsContainer, { marginBottom: 5 }]}>
+          <View style={[styles.detailsContainer]}>
             {isIcon && (
-              <Icon name="phone-alt" size={16} color={colors.blue} marginRight={5} />
-            )}
+                <Icon1 name="envelope" size={16} color={colors.blue} marginRight={5} />
+              )}
             <View style={{ width: 200 }}>
-              <CustomText fontSize={13} color={colorContain} fontWeight={fontWeight}>
+              <CustomText fontSize={14} color={colorContain} fontWeight={"bold"} numberOfLines={1} ellipsizeMode="tail">
                 {texte2}
               </CustomText>
             </View>
           </View>
 
           {texte3 !== "" && (
-            <View style={[styles.detailsContainer, { marginBottom: 5 }]}>
+            <View style={[styles.detailsContainer]}>
               {isIcon && (
-                <MaterialCommunityIcons name="calendar-blank" size={18} color={colors.blue} marginRight={5} />
+                <Icon name="phone-alt" size={16} color={colors.blue} marginRight={5} />
               )}
+              
               <View style={{ width: isSearch ? 200 : 'auto' }}>
-                <CustomText fontSize={12} color={colorContain}>
-                  {texte3}
+                <CustomText fontSize={12} color={colorContain} numberOfLines={1} ellipsizeMode="tail">
+                  {texte4}
                 </CustomText>
               </View>
             </View>
           )}
 
-          <View style={[styles.detailsContainer, { marginBottom: 5 }]}>
-            {isIcon && (
-              <Icon1 name="envelope" size={16} color={colors.blue} marginRight={5} />
+          <View style={[styles.detailsContainer]}>
+            
+            {isIcon && texte3 !== "" && (
+                <MaterialCommunityIcons name="calendar-blank" size={18} color={colors.blue} marginRight={5} />
             )}
-            <CustomText fontSize={12} color={colorContain}>
-              {texte4}
+            <CustomText fontSize={12} color={colorContain} numberOfLines={1} ellipsizeMode="tail">
+              {texte3}
             </CustomText>
           </View>
 
-          <View style={[styles.detailsContainer, { marginBottom: 5 }]}>
+          <View style={[styles.detailsContainer]}>
             {texte6 && (
-              <CustomText fontSize={12} color={colorContain}>
+              <CustomText fontSize={12} color={colorContain} numberOfLines={1} ellipsizeMode="tail" >
                 {texte6}
               </CustomText>
             )}
@@ -200,19 +205,15 @@ const Doctor = ({
           <View style={styles.item}>
             {texte5 && (
               <>
-                <CustomText fontSize={12} color={colorContain} fontWeight={'bold'}>
+                <CustomText fontSize={14} color={colorContain} fontWeight={'bold'} numberOfLines={1} ellipsizeMode="tail">
                   {texte5}
                 </CustomText>
                 {
-                  isPhoneIcons &&
-                  <View style={styles.myicon2}>
-                    <Icon 
-                      name="phone-alt"
-                      onPress={handlePhoneCall}
-                      color={colors.white}
-                      size={15} />
-                  </View>
-
+                  isPhoneIcons && <Icon style={styles.myicon2}
+                    name="phone-alt"
+                    onPress={handlePhoneCall}
+                    color={colors.white}
+                    size={15} />
                 }
               </>
             )}
@@ -223,8 +224,10 @@ const Doctor = ({
       {isUpdate && (
         <View style={[styles.divider, { marginRight: 10 }]} />
       )}
+      {/**paddingTop:20,
+    marginBottom:20, */}
 
-      <View style={[styles.rightColumn, { marginLeft: isUpdate ? -20 : 0 }]}>
+      <View style={[styles.rightColumn, { paddingTop: isSearch ? 20 : 0 , marginLeft: isUpdate ? -20 : 0, marginBottom: isSearch ? 20 : 0 }]}>
 
         {isArrowIcon && (
           <AntDesign
@@ -238,6 +241,7 @@ const Doctor = ({
         )}
 
         {isLock && (
+          
           <MaterialCommunityIcons
             style={[styles.unique, { marginBottom: 6 }]}
             name="account-lock"
@@ -265,37 +269,29 @@ const Doctor = ({
 
         {isRightIcons && (
           <TouchableOpacity onPress={shareOnWhatsApp}>
-            <SvgUri
-              width="24"
-              height="24"
-              source={require('../../assets/images/whatsapp.svg')}
-            />
+            <Whatsapp width={24} height={24} />
           </TouchableOpacity>
         )}
 
         {isRightIcons && (
           <TouchableOpacity onPress={openLocationInWaze}>
-            <SvgUri
-              width="24"
-              height="24"
-              source={require('../../assets/images/waze.svg')}
-            />
+            <Waze width={24} height={24} />
           </TouchableOpacity>
         )}
 
         {isRightIcons && (
           <TouchableOpacity onPress={openDoctorLocationInMaps}>
-            <SvgUri
-              width="24"
-              height="24"
-              source={require('../../assets/images/google-maps.svg')}
-            />
+            <Maps width={24} height={24} />
           </TouchableOpacity>
         )}
 
+        
         {isDelete && (
-          <Icon2 name="delete" color={colors.red} size={25} onPress={handleDelete} />
-        )}
+          <View style={{height:25, width:25, borderRadius:50, backgroundColor:colors.red, alignContent:"center", justifyContent:"center", paddingHorizontal:2 }}>
+            <Icon2 name="delete" color={colors.white} size={20}  onPress={handleDelete} />
+          </View>
+           
+          )}
 
 
       </View>
@@ -305,7 +301,7 @@ const Doctor = ({
 
 const styles = StyleSheet.create({
   Container: {
-    paddingVertical: 5,
+    paddingVertical: 10,
     flexDirection: 'row',
     justifyContent: 'space-around',
     backgroundColor: colors.white,
@@ -313,7 +309,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   usericon: {
-    //paddingVertical: 1,
+    paddingVertical: 5,
 
   },
   leftColumn: {
@@ -322,8 +318,9 @@ const styles = StyleSheet.create({
   },
   rightColumn: {
     flexDirection: 'column',
-    justifyContent: 'space-around',
-    alignItems: 'center'
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    
   },
   item: {
     flexDirection: 'row',
@@ -358,6 +355,7 @@ const styles = StyleSheet.create({
   circleUser: {
     width: 65,
     height: 65,
+    borderRadius:40
   },
   divider: {
     borderLeftWidth: 1,

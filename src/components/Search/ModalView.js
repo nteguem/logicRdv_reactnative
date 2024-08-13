@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Alert, Modal, StyleSheet, Text, Pressable, View, TextInput, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { Keyboard, Modal, StyleSheet, Text, Pressable,KeyboardAvoidingView,TouchableOpacity, View, TextInput, ScrollView, ActivityIndicator } from 'react-native';
 import CustomText from '../global/CustomText';
 import { colors } from '../global/colors';
 import CustomAppButton from '../global/CustomAppButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { useDispatch, connect } from 'react-redux';
-import { searchRequest, resultRequest, infosDoctorRequest } from '../../redux/search/actions';
+import { searchRequest, resultRequest,infosDoctorRequest } from '../../redux/search/actions';
 import { useNavigation } from '@react-navigation/native';
 
 const ModalView = ({
@@ -30,12 +30,16 @@ const ModalView = ({
     const [value, setValue] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
     const dispatch = useDispatch();
+    const [isDisabled, setIsDisabled] = useState(false);
     const navigation = useNavigation();
+    const inputRef = useRef(null);
 
     useEffect(() => {
         if (modalVisible) {
+            Keyboard.isVisible();
             setInput('');
             setValue('');
+            
         }
     }, [modalVisible]);
 
@@ -49,41 +53,35 @@ const ModalView = ({
         }
     };
 
-    const handleSelectItem = (item) => {
+    const handleSelectItem = async (item) => {
+        if (isDisabled) return;
+        setIsDisabled(true);
+        
         if (isCity) {
             setValue(item.clientinfos);
             onChange(item.clientinfos);
-            setCity(item.id)
+            setCity(item.id);
             onIdChange(item.id);
-        }
-        else if (!item.civility) {
+        } else if (!item.civility) {
             setValue(item.nom);
             onChange(item.nom);
-            onIdChange(item.id);
+            onIdChange(item.id); 
         } else {
-
-            navigation.navigate('Détail du médécin', { result: item })
+            await navigation.navigate('Détail du médécin', { result: item });
         }
+    
         setModalVisible(false);
         setSelectedItem(item);
+        setIsDisabled(false);
     };
-
-    useEffect(() => {
-        // dispatch(searchRequest({"kind":"city","proxy_istelecons":"0","term":""}));
-        // dispatch(searchRequest({ "kind": "name", "cp": "0", "proxy_istelecons": "0", "term": "med" }));
-        // dispatch(resultRequest({"proxy_ville":"75001 PARIS 1er","proxy_nom":"Médecin Généraliste","proxy_ville_id":"30924","proxy_nom_id":"c1","proxy_search":"","proxy_page":"1"}));
-        // dispatch(infosDoctorRequest({"id":"17496"}))        
-    }, []);
-
+    
     const clearText = () => {
-        setValue('')
         setInput('');
-        clearInputText(true);
         dispatch(searchRequest({ "kind": "", "proxy_istelecons": "", "term": "" }));
         dispatch(searchRequest({ "kind": "", "cp": "", "proxy_istelecons": "", "term": "" }));
     };
 
-    const clearTextHome = () => {
+    const clearTextInput = () => {
         setSelectedItem(null)
         setValue('')
         setInput('');
@@ -95,17 +93,27 @@ const ModalView = ({
     const handleTextInputClick = () => {
         dispatch(searchRequest({ "kind": "", "proxy_istelecons": "", "term": "" }));
         dispatch(searchRequest({ "kind": "", "cp": "", "proxy_istelecons": "", "term": "" }));
-        setModalVisible(true); // Afficher la modal
+        setModalVisible(true);
     };
+
     return (
-        <View style={styles.centeredView}>
+        <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.centeredView}>
             <Modal
                 animationType="none"
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
                     setModalVisible(!modalVisible);
-                }}>
+                }}
+                onShow={() => {
+                    setTimeout(() => {
+                        inputRef.current?.blur();
+                        inputRef.current?.focus();
+                    }, 100);
+                }}
+                >
                 <View style={styles.modalBackground}></View>
                 <View style={styles.centeredView}>
                     <View
@@ -138,6 +146,7 @@ const ModalView = ({
                                         <View style={{ width: '78%' }}>
                                             <TextInput
                                                 autoFocus
+                                                ref={inputRef}
                                                 value={input}
                                                 onChangeText={handleInputChange}
                                                 style={styles.inputProfession}
@@ -168,11 +177,12 @@ const ModalView = ({
                                     <ScrollView>
                                         <View style={{ height: '80%', justifyContent: 'center', marginHorizontal: 25 }}>
                                             <View style={styles.containInput}>
-                                                <CustomText fontSize={12} fontWeight='bold' color={colors.gray300}>
+                                                <CustomText fontSize={14} fontWeight='bold' color={colors.gray300}>
                                                     Addresse
                                                 </CustomText>
                                                 <TextInput
-                                                autoFocus
+                                                    autoFocus={true}  
+                                                    keyboardType='default'
                                                     style={styles.inputModal}
                                                     value={address}
                                                     onChangeText={setAddress}
@@ -181,7 +191,7 @@ const ModalView = ({
                                                 />
                                             </View>
                                             <View style={styles.containInput}>
-                                                <CustomText fontSize={12} fontWeight='bold' color={colors.gray300}>
+                                                <CustomText fontSize={14} fontWeight='bold' color={colors.gray300}>
                                                     Code postal
                                                 </CustomText>
                                                 <TextInput
@@ -194,7 +204,7 @@ const ModalView = ({
                                             </View>
 
                                             <View style={styles.containInput}>
-                                                <CustomText fontSize={12} fontWeight='bold' color={colors.gray300}>
+                                                <CustomText fontSize={14} fontWeight='bold' color={colors.gray300}>
                                                     Ville
                                                 </CustomText>
                                                 <TextInput
@@ -243,24 +253,37 @@ const ModalView = ({
                                             <ActivityIndicator size="large" color={colors.blue} />
                                         </View>
                                     ) : (
-                                        <View style={{ height: '98%', marginHorizontal: -35 }}>
-                                            <ScrollView>
+                                       
+                                       <View style={{ height: '98%', marginHorizontal: -35 }}>
+                                            <ScrollView  keyboardShouldPersistTaps="handled">
                                                 {results?.map((result, index) => (
-                                                    <TouchableOpacity key={index} onPress={() => handleSelectItem(result)}>
+                                                    <TouchableOpacity key={index} onPress={() => handleSelectItem(result)} disabled={isDisabled}>
                                                         <View >
-                                                            <CustomText fontSize={12} fontWeight={'bold'} color={colors.black} style={{ marginLeft: 12 }}>
+                                                            <CustomText fontSize={14} fontWeight={"bold"} color={colors.black} style={{ marginLeft: 12 }}>
                                                                 {isCity ? result.clientinfos : result.civility ? `${result.civility} ${result.nom}` : result.nom}
                                                             </CustomText>
+                                                            {result.category && (
+                                                                <CustomText fontSize={14}  color={colors.black} style={{ marginLeft: 12 }}>
+                                                                    {result.category}
+                                                                </CustomText>
+                                                            )}
                                                             {result.address && (
-                                                                <CustomText fontSize={12} fontWeight={'bold'} color={colors.gray} style={{ marginLeft: 12 }}>
+                                                                <CustomText fontSize={14} fontWeight={'bold'} color={colors.gray} style={{ marginLeft: 12 }}>
                                                                     {result.address}
                                                                 </CustomText>
                                                             )}
-                                                            {result.zip && (
-                                                                <CustomText fontSize={12} fontWeight={'bold'} color={colors.black} style={{ marginLeft: 12 }}>
-                                                                    {result.zip}
+                                                            {result.zip && result.city && (
+                                                                <CustomText fontSize={14}  color={colors.black} style={{ marginLeft: 12 }}>
+                                                                    {result.zip},{result.city}
                                                                 </CustomText>
                                                             )}
+                                                            {result.tel && (
+                                                                <CustomText fontSize={16}  color={colors.black} style={{ marginLeft: 12 }}>
+                                                                    {result.tel}
+                                                                </CustomText>
+                                                            )}
+                                                            
+                                                            
                                                             <View style={styles.divider} />
                                                         </View>
                                                     </TouchableOpacity>
@@ -279,7 +302,7 @@ const ModalView = ({
                 <View style={{ flex: 1 }}>
                     {!isLocation && (
                         <Pressable onPress={handleTextInputClick}>
-                            <View
+                            <TextInput
                                 style={[styles.input,
                                 {
                                     borderWidth: borderWidth,
@@ -287,26 +310,20 @@ const ModalView = ({
                                     borderColor: borderColor
                                 }
                                 ]}
+                                placeholder={placeholder}
+                                placeholderTextColor={colors.gray100}
+                                editable={false}
                                 onFocus={() => {
                                     if (!selectedItem) {
                                         setModalVisible(true);
                                     }
                                 }}
+                                value={selectedItem && !selectedItem.civility ? (isCity ? selectedItem.clientinfos : selectedItem.nom) : ''}
                                 onChangeText={onChange}
-                            >
-                                {selectedItem ? (
-                                    <CustomText color={colors.black} fontSize={12}>
-                                        {selectedItem && !selectedItem.civility ? (isCity ? selectedItem.clientinfos : selectedItem.nom) : ''}
-                                    </CustomText>
-                                ) : (
-                                    <CustomText color={colors.gray100} fontSize={12}>
-                                        {placeholder}
-                                    </CustomText>
-                                )}
-                                {selectedItem && (!selectedItem.civility) &&
-                                    <Icon name="close" size={24} color={colors.red} style={styles.iconHome} onPress={clearTextHome} />
-                                }
-                            </View>
+                            />
+                            {selectedItem && !selectedItem.civility  ? (
+                                <Icon name="close" size={24} color={colors.red} style={styles.icon} onPress={clearTextInput} />
+                            ) : null}
                         </Pressable>
                     )}
                 </View>
@@ -318,7 +335,7 @@ const ModalView = ({
                 )}
             </View>
 
-        </View>
+        </KeyboardAvoidingView>
     );
 };
 
@@ -368,10 +385,9 @@ const styles = StyleSheet.create({
         padding: 10,
         color: colors.black,
         fontSize: 12,
-        flexDirection: 'column',
-        justifyContent: 'center',
+        textAlignVertical: 'center',
         backgroundColor: colors.white,
-        height: 40
+        height: 50
     },
     inputProfession: {
         marginVertical: 10,
@@ -406,16 +422,9 @@ const styles = StyleSheet.create({
         top: '10%',
         transform: [{ translateY: 15 }]
     },
-    iconHome: {
-        position: 'absolute',
-        marginRight: 10,
-        right: 1,
-        top: '10%',
-        transform: [{ translateY: 5 }]
-    },
     modalBackground: {
         position: 'absolute',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Couleur de fond semi-transparente
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', 
         top: 0,
         bottom: 0,
         left: 0,
@@ -439,4 +448,5 @@ const mapStateToProps = ({ SearchReducer }) => ({
 });
 
 export default connect(mapStateToProps)(ModalView);
+
 
