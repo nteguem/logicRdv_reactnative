@@ -8,40 +8,36 @@ import CustomText from '../../components/global/CustomText';
 import { colors } from '../../components/global/colors';
 
 const Notifications = ({ list, isLoading, listNotificationsRequest, page, maxpage }) => {
-  const [activeNotifications, setActiveNotifications] = useState([]);
+  const [storedNotifications, setStoredNotifications] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    listNotificationsRequest();
+    listNotificationsRequest(); 
   }, []);
 
   useEffect(() => {
     if (list.length > 0) {
-      setActiveNotifications(list);
+      setStoredNotifications(list); 
     }
   }, [list]);
 
   const onRefresh = () => {
-    // Fonction pour rafraîchir la liste
+   
     setRefreshing(true);
-    dispatch(listAppointmentsRequest({ page: 1 }));
+    listNotificationsRequest(1);
     setRefreshing(false);
-};
-const handleScroll = ({ nativeEvent }) => {
-  if (isCloseToBottom(nativeEvent) && !isLoading && page < maxpage) {
-      setCurrentPage(page + 1)
-      dispatch(listAppointmentsRequest({ page: page + 1 }));
-  }
-};
+  };
+
   const loadMoreNotifications = () => {
     if (page < maxpage && !isLoading) {
-      listNotificationsRequest(page + 1);
+      listNotificationsRequest(page + 1); 
     }
   };
 
-  
-  const displayNotifications = list.length > 0 ? list : activeNotifications
+ 
+  const displayNotifications = list.length > 0 ? list : storedNotifications;
+
   return (
     <ContainerScreen isLoading={currentPage === 1 && isLoading}>
       {displayNotifications.length === 0 ? (
@@ -51,16 +47,17 @@ const handleScroll = ({ nativeEvent }) => {
         </View>
       ) : (
         <View style={{ marginVertical: 2 }}>
-          <ScrollView style={{ marginVertical: 3 }}
-           onScroll={({ nativeEvent }) => {
-            setRefreshing(true);
+          <ScrollView
+            style={{ marginVertical: 3 }}
+            onScroll={({ nativeEvent }) => {
               if (nativeEvent.contentOffset.y + nativeEvent.layoutMeasurement.height >= nativeEvent.contentSize.height) {
                 loadMoreNotifications();
               }
-              setRefreshing(false);
             }}
-           
             scrollEventThrottle={400}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
           >
             {displayNotifications.map((item, index) => (
               <Item
@@ -71,7 +68,7 @@ const handleScroll = ({ nativeEvent }) => {
                 nameIcon={item.nature}
               />
             ))}
-            {currentPage<maxpage && <ActivityIndicator size='large' color={colors.blue} />}
+            {currentPage < maxpage && <ActivityIndicator size='large' color={colors.blue} />}
           </ScrollView>
         </View>
       )}
