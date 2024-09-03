@@ -43,6 +43,13 @@ const ModalView = ({
         }
     }, [modalVisible]);
 
+    useEffect(() => {
+        if(results.length > 0)
+        {
+         Keyboard.dismiss();
+        }
+         }, [results]);
+
     const handleInputChange = (text) => {
         if (isCity) {
             setInput(text);
