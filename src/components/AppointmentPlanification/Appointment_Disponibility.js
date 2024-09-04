@@ -45,7 +45,7 @@ const Appointment_Disponibility = ({ label, label2, creneaux, message, handleVal
           ))}
         </ScrollView>
         {creneaux?.length === 0 && (
-          <View style={[styles.fullWidth, { padding: 15, backgroundColor: colors.blue400 }]}>
+          <View style={[styles.fullWidth, { padding: 15, backgroundColor: colors.gray }]}>
             <CustomText fontSize={12} color={colors.gray500} style={{ marginRight: 35, textAlign: "center" }}>
               {message}
             </CustomText>
@@ -62,11 +62,11 @@ const styles = StyleSheet.create({
   },
   day: {
     flexDirection: 'row',
-    justifyContent: "space-between",
+    //justifyContent: "space-between",
     marginVertical: 2,
   },
   leftnow: {
-    width: 74,
+    width: 84,
     alignItems: "center",
     marginRight:4,
 
