@@ -2,14 +2,14 @@ import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { colors } from './colors';
 
-const CustomText = ({ children, fontSize, fontWeight, color, style, numberOfLines }) => {
+const CustomText = ({ children, fontSize, fontWeight, color, style, numberOfLines, textAlign }) => {
   const passedStyles = Array.isArray(style) ? Object.assign({}, ...style) : style;
   const styles = StyleSheet.create({
     regularTextStyle: {
       fontSize: fontSize,
       fontWeight: fontWeight,
       color: color || colors.gray,
-      textAlign: 'left',
+      textAlign: textAlign || 'left',
     },
   });
   return (

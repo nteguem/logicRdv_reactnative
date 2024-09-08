@@ -19,7 +19,7 @@ const Motifs = ({ isLoadingAppointment, dataMotifs, session, params }) => {
 
   const handleCreneaux = async (motif) => {
     await dispatch(createAppointmentRequest(tokenappointment, motif?.onclick_week, motif?.onclick_data, motif?.onclick_action, session, motif?.description));
-  };
+  };  
 
   return (
     <ContainerScreen isLoading={isLoadingAppointment}>

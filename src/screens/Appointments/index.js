@@ -6,7 +6,7 @@ import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import { colors } from '../../components/global/colors'
 import { useDispatch, connect } from 'react-redux';
 import CustomText from '../../components/global/CustomText'
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { cancelAppointmentRequest, createAppointmentRequest, listAppointmentsRequest, paiementApptRequest } from '../../redux/appointment/actions'
 
 const Appointments = ({ list, isLoading, session, page, maxpage }) => {
@@ -17,9 +17,11 @@ const Appointments = ({ list, isLoading, session, page, maxpage }) => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(listAppointmentsRequest({ page }));
-    }, [page, dispatch]);
+    useFocusEffect(
+        React.useCallback(() => {
+            dispatch(listAppointmentsRequest({ page }));
+        }, [page, dispatch])
+    );
 
     const handleAppointment = () => {
         navigation.navigate('Fixez rendez-vous');
@@ -35,7 +37,7 @@ const Appointments = ({ list, isLoading, session, page, maxpage }) => {
         await dispatch(paiementApptRequest(tokentelecons));
         navigation.navigate('Paiement', { tokentelecons });
     }
-
+    // console.log(list);
     const handleCancelAppt = async () => {
         if (apptToCancel) {
             console.log(apptToCancel);
@@ -189,6 +191,7 @@ const Appointments = ({ list, isLoading, session, page, maxpage }) => {
                             addressLine1={item?.cabinet?.city}
                             addressLine2={item?.cabinet?.address}
                             addressPhone={item?.cabinet?.phone}
+                            urlphoto={item?.patient?.photo}
                             buttonlabeltelecons={
                                 item?.appointment?.past === '0' ? item?.appointment?.buttonlabeltelecons : ''
                             }

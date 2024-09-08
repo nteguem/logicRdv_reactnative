@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Dimensions, ActivityIndicator } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, ActivityIndicator, Image } from 'react-native'
 import React from 'react'
 import { colors } from '../../components/global/colors'
 import CustomText from '../../components/global/CustomText'
@@ -11,7 +11,7 @@ const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, dataValide
   const { tokenappointment } = route.params;
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  
+
   const handleBackToHome = async () => {
     navigation.navigate('Mes rendez-vous');
     await dispatch(listAppointmentsRequest({ "id": 1 }));
@@ -25,19 +25,21 @@ const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, dataValide
     <>
       {isLoadingAppointment ? (
         <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={colors.blue} />
-      </View>
+          <ActivityIndicator size="large" color={colors.blue} />
+        </View>
       ) : (
         <View style={styles.container}>
           <View style={styles.content} >
-          <View style={{alignItems:"center", justifyContent:"center"}}>
-            <CustomText color={colors.blue} fontSize={16} fontWeight={"bold"}>Prise de RDV effectuée</CustomText>
-          </View>
+            <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "center" }}>
+              <Image source={require('../../assets/images/success.png')} style={styles.circleUser} />
+              <CustomText color={colors.blue} fontSize={16} fontWeight={"bold"}>Prise de RDV effectuée</CustomText>
+            </View>
             <View style={styles.message}>
               <CustomText
                 color={colors.black}
                 fontSize={14}
                 fontWeight={500}
+                textAlign='justify'
               >
                 {headerMessage}
 
@@ -92,7 +94,9 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 10,
     paddingVertical: 10,
-    backgroundColor: colors.white
+    backgroundColor: colors.white,
+    flexDirection: 'column',
+    gap: 8
   },
   message: {
     paddingHorizontal: 12,
@@ -104,6 +108,13 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     gap: 12,
     marginTop: 12
+  },
+  circleUser: {
+    width: 30,
+    height: 30,
+    borderRadius: 40,
+    color: colors.blue,
+    marginRight: 4
   },
 })
 const mapStateToProps = (state) => ({

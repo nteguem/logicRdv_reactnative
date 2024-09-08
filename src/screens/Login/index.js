@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
+import { ScrollView, StyleSheet, TextInput, TouchableOpacity, View, Keyboard } from 'react-native'
 import CustomText from '../../components/global/CustomText'
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import { colors } from '../../components/global/colors';
@@ -23,6 +23,18 @@ const Login = ({ route, session, headerError, headerMessage, inputFields, button
   useEffect(() => {
     dispatch(loginRequest('', '', '', type));
   }, []);
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  useEffect(() => {
+    if(validateEmail(email)) 
+    {
+     Keyboard.dismiss();
+    }
+     }, [email]);
 
   const handleInputChange = (text, type) => {
     switch (type) {
@@ -55,6 +67,7 @@ const Login = ({ route, session, headerError, headerMessage, inputFields, button
   const handleSignUp = () => {
     navigation.navigate('Inscription rapide');
   };
+  
 
   return (
     <ContainerScreen isLoading={isLoading}>
@@ -73,6 +86,7 @@ const Login = ({ route, session, headerError, headerMessage, inputFields, button
                 {inputFields.map((input, index) => (
                   <View key={index} style={{ width: '100%' }}>
                     <TextInput
+                      autoFocus
                       style={loginStyles.input}
                       placeholder={input.label}
                       placeholderTextColor={colors.gray}

@@ -12,27 +12,35 @@ import {
 
 const initialState = {
   isLoading: false,
-  list: [],
+  list: [], 
   error: null,
-  isSubscribed: false 
+  isSubscribed: false, 
+  page: 1,
+  maxpage: 1,
 };
 
 const NotificationReducer = (state = initialState, action) => {
   switch (action.type) {
     case LIST_NOTIFICATION_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        error: null,
+        page: action.page || 1, // Utiliser la page demandée ou revenir à la première page
+      };
+    case LIST_NOTIFICATION_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        list: state.page === 1 ? action.payload.list : [...state.list, ...action.payload.list],
+        maxpage: action.payload.pagination.maxpage,
+      };
     case SUBSCRIBE_NOTIFICATION_REQUEST:
     case UNSUBSCRIBE_NOTIFICATION_REQUEST:
       return {
         ...state,
         isLoading: true,
-        list:[],
-        error: null
-      }; 
-    case LIST_NOTIFICATION_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        list: action.payload.list
+        error: null,
       };
     case SUBSCRIBE_NOTIFICATION_SUCCESS:
       return {

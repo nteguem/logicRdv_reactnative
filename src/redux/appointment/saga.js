@@ -207,6 +207,86 @@ function* removePatient({ payload }) {
   }
 }
 
+// function* create({ payload }) {
+//   try {
+//     const endpoint = 'appointment/create/';
+//     const userData = yield getUserData();
+//     const { optionalParam, ...restPayload } = payload;
+//     const body = { "tokenuser": userData?.tokenuser, ...restPayload }
+//     const response = yield call(sendRequest, 'POST', endpoint, body);
+//     yield put({ type: CREATE_APPOINTMENT_SUCCESS, payload: response });
+//     console.log("response  :", response)
+
+//     switch (response.data.type) {
+//       case "appttype":
+//         yield RootNavigation.navigate('Motif du Rendez-vous', { tokenappointment: response.params.tokenappointment });
+//         break;
+
+//       case "apptcreneaux":
+//         yield RootNavigation.navigate('Jour et Heure du Rdv', { tokenappointment: response.params.tokenappointment, title: payload.optionalParam });
+//         break;
+
+//       case "apptnothing":
+//         yield put(setModalVisible(false, ""));
+//         yield put(setModalVisible(true, response.data.headermessage));
+//         break;
+
+//       case "apptpatients":
+//         console.log("response.data.data", response.data.data)
+//         yield RootNavigation.navigate('Liste des patients', { tokenappointment: response.params.tokenappointment });
+//         break;
+
+//       case "apptconnect":
+//         yield RootNavigation.navigate('Se connecter', { type: response.data.type, isAppt: true });
+//         showMessage({
+//           message: 'Se connecter',
+//           description: response.data.headermessage,
+//           type: 'info',
+//           duration: 3500,
+//         });
+//         break;
+
+//       case "apptlocked":
+//         yield put(setModalVisible(false, ""));
+//         if (response?.data?.data[0]?.label === "Je confirme être patient") {
+//           yield RootNavigation.navigate('Confirmation patient', { tokenappointment: response.params.tokenappointment });
+//         } else {
+//           yield put(setModalVisible(true, response.data.headermessage));
+//         }
+//         break;
+
+//       case "apptconfirm":
+//         yield RootNavigation.navigate('Valider le Rendez-vous', { tokenappointment: response.params.tokenappointment });
+//         showMessage({
+//           message: 'Validation du rendez-vous',
+//           description: response.data.headermessage,
+//           type: 'info',
+//           duration: 3500,
+//         });
+//         break;
+
+//       case "apptvalided":
+//         yield RootNavigation.navigate('Confirmation rdv', { tokenappointment: response.params.tokenappointment });
+//         break;
+//       case "apptdoctoradd":
+//         const session = response.data.session;
+//         const JsonSession = JSON.parse(session.replace(/\\"/g, '"'));
+//         yield put(setModalVisible(true, response.data.headermessage.replace(/\./g, " ") + JsonSession.rdvworkername.replace(/<br>/gi, "")));
+//         yield addDoctor(response.data.data[0].id, response.data.data[0].phone, userData?.tokenuser);
+//         break;
+//       case "apptstripeandautovalide":
+//         yield put(makePaiementRequest(optionalParam,response.data.payment_intent.stripeClientSecret, true));
+//         break;
+//       default:
+//         break;
+//     }
+
+//   } catch (error) {
+//     console.log("error:", error)
+//     yield put({ type: CREATE_APPOINTMENT_FAILURE, payload: error });
+//   }
+// }
+
 function* create({ payload }) {
   try {
     const endpoint = 'appointment/create/';
@@ -287,15 +367,44 @@ function* create({ payload }) {
   }
 }
 
+
+// function* cancelAppt({ payload }) {
+//   try {
+//     const endpoint = 'account/appcancel/';
+//     const userData = yield getUserData();
+//     const body = { "tokenuser": userData.tokenuser, "token": payload.token.tokenappointment };
+//     console.log(body);
+//     const response = yield call(sendRequest, 'POST', endpoint, body);
+//     console.log(response);
+
+//     if (response && response.httpstatut === 200) {
+//       yield put({ type: CANCEL_APPOINTMENT_SUCCESS, payload: { message: response.message } });
+//       showMessage({
+//         message: 'Annulation du rdv',
+//         description: 'Rendez-vous annulé avec succès!',
+//         type: 'info',
+//         duration: 3500,
+//       });
+//     } else {
+//       const errorMessage = response ? response.message || 'Erreur lors de l\'annulation du rendez-vous' : 'Réponse de l\'API non définie';
+//       yield put({ type: CANCEL_APPOINTMENT_FAILURE, payload: { message: errorMessage } });
+//     }
+//   } catch (error) {
+//     console.error('error', error);
+//     yield put({ type: CANCEL_APPOINTMENT_FAILURE, payload: { message: error.message || 'Erreur inconnue' } });
+//   }
+// }
+
 function* cancelAppt({ payload }) {
   try {
     const endpoint = 'account/appcancel/';
     const userData = yield getUserData();
     const body = { "tokenuser": userData.tokenuser, "token": payload.token.tokenappointment };
-    console.log(body)
+    console.log(body);
     const response = yield call(sendRequest, 'POST', endpoint, body);
-    console.log(response)
-    if (response.httpstatut == 200) {
+    console.log(response);
+
+    if (response && response.httpstatut === 200) {
       yield put({ type: CANCEL_APPOINTMENT_SUCCESS, payload: { message: response.message } });
       showMessage({
         message: 'Annulation du rdv',
@@ -303,12 +412,16 @@ function* cancelAppt({ payload }) {
         type: 'info',
         duration: 3500,
       });
+    } else {
+      const errorMessage = response ? response.message || 'Erreur lors de l\'annulation du rendez-vous' : 'Réponse de l\'API non définie';
+      yield put({ type: CANCEL_APPOINTMENT_FAILURE, payload: { message: errorMessage } });
     }
-
   } catch (error) {
-    yield put({ type: CANCEL_APPOINTMENT_FAILURE, payload: error });
+    console.error('error', error);
+    yield put({ type: CANCEL_APPOINTMENT_FAILURE, payload: { message: error.message || 'Erreur inconnue' } });
   }
 }
+
 
 function* paiementAppt({ payload }) {
   try {

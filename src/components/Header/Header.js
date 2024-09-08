@@ -31,9 +31,9 @@ const Header = ({ backgroundColor, sessionAuth, navigationAppointment, sessionAp
     switch (route.name) {
       case "Se connecter":
         if (isAppt) {
-          console.log('params::', params)
+          console.log('params all of me::', params)
           // dispatch(createAppointmentRequest(params.tokenappointment, params.week, params.data, params.action, params.session));
-          navigation.navigate("Jour et Heure du Rdv");
+          navigation.navigate("Jour et Heure du Rdv", { tokenappointment, title });
         } else {
           navigation.navigate("Home");
         }

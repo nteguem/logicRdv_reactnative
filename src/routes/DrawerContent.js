@@ -5,7 +5,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { connect } from 'react-redux';
 import { colors } from '../components/global/colors';
 import { useDispatch } from 'react-redux';
-import { setLoggedIn } from '../redux/auth/actions';
+import { setLoggedIn } from '../redux/auth/actions';  
 import { isSubscribedNotification, removeUserData, setIsSubscribeNotification } from '../utils/helpers';
 import CustomText from '../components/global/CustomText';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
