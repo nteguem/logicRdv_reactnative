@@ -32,14 +32,14 @@ const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, dataValide
           <View style={styles.content} >
             <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "center" }}>
               <Image source={require('../../assets/images/success.png')} style={styles.circleUser} />
-              <CustomText color={colors.blue} fontSize={16} fontWeight={"bold"}>Prise de RDV effectuée</CustomText>
+              <CustomText color={colors.blue} fontSize={20} fontWeight={"bold"}>Rdv Validé</CustomText>
             </View>
             <View style={styles.message}>
               <CustomText
                 color={colors.black}
-                fontSize={14}
+                fontSize={16}
                 fontWeight={500}
-                textAlign='justify'
+                style={{textAlign: 'justify'}}
               >
                 {headerMessage}
 
@@ -51,7 +51,7 @@ const ConfirmationAppointmentScreen = ({ route, isLoadingAppointment, dataValide
                 title={dataValided[0]?.label}
                 bkgroundColor={colors.blue}
                 textColor={colors.white}
-                paddingHorizontal={40}
+                paddingHorizontal={20}
                 paddingVertical={10}
                 borderRadius={8}
                 textfontSize={14}
@@ -88,12 +88,14 @@ const styles = StyleSheet.create({
     height: height,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.blue300,
+    backgroundColor: colors.blue400, 
+    // opacity: 0.5
   },
   content: {
     margin: 10,
     borderRadius: 10,
     paddingVertical: 10,
+    marginHorizontal: 18,
     backgroundColor: colors.white,
     flexDirection: 'column',
     gap: 8
