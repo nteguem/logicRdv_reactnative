@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ScrollView, StyleSheet, TextInput, TouchableOpacity, View, Keyboard } from 'react-native'
+import { ScrollView, StyleSheet, TextInput, TouchableOpacity,TouchableWithoutFeedback, View, Keyboard } from 'react-native'
 import CustomText from '../../components/global/CustomText'
 import ContainerScreen from '../../components/wrappers/ContainerScreen';
 import { colors } from '../../components/global/colors';
@@ -24,17 +24,18 @@ const Login = ({ route, session, headerError, headerMessage, inputFields, button
     dispatch(loginRequest('', '', '', type));
   }, []);
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
 
-  useEffect(() => {
-    if(validateEmail(email)) 
-    {
-     Keyboard.dismiss();
-    }
-     }, [email]);
+  // const validateEmail = (email) => {
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   return emailRegex.test(email);
+  // };
+
+  // useEffect(() => {
+  //   if(validateEmail(email)) 
+  //   {
+  //    Keyboard.dismiss();
+  //   }
+  //    }, [email]);
 
   const handleInputChange = (text, type) => {
     switch (type) {
@@ -53,6 +54,7 @@ const Login = ({ route, session, headerError, headerMessage, inputFields, button
   };
 
   const handleButtonPress = (action) => {
+    Keyboard.dismiss();
     let inputData = '';
     if (action === 'previous') {
       inputData = email;
@@ -71,7 +73,7 @@ const Login = ({ route, session, headerError, headerMessage, inputFields, button
 
   return (
     <ContainerScreen isLoading={isLoading}>
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps='handled'  >
         <View>
           <View style={loginStyles.card}>
             <CustomText fontSize={15} fontWeight='bold' color={headerError != "" ? colors.red : colors.black} style={{ textAlign: 'center' }}>
@@ -84,9 +86,9 @@ const Login = ({ route, session, headerError, headerMessage, inputFields, button
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
               <View style={{ width: '100%' }} >
                 {inputFields.map((input, index) => (
-                  <View key={index} style={{ width: '100%' }}>
+                  
+                  <View style={{ width: '100%' }} key={index}>
                     <TextInput
-                      autoFocus
                       style={loginStyles.input}
                       placeholder={input.label}
                       placeholderTextColor={colors.gray}
