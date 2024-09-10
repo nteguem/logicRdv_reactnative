@@ -10,7 +10,6 @@ import { createAppointmentRequest } from '../../redux/appointment/actions';
 import { setModalVisible } from '../../redux/app/actions';
 
 const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, navigationAppointment, params, navigation }) => {
-  console.log('parametre34567:::', route.params);
   const { isAppt, tokenappointment, title } = route.params;
   const [appointmentTitle, setAppointmentTitle] = useState(title);
   const dispatch = useDispatch();

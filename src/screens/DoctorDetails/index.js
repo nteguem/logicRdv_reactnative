@@ -17,8 +17,6 @@ const DoctorDetails = ({ route, isLoading, doctorInfos, session }) => {
     const id = result?.id;
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    console.log("result", result)
-
     useEffect(() => {
         dispatch(clearAppointmentData());
     }, []);
