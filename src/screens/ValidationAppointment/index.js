@@ -287,7 +287,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
       </Modal>
 
       {showAppointmentList ? (
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps='handled'>
           <CustomText fontSize={12} color={colors.black} style={{ marginVertical: 12 }}>
             {dataConfirm?.apptsinprogress?.message}
           </CustomText>
@@ -327,7 +327,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
           ))}
         </ScrollView>
       ) : (
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps='handled'>
           <ValidationInfoRDV
             title={dataConfirm?.messagenbperson}
             date={dataConfirm?.appttovalid?.date}
