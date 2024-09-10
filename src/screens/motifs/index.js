@@ -10,7 +10,6 @@ import { colors } from '../../components/global/colors';
 
 const Motifs = ({ isLoadingAppointment, dataMotifs, session, params }) => {
   const tokenappointment = params.tokenappointment;
-  console.log("doctor token :::::", tokenappointment);
   const dispatch = useDispatch();
 
   useEffect(() => {

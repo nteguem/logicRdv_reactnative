@@ -10,7 +10,6 @@ import { useNavigation } from '@react-navigation/native';
 import { resultRequest } from '../../redux/search/actions';
 
 const SearchResult = ({ route, isLoading, results, page, maxpage, isPaginating }) => {
-  console.log("SearchResult props:", { isLoading, isPaginating , page, maxpage, results });
   const { location, profession, item, isSearchAround, ville_id } = route.params;
   const proxy_ville = isSearchAround ? `${item.zip} ${item.city}` : location;
   const proxy_nom = isSearchAround ? item.category : profession;
@@ -73,7 +72,6 @@ const SearchResult = ({ route, isLoading, results, page, maxpage, isPaginating }
   };
   
   const handleDoctorPress = (result) => {
-    console.log("handleDoctorPress props:", { result });
     navigation.navigate('Détail du médécin', { result });
   };
 
