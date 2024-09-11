@@ -1,4 +1,4 @@
-import { View, ScrollView, Modal } from 'react-native'
+import { View, ScrollView, Modal, Pressable, Text } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import ContainerScreen from '../../components/wrappers/ContainerScreen'
 import ValidationInfoRDV from '../../components/ValidationAppointment/ValidationInfoRDV'
@@ -27,6 +27,8 @@ const FloatingLabelInput = ({
   showCrossIcon = false,
   required,
   onFocusDate,
+  editable,
+  showDatePicker,
   ...rest
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -83,6 +85,11 @@ const FloatingLabelInput = ({
         {label}
       </Animated.Text>
       <View>
+      {editable === false ? (
+        <Pressable onPress={showDatePicker} style={[styles.input, styles.dateInput]}>
+          <Text>{value ? String(value) : "jj/mm/aaaa"}</Text>
+        </Pressable>
+      ) : (
         <TextInput
           ref={inputRef}
           style={[styles.input, multiline && styles.multilineInput]}
@@ -94,12 +101,14 @@ const FloatingLabelInput = ({
           keyboardType={keyboardType}
           maxLength={maxLength}
           required={required}
+          editable={editable}
           {...rest}
         />
-        {showCrossIcon && value !== '' && (
-          <Icon name="cross" size={24} color={colors.black} style={styles.icon} onPress={clearText} />
-        )}
-      </View>
+      )}
+      {showCrossIcon && value !== '' && (
+        <Icon name="cross" size={24} color={colors.black} style={styles.icon} onPress={clearText} />
+      )}
+    </View>
     </View>
   );
 };
@@ -115,6 +124,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
   const [thisDate, setThisDate] = useState('');
   const [cardDetails, setCardDetails] = useState(null);
   const [paymentMethodId, setPaymentMethodId] = useState(null);
+  const inputRef = useRef(null); 
 
   useEffect(() => {
     if (dataConfirm && dataConfirm.apptinput) {
@@ -189,6 +199,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
     console.warn("A date has been picked: ", date);
     setThisDate(formatDateToString(date));
     hideDatePicker();
+    inputRef.current.blur();
   };
 
   const dispatch = useDispatch();
@@ -366,6 +377,9 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
                         multiline={input?.name === 'note'}
                         showCrossIcon={input?.name !== 'client_birthday'}
                         required={input?.mandatory === "1"}
+                        editable={input?.name !== 'client_birthday'}
+                        showDatePicker = {input?.name === 'client_birthday' ? showDatePicker : null}
+                        ref={inputRef}
                       />
                     );
                   })}
@@ -488,6 +502,9 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     textAlignVertical: 'center',
     fontWeight: '500',
+  },
+  dateInput:{
+    paddingBottom: 15,
   },
   multilineInput: {
     textAlignVertical: 'top',
