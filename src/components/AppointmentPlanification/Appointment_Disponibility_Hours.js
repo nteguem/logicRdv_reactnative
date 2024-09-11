@@ -38,17 +38,17 @@ const Appointment_Disponibility_Hours = ({ time, doctor }) => {
 const styles = StyleSheet.create({
   container: {
     borderWidth: 1,
-    borderColor: colors.gray,
+    borderColor: colors.black,
     textAlign: "center",
     marginRight:3,
     paddingHorizontal: 10,
-    justifyContent: "center",
+    justifyContent: "center", 
     alignItems: "center",
     flexDirection: 'column',
     gap: 4
   },
   time: {
-    color: colors.gray,
+    color: colors.black,
   },
   doctor: {
     color: colors.black,
