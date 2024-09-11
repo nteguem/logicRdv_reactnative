@@ -42,7 +42,6 @@ function* makePayment({ payload }) {
     });
 
     if (error) {
-      console.log('params===>', params)
       // if (payload.isConfirmation) {
         // yield put(createAppointmentRequest(params.tokenappointment, dataPayment.apptbuttonvalidation.onclick_week, dataPayment.apptbuttonvalidation.onclick_data, dataPayment.apptbuttonvalidation.onclick_action, session));
         // yield put(setModalVisible(true, error.localizedMessage));
