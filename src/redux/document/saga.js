@@ -13,7 +13,6 @@ function* list({ payload }) {
     const userData = yield getUserData();
     const body = { "tokenuser": userData.tokenuser }
     const response = yield call(sendRequest, 'POST', endpoint, body);
-    console.log(response)
     yield put({ type: LIST_MESSAGES_SUCCESS, payload: response.data });
   } catch (error) {
     console.error('error', error);

@@ -26,7 +26,6 @@ const Paiement = (
   const navigation = useNavigation();
   const [cardDetails, setCardDetails] = useState(null);
   const [paymentMethodId, setPaymentMethodId] = useState(null);
-  console.log(paiement)
   
   const makePhoneCall = (phoneNumber) => {
     let phoneNumberString = `tel:${phoneNumber}`;

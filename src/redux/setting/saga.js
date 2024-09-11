@@ -17,12 +17,9 @@ function* edit(payload) {
   try {
     const endpoint = 'account/setinfos/';
     const userData = yield getUserData();
-    console.log('userdata', userData)
     const { ...restPayload } = payload;
     const body = { "tokenuser": userData?.tokenuser, ...restPayload.payload }
-    console.log("body::", body)
     const response = yield call(sendRequest, 'POST', endpoint, body);
-    console.log(response)
     if(response.httpstatut == 200)
     {
       yield put({ type: INFORMATION_ACCOUNT_SUCCESS, payload: response });
@@ -44,9 +41,7 @@ function* unsubscribeAccount(payload) {
     const endpoint = 'account/checkout/';
     const userData = yield getUserData();
     const body = { "tokenuser": userData?.tokenuser }
-    console.log("body::", body)
     const response = yield call(sendRequest, 'POST', endpoint, body);
-    console.log(response)
     if(response.httpstatut == 200)
     {
       yield put({ type: UNSUBSCRIBE_ACCOUNT_SUCCESS, payload: response });

@@ -99,7 +99,6 @@ const Doctor = ({
   }, [user]);
 
   const handleEditPatient = async (patient) => {
-    console.log(patient.token)
     setNom(patient.nom || '');
     setPrenom(patient.prenom || '');
     setEmail(patient.email || '');

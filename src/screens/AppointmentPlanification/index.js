@@ -17,7 +17,6 @@ const DateAppointment = ({ route, session, isLoadingAppointment, dataCreneaux, n
 
   const loadDataCreneaux = useCallback(() => {
     // dispatch(fetchDataCreneauxAction());
-    console.log('Loading dataCreneaux');
   }, [dispatch]);
   useEffect(
     useCallback(() => {

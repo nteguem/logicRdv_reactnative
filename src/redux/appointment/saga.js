@@ -43,7 +43,6 @@ import {
 import * as RootNavigation from '../../routes/RootNavigation';
 
 function* list({ payload }) {
-  console.log(payload)
   try {
     const endpoint = 'account/appointments/';
     const userData = yield getUserData();
@@ -126,7 +125,6 @@ function* listPatient({ payload }) {
     const userData = yield getUserData();
     const body = { "tokenuser": userData.tokenuser, "tokenappt": tokenappt }
     const response = yield call(sendRequest, 'POST', endpoint, body);
-    console.log(response)
     yield put({ type: LIST_PATIENT_SUCCESS, payload: response.data });
   } catch (error) {
     console.error('error', error);
@@ -189,7 +187,6 @@ function* removePatient({ payload }) {
     const userData = yield getUserData();
     const body = { "tokenuser": userData.tokenuser, ...restPayload }
     const response = yield call(sendRequest, 'POST', endpoint, body);
-    console.log(response)
     if (response.httpstatut == 200) {
       yield put({ type: REMOVE_PATIENT_SUCCESS, payload: response.data });
       yield put({ type: UPDATE_PATIENT_LIST, payload: response.data });
@@ -294,7 +291,8 @@ function* create({ payload }) {
     const { optionalParam, ...restPayload } = payload;
     const body = { "tokenuser": userData?.tokenuser, ...restPayload }
     const response = yield call(sendRequest, 'POST', endpoint, body);
-    yield put({ type: CREATE_APPOINTMENT_SUCCESS, payload: response });
+      yield put({ type: CREATE_APPOINTMENT_SUCCESS, payload: response });
+    
 
     switch (response.data.type) {
       case "appttype":
@@ -399,9 +397,7 @@ function* cancelAppt({ payload }) {
     const endpoint = 'account/appcancel/';
     const userData = yield getUserData();
     const body = { "tokenuser": userData.tokenuser, "token": payload.token.tokenappointment };
-    console.log(body);
     const response = yield call(sendRequest, 'POST', endpoint, body);
-    console.log(response);
 
     if (response && response.httpstatut === 200) {
       yield put({ type: CANCEL_APPOINTMENT_SUCCESS, payload: { message: response.message } });
