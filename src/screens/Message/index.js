@@ -12,7 +12,6 @@ const Message = ({ listMessages, isLoading }) => {
   useEffect(() => {
     dispatch(listMessagesRequest());
   }, []);
-  console.log('listMessages', listMessages)
   return (
     <ContainerScreen isLoading={isLoading}>
       {

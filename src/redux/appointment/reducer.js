@@ -250,12 +250,23 @@ const AppointmentReducer = (state = initialState, action) => {
             paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
             session: action.payload.data.session,
           };
+          // case "apptautovalide":
+          //   return {
+          //     ...state,
+          //     isLoading: false,
+          //     navigation: action.payload.data.navigation,
+          //     headerMessage: action.payload.data.headermessage,
+          //     error: action.payload.error,
+          //     message: action.payload.message,
+          //     params: action.payload.params,
+          //     type: action.payload.data.type,
+          //     session: action.payload.data.session,
+          //   };
         default:
           break;
       }
 
     case CREATE_APPOINTMENT_FAILURE:
-      console.log("dataMotifs:>>><", action.payload.data.data)
       return {
         ...state,
         isLoading: false,

@@ -20,7 +20,6 @@ const ListOfPatients = ({ route, listPatient, isLoading, session, user, dataPati
     const [patientToDelete, setPatientToDelete] = useState(null);
 
     const patients = dataPatients.length > 0 ? dataPatients : listPatient;
-    console.log("patients::>>", patients)
 
     const dispatch = useDispatch();
 
@@ -41,7 +40,6 @@ const ListOfPatients = ({ route, listPatient, isLoading, session, user, dataPati
     }, [tokenappointment]);
 
     const handleAppt = async (patient) => {
-        console.log("patient", patient)
         if (dataPatients.length > 0) {
             if (patient.locked === "1" && patient.lockmessage !== "Vous ne pouvez pas prendre RDV par internet dans l'immédiat. Votre inscription est valide mais la prise de rdv par internet est suspendue. Pour prendre Rdv, veuillez contacter le secrétariat au 0146650660") {
                 setPatientToDelete(patient);

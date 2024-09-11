@@ -20,14 +20,10 @@ function* list({ page }) {
     const endpoint = 'notification/list/';
     const userData = yield getUserData();
     const installationkey = yield getInstallationId();
-    console.log("installationkey::", installationkey);
     const body = userData?.tokenuser ? { "tokenuser": userData?.tokenuser, "installationkey": installationkey, "page": page } : { "installationkey": installationkey, "page": page };
-    console.log("body::", body);
     const response = yield call(sendRequest, 'POST', endpoint, body);
-    console.log("liste des notifications API response:", response);
     yield put({ type: LIST_NOTIFICATION_SUCCESS, payload: response.data });
   } catch (error) {
-    console.log("liste des notifications API error:", error);
     yield put({ type: LIST_NOTIFICATION_FAILURE, payload: error });
   }
 }
@@ -39,7 +35,6 @@ function* manageNotifications({ payload }) {
     const installationkey = yield getInstallationId();
     const body = { "tokenuser": userData?.tokenuser, "installationkey": installationkey };
     const response = yield call(sendRequest, 'POST', endpoint, body);
-    console.log(`manageNotifications API response for ${payload ? 'subscribe' : 'unsubscribe'}:`, response);
 
     if (response.httpstatut == 404) {
       showMessage({
@@ -72,7 +67,6 @@ function* manageNotifications({ payload }) {
 
     yield put({ type: LIST_NOTIFICATION_REQUEST, page: 1 }); // Revenir à la première page après une modification de l'abonnement
   } catch (error) {
-    console.log(`manageNotifications API error for ${payload ? 'subscribe' : 'unsubscribe'}:`, error);
     const failureType = payload === true ? SUBSCRIBE_NOTIFICATION_FAILURE : UNSUBSCRIBE_NOTIFICATION_FAILURE;
     yield put({ type: failureType, payload: error });
   }

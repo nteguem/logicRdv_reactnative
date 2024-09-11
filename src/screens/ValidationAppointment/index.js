@@ -150,10 +150,8 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
       createPaymentMethod({ paymentMethodType: 'Card', card: cardDetails })
         .then(paymentMethodResponse => {
           if (paymentMethodResponse.error) {
-            console.log('Error creating payment method:', paymentMethodResponse.error);
             return;
           }
-          console.log("paymentMethodResponse", paymentMethodResponse)
           const paymentId = paymentMethodResponse.paymentMethod.id;
           setPaymentMethodId(paymentId)
         })
@@ -362,7 +360,6 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
               <View style={styles.compartment}>
                 {dataConfirm?.apptinput &&
                   dataConfirm?.apptinput.map((input, index) => {
-                    console.log(dataConfirm?.apptinput)
                     return (
                       <FloatingLabelInput
                         key={index}

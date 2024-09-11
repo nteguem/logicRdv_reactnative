@@ -107,7 +107,6 @@ const EditProfile = () => {
         }));
 
         setIsEditing(false); 
-        console.log("userData::", userData);
     };
 
     const handleUnsubscribe = async () => {

@@ -21,7 +21,6 @@ const ListOfDoctor = ({ listDoctor, isLoading, session }) => {
   }, []);
 
   const handleMotifs = async (doctor) => {
-    console.log("doctor:::", doctor);
     const tokenappointment = doctor.appointment.token
     await dispatch(createAppointmentRequest(tokenappointment, '', '', 'begin'));
   };

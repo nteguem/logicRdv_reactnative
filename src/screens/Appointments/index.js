@@ -37,10 +37,8 @@ const Appointments = ({ list, isLoading, session, page, maxpage }) => {
         await dispatch(paiementApptRequest(tokentelecons));
         navigation.navigate('Paiement', { tokentelecons });
     }
-    // console.log(list);
     const handleCancelAppt = async () => {
         if (apptToCancel) {
-            console.log(apptToCancel);
             const tokenappointment = apptToCancel?.appointment?.token
             await dispatch(cancelAppointmentRequest({ tokenappointment: tokenappointment }));
             await dispatch(listAppointmentsRequest({ pagination: page }));
@@ -58,7 +56,6 @@ const Appointments = ({ list, isLoading, session, page, maxpage }) => {
 
     const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
         const paddingToBottom = 20;
-        console.log('okkk::', layoutMeasurement.height + contentOffset.y, 'yoo:::', contentSize.height - paddingToBottom )
         return layoutMeasurement.height + contentOffset.y >=
             contentSize.height - paddingToBottom;
     };

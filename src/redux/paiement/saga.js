@@ -42,16 +42,16 @@ function* makePayment({ payload }) {
     });
 
     if (error) {
-      console.log('params===>', params)
-      // if (payload.isConfirmation) {
+      if (payload.isConfirmation) {
         // yield put(createAppointmentRequest(params.tokenappointment, dataPayment.apptbuttonvalidation.onclick_week, dataPayment.apptbuttonvalidation.onclick_data, dataPayment.apptbuttonvalidation.onclick_action, session));
-        // yield put(setModalVisible(true, error.localizedMessage));
-        // yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
+        yield put(setModalVisible(true, error.localizedMessage));
+        yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
         // yield put(cancelAppointmentRequest(params.tokenappointment));
-      // } else {
-      //   yield put(setModalVisible(true, error.localizedMessage));
-      //   yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
-      // }
+      } else {
+        // yield put(createAppointmentRequest(params.tokenappointment, dataPayment.apptbuttonvalidation.onclick_week, dataPayment.apptbuttonvalidation.onclick_data, dataPayment.apptbuttonvalidation.onclick_action, session));
+        yield put(setModalVisible(true, error.localizedMessage));
+        yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
+      }
     }
     else if (paymentIntent.status === 'RequiresCapture') {
       if (payload.isConfirmation) {
@@ -65,6 +65,7 @@ function* makePayment({ payload }) {
       yield put({ type: MAKE_PAIEMENT_FAILURE, payload: paymentIntent });
     }
   } catch (error) {
+    // yield put(createAppointmentRequest(params.tokenappointment, dataPayment.apptbuttonvalidation.onclick_week, dataPayment.apptbuttonvalidation.onclick_data, dataPayment.apptbuttonvalidation.onclick_action, session));
     yield put(setModalVisible(true, "Désolé, le paiement a échoué. Veuillez réessayer."));
     yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
   }
