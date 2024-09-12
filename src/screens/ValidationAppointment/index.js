@@ -376,7 +376,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
                         required={input?.mandatory === "1"}
                         editable={input?.name !== 'client_birthday'}
                         showDatePicker = {input?.name === 'client_birthday' ? showDatePicker : null}
-                        // ref={inputRef}
+                        ref={inputRef}
                       />
                     );
                   })}
@@ -446,7 +446,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
               borderRadius={10}
               bkgroundColor={colors.blue}
               width='100%'
-              disabled={dataConfirm?.payment && Object.keys(dataConfirm.payment).length > 0 ? (!areAllMandatoryFieldsFilled || !paymentMethodId) : !areAllMandatoryFieldsFilled }
+              disabled={!areAllMandatoryFieldsFilled }
             />
           </View>
           <DateTimePickerModal
