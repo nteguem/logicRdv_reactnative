@@ -19,7 +19,7 @@ const ListOfPatients = ({ route, listPatient, isLoading, session, user, dataPati
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [patientToDelete, setPatientToDelete] = useState(null);
 
-    const patients = dataPatients.length > 0 ? dataPatients : listPatient;
+    const patients = dataPatients.length > 1 ? dataPatients : listPatient;
 
     const dispatch = useDispatch();
 
@@ -125,7 +125,7 @@ const ListOfPatients = ({ route, listPatient, isLoading, session, user, dataPati
             />
             {patients.length > 0 ? (
                 <ScrollView>
-                    {dataPatients.length < 0 && (
+                    {dataPatients.length <= 1 && (
                         <>
                             {listPatient.length < 10 && (
                                 <ModalPatient
