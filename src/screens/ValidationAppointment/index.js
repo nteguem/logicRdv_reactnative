@@ -142,7 +142,6 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
         setThisDate(thisDateInput.value);
       }
     }
-
   }, [dataConfirm]);
 
   useEffect(() => {
@@ -234,7 +233,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
 
     const filledMandatoryFields = mandatoryFields.filter((field) => field?.value.trim() !== '');
     if (mandatoryFields.length === filledMandatoryFields.length) {
-      await dispatch(createAppointmentRequest(tokenappointment, week, replacedData, action, session, paymentMethodId));
+      await dispatch(createAppointmentRequest(tokenappointment, week, replacedData, action, session, {paymentMethodId}));
 
     }
   };
@@ -376,7 +375,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
                         required={input?.mandatory === "1"}
                         editable={input?.name !== 'client_birthday'}
                         showDatePicker = {input?.name === 'client_birthday' ? showDatePicker : null}
-                        ref={inputRef}
+                        // ref={inputRef}
                       />
                     );
                   })}
@@ -446,7 +445,7 @@ const ValidationAppointment = ({ route, session, dataConfirm, isLoadingAppointme
               borderRadius={10}
               bkgroundColor={colors.blue}
               width='100%'
-              disabled={!areAllMandatoryFieldsFilled }
+              disabled={dataConfirm?.payment && Object.keys(dataConfirm.payment).length > 0 ? (!areAllMandatoryFieldsFilled || !paymentMethodId) : !areAllMandatoryFieldsFilled }
             />
           </View>
           <DateTimePickerModal

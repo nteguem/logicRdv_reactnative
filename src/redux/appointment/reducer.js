@@ -55,6 +55,7 @@ const initialState = {
   dataValided: [],
   dataDoctorAdd: [],
   dataPayment: [],
+  dataAutoValidate:[],
   patient: [],
   headerMessage: '',
   type: '',
@@ -115,6 +116,7 @@ const AppointmentReducer = (state = initialState, action) => {
           return {
             ...state,
             isLoading: false,
+            dataPayment:[],
             navigation: action.payload.data.navigation,
             dataMotifs: action.payload.data.data,
             headerMessage: action.payload.data.headermessage,
@@ -250,18 +252,19 @@ const AppointmentReducer = (state = initialState, action) => {
             paiementIntent: ('payment_intent' in action.payload.data) ? action.payload.data.payment_intent.stripeClientSecret : "",
             session: action.payload.data.session,
           };
-          // case "apptautovalide":
-          //   return {
-          //     ...state,
-          //     isLoading: false,
-          //     navigation: action.payload.data.navigation,
-          //     headerMessage: action.payload.data.headermessage,
-          //     error: action.payload.error,
-          //     message: action.payload.message,
-          //     params: action.payload.params,
-          //     type: action.payload.data.type,
-          //     session: action.payload.data.session,
-          //   };
+          case "apptautovalide":
+            return {
+              ...state,
+              isLoading: false,
+              navigation: action.payload.data.navigation,
+              dataAutoValidate: action.payload.data.data,
+              headerMessage: action.payload.data.headermessage,
+              error: action.payload.error,
+              message: action.payload.message,
+              params: action.payload.params,
+              type: action.payload.data.type,
+              session: action.payload.data.session,
+            };
         default:
           break;
       }
@@ -270,25 +273,7 @@ const AppointmentReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        navigation: action.payload.data.navigation,
-        dataMotifs: action.payload.data.data,
-        dataCreneaux: action.payload.data.data,
-        dataPatients: action.payload.data.data,
-        dataNothing: action.payload.data.data,
-        dataPatients: action.payload.data.data,
-        dataConnect: action.payload.data.data,
-        dataLocked: action.payload.data.data,
-        dataConfirm: action.payload.data.data,
-        dataValided: action.payload.data.data,
-        dataDoctorAdd: action.payload.data.data,
-        dataPayment: action.payload.data.data,
-        headerMessage: action.payload.data.headermessage,
-        error: action.payload.error,
-        message: action.payload.message,
-        params: action.payload.params,
-        type: action.payload.data.type,
-        paiementIntent: "",
-        session: action.payload.data.session,
+        error: action.payload,
       }
 
     case CANCEL_APPOINTMENT_REQUEST:

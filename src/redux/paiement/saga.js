@@ -10,46 +10,30 @@ import {
   MAKE_PAIEMENT_SUCCESS,
   MAKE_PAIEMENT_FAILURE
 } from './types';
-import * as RootNavigation from '../../routes/RootNavigation';
 
-
-
-
-// function* createPaymentMethodAPI(cardDetails) {
-//   return createPaymentMethod({
-//     paymentMethodType: 'Card',
-//     card: cardDetails,
-//   });
-// }
-
-
-// function* confirmPaymentAPI(stripeClientSecret, paymentMethodId) {
-//   return confirmPayment(stripeClientSecret, {
-//     paymentMethodType: 'Card',
-//     paymentMethodId,
-//   });
-// }
 
 function* makePayment({ payload }) {
 
   const { dataPayment, session, params } = yield select(state => state.AppointmentReducer);
   try {
+    console.log("payload.paymentIntent",payload.paymentIntent)
     const { paymentIntent, error } = yield confirmPayment(payload.paymentIntent, {
       paymentMethodType: 'Card',
       paymentMethodData: {
-        paymentMethodId: payload.paymentMethodId,
+        paymentMethodId: payload?.paymentMethodId,
       }
     });
 
     if (error) {
       if (payload.isConfirmation) {
-        // yield put(createAppointmentRequest(params.tokenappointment, dataPayment.apptbuttonvalidation.onclick_week, dataPayment.apptbuttonvalidation.onclick_data, dataPayment.apptbuttonvalidation.onclick_action, session));
         yield put(setModalVisible(true, error.localizedMessage));
+        yield put(cancelAppointmentRequest({ tokenappointment: dataPayment.appointment }));
+        yield put(createAppointmentRequest(params.tokenappointment,"", "","", session));
         yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
-        // yield put(cancelAppointmentRequest(params.tokenappointment));
       } else {
-        // yield put(createAppointmentRequest(params.tokenappointment, dataPayment.apptbuttonvalidation.onclick_week, dataPayment.apptbuttonvalidation.onclick_data, dataPayment.apptbuttonvalidation.onclick_action, session));
         yield put(setModalVisible(true, error.localizedMessage));
+        yield put(cancelAppointmentRequest({ tokenappointment: dataPayment.appointment }));
+        yield put(createAppointmentRequest(params.tokenappointment,"", "","", session));
         yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
       }
     }
@@ -63,10 +47,14 @@ function* makePayment({ payload }) {
     } else {
       yield put(setModalVisible(true, "Désolé, le paiement a échoué. Veuillez réessayer."));
       yield put({ type: MAKE_PAIEMENT_FAILURE, payload: paymentIntent });
+      yield put(cancelAppointmentRequest({ tokenappointment: dataPayment.appointment }));
+      yield put(createAppointmentRequest(params.tokenappointment,"", "","", session));
+
     }
   } catch (error) {
-    // yield put(createAppointmentRequest(params.tokenappointment, dataPayment.apptbuttonvalidation.onclick_week, dataPayment.apptbuttonvalidation.onclick_data, dataPayment.apptbuttonvalidation.onclick_action, session));
     yield put(setModalVisible(true, "Désolé, le paiement a échoué. Veuillez réessayer."));
+    yield put(cancelAppointmentRequest({ tokenappointment: dataPayment.appointment }));
+    yield put(createAppointmentRequest(params.tokenappointment,"", "","", session));
     yield put({ type: MAKE_PAIEMENT_FAILURE, payload: error });
   }
 }
