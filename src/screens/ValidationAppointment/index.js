@@ -87,7 +87,7 @@ const FloatingLabelInput = ({
       <View>
       {editable === false ? (
         <Pressable onPress={showDatePicker} style={[styles.input, styles.dateInput]}>
-          <Text>{value ? String(value) : "jj/mm/aaaa"}</Text>
+          <Text style= {{color:colors.black, fontSize:12, fontWeight: "500"}}>{value ? String(value) : "jj/mm/aaaa"}</Text>
         </Pressable>
       ) : (
         <TextInput
