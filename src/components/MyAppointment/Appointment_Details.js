@@ -56,36 +56,37 @@ const AppointmentDetails = (
         </View>
       </View>
 
-      <View style={[styles.compartment, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginRight: 10 }]}>
-        <View style={[styles.compartmentContainer, { flexDirection: 'row', alignItems: 'center', }]}>
-          {userIcon && (
-            <View style={{marginRight: 8}}>
-            <Image source={urlphoto ? {uri:urlphoto} :require('../../assets/images/user.png')} style={styles.circleUser} />
-            </View>
-          )}
-          <View>
-            <CustomText fontSize={userIcon ? 12 : 15} fontWeight='bold' color={colors.black}>{doctor}</CustomText>
-            <View style={{ width: 200 }}>
-              <CustomText fontSize={userIcon ? 10 : 12} color={colors.black} style={styles.appointmentType}>{appointmentType}</CustomText>
-            </View>
-          </View>
-        </View>
-        <View style={[styles.button, { display: display }]}>
-          <CustomAppButton
-            onPress={handleCancelAppt}
-            title={cancelButton}
-            bkgroundColor='transparent'
-            borderWidth={1}
-            alignSelf='baseline'
-            borderColor={buttonBorderColor}
-            textColor={buttonTextColor}
-            paddingHorizontal={userIcon ? 12 : 20}
-            paddingVertical={5}
-            borderRadius={2}
-            textFontSize={userIcon ? 10 : 12}
-          />
-        </View>
-      </View>
+      <View style={[styles.compartment, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10 }]}>
+  {/* Photo Section */}
+  {userIcon && (
+    <View style={styles.imageContainer}>
+      <Image source={urlphoto ? { uri: urlphoto } : require('../../assets/images/user.png')} style={styles.circleUser} />
+    </View>
+  )}
+
+  {/* Text Section */}
+  <View style={styles.textContainer}>
+    <CustomText fontSize={userIcon ? 12 : 15} fontWeight='bold' color={colors.black}>{doctor}</CustomText>
+    <CustomText fontSize={userIcon ? 10 : 12} color={colors.black} style={styles.appointmentType}>{appointmentType}</CustomText>
+  </View>
+
+  {/* Button Section */}
+  <View style={[styles.buttonContainer, { display: display }]}>
+    <CustomAppButton
+      onPress={handleCancelAppt}
+      title={cancelButton}
+      bkgroundColor='transparent'
+      borderWidth={1}
+      borderColor={buttonBorderColor}
+      textColor={buttonTextColor}
+      paddingHorizontal={userIcon ? 12 : 20}
+      paddingVertical={5}
+      borderRadius={2}
+      textFontSize={userIcon ? 10 : 12}
+    />
+  </View>
+</View>
+
       {isDisplay && (
         <>
           <View style={styles.divider} />
@@ -177,6 +178,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.blue,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
+  },
+  imageContainer: {
+    marginRight: 10, 
+  },
+  textContainer: {
+    flex: 1, 
+    justifyContent: 'center', 
   },
   timeDetailsContainer: {
     display: 'flex',

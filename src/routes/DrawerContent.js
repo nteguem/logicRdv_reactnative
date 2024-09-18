@@ -112,7 +112,7 @@ const DrawerContent = ({ navigation, isAuth,userData }) => {
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 1 }}>
             <CustomText fontSize={8} fontWeight={'700'} color={colors.white} style={styles.drawerItem}>
-              V 1.0.4
+              V 1.0.5
             </CustomText>
           </View>
         </View>
@@ -134,7 +134,7 @@ const DrawerContent = ({ navigation, isAuth,userData }) => {
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 15, marginBottom: 5 }}>
             <CustomText fontSize={8} fontWeight={'700'} color={colors.white} style={styles.drawerItem}>
-              V 1.0.4
+              V 1.0.5
             </CustomText>
           </View>
         </View>
@@ -237,7 +237,7 @@ const DrawerContent = ({ navigation, isAuth,userData }) => {
           </View>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             <CustomText fontSize={14} fontWeight={'700'} color={colors.blue} style={styles.drawerItem}>
-              Version 1.0.4
+              Version 1.0.5
             </CustomText>
           </View>
         </View>
@@ -247,7 +247,7 @@ const DrawerContent = ({ navigation, isAuth,userData }) => {
         <View style={styles.version}>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             <CustomText fontSize={14} fontWeight={'700'} color={colors.blue} style={styles.drawerItem}>
-              Version 1.0.4
+              Version 1.0.5
             </CustomText>
           </View>
         </View>
