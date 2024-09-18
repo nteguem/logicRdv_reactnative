@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
     justifyContent: 'center',
+    marginHorizontal: 5,
     paddingHorizontal: 10,
     paddingVertical: 6,
     gap: 12,

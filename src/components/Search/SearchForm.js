@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View,ScrollView  } from 'react-native'
 import CustomText from '../global/CustomText'
 import { colors } from '../global/colors'
 import CustomAppButton from '../global/CustomAppButton'
@@ -48,13 +48,13 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results, searchInf
     };
 
     return (
-        <View keyboardShouldPersistTaps='always'>
-            <View keyboardShouldPersistTaps='always'>
+        <ScrollView  keyboardShouldPersistTaps='always'>
+            <View >
                 <CustomText fontSize={14} color={colors.gray300} fontWeight='bold'>
                     Où ? Autour de ?
                 </CustomText>
-                <View style={styles.containeInput} keyboardShouldPersistTaps='always'>
-                    <View style={{ width: '80%' }} keyboardShouldPersistTaps='always'>
+                <View style={styles.containeInput} >
+                    <ScrollView style={{ width: '80%' }} keyboardShouldPersistTaps='always'>
                         <ModalView
                             isCity
                             onChange={handleLocationChange}
@@ -66,17 +66,16 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results, searchInf
                             onIdChange={handleIdChange}
                             clearInputText={() => setLocation('')}
                         />
-                    </View>
-                    <View style={{ width: '20%' }} keyboardShouldPersistTaps='always'>
+                    </ScrollView>
+                    <ScrollView style={{ width: '20%' }} keyboardShouldPersistTaps='always'>
                         <ModalView isLocation />
-                    </View>
+                    </ScrollView>
                 </View>
             </View>
-            <View style={{ marginTop: 10 }} keyboardShouldPersistTaps='always'>
+            <ScrollView  keyboardShouldPersistTaps='always' style={{ marginTop: 10 }} >
                 <CustomText fontSize={14} color={colors.gray300} fontWeight='bold'>
                     Qui ? Spécialité ? Téléphone ?
                 </CustomText>
-                <View style={styles.containeInput} keyboardShouldPersistTaps='always'>
                     <ModalView
                         onChange={handleProfessionChange}
                         placeholder='Nom, Spécialité, Téléphone'
@@ -87,8 +86,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results, searchInf
                         onIdChange={handleIdChange}
                         clearInputText={() => setProfession('')}
                     />
-                </View>
-            </View>
+                </ScrollView>
             {location !== '' && profession !== '' && (
                 <View style={{ marginBottom: 15 }}>
                     <CustomAppButton
@@ -115,7 +113,7 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results, searchInf
                     />
                 </View>
             )}
-        </View> 
+        </ScrollView > 
     )
 }
 

@@ -6,7 +6,6 @@ import CustomAppButton from '../global/CustomAppButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Alert, Linking, } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import ModalView from '../Search/ModalView';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import RNFetchBlob from 'rn-fetch-blob';
 

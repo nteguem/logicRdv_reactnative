@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { TouchableWithoutFeedback , Keyboard, Modal, StyleSheet, Text, Pressable,TouchableOpacity, View, TextInput, ScrollView, ActivityIndicator } from 'react-native';
+import { TouchableWithoutFeedback, Keyboard, Modal, StyleSheet, Text, Pressable, TouchableOpacity, View, TextInput, ScrollView, ActivityIndicator } from 'react-native';
 import CustomText from '../global/CustomText';
 import { colors } from '../global/colors';
 import CustomAppButton from '../global/CustomAppButton';
@@ -110,11 +110,11 @@ const ModalView = ({
 
     return (
         <ScrollView
-        keyboardShouldPersistTaps='handled'
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.centeredView}
-       > 
-        
+            keyboardShouldPersistTaps='handled'
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.centeredView}
+        >
+
             <Modal
                 animationType="none"
                 transparent={true}
@@ -268,43 +268,41 @@ const ModalView = ({
                                             <ActivityIndicator size="large" color={colors.blue} />
                                         </View>
                                     ) : (
-                                    
-                                            <View style={{ height: '98%', marginHorizontal: -35 }} >
-                                                <ScrollView  keyboardShouldPersistTaps='handled'>
-                                                    {results?.map((result, index) => (
-                                                        <TouchableOpacity activeOpacity={0.5}  key={index} onPress={() => handleSelectItem(result)} disabled={isDisabled}>
-                                                            <View >
-                                                                <CustomText fontSize={14} fontWeight={"bold"} color={colors.black} style={{ marginLeft: 12 }}>
-                                                                    {isCity ? result.clientinfos : result.civility ? `${result.civility} ${result.nom}` : result.nom}
+
+                                            <ScrollView keyboardShouldPersistTaps='handled' style={{ height: '98%', marginHorizontal: -35 }}>
+                                                {results?.map((result, index) => (
+                                                    <TouchableOpacity activeOpacity={0.5} key={index} onPress={() => handleSelectItem(result)} disabled={isDisabled}>
+                                                        <View >
+                                                            <CustomText fontSize={14} fontWeight={"bold"} color={colors.black} style={{ marginLeft: 12 }}>
+                                                                {isCity ? result.clientinfos : result.civility ? `${result.civility} ${result.nom}` : result.nom}
+                                                            </CustomText>
+                                                            {result.category && (
+                                                                <CustomText fontSize={14} color={colors.black} style={{ marginLeft: 12 }}>
+                                                                    {result.category}
                                                                 </CustomText>
-                                                                {result.category && (
-                                                                    <CustomText fontSize={14}  color={colors.black} style={{ marginLeft: 12 }}>
-                                                                        {result.category}
-                                                                    </CustomText>
-                                                                )}
-                                                                {result.address && (
-                                                                    <CustomText fontSize={14} fontWeight={'bold'} color={colors.gray} style={{ marginLeft: 12 }}>
-                                                                        {result.address}
-                                                                    </CustomText>
-                                                                )}
-                                                                {result.zip && result.city && (
-                                                                    <CustomText fontSize={14}  color={colors.black} style={{ marginLeft: 12 }}>
-                                                                        {result.zip},{result.city}
-                                                                    </CustomText>
-                                                                )}
-                                                                {result.tel && (
-                                                                    <CustomText fontSize={16}  color={colors.black} style={{ marginLeft: 12 }}>
-                                                                        {result.tel}
-                                                                    </CustomText>
-                                                                )}
-                                                                
-                                                                
-                                                                <View style={styles.divider} />
-                                                            </View>
-                                                        </TouchableOpacity>
-                                                    ))}
-                                                </ScrollView>
-                                            </View>
+                                                            )}
+                                                            {result.address && (
+                                                                <CustomText fontSize={14} fontWeight={'bold'} color={colors.gray} style={{ marginLeft: 12 }}>
+                                                                    {result.address}
+                                                                </CustomText>
+                                                            )}
+                                                            {result.zip && result.city && (
+                                                                <CustomText fontSize={14} color={colors.black} style={{ marginLeft: 12 }}>
+                                                                    {result.zip} {result.city}
+                                                                </CustomText>
+                                                            )}
+                                                            {result.tel && (
+                                                                <CustomText fontSize={16} color={colors.black} style={{ marginLeft: 12 }}>
+                                                                    {result.tel}
+                                                                </CustomText>
+                                                            )}
+
+
+                                                            <View style={styles.divider} />
+                                                        </View>
+                                                    </TouchableOpacity>
+                                                ))}
+                                            </ScrollView>
                                     )}
                                 </View>
 
@@ -351,14 +349,13 @@ const ModalView = ({
             </View>
 
         </ScrollView>
-        
+
     );
 };
 
 const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
-        // alignSelf:"center",
         marginTop: 22,
     },
     modalView: {
@@ -373,7 +370,8 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
         maxHeight: '60%',
-        width: '85%'
+        width: '85%',
+        alignSelf: 'center'
     },
     compartment: {
         marginTop: -35,
