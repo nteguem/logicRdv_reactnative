@@ -4,7 +4,7 @@ import Header from '../Header/Header';
 import { colors } from '../global/colors';
 const ContainerScreen = ({ children, backgroundColor,isLoading }) => {
     return (
-        <SafeAreaView style={styles.safeArea}>
+        <SafeAreaView style={styles.safeArea} >
             <Header backgroundColor={backgroundColor} />
             <View style={styles.container}>
                 {isLoading ? (

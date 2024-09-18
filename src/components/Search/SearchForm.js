@@ -48,13 +48,13 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results, searchInf
     };
 
     return (
-        <ScrollView  keyboardShouldPersistTaps='always'>
+        <ScrollView  keyboardShouldPersistTaps='handled'>
             <View >
                 <CustomText fontSize={14} color={colors.gray300} fontWeight='bold'>
                     Où ? Autour de ?
                 </CustomText>
                 <View style={styles.containeInput} >
-                    <ScrollView style={{ width: '80%' }} keyboardShouldPersistTaps='always'>
+                    <ScrollView style={{ width: '80%' }} keyboardShouldPersistTaps='handled'>
                         <ModalView
                             isCity
                             onChange={handleLocationChange}
@@ -67,12 +67,12 @@ const SearchForm = ({ borderWidth, borderRadius, borderColor, results, searchInf
                             clearInputText={() => setLocation('')}
                         />
                     </ScrollView>
-                    <ScrollView style={{ width: '20%' }} keyboardShouldPersistTaps='always'>
+                    <ScrollView style={{ width: '20%' }} keyboardShouldPersistTaps='handled'>
                         <ModalView isLocation />
                     </ScrollView>
                 </View>
             </View>
-            <ScrollView  keyboardShouldPersistTaps='always' style={{ marginTop: 10 }} >
+            <ScrollView  keyboardShouldPersistTaps='handled' style={{ marginTop: 10 }} >
                 <CustomText fontSize={14} color={colors.gray300} fontWeight='bold'>
                     Qui ? Spécialité ? Téléphone ?
                 </CustomText>

@@ -8,7 +8,7 @@ import { colors } from '../../components/global/colors';
 const Search = () => {
     return (
         <ContainerScreen>
-            <ScrollView contentContainerStyle={styles.scrollViewContent}>
+            <ScrollView contentContainerStyle={styles.scrollViewContent} keyboardShouldPersistTaps='handled'>
                 <View style={styles.card}>
                     <Header isHome = {false} />
                 </View>
