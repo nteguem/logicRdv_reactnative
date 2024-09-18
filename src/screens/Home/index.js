@@ -11,14 +11,12 @@ const Home = () => {
         <>
             <ContainerScreen backgroundColor={colors.white}>
                 <ImageBackground source={require('../../assets/images/background.png')} style={styles.backgroundImage}>
-                    <View>
-                        <ScrollView style={styles.scrollViewContent}>
+                        <ScrollView style={styles.scrollViewContent} keyboardShouldPersistTaps='handled'>
                             <View>
                                 <Header isHome />
                                 <SearchForm borderRadius={12} />
                             </View>
                         </ScrollView>
-                    </View>
                 </ImageBackground>
             </ContainerScreen>
             <View style={styles.footerContainer}>

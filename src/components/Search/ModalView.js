@@ -36,7 +36,6 @@ const ModalView = ({
 
     useEffect(() => {
         if (modalVisible) {
-            Keyboard.isVisible();
             setInput('');
             setValue('');
 
@@ -105,12 +104,11 @@ const ModalView = ({
 
     const closeModal = () => {
         setModalVisible(false);  // Close the modal immediately
-        Keyboard.dismiss();  // Dismiss the keyboard
     };
 
     return (
         <ScrollView
-            keyboardShouldPersistTaps='handled'
+            keyboardShouldPersistTaps='always'
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.centeredView}
         >
@@ -167,7 +165,7 @@ const ModalView = ({
                                                 style={styles.inputProfession}
                                                 placeholder={isCity ? 'Code postal, Ville' : 'Nom, Spécialité, Téléphone'}
                                                 placeholderTextColor={colors.gray100}
-                                                blurOnSubmit={true}
+                                                blurOnSubmit={false}
                                             />
                                             {input !== '' && (
                                                 <Icon name="close" size={24} color={colors.red} style={styles.icon} onPress={clearText} />
@@ -189,7 +187,7 @@ const ModalView = ({
                         <View style={styles.body}>
                             {isLocation ? (
                                 <View style={{ marginHorizontal: -45 }}>
-                                    <ScrollView keyboardShouldPersistTaps='handled'>
+                                    <ScrollView >
                                         <View style={{ height: '80%', justifyContent: 'center', marginHorizontal: 25 }}>
                                             <View style={styles.containInput}>
                                                 <CustomText fontSize={14} fontWeight='bold' color={colors.gray300}>
@@ -269,7 +267,7 @@ const ModalView = ({
                                         </View>
                                     ) : (
 
-                                            <ScrollView keyboardShouldPersistTaps='handled' style={{ height: '98%', marginHorizontal: -35 }}>
+                                            <ScrollView  keyboardShouldPersistTaps="always" style={{ height: '98%', marginHorizontal: -35 }}>
                                                 {results?.map((result, index) => (
                                                     <TouchableOpacity activeOpacity={0.5} key={index} onPress={() => handleSelectItem(result)} disabled={isDisabled}>
                                                         <View >
