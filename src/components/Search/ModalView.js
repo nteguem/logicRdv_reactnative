@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { TouchableWithoutFeedback , Keyboard, Modal, StyleSheet, Text, Pressable,KeyboardAvoidingView,TouchableOpacity, View, TextInput, ScrollView, ActivityIndicator } from 'react-native';
+import { TouchableWithoutFeedback , Keyboard, Modal, StyleSheet, Text, Pressable,TouchableOpacity, View, TextInput, ScrollView, ActivityIndicator } from 'react-native';
 import CustomText from '../global/CustomText';
 import { colors } from '../global/colors';
 import CustomAppButton from '../global/CustomAppButton';
@@ -43,12 +43,12 @@ const ModalView = ({
         }
     }, [modalVisible]);
 
-    useEffect(() => {
-        if(results.length > 0)
-        {
-         Keyboard.dismiss();
-        }
-         }, [results]);
+    // useEffect(() => {
+    //     if(results.length > 0)
+    //     {
+    //      Keyboard.dismiss();
+    //     }
+    //      }, [results]);
 
     const handleInputChange = (text) => {
         if (isCity) {
@@ -109,10 +109,11 @@ const ModalView = ({
     };
 
     return (
-        <KeyboardAvoidingView
+        <ScrollView
+        keyboardShouldPersistTaps='handled'
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.centeredView}
-       keyboardShouldPersistTaps="always"> 
+       > 
         
             <Modal
                 animationType="none"
@@ -188,7 +189,7 @@ const ModalView = ({
                         <View style={styles.body}>
                             {isLocation ? (
                                 <View style={{ marginHorizontal: -45 }}>
-                                    <ScrollView keyboardShouldPersistTaps={'handled'}>
+                                    <ScrollView keyboardShouldPersistTaps='handled'>
                                         <View style={{ height: '80%', justifyContent: 'center', marginHorizontal: 25 }}>
                                             <View style={styles.containInput}>
                                                 <CustomText fontSize={14} fontWeight='bold' color={colors.gray300}>
@@ -269,7 +270,7 @@ const ModalView = ({
                                     ) : (
                                     
                                             <View style={{ height: '98%', marginHorizontal: -35 }} >
-                                                <ScrollView  keyboardShouldPersistTaps={'handled'}>
+                                                <ScrollView  keyboardShouldPersistTaps='handled'>
                                                     {results?.map((result, index) => (
                                                         <TouchableOpacity activeOpacity={0.5}  key={index} onPress={() => handleSelectItem(result)} disabled={isDisabled}>
                                                             <View >
@@ -349,15 +350,15 @@ const ModalView = ({
                 )}
             </View>
 
-        </KeyboardAvoidingView>
+        </ScrollView>
+        
     );
 };
 
 const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        // alignSelf:"center",
         marginTop: 22,
     },
     modalView: {
