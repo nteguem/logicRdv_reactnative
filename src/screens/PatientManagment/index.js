@@ -14,6 +14,7 @@ function PatientManagement({ listDoctor, isLoading }) {
 
   useEffect(() => {
     dispatch(listDoctorRequest());
+    console.log("listDoctor for me ::::::::::::::", listDoctor)
   }, []);
 
   const handleListPatient = (doctor) => {
@@ -23,7 +24,7 @@ function PatientManagement({ listDoctor, isLoading }) {
 
   return (
     <ContainerScreen isLoading={isLoading}>
-      {listDoctor.length > 0 ? (
+      {listDoctor.length > 0 ? ( 
         <ScrollView>
           {
             listDoctor.map((doctor, index) => (

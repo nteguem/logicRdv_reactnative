@@ -24,7 +24,7 @@ const Appointments = ({ list, isLoading, session, page, maxpage }) => {
     );
 
     const handleAppointment = () => {
-        navigation.navigate('Fixez rendez-vous');
+        navigation.navigate('Fixez rendez-vous'); 
     };
 
     const handleNewAppt = async (item) => {

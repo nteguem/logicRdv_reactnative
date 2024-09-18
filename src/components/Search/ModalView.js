@@ -130,7 +130,7 @@ const ModalView = ({
                 }}
             >
                 <View style={styles.modalBackground}></View>
-                <View style={styles.centeredView}>
+                <View style={styles.centeredViewModal}>
                     <View
                         style={[styles.modalView,
                         {
@@ -358,6 +358,12 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 22,
     },
+    centeredViewModal :{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 22,
+    },
     modalView: {
         backgroundColor: 'white',
         padding: 35,
@@ -371,7 +377,6 @@ const styles = StyleSheet.create({
         elevation: 5,
         maxHeight: '60%',
         width: '85%',
-        alignSelf: 'center'
     },
     compartment: {
         marginTop: -35,
