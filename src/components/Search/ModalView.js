@@ -8,6 +8,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { useDispatch, connect } from 'react-redux';
 import { searchRequest, resultRequest, infosDoctorRequest } from '../../redux/search/actions';
 import { useNavigation } from '@react-navigation/native';
+import { SET_CURRENT_CITY } from '../../redux/search/types';
 
 const ModalView = ({
     isLocation = false,
@@ -20,7 +21,8 @@ const ModalView = ({
     clearInputText,
     results,
     isLoading,
-    onIdChange
+    onIdChange,
+    selectedCity,
 }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [address, setAddress] = useState('');
@@ -39,8 +41,11 @@ const ModalView = ({
             setInput('');
             setValue('');
 
+
         }
+        
     }, [modalVisible]);
+
 
     // useEffect(() => {
     //     if(results.length > 0)
@@ -50,12 +55,13 @@ const ModalView = ({
     //      }, [results]);
 
     const handleInputChange = (text) => {
+       
         if (isCity) {
-            setInput(text);
+            setInput(text);   
             dispatch(searchRequest({ "kind": "city", "proxy_istelecons": "0", "term": text }));
         } else {
             setInput(text);
-            dispatch(searchRequest({ "kind": "name", "cp": "0", "proxy_istelecons": "0", "term": text }));
+            dispatch(searchRequest({ "kind": "name", "cp": selectedCity? selectedCity['id']: "0", "proxy_istelecons": "0", "term": text }));
         }
     };
 
@@ -68,6 +74,7 @@ const ModalView = ({
             onChange(item.clientinfos);
             setCity(item.id);
             onIdChange(item.id);
+            dispatch({type: SET_CURRENT_CITY, payload: item})
         } else if (!item.civility) {
             setValue(item.nom);
             onChange(item.nom);
@@ -83,11 +90,17 @@ const ModalView = ({
 
     const clearText = () => {
         setInput('');
+        if (isCity) {
+            dispatch({type: SET_CURRENT_CITY, payload: null});
+        }
         dispatch(searchRequest({ "kind": "", "proxy_istelecons": "", "term": "" }));
         dispatch(searchRequest({ "kind": "", "cp": "", "proxy_istelecons": "", "term": "" }));
     };
 
     const clearTextInput = () => {
+        if (isCity) {
+            dispatch({type: SET_CURRENT_CITY, payload: null});
+        }
         setSelectedItem(null)
         setValue('')
         setInput('');
@@ -104,6 +117,9 @@ const ModalView = ({
 
     const closeModal = () => {
         setModalVisible(false);  // Close the modal immediately
+        if (isCity) {
+            dispatch({type: SET_CURRENT_CITY, payload: null});
+        }
     };
 
     return (
@@ -461,6 +477,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({ SearchReducer }) => ({
     results: SearchReducer?.results,
     isLoading: SearchReducer?.isLoading,
+    selectedCity: SearchReducer?.currentCity,
 });
 
 export default connect(mapStateToProps)(ModalView);

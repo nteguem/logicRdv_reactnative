@@ -7,7 +7,8 @@
   RESULT_FAILURE,
   INFO_DOCTOR_REQUEST,
   INFO_DOCTOR_SUCCESS,
-  INFO_DOCTOR_FAILURE
+  INFO_DOCTOR_FAILURE,
+  SET_CURRENT_CITY
 } from './types';
 
 const initialState = {
@@ -18,11 +19,18 @@ const initialState = {
   error: null,
   doctorInfos: null,
   page: 1,
-  maxpage: 1
+  maxpage: 1,
+  currentCity: null,
 };
 
 const SearchReducer = (state = initialState, action) => {
   switch (action.type) {
+
+    case SET_CURRENT_CITY:
+      return {
+        ...state,
+        currentCity: action.payload,
+      }
 
     case SEARCH_REQUEST:
       return {
