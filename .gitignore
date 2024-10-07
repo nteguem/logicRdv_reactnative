@@ -72,6 +72,5 @@ yarn-error.log
 # testing
 /coverage
 
-android/app/upload-keystore.jks
+android/app/logic_rdv_keystore.jks
 android/keystore.properties
-android/app/upload-keystore_old.jks

@@ -103,30 +103,10 @@ android {
         }
 
          release {
-        // storeFile file(System.getenv("MYAPP_UPLOAD_STORE_FILE"))
-        // keyAlias System.getenv("MYAPP_UPLOAD_KEY_ALIAS")
-        
-        // // Appliquer les mots de passe uniquement s'ils sont définis
-        // storePassword System.getenv("MYAPP_UPLOAD_STORE_PASSWORD") ?: ""
-        // keyPassword System.getenv("MYAPP_UPLOAD_KEY_PASSWORD") ?: ""
-
-         storeFile file(keystoreProperties['storeFile'])
             keyAlias keystoreProperties['keyAlias']
-            // storePassword keystoreProperties['storePassword']
-            // keyPassword keystoreProperties['keyPassword']
-
-               // Vérification si les mots de passe sont définis ou vides
-        if (keystoreProperties['storePassword']) {
-            storePassword keystoreProperties['storePassword']
-        } else {
-            storePassword ""
-        }
-
-        if (keystoreProperties['keyPassword']) {
             keyPassword keystoreProperties['keyPassword']
-        } else {
-            keyPassword ""
-        }
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
 
         }
     }
